@@ -1,6 +1,9 @@
 # Mangosteen Cafe
 
-A frontend-only, single-page cafe website built with React, TypeScript, Vite, and Three.js. There is no backend or database. The full menu, cafe facts, and scene data are static frontend assets. Reservation buttons open an on-site seat selector; ordering and directions use external services.
+A single-page cafe website built with React, TypeScript, Vite, and Three.js. The
+menu, cafe facts and scene data are static frontend assets. Reservation requests
+are sent to the separate SQLite-backed CRM in `CRM/` and enter its reservation
+queue as **Pending** for staff confirmation.
 
 The repository also contains the separate, local-first customer relationship
 management application in [`CRM/`](CRM/README.md). The public cafe website and
@@ -12,6 +15,17 @@ the private CRM have independent startup commands and dependencies.
 npm install
 npm run dev
 ```
+
+In a second terminal, start the CRM first:
+
+```sh
+cd CRM
+./run-local.sh
+```
+
+Vite proxies `/crm-api` to `http://127.0.0.1:4173` during local development.
+For deployment, set `VITE_CRM_API_URL` to the public CRM API origin or configure
+the same `/crm-api` reverse-proxy path.
 
 ## Build
 
@@ -40,4 +54,4 @@ The opening is a single scroll-driven film viewport. It begins in darkness, reve
 
 Cafe photos are from the public [Mangosteen Cafe Zomato gallery](https://www.zomato.com/indore/mangosteen-cafe-by-pass-road-north/photos). Menu names and indicative prices come from the [public 131-item listing](https://indiarestros.com/r/mangosteen-cafe-bhichaulimardana-2hgmr68h2t/menu), updated October 16, 2026; the cafe should confirm current prices before publication. Cafe facts are static values in `src/data/cafe.ts`.
 
-The site also includes a real-photo gallery dialog, cafe overview and visit links, structured metadata, and a branded scene loading screen. The seat selector in `src/components/ReservationDialog.tsx` uses editable schematic positions in `src/data/seating.ts`. It saves a visitor's preference locally or copies a request; no live availability is shown and no reservation is sent or confirmed. The owner must supply a surveyed floor plan and a booking channel before this can become live booking. Future selective GLB assets are documented in `public/assets/3d/README.md`; currently there are no authored café or food models in the repository.
+The site also includes a real-photo gallery dialog, cafe overview and visit links, structured metadata, and a branded scene loading screen. The seat selector in `src/components/ReservationDialog.tsx` uses editable schematic positions in `src/data/seating.ts`. It collects guest contact details, sends the selected area and seats to the CRM, and returns a reference number. This is still a request—not live inventory or automatic confirmation. If the CRM is unavailable, the website clearly reports that the request was not sent and stores a local fallback copy. The owner must still supply a surveyed floor plan before exact seat availability can be promised. Future selective GLB assets are documented in `public/assets/3d/README.md`; currently there are no authored café or food models in the repository.

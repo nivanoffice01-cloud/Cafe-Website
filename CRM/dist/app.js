@@ -784,7 +784,8 @@ function openRewardForm() {
 function openReservationDetail(id) {
   const item = data.reservations.find((reservation) => reservation.id === Number(id));
   if (!item) return;
-  openModal('Reservation details', `${displayDate(item.date)} · ${displayTime(item.time)}`, `<div class="profile-facts"><div class="profile-fact"><span>Guest</span><strong>${escapeHtml(item.name)}</strong></div><div class="profile-fact"><span>Party</span><strong>${item.guests} guests</strong></div><div class="profile-fact"><span>Table</span><strong>${escapeHtml(item.table)}</strong></div><div class="profile-fact"><span>Occasion</span><strong>${escapeHtml(item.occasion)}</strong></div><div class="profile-fact"><span>Status</span><strong>${escapeHtml(item.status)}</strong></div><div class="profile-fact"><span>Phone</span><strong>${escapeHtml(item.phone || 'Not provided')}</strong></div></div><div class="insight-card"><strong>Special requests</strong><p>${escapeHtml(item.specialRequests || 'No special requests recorded.')}</p></div>`, `<button class="btn btn-primary" data-action="close-modal">Done</button>`);
+  const action = item.status === 'Pending' ? `<button class="btn btn-primary" data-action="confirm-reservation" data-id="${item.id}">${icon('check')} Confirm reservation</button>` : `<button class="btn btn-primary" data-action="close-modal">Done</button>`;
+  openModal('Reservation details', `${displayDate(item.date)} · ${displayTime(item.time)}`, `<div class="profile-facts"><div class="profile-fact"><span>Guest</span><strong>${escapeHtml(item.name)}</strong></div><div class="profile-fact"><span>Party</span><strong>${item.guests} guests</strong></div><div class="profile-fact"><span>Table</span><strong>${escapeHtml(item.table)}</strong></div><div class="profile-fact"><span>Occasion</span><strong>${escapeHtml(item.occasion)}</strong></div><div class="profile-fact"><span>Status</span><strong>${escapeHtml(item.status)}</strong></div><div class="profile-fact"><span>Phone</span><strong>${escapeHtml(item.phone || 'Not provided')}</strong></div></div><div class="insight-card"><strong>Special requests</strong><p>${escapeHtml(item.specialRequests || 'No special requests recorded.')}</p></div>`, `<button class="btn" data-action="close-modal">Close</button>${action}`);
 }
 
 function openNotifications() {
@@ -1023,6 +1024,18 @@ document.getElementById('modal-root').addEventListener('click', async (event) =>
     showToast('Feedback link copied.');
   }
   if (target.dataset.action === 'change-password') openPasswordForm();
+  if (target.dataset.action === 'confirm-reservation') {
+    try {
+      target.disabled = true;
+      await api(`/api/reservations/${target.dataset.id}/status`, { method: 'POST', body: JSON.stringify({ status: 'Confirmed' }) });
+      closeModal();
+      await syncAndRender();
+      showToast('Reservation confirmed and activity logged.');
+    } catch (error) {
+      target.disabled = false;
+      showToast(error.message, 'error');
+    }
+  }
   if (target.dataset.action === 'logout') {
     await api('/api/auth/logout', { method: 'POST', body: '{}' });
     authState = 'anonymous';

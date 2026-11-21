@@ -16,6 +16,7 @@ import io
 import json
 import mimetypes
 import os
+import re
 import secrets
 import smtplib
 import ssl
@@ -42,6 +43,7 @@ DEFAULT_PORT = 4173
 SESSION_COOKIE = "mangosteen_session"
 SESSION_TTL = timedelta(hours=12)
 SESSIONS: dict[str, dict] = {}
+PUBLIC_REQUESTS: dict[str, list[datetime]] = {}
 ROLE_LEVEL = {"Host": 1, "Manager": 2, "Owner": 3}
 
 
@@ -195,6 +197,13 @@ CREATE TABLE IF NOT EXISTS point_ledger (
   created_at TEXT NOT NULL,
   FOREIGN KEY(customer_id) REFERENCES customers(id) ON DELETE CASCADE,
   FOREIGN KEY(created_by) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS public_submissions (
+  request_key TEXT PRIMARY KEY,
+  reservation_id INTEGER NOT NULL,
+  created_at TEXT NOT NULL,
+  FOREIGN KEY(reservation_id) REFERENCES reservations(id) ON DELETE CASCADE
 );
 """
 
@@ -693,6 +702,10 @@ class CRMHandler(SimpleHTTPRequestHandler):
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        if urlparse(self.path).path.startswith("/api/public/"):
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type, Idempotency-Key")
+            self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
         if session_token:
             self.set_session_cookie(session_token)
         if clear_cookie:
@@ -751,6 +764,29 @@ class CRMHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def allow_public_request(self) -> bool:
+        address = self.client_address[0]
+        now = datetime.now().astimezone()
+        recent = [timestamp for timestamp in PUBLIC_REQUESTS.get(address, []) if now - timestamp < timedelta(hours=1)]
+        if len(recent) >= 8:
+            PUBLIC_REQUESTS[address] = recent
+            return False
+        recent.append(now)
+        PUBLIC_REQUESTS[address] = recent
+        return True
+
+    def do_OPTIONS(self):
+        path = urlparse(self.path).path
+        if path.startswith("/api/public/"):
+            self.send_response(HTTPStatus.NO_CONTENT)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type, Idempotency-Key")
+            self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
+            self.send_header("Access-Control-Max-Age", "600")
+            self.end_headers()
+            return
+        self.send_json({"error": "API route not found"}, HTTPStatus.NOT_FOUND)
+
     def do_GET(self):
         path = urlparse(self.path).path
         if path == "/api/health":
@@ -805,6 +841,97 @@ class CRMHandler(SimpleHTTPRequestHandler):
         path = urlparse(self.path).path
         try:
             body = self.read_json()
+            if path == "/api/public/reservations":
+                if str(body.get("website", "")).strip():
+                    self.send_json({"accepted": True, "status": "Pending"}, HTTPStatus.CREATED)
+                    return
+                request_key = str(self.headers.get("Idempotency-Key", "")).strip()
+                if not 8 <= len(request_key) <= 128 or not re.fullmatch(r"[A-Za-z0-9._:-]+", request_key):
+                    raise ValueError("A valid reservation request key is required")
+                with connect() as connection:
+                    previous = connection.execute(
+                        "SELECT reservation_id FROM public_submissions WHERE request_key=?", (request_key,)
+                    ).fetchone()
+                    if previous:
+                        reservation_id = previous["reservation_id"]
+                        self.send_json({"id": reservation_id, "reference": f"MG-{reservation_id:06d}", "status": "Pending"})
+                        return
+                    if not self.allow_public_request():
+                        self.send_json({"error": "Too many reservation attempts. Please try again later."}, HTTPStatus.TOO_MANY_REQUESTS)
+                        return
+
+                    name = str(body.get("name", "")).strip()
+                    phone = str(body.get("phone", "")).strip()
+                    email = str(body.get("email", "")).strip().lower()
+                    reservation_date = str(body.get("date", "")).strip()
+                    reservation_time = str(body.get("time", "")).strip()
+                    guests = int(body.get("guests", 0))
+                    area = str(body.get("area", "Best available")).strip()[:80]
+                    table_name = str(body.get("table", area or "Best available")).strip()[:80]
+                    seats = body.get("seats", [])
+                    occasion = str(body.get("occasion", "Regular visit")).strip()[:60]
+                    special_requests = str(body.get("specialRequests", "")).strip()[:500]
+                    consent = parse_bool(body.get("consent"))
+                    if len(name) < 2 or len(name) > 80:
+                        raise ValueError("Please enter a valid guest name")
+                    if len(phone) < 7 or len(phone) > 24:
+                        raise ValueError("Please enter a valid mobile number")
+                    if email and (len(email) > 120 or "@" not in email):
+                        raise ValueError("Please enter a valid email address")
+                    requested_day = date.fromisoformat(reservation_date)
+                    if requested_day < date.today() or requested_day > date.today() + timedelta(days=90):
+                        raise ValueError("Reservation date must be within the next 90 days")
+                    if not re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", reservation_time):
+                        raise ValueError("Please choose a valid arrival time")
+                    if guests < 1 or guests > 12:
+                        raise ValueError("Online reservations support 1 to 12 guests")
+                    if not isinstance(seats, list) or len(seats) != guests or any(len(str(seat)) > 20 for seat in seats):
+                        raise ValueError("Please select one seat for every guest")
+
+                    customer = connection.execute("SELECT id FROM customers WHERE phone=?", (phone,)).fetchone()
+                    if customer:
+                        customer_id = customer["id"]
+                        connection.execute(
+                            """UPDATE customers SET name=?, email=CASE WHEN ? <> '' THEN ? ELSE email END,
+                               marketing_consent=CASE WHEN ?=1 THEN 1 ELSE marketing_consent END
+                               WHERE id=?""",
+                            (name, email, email, int(consent), customer_id),
+                        )
+                    else:
+                        cursor = connection.execute(
+                            """INSERT INTO customers
+                               (name, phone, email, tier, tags, marketing_consent, notes, created_at)
+                               VALUES (?, ?, ?, 'Member', ?, ?, 'Created from website reservation', ?)""",
+                            (name, phone, email, json.dumps(["Website booking"]), int(consent), now_iso()),
+                        )
+                        customer_id = cursor.lastrowid
+
+                    seat_text = ", ".join(str(seat) for seat in seats)
+                    request_notes = f"Website request · Area: {area} · Seats: {seat_text}"
+                    if special_requests:
+                        request_notes += f" · Guest note: {special_requests}"
+                    cursor = connection.execute(
+                        """INSERT INTO reservations
+                           (reservation_date, reservation_time, customer_id, name, phone, guests,
+                            table_name, occasion, status, special_requests, created_at)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pending', ?, ?)""",
+                        (reservation_date, reservation_time, customer_id, name, phone, guests,
+                         table_name, occasion or "Regular visit", request_notes, now_iso()),
+                    )
+                    reservation_id = cursor.lastrowid
+                    reference = f"MG-{reservation_id:06d}"
+                    connection.execute(
+                        "INSERT INTO public_submissions (request_key, reservation_id, created_at) VALUES (?, ?, ?)",
+                        (request_key, reservation_id, now_iso()),
+                    )
+                    connection.execute(
+                        "INSERT INTO activities (kind, title, details, created_at) VALUES ('reservation', ?, ?, ?)",
+                        ("Website reservation requested", f"{name} · {guests} guests · {reference}", now_iso()),
+                    )
+                    connection.commit()
+                self.send_json({"id": reservation_id, "reference": reference, "status": "Pending"}, HTTPStatus.CREATED)
+                return
+
             if path == "/api/auth/login":
                 email = str(body.get("email", "")).strip().lower()
                 password = str(body.get("password", ""))
@@ -961,6 +1088,26 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     self.send_json({"adjusted": True})
                     return
 
+                if path.startswith("/api/reservations/") and path.endswith("/status"):
+                    reservation_id = int(path.split("/")[3])
+                    requested_status = str(body.get("status", "")).strip().lower()
+                    allowed_statuses = {"pending": "Pending", "confirmed": "Confirmed", "completed": "Completed", "no-show": "No-show", "cancelled": "Cancelled"}
+                    if requested_status not in allowed_statuses:
+                        raise ValueError("Reservation status is invalid")
+                    status = allowed_statuses[requested_status]
+                    reservation = connection.execute("SELECT name FROM reservations WHERE id=?", (reservation_id,)).fetchone()
+                    if not reservation:
+                        self.send_json({"error": "Reservation not found"}, HTTPStatus.NOT_FOUND)
+                        return
+                    connection.execute("UPDATE reservations SET status=? WHERE id=?", (status, reservation_id))
+                    connection.execute(
+                        "INSERT INTO activities (kind, title, details, created_at) VALUES ('reservation', ?, ?, ?)",
+                        (f"Reservation {status.lower()}", f"{reservation['name']} · MG-{reservation_id:06d}", now_iso()),
+                    )
+                    connection.commit()
+                    self.send_json({"updated": True, "status": status})
+                    return
+
                 if path.startswith("/api/campaigns/") and path.endswith("/sent"):
                     self.require_user("Manager")
                     campaign_id = int(path.split("/")[3])
@@ -1069,7 +1216,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
                 if path == "/api/reset":
                     self.require_user("Owner")
-                    for table in ("communications", "point_ledger", "reservations", "feedback", "tasks", "campaigns", "rewards", "activities", "monthly_metrics", "customers", "settings"):
+                    for table in ("public_submissions", "communications", "point_ledger", "reservations", "feedback", "tasks", "campaigns", "rewards", "activities", "monthly_metrics", "customers", "settings"):
                         connection.execute(f"DELETE FROM {table}")
                     connection.commit()
                     seed_database(connection)

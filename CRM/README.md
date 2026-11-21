@@ -23,6 +23,11 @@ cd CRM
 Then open <http://127.0.0.1:4173>. The SQLite database is created automatically
 inside `data/` on the first run.
 
+The cafe website connects through `POST /api/public/reservations`. Website
+requests create or link a customer, store the selected seating preference, and
+appear in the CRM as **Pending**. Public submissions are validated, idempotent,
+rate-limited and do not require a staff session.
+
 ## Demo owner sign-in
 
 - Email: `owner@mangosteen.local`

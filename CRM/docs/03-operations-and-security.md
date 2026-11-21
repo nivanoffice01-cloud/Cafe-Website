@@ -57,3 +57,18 @@ Before exposing the CRM outside the Mac:
 - Encrypt backups and verify restore drills.
 - Confirm Indian privacy, consent and retention requirements with counsel.
 - Add monitoring, error reporting and an incident response owner.
+
+## Website reservation integration
+
+The website submits reservation requests to `/api/public/reservations` with an
+idempotency key. The endpoint validates the date, party size, contact details and
+selected seats, then creates a pending CRM reservation and customer profile.
+Repeated delivery of the same request key returns the original reference instead
+of creating a duplicate. Staff can open the pending reservation in the CRM and
+confirm it; the status change is stored and added to the activity history.
+
+The local Vite server proxies `/crm-api` to the CRM on port 4173. In production,
+configure the same reverse-proxy route or build the website with
+`VITE_CRM_API_URL` pointing to the deployed CRM origin. Public submissions are
+limited per IP address; production infrastructure should add proxy-level rate
+limiting and abuse monitoring as well.
