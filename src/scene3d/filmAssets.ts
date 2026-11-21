@@ -1,19 +1,18 @@
-/** Stage 1 media. Supply an actual Mangosteen aerial here when one is commissioned. */
+/** Optimized exports of the supplied Mangosteen photographs. Replace these with
+ * matched footage/stills when a dedicated arrival shoot is available. */
 export const filmAssets = {
-  aerial: null as string | null,
-  rooftop: '/images/experience/mangosteen-exterior-reconstruction.png',
-  table: '/images/experience/mangosteen-table-reconstruction.png',
-  food: '/images/highres/mangosteen_original_2_8k.jpg',
+  exterior: '/images/experience/mangosteen-arrival.jpg',
+  table: '/images/experience/mangosteen-table.jpg',
+  food: '/images/experience/mangosteen-table-dish.jpg',
 } as const
 
-/** Camera positions are relative to the two photo planes near z=-7. */
+/** One continuous push across each photograph, with a motivated cut at 54%. */
 export const cameraFrames = [
-  { at: 0, x: -.42, y: .78, z: 3.8, fov: 48 },
-  { at: .1, x: -.4, y: .72, z: 3.7, fov: 48 },
-  { at: .28, x: -.2, y: .42, z: 3.08, fov: 46 },
-  { at: .5, x: .42, y: -.3, z: 1.04, fov: 41 },
-  { at: .57, x: .18, y: -1.25, z: 2.65, fov: 43 },
-  { at: .72, x: .4, y: -1.65, z: 1.1, fov: 42 },
-  { at: .88, x: .42, y: -2.1, z: .4, fov: 41 },
-  { at: 1, x: .44, y: -2.35, z: -.2, fov: 41 },
+  { at: 0, x: -.25, y: .45, z: 3.8, fov: 51 },
+  { at: .15, x: -.18, y: .28, z: 3.4, fov: 49 },
+  { at: .34, x: .02, y: -.08, z: 2.58, fov: 46 },
+  { at: .54, x: -.04, y: -.35, z: 2.45, fov: 47 },
+  { at: .72, x: -.14, y: -.6, z: 2.13, fov: 46 },
+  { at: .88, x: -.22, y: -.86, z: 1.72, fov: 45 },
+  { at: 1, x: -.26, y: -1.02, z: 1.46, fov: 45 },
 ] as const

@@ -62,11 +62,9 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
     const exterior = makePhoto(false, -7)
     const table = makePhoto(true, -6.99)
     table.mesh.renderOrder = 1
-    const aerial = filmAssets.aerial ? makePhoto(false, -7.02) : null
-    const photoFiles = [filmAssets.rooftop, filmAssets.table, ...(filmAssets.aerial ? [filmAssets.aerial] : [])]
+    const photoFiles = [filmAssets.exterior, filmAssets.table]
     const textures: THREE.Texture[] = []
-    let loaded = 0
-    let texturesStarted = false
+    const photoStarted = [false, false]
 
     const placePhotos = () => {
       const distance = Math.abs(3.8 - exterior.mesh.position.z)
@@ -81,27 +79,24 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       }
       fit(exterior.mesh, textures[0], 1.08)
       fit(table.mesh, textures[1], 1.27)
-      if (aerial) fit(aerial.mesh, textures[2], 1.27)
     }
 
-    const loadPhotos = () => {
-      if (texturesStarted) return
-      texturesStarted = true
-      photoFiles.forEach((url, index) => {
-        loader.load(url, (texture) => {
-          if (!active) { texture.dispose(); return }
-          texture.colorSpace = THREE.SRGBColorSpace
-          texture.generateMipmaps = index === 0
-          texture.minFilter = index === 0 ? THREE.LinearMipmapLinearFilter : THREE.LinearFilter
-          texture.anisotropy = index === 0 ? Math.min(4, renderer.capabilities.getMaxAnisotropy()) : 1
-          textures[index] = texture
-          const target = index === 0 ? exterior : index === 1 ? table : aerial
-          if (target) { target.material.map = texture; target.material.needsUpdate = true }
-          placePhotos()
-          loaded++
-          if (loaded === photoFiles.length) notifyReady()
-        }, undefined, () => { loaded++; if (loaded === photoFiles.length) notifyReady() })
-      })
+    const loadPhoto = (index: 0 | 1) => {
+      if (photoStarted[index]) return
+      photoStarted[index] = true
+      loader.load(photoFiles[index], (texture) => {
+        if (!active) { texture.dispose(); return }
+        texture.colorSpace = THREE.SRGBColorSpace
+        texture.generateMipmaps = index === 0
+        texture.minFilter = index === 0 ? THREE.LinearMipmapLinearFilter : THREE.LinearFilter
+        texture.anisotropy = index === 0 ? Math.min(4, renderer.capabilities.getMaxAnisotropy()) : 1
+        textures[index] = texture
+        const target = index === 0 ? exterior : table
+        target.material.map = texture
+        target.material.needsUpdate = true
+        placePhotos()
+        if (index === 0) notifyReady()
+      }, undefined, () => { if (index === 0) notifyReady() })
     }
 
     const journey = document.getElementById('cinematic-journey')
@@ -168,6 +163,7 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       if (!section) return
       const span = Math.max(1, section.offsetHeight - window.innerHeight)
       targetProgress = THREE.MathUtils.clamp((window.scrollY - section.offsetTop) / span, 0, 1)
+      if (window.innerWidth > 700 && targetProgress > .3) loadPhoto(1)
       chapterVisible = !document.hidden && window.scrollY >= section.offsetTop - window.innerHeight && window.scrollY <= section.offsetTop + section.offsetHeight
       if ((chapterVisible || seatStarted) && !frame) frame = requestAnimationFrame(animate)
     }
@@ -179,7 +175,10 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, width < 700 ? 1.15 : 1.6))
       renderer.setSize(width, height, false)
       placePhotos()
-      if (width > 700) loadPhotos()
+      if (width > 700) {
+        loadPhoto(0)
+        if (targetProgress > .3) loadPhoto(1)
+      }
       else notifyReady()
       readScroll()
     }
@@ -204,7 +203,7 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       camera.lookAt(lookTarget)
 
       // The cuts conceal changes between different real photographs.
-      const locationCut = 1 - THREE.MathUtils.smoothstep(Math.abs(progress - .54), 0, .052)
+      const locationCut = .86 * (1 - THREE.MathUtils.smoothstep(Math.abs(progress - .54), 0, .035))
       const openingDarkness = 1 - THREE.MathUtils.smoothstep(progress, .01, .18)
       const push = seatStarted ? THREE.MathUtils.clamp((time - seatStarted) / 900, 0, 1) : 0
       const reveal = foodRevealStarted ? THREE.MathUtils.clamp((time - foodRevealStarted) / 950, 0, 1) : 0
@@ -223,9 +222,8 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       journey?.style.setProperty('--film-mobile-scale', String(1 + Math.min(progress, .5) * .08))
       if (seatButton) seatButton.style.pointerEvents = reducedMotion || (progress > .82 && !seatStarted) ? 'auto' : 'none'
       if (enterButton) enterButton.style.pointerEvents = progress < .2 ? 'auto' : 'none'
-      if (aerial) aerial.material.opacity = textures[2] ? 1 - THREE.MathUtils.smoothstep(progress, .18, .32) : 0
-      exterior.material.opacity = textures[0] ? (textures[2] ? THREE.MathUtils.smoothstep(progress, .18, .32) : 1) : 0
-      table.material.opacity = textures[1] && progress >= .54 ? 1 : 0
+      exterior.material.opacity = textures[0] ? 1 : 0
+      table.material.opacity = textures[1] ? THREE.MathUtils.smoothstep(progress, .52, .56) : 0
       if (!mobile) renderer.render(scene, camera)
       if (foodRevealStarted && reveal >= 1 && !callbackFired) { callbackFired = true; openMenuRef.current?.() }
       if (menuOpenRef.current) dialogWasOpen = true
@@ -239,7 +237,6 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
         foodReady = false
         foodFailed = false
       }
-      if (loaded === photoFiles.length) notifyReady()
       frame = requestAnimationFrame(animate)
     }
 

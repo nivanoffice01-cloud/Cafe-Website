@@ -1,18 +1,19 @@
-import { Suspense, lazy, useCallback, useEffect, useState } from 'react'
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { Reveal } from '../components/Reveal'
 import { FullMenuDialog } from '../components/FullMenuDialog'
 import { GalleryDialog } from '../components/GalleryDialog'
 import { ReservationDialog } from '../components/ReservationDialog'
 import { cafe, reviewSummary } from '../data/cafe'
 import { fullMenu } from '../data/fullMenu'
+import { menuPhotoFor } from '../data/menuPhotos'
 import { galleryPhotos } from '../data/gallery'
 import { responsivePhotoSrcSet } from '../data/responsivePhoto'
 
 const CinematicScene = lazy(() => import('../components/CinematicScene').then((module) => ({ default: module.CinematicScene })))
 
 const featuredDishes = [
-  { category: 'Small Plates', name: 'Arabic Mezze' },
-  { category: 'Pizza & Pide', name: 'Pesto pizza' },
+  { category: 'Pizza & Pide', name: 'Margarita' },
+  { category: 'Burger & sandwich', name: 'Veg Cheese Burger' },
   { category: 'Pasta', name: 'Pesto cream Pasta' },
 ].map((reference) => ({
   ...reference,
@@ -27,6 +28,31 @@ function Arrow() { return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M
 
 function Photo({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
   return <img className={`lux-photo ${className}`} src={src} srcSet={responsivePhotoSrcSet(src)} sizes="100vw" alt={alt} loading="lazy" decoding="async" />
+}
+
+function CafeFilm() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) video.pause()
+    }, { threshold: .15 })
+    observer.observe(video)
+    return () => { observer.disconnect(); video.pause() }
+  }, [])
+  const toggle = async () => {
+    const video = videoRef.current
+    if (!video) return
+    if (!video.paused) { video.pause(); return }
+    try { await video.play() } catch { setPlaying(false) }
+  }
+  return <div className="lux-gallery-item lux-gallery-item-2 lux-gallery-film">
+    <video ref={videoRef} src="/media/mangosteen-evening.mp4" poster="/images/experience/mangosteen-evening-poster.jpg" muted playsInline loop preload="none" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} aria-label="A short film of guests and food at Mangosteen Café" />
+    <span>The café in motion</span>
+    <button type="button" onClick={toggle} aria-label={playing ? 'Pause café film' : 'Play café film'} aria-pressed={playing}>{playing ? 'Pause' : 'Play film'}</button>
+  </div>
 }
 
 export function HomePage() {
@@ -100,7 +126,7 @@ export function HomePage() {
       <main id="main-content">
         <section className="film-journey" id="top" aria-labelledby="film-title">
           <div className="film-sticky" id="cinematic-journey">
-            <img className="film-fallback-photo" src="/images/experience/mangosteen-exterior-reconstruction.png" alt="" aria-hidden="true" fetchPriority="high"/>
+            <img className="film-fallback-photo" src="/images/experience/mangosteen-arrival.jpg" alt="" aria-hidden="true" fetchPriority="high"/>
             <Suspense fallback={null}><CinematicScene menuOpen={menuOpen} onOpenMenu={() => { setMenuSelection(null); setMenuOpen(true) }} onReady={onSceneReady} /></Suspense>
             <div className="film-mobile-scene" aria-hidden="true">
               <img className="film-mobile-exterior-backdrop" src="/images/mobile/mangosteen_original_4_mobile.jpg" alt="" fetchPriority="high" />
@@ -115,6 +141,7 @@ export function HomePage() {
               <h1 id="film-title">MANGOSTEEN</h1>
               <button type="button" onClick={() => window.scrollBy({ top: window.innerHeight * (window.innerWidth <= 700 ? .72 : 1.15), behavior: 'smooth' })}>ENTER THE EVENING <span aria-hidden="true">↓</span></button>
             </div>
+            <nav className="film-shortcuts" aria-label="Quick actions"><button type="button" onClick={openMenu}>Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve</button></nav>
             <div className="film-rooftop-copy" aria-hidden="true"><span>01 / ARRIVAL</span><p>Above the city.<br/><em>Inside the evening.</em></p></div>
             <div className="film-table-copy" aria-hidden="true"><span>02 / YOUR TABLE</span><p>A place is waiting.</p></div>
             <button className="film-seat-invite" type="button" onClick={takeSeat}><span>Take your seat</span><small>DISCOVER THE MENU</small></button>
@@ -124,8 +151,8 @@ export function HomePage() {
 
         <section className="lux-signatures" id="signatures" aria-labelledby="signatures-title">
           <figure className="lux-signatures-image">
-            <Photo src="/images/highres/mangosteen_original_2_8k.jpg" alt="A plated dish photographed on a wooden table at Mangosteen Café"/>
-            <figcaption>FROM THE MANGOSTEEN TABLE <span>01 / 03</span></figcaption>
+            <Photo src={menuPhotoFor(featuredDishes[featuredIndex].category, featuredDishes[featuredIndex].name)!.src} alt={menuPhotoFor(featuredDishes[featuredIndex].category, featuredDishes[featuredIndex].name)!.alt}/>
+            <figcaption>AN ILLUSTRATIVE DISH PORTRAIT <span>{String(featuredIndex + 1).padStart(2, '0')} / 03</span></figcaption>
           </figure>
           <div className="lux-signatures-panel">
             <p className="lux-overline">A FEW FAVOURITES</p>
@@ -139,7 +166,7 @@ export function HomePage() {
               <p>{featuredDishes[featuredIndex].description}</p>
               <div><strong>₹{featuredDishes[featuredIndex].price}</strong><button className="lux-signature-cta" type="button" onClick={openFeaturedDish}>Explore in the menu <Arrow/></button></div>
             </div>
-            <p className="lux-signature-note">Café photography is for atmosphere; pictured dishes may differ. Prices are indicative.</p>
+            <p className="lux-signature-note">Dish photography is illustrative; Mangosteen's plating may differ. Prices are indicative.</p>
           </div>
         </section>
 
@@ -156,7 +183,7 @@ export function HomePage() {
         <section className="lux-gallery" id="gallery" aria-labelledby="gallery-title">
           <div className="lux-gallery-heading"><Reveal><p className="lux-overline">IN ITS OWN LIGHT</p><h2 id="gallery-title">A place with<br/><em>its own tempo.</em></h2></Reveal><button className="lux-text-link" type="button" onClick={() => openGallery(0)}>View the photographs <Arrow/></button></div>
           <div className="lux-gallery-editorial">
-            {galleryPhotos.slice(0, 4).map((photo, index) => <button key={photo.src} type="button" className={`lux-gallery-item lux-gallery-item-${index + 1}`} onClick={() => openGallery(index)} aria-label={`View photo: ${photo.caption}`}><Photo src={photo.src} alt={photo.alt}/><span>{photo.caption}</span></button>)}
+            {galleryPhotos.slice(0, 4).map((photo, index) => index === 1 ? <CafeFilm key="cafe-film" /> : <button key={photo.src} type="button" className={`lux-gallery-item lux-gallery-item-${index + 1}`} onClick={() => openGallery(index)} aria-label={`View photo: ${photo.caption}`}><Photo src={photo.src} alt={photo.alt}/><span>{photo.caption}</span></button>)}
             <p className="lux-gallery-whisper">The first lamp.<br/>The last glass.</p>
           </div>
         </section>
