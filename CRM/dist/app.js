@@ -54,7 +54,7 @@ function icon(name, className = 'icon') {
 }
 
 let data = {
-  customers: [], reservations: [], campaigns: [], feedback: [], tasks: [],
+  customers: [], reservations: [], feedback: [], tasks: [],
   rewards: [], activities: [], monthlyMetrics: [], settings: {}, users: [],
   communications: [], pointLedger: [], backups: [], integrations: {}, user: null,
 };
@@ -137,7 +137,6 @@ function calculateAnalytics() {
   const today = localDateKey();
   const customers = data.customers || [];
   const reservations = data.reservations || [];
-  const campaigns = data.campaigns || [];
   const feedback = data.feedback || [];
   const tasks = data.tasks || [];
   const rewards = data.rewards || [];
@@ -150,12 +149,6 @@ function calculateAnalytics() {
   const consented = customers.filter((item) => item.consent).length;
   const feedbackAverage = feedback.length ? feedback.reduce((sum, item) => sum + Number(item.rating), 0) / feedback.length : 0;
   const ratingCounts = [5, 4, 3, 2, 1].map((rating) => ({ rating, count: feedback.filter((item) => item.rating === rating).length }));
-  const deliveredCampaigns = campaigns.filter((item) => ['Delivered', 'Active'].includes(item.status));
-  const totalAudience = campaigns.reduce((sum, item) => sum + Number(item.audience || 0), 0);
-  const openedCampaigns = deliveredCampaigns.filter((item) => Number.isFinite(Number(item.openedRate)));
-  const averageOpenRate = openedCampaigns.length ? openedCampaigns.reduce((sum, item) => sum + Number(item.openedRate), 0) / openedCampaigns.length : 0;
-  const totalRedemptions = campaigns.reduce((sum, item) => sum + Number(item.redeemed || 0), 0);
-  const campaignRevenue = campaigns.reduce((sum, item) => sum + Number(item.revenue || 0), 0);
   const monthRevenue = customers.reduce((sum, item) => sum + Number(item.monthSpend || 0), 0);
   const lifetimeRevenue = customers.reduce((sum, item) => sum + Number(item.spend || 0), 0);
   const totalPoints = customers.reduce((sum, item) => sum + Number(item.points || 0), 0);
@@ -171,10 +164,8 @@ function calculateAnalytics() {
     bookedCapacity: Math.min(100, todayReservations.reduce((sum, item) => sum + Number(item.guests || 0), 0) / 80 * 100),
     noShowRate: completedOrNoShow ? noShows.length / completedOrNoShow * 100 : 0,
     feedbackAverage, ratingCounts, openFeedback: feedback.filter((item) => item.status === 'Unresolved').length,
-    totalAudience, averageOpenRate, totalRedemptions, campaignRevenue,
     monthRevenue, lifetimeRevenue, totalPoints, totalRewardRedemptions,
     averageSpend: totalCustomers ? lifetimeRevenue / totalCustomers : 0,
-    campaignConversion: totalAudience ? totalRedemptions / totalAudience * 100 : 0,
     openTasks,
   };
 }
@@ -192,7 +183,6 @@ const navItems = [
   { id: 'customers', label: 'Customers', icon: 'users' },
   { id: 'reservations', label: 'Reservations', icon: 'calendar', badge: '5' },
   { id: 'loyalty', label: 'Loyalty & rewards', icon: 'gift' },
-  { id: 'campaigns', label: 'Campaigns', icon: 'send' },
   { id: 'feedback', label: 'Feedback', icon: 'message', badge: '2' },
   { id: 'reports', label: 'Reports', icon: 'chart' },
   { id: 'settings', label: 'Settings', icon: 'settings' },
@@ -275,7 +265,7 @@ function shell() {
           <button class="icon-btn menu-toggle" data-action="toggle-sidebar" aria-label="Open navigation">${icon('menu')}</button>
           <div class="global-search">
             ${icon('search')}
-            <input id="global-search" type="search" placeholder="Search customers, reservations, campaigns…" aria-label="Global search" />
+            <input id="global-search" type="search" placeholder="Search customers and reservations…" aria-label="Global search" />
             <span class="shortcut">⌘ K</span>
           </div>
           <div class="topbar-right">
@@ -308,7 +298,6 @@ function renderPage() {
     customers: renderCustomers,
     reservations: renderReservations,
     loyalty: renderLoyalty,
-    campaigns: renderCampaigns,
     feedback: renderFeedback,
     reports: renderReports,
     settings: renderSettings,
@@ -344,7 +333,7 @@ function lineChart(values = [], labels = [], accessibleLabel = 'CRM trend over t
   const area = `${path} L ${points.at(-1).x} ${height - bottom} L ${points[0].x} ${height - bottom} Z`;
   return `
     <svg class="line-chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="${escapeHtml(accessibleLabel)}">
-      <defs><linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3f5ee8" stop-opacity=".22"/><stop offset="100%" stop-color="#3f5ee8" stop-opacity="0"/></linearGradient></defs>
+      <defs><linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b5623d" stop-opacity=".24"/><stop offset="100%" stop-color="#b5623d" stop-opacity="0"/></linearGradient></defs>
       ${[25, 55, 85, 115].map((y) => `<line class="chart-grid-line" x1="12" x2="668" y1="${y}" y2="${y}"/>`).join('')}
       <path class="chart-area" d="${area}"/><path class="chart-line" d="${path}"/>
       ${points.map((point) => `<circle class="chart-point" cx="${point.x}" cy="${point.y}" r="3"/>`).join('')}
@@ -363,23 +352,23 @@ function renderDashboard() {
   const chartChange = previous ? (latest - previous) / previous * 100 : 0;
   const todayReservations = analytics.todayReservations.slice().sort((a, b) => a.time.localeCompare(b.time));
   const activityStyles = {
-    customer: ['userPlus', '#eef2ff', '#3853c5'], reward: ['gift', '#f2efff', '#6b4bc3'],
-    reservation: ['calendar', '#faf3e7', '#936723'], feedback: ['star', '#edf1ff', '#3f5ee8'],
-    alert: ['alert', '#faeaea', '#c45252'],
+    customer: ['userPlus', '#f7ece6', '#9a4f32'], reward: ['gift', '#eef0e8', '#596b55'],
+    reservation: ['calendar', '#f7efe1', '#8c642e'], feedback: ['star', '#f7ece6', '#b5623d'],
+    alert: ['alert', '#f9e9e7', '#b94e4b'],
   };
   const slots = [
-    { label: '4:00–6:00 PM', min: '16:00', max: '18:00', color: '#3f5ee8' },
-    { label: '6:00–8:00 PM', min: '18:00', max: '20:00', color: '#c59a55' },
-    { label: '8:00–10:00 PM', min: '20:00', max: '22:00', color: '#6b4bc3' },
+    { label: '4:00–6:00 PM', min: '16:00', max: '18:00', color: '#b5623d' },
+    { label: '6:00–8:00 PM', min: '18:00', max: '20:00', color: '#b99258' },
+    { label: '8:00–10:00 PM', min: '20:00', max: '22:00', color: '#596b55' },
   ].map((slot) => ({ ...slot, value: Math.min(100, todayReservations.filter((item) => item.time >= slot.min && item.time < slot.max).reduce((sum, item) => sum + item.guests, 0) / 25 * 100) }));
   const reservationActions = `<button class="btn" data-action="export-report">${icon('download')} Export</button><button class="btn btn-primary" data-action="add-reservation">${icon('plus')} New reservation</button>`;
   return `
     ${pageHeader('Overview', `Good afternoon, ${escapeHtml((data.user?.name || 'there').split(' ')[0])}`, 'Here is what is happening with your guests and cafe today.', reservationActions)}
     <section class="stat-grid">
-      ${statCard({ iconName: 'wallet', value: inr(analytics.monthRevenue), label: 'Customer-linked revenue this month', trend: `${analytics.totalCustomers} profiles`, accent: '#294a86', soft: '#edf3fb', glow: 'rgba(41,74,134,.10)' })}
-      ${statCard({ iconName: 'users', value: analytics.totalCustomers.toLocaleString('en-IN'), label: 'Known customers', trend: `${analytics.consented} opted in`, accent: '#3f5ee8', soft: '#eef1ff', glow: 'rgba(63,94,232,.10)' })}
-      ${statCard({ iconName: 'calendar', value: analytics.todayReservations.length.toString(), label: 'Reservations today', trend: `${analytics.todayGuests} guests`, accent: '#9b702b', soft: '#faf3e7', glow: 'rgba(197,154,85,.12)' })}
-      ${statCard({ iconName: 'gift', value: `${analytics.returningRate.toFixed(0)}%`, label: 'Returning customer rate', trend: `${analytics.returningCustomers} returning`, accent: '#6b4bc3', soft: '#f2efff', glow: 'rgba(107,75,195,.10)' })}
+      ${statCard({ iconName: 'wallet', value: inr(analytics.monthRevenue), label: 'Customer-linked revenue this month', trend: `${analytics.totalCustomers} profiles`, accent: '#5d4a3f', soft: '#f3ece3', glow: 'rgba(93,74,63,.10)' })}
+      ${statCard({ iconName: 'users', value: analytics.totalCustomers.toLocaleString('en-IN'), label: 'Known customers', trend: `${analytics.consented} opted in`, accent: '#b5623d', soft: '#f7ece6', glow: 'rgba(181,98,61,.11)' })}
+      ${statCard({ iconName: 'calendar', value: analytics.todayReservations.length.toString(), label: 'Reservations today', trend: `${analytics.todayGuests} guests`, accent: '#8c642e', soft: '#f7efe1', glow: 'rgba(185,146,88,.13)' })}
+      ${statCard({ iconName: 'gift', value: `${analytics.returningRate.toFixed(0)}%`, label: 'Returning customer rate', trend: `${analytics.returningCustomers} returning`, accent: '#596b55', soft: '#eef0e8', glow: 'rgba(89,107,85,.11)' })}
     </section>
     <section class="dashboard-grid">
       <article class="panel">
@@ -407,7 +396,7 @@ function renderDashboard() {
       <article class="panel">
         <div class="panel-header"><div class="panel-title"><h2>Guest recovery</h2><p>Tasks needing attention</p></div><span class="status high">2 urgent</span></div>
         <div class="panel-body task-list">
-          ${analytics.openTasks.slice(0, 3).map((task) => `<div class="task-item"><span class="activity-icon" style="--soft:${task.priority === 'High' ? '#fcecef' : '#faf3e7'};--accent:${task.priority === 'High' ? '#c5444f' : '#936723'}">${icon(task.type === 'Reservation' ? 'cake' : 'alert')}</span><div class="task-copy"><strong>${escapeHtml(task.title)}</strong><p>${escapeHtml(task.details)}${task.dueAt ? ` · Due ${displayTime(task.dueAt)}` : ''}</p></div><button class="btn btn-small" data-action="complete-task" data-id="${task.id}">Resolve</button></div>`).join('') || '<div class="empty-state"><p>No open tasks. Nice work.</p></div>'}
+          ${analytics.openTasks.slice(0, 3).map((task) => `<div class="task-item"><span class="activity-icon" style="--soft:${task.priority === 'High' ? '#f9e9e7' : '#f7efe1'};--accent:${task.priority === 'High' ? '#b94e4b' : '#8c642e'}">${icon(task.type === 'Reservation' ? 'cake' : 'alert')}</span><div class="task-copy"><strong>${escapeHtml(task.title)}</strong><p>${escapeHtml(task.details)}${task.dueAt ? ` · Due ${displayTime(task.dueAt)}` : ''}</p></div><button class="btn btn-small" data-action="complete-task" data-id="${task.id}">Resolve</button></div>`).join('') || '<div class="empty-state"><p>No open tasks. Nice work.</p></div>'}
         </div>
       </article>
       <article class="panel">
@@ -473,7 +462,7 @@ function renderReservations() {
     return { key: localDateKey(value), weekday: new Intl.DateTimeFormat('en-IN', { weekday: 'short' }).format(value), label: new Intl.DateTimeFormat('en-IN', { day: '2-digit', month: 'short' }).format(value) };
   });
   const times = ['16:00', '17:00', '18:00', '19:00', '20:00'];
-  const eventColors = { Confirmed: ['#18735d', '#e9f7f2'], Pending: ['#936723', '#faf3e7'], Completed: ['#3f5ee8', '#edf1ff'], 'No-show': ['#c5444f', '#fcecef'] };
+  const eventColors = { Confirmed: ['#39735a', '#eaf3ed'], Pending: ['#8c642e', '#f7efe1'], Completed: ['#b5623d', '#f7ece6'], 'No-show': ['#b94e4b', '#f9e9e7'] };
   let calendar = `<div class="calendar-head"></div>${days.map((day) => `<div class="calendar-head">${day.weekday}<span>${day.label}</span></div>`).join('')}`;
   times.forEach((time) => {
     calendar += `<div class="calendar-time">${displayTime(time)}</div>`;
@@ -516,10 +505,10 @@ function renderLoyalty() {
   const featured = data.customers.slice().sort((a, b) => b.points - a.points)[0] || { name: 'No member yet', tier: 'Member', points: 0 };
   const settings = data.settings || {};
   const tierRules = [
-    ['Platinum', `${inr(settings.tier_platinum || 35000)} lifetime spend · 2× points`, '#eef1ff', '#3f5ee8', 'award'],
-    ['Gold', `${inr(settings.tier_gold || 18000)} lifetime spend · 1.5× points`, '#faf3e7', '#936723', 'award'],
+    ['Platinum', `${inr(settings.tier_platinum || 35000)} lifetime spend · 2× points`, '#f7ece6', '#b5623d', 'award'],
+    ['Gold', `${inr(settings.tier_gold || 18000)} lifetime spend · 1.5× points`, '#f7efe1', '#8c642e', 'award'],
     ['Silver', `${inr(settings.tier_silver || 8000)} lifetime spend · 1.2× points`, '#eef1f2', '#637077', 'award'],
-    ['Member', 'Joined the Circle · 1× points', '#edf3fb', '#294a86', 'users'],
+    ['Member', 'Joined the Circle · 1× points', '#eef0e8', '#596b55', 'users'],
   ];
   const actions = `<button class="btn" data-action="adjust-points">${icon('edit')} Adjust points</button><button class="btn btn-primary" data-action="new-reward">${icon('plus')} Create reward</button>`;
   return `
@@ -546,34 +535,9 @@ function renderLoyalty() {
     <article class="panel">
       <div class="panel-header"><div class="panel-title"><h2>Reward catalogue</h2><p>Live and upcoming member benefits</p></div><button class="btn btn-small">View redemptions</button></div>
       <div class="table-wrap"><table class="data-table"><thead><tr><th>Reward</th><th>Cost</th><th>Eligibility</th><th>Redemptions</th><th>Expiry</th><th>Status</th><th></th></tr></thead><tbody>
-        ${data.rewards.map((reward, index) => `<tr><td><div class="customer-cell"><span class="activity-icon" style="--soft:${index % 2 ? '#edf3fb' : '#eef1ff'};--accent:${index % 2 ? '#294a86' : '#3f5ee8'}">${icon(index % 2 ? 'coffee' : 'gift')}</span><div><strong>${escapeHtml(reward.name)}</strong><span>${escapeHtml(reward.description)}</span></div></div></td><td><strong>${reward.points ? `${reward.points.toLocaleString('en-IN')} points` : 'Complimentary'}</strong></td><td>${escapeHtml(reward.eligibility)}</td><td>${reward.redemptions}</td><td>${escapeHtml(reward.expiry)}</td><td>${statusPill(reward.status)}</td><td><button class="icon-btn" style="width:30px;height:30px">${icon('more')}</button></td></tr>`).join('') || '<tr><td colspan="7">No rewards created yet.</td></tr>'}
+        ${data.rewards.map((reward, index) => `<tr><td><div class="customer-cell"><span class="activity-icon" style="--soft:${index % 2 ? '#eef0e8' : '#f7ece6'};--accent:${index % 2 ? '#596b55' : '#b5623d'}">${icon(index % 2 ? 'coffee' : 'gift')}</span><div><strong>${escapeHtml(reward.name)}</strong><span>${escapeHtml(reward.description)}</span></div></div></td><td><strong>${reward.points ? `${reward.points.toLocaleString('en-IN')} points` : 'Complimentary'}</strong></td><td>${escapeHtml(reward.eligibility)}</td><td>${reward.redemptions}</td><td>${escapeHtml(reward.expiry)}</td><td>${statusPill(reward.status)}</td><td><button class="icon-btn" style="width:30px;height:30px">${icon('more')}</button></td></tr>`).join('') || '<tr><td colspan="7">No rewards created yet.</td></tr>'}
       </tbody></table></div>
     </article>`;
-}
-
-function renderCampaigns() {
-  const analytics = calculateAnalytics();
-  const actions = `<button class="btn" data-action="compose-message">${icon('send')} Quick message</button><button class="btn btn-primary" data-action="new-campaign">${icon('plus')} New campaign</button>`;
-  return `
-    ${pageHeader('Customer engagement', 'Campaigns', 'Create relevant, consent-aware messages and understand which campaigns bring guests back.', actions)}
-    <div class="mini-stats">
-      <div class="mini-stat"><span>Messages this month</span><strong>${analytics.totalAudience.toLocaleString('en-IN')}</strong></div>
-      <div class="mini-stat"><span>Average open rate</span><strong>${analytics.averageOpenRate.toFixed(1)}%</strong></div>
-      <div class="mini-stat"><span>Offer redemptions</span><strong>${analytics.totalRedemptions}</strong></div>
-      <div class="mini-stat"><span>Attributed revenue</span><strong>${inr(analytics.campaignRevenue)}</strong></div>
-    </div>
-    <div class="toolbar"><div class="toolbar-search">${icon('search')}<input id="campaign-search" placeholder="Search campaigns" /></div><select><option>All channels</option><option>WhatsApp</option><option>Email</option></select><select><option>All statuses</option><option>Active</option><option>Scheduled</option><option>Draft</option></select></div>
-    <section class="campaign-grid" id="campaign-grid">
-      ${data.campaigns.map((campaign) => `
-        <article class="campaign-card" data-campaign-card data-search="${campaign.name.toLowerCase()}">
-          <div class="campaign-visual" style="--campaign-bg:${campaign.bg}"><span class="campaign-channel">${icon(campaign.channel.includes('WhatsApp') ? 'whatsapp' : 'mail')} ${campaign.channel}</span><h3>${campaign.name}</h3></div>
-          <div class="campaign-body">
-            <div class="campaign-meta">${statusPill(campaign.status)}<span class="campaign-date">${campaign.date}</span></div>
-            <div class="campaign-metrics"><div class="campaign-metric"><span>Audience</span><strong>${campaign.audience || '—'}</strong></div><div class="campaign-metric"><span>Opened</span><strong>${campaign.opened || '—'}</strong></div><div class="campaign-metric"><span>Redeemed</span><strong>${campaign.redeemed || '—'}</strong></div></div>
-            <div class="campaign-footer"><span>Attributed revenue</span><strong>${campaign.revenue ? inr(campaign.revenue) : 'Not sent'}</strong>${campaign.status === 'Draft' ? `<button class="btn btn-small" data-action="send-campaign" data-id="${campaign.id}">Prepare send</button>` : ''}</div>
-          </div>
-        </article>`).join('')}
-    </section>`;
 }
 
 function renderFeedback() {
@@ -607,7 +571,7 @@ function renderFeedback() {
         <article class="panel" style="margin-bottom:16px">
           <div class="panel-header"><div class="panel-title"><h2>Rating breakdown</h2><p>Last 90 days</p></div></div>
           <div class="panel-body"><div class="rating-large"><strong>${analytics.feedbackAverage.toFixed(1)}</strong><div>${stars(Math.round(analytics.feedbackAverage))}<span>${data.feedback.length} connected responses</span></div></div><div class="rating-bars">
-            ${analytics.ratingCounts.map(({ rating, count }) => { const value = data.feedback.length ? count / data.feedback.length * 100 : 0; return `<div class="rating-bar"><span>${rating} ★</span><div class="progress-track"><div class="progress-fill" style="width:${value}%;--fill:${rating > 3 ? '#18735d' : rating === 3 ? '#c59a55' : '#c5444f'}"></div></div><strong>${value.toFixed(0)}%</strong></div>`; }).join('')}
+            ${analytics.ratingCounts.map(({ rating, count }) => { const value = data.feedback.length ? count / data.feedback.length * 100 : 0; return `<div class="rating-bar"><span>${rating} ★</span><div class="progress-track"><div class="progress-fill" style="width:${value}%;--fill:${rating > 3 ? '#39735a' : rating === 3 ? '#b99258' : '#b94e4b'}"></div></div><strong>${value.toFixed(0)}%</strong></div>`; }).join('')}
           </div></div>
         </article>
         <article class="panel">
@@ -627,7 +591,7 @@ function renderReports() {
   const metrics = data.monthlyMetrics || [];
   const revenueValues = metrics.map((item) => Number(item.revenue || 0));
   const labels = metrics.map((item) => new Intl.DateTimeFormat('en-IN', { month: 'short' }).format(new Date(`${item.month}-01T12:00:00`)));
-  const tierColors = { Member: '#3f5ee8', Silver: '#72809a', Gold: '#c59a55', Platinum: '#b9c5e8' };
+  const tierColors = { Member: '#b5623d', Silver: '#8a7b70', Gold: '#b99258', Platinum: '#c6b49b' };
   const tierMix = ['Member', 'Silver', 'Gold', 'Platinum'].map((tier) => ({ tier, count: data.customers.filter((item) => item.tier === tier).length }));
   let cursor = 0;
   const stops = tierMix.map((item) => { const start = cursor; cursor += analytics.totalCustomers ? item.count / analytics.totalCustomers * 100 : 0; return `${tierColors[item.tier]} ${start.toFixed(1)}% ${cursor.toFixed(1)}%`; }).join(', ');
@@ -640,10 +604,10 @@ function renderReports() {
   return `
     ${pageHeader('Performance intelligence', 'Reports & insights', 'Understand which guests return, what they value and which actions create measurable revenue.', actions)}
     <section class="stat-grid">
-      ${statCard({ iconName: 'rupee', value: inr(analytics.lifetimeRevenue), label: 'Customer lifetime revenue', trend: `${inr(analytics.monthRevenue)} this month`, accent: '#294a86', soft: '#edf3fb', glow: 'rgba(41,74,134,.10)' })}
-      ${statCard({ iconName: 'users', value: `${analytics.returningRate.toFixed(0)}%`, label: 'Returning customer rate', trend: `${analytics.returningCustomers} customers`, accent: '#3f5ee8', soft: '#eef1ff', glow: 'rgba(63,94,232,.10)' })}
-      ${statCard({ iconName: 'wallet', value: inr(analytics.averageSpend), label: 'Average known-guest spend', trend: `${analytics.totalCustomers} profiles`, accent: '#936723', soft: '#faf3e7', glow: 'rgba(197,154,85,.12)' })}
-      ${statCard({ iconName: 'target', value: `${analytics.campaignConversion.toFixed(1)}%`, label: 'Campaign conversion', trend: `${analytics.totalRedemptions} redemptions`, accent: '#6b4bc3', soft: '#f2efff', glow: 'rgba(107,75,195,.10)' })}
+      ${statCard({ iconName: 'rupee', value: inr(analytics.lifetimeRevenue), label: 'Customer lifetime revenue', trend: `${inr(analytics.monthRevenue)} this month`, accent: '#5d4a3f', soft: '#f3ece3', glow: 'rgba(93,74,63,.10)' })}
+      ${statCard({ iconName: 'users', value: `${analytics.returningRate.toFixed(0)}%`, label: 'Returning customer rate', trend: `${analytics.returningCustomers} customers`, accent: '#b5623d', soft: '#f7ece6', glow: 'rgba(181,98,61,.11)' })}
+      ${statCard({ iconName: 'wallet', value: inr(analytics.averageSpend), label: 'Average known-guest spend', trend: `${analytics.totalCustomers} profiles`, accent: '#8c642e', soft: '#f7efe1', glow: 'rgba(185,146,88,.13)' })}
+      ${statCard({ iconName: 'star', value: analytics.feedbackAverage.toFixed(1), label: 'Average guest rating', trend: `${data.feedback.length} responses`, accent: '#596b55', soft: '#eef0e8', glow: 'rgba(89,107,85,.11)' })}
     </section>
     <div class="report-layout">
       <article class="panel">
@@ -656,10 +620,10 @@ function renderReports() {
       </article>
     </div>
     <section class="report-cards" style="margin-top:16px">
-      <article class="report-card"><div class="report-card-top"><h3>Guest retention</h3><span class="activity-icon">${icon('users')}</span></div><p>Customers with two or more visits</p><div class="report-number">${analytics.returningRate.toFixed(1)}%</div><div class="progress-track"><div class="progress-fill" style="width:${analytics.returningRate}%;--fill:#18735d"></div></div><p class="report-note">${analytics.returningCustomers} returning customers</p></article>
-      <article class="report-card"><div class="report-card-top"><h3>Loyalty engagement</h3><span class="activity-icon" style="--soft:#eef1ff;--accent:#3f5ee8">${icon('gift')}</span></div><p>Current member point balances</p><div class="report-number">${analytics.totalPoints.toLocaleString('en-IN')}</div><div class="progress-track"><div class="progress-fill" style="width:${Math.min(100, analytics.activeMembers / Math.max(1, analytics.totalCustomers) * 100)}%;--fill:#3f5ee8"></div></div><p class="report-note">${analytics.totalRewardRedemptions} recorded reward redemptions</p></article>
-      <article class="report-card"><div class="report-card-top"><h3>Reservations</h3><span class="activity-icon" style="--soft:#edf3fb;--accent:#294a86">${icon('calendar')}</span></div><p>Completed stored bookings</p><div class="report-number">${completed}</div><div class="progress-track"><div class="progress-fill" style="width:${completedRate}%;--fill:#294a86"></div></div><p class="report-note">${completedRate.toFixed(0)}% completed vs no-show</p></article>
-      <article class="report-card"><div class="report-card-top"><h3>Service recovery</h3><span class="activity-icon" style="--soft:#faf3e7;--accent:#936723">${icon('checkCircle')}</span></div><p>Feedback cases resolved</p><div class="report-number">${recoveryRate.toFixed(0)}%</div><div class="progress-track"><div class="progress-fill" style="width:${recoveryRate}%;--fill:#c59a55"></div></div><p class="report-note">${analytics.openFeedback} case${analytics.openFeedback === 1 ? '' : 's'} still open</p></article>
+      <article class="report-card"><div class="report-card-top"><h3>Guest retention</h3><span class="activity-icon">${icon('users')}</span></div><p>Customers with two or more visits</p><div class="report-number">${analytics.returningRate.toFixed(1)}%</div><div class="progress-track"><div class="progress-fill" style="width:${analytics.returningRate}%;--fill:#39735a"></div></div><p class="report-note">${analytics.returningCustomers} returning customers</p></article>
+      <article class="report-card"><div class="report-card-top"><h3>Loyalty engagement</h3><span class="activity-icon" style="--soft:#f7ece6;--accent:#b5623d">${icon('gift')}</span></div><p>Current member point balances</p><div class="report-number">${analytics.totalPoints.toLocaleString('en-IN')}</div><div class="progress-track"><div class="progress-fill" style="width:${Math.min(100, analytics.activeMembers / Math.max(1, analytics.totalCustomers) * 100)}%;--fill:#b5623d"></div></div><p class="report-note">${analytics.totalRewardRedemptions} recorded reward redemptions</p></article>
+      <article class="report-card"><div class="report-card-top"><h3>Reservations</h3><span class="activity-icon" style="--soft:#f3ece3;--accent:#5d4a3f">${icon('calendar')}</span></div><p>Completed stored bookings</p><div class="report-number">${completed}</div><div class="progress-track"><div class="progress-fill" style="width:${completedRate}%;--fill:#5d4a3f"></div></div><p class="report-note">${completedRate.toFixed(0)}% completed vs no-show</p></article>
+      <article class="report-card"><div class="report-card-top"><h3>Service recovery</h3><span class="activity-icon" style="--soft:#f7efe1;--accent:#8c642e">${icon('checkCircle')}</span></div><p>Feedback cases resolved</p><div class="report-number">${recoveryRate.toFixed(0)}%</div><div class="progress-track"><div class="progress-fill" style="width:${recoveryRate}%;--fill:#b99258"></div></div><p class="report-note">${analytics.openFeedback} case${analytics.openFeedback === 1 ? '' : 's'} still open</p></article>
     </section>`;
 }
 
@@ -680,7 +644,7 @@ function renderSettings() {
       <div class="form-section"><h3>Cafe profile</h3><p>These details appear in guest messages, loyalty cards and booking confirmations.</p><div class="form-grid"><div class="field"><label>Business name</label><input id="setting-business-name" value="${escapeHtml(settings.business_name || '')}" /></div><div class="field"><label>Primary phone</label><input id="setting-primary-phone" value="${escapeHtml(settings.primary_phone || '')}" /></div><div class="field full"><label>Address</label><input id="setting-address" value="${escapeHtml(settings.address || '')}" /></div><div class="field"><label>Timezone</label><select id="setting-timezone"><option>${escapeHtml(settings.timezone || 'Asia/Kolkata (IST)')}</option></select></div><div class="field"><label>Currency</label><select id="setting-currency"><option>${escapeHtml(settings.currency || 'Indian Rupee (₹)')}</option></select></div></div></div>
       <div class="form-section"><h3>Guest experience defaults</h3><p>Operational rules applied to new activity.</p><div class="switch-row"><div class="switch-copy"><strong>Automatically award loyalty points</strong><span>Award points using the configured earning rate.</span></div><button id="setting-automatic-points" class="switch ${settings.automatic_points ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle automatic points"></button></div><div class="switch-row"><div class="switch-copy"><strong>Reservation reminders</strong><span>Prepare reminder messages for confirmed bookings.</span></div><button id="setting-reservation-reminders" class="switch ${settings.reservation_reminders ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle reservation reminders"></button></div><div class="switch-row"><div class="switch-copy"><strong>Marketing requires explicit opt-in</strong><span>Block marketing messages without recorded permission.</span></div><button id="setting-marketing-consent" class="switch ${settings.marketing_requires_consent ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle marketing consent"></button></div></div>`,
     team: `
-      <div class="form-section"><div class="section-heading-row"><div><h3>Team access</h3><p>Server-enforced roles: Owner, Manager and Host.</p></div>${isOwner ? `<button class="btn btn-primary" data-action="invite-staff">${icon('userPlus')} Add staff member</button>` : ''}</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Staff member</th><th>Role</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>${data.users.map((member) => `<tr><td><div class="customer-cell"><span class="avatar" style="--avatar:#3f5ee8">${initials(member.name)}</span><div><strong>${escapeHtml(member.name)}</strong><span>${escapeHtml(member.email)}</span></div></div></td><td>${escapeHtml(member.role)}</td><td>${member.lastLoginAt ? relativeTime(member.lastLoginAt) + ' ago' : 'Never'}</td><td>${statusPill(member.active ? 'Active' : 'Disabled')}</td><td>${isOwner && member.id !== data.user.id ? `<button class="btn btn-small" data-action="toggle-user" data-id="${member.id}">${member.active ? 'Disable' : 'Enable'}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></div>`,
+      <div class="form-section"><div class="section-heading-row"><div><h3>Team access</h3><p>Server-enforced roles: Owner, Manager and Host.</p></div>${isOwner ? `<button class="btn btn-primary" data-action="invite-staff">${icon('userPlus')} Add staff member</button>` : ''}</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Staff member</th><th>Role</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>${data.users.map((member) => `<tr><td><div class="customer-cell"><span class="avatar" style="--avatar:#b5623d">${initials(member.name)}</span><div><strong>${escapeHtml(member.name)}</strong><span>${escapeHtml(member.email)}</span></div></div></td><td>${escapeHtml(member.role)}</td><td>${member.lastLoginAt ? relativeTime(member.lastLoginAt) + ' ago' : 'Never'}</td><td>${statusPill(member.active ? 'Active' : 'Disabled')}</td><td>${isOwner && member.id !== data.user.id ? `<button class="btn btn-small" data-action="toggle-user" data-id="${member.id}">${member.active ? 'Disable' : 'Enable'}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></div>`,
     loyalty: `
       <div class="form-section"><h3>Loyalty earning and tiers</h3><p>Thresholds are based on recorded lifetime spend.</p><div class="form-grid"><div class="field"><label>Points per ₹1</label><input id="setting-points-rate" type="number" min="0" step="0.01" value="${Number(settings.points_per_rupee ?? 0.1)}" /></div><div class="field"><label>Silver threshold</label><input id="setting-tier-silver" type="number" min="0" value="${Number(settings.tier_silver || 8000)}" /></div><div class="field"><label>Gold threshold</label><input id="setting-tier-gold" type="number" min="0" value="${Number(settings.tier_gold || 18000)}" /></div><div class="field"><label>Platinum threshold</label><input id="setting-tier-platinum" type="number" min="0" value="${Number(settings.tier_platinum || 35000)}" /></div></div></div><div class="form-section"><h3>Points controls</h3><p>Every manual change is recorded in the local audit ledger.</p><button class="btn" data-action="adjust-points">${icon('edit')} Adjust customer points</button></div>`,
     integrations: `
@@ -763,17 +727,12 @@ function openCustomerProfile(id) {
     <div class="customer-profile-head"><span class="avatar" style="--avatar:${customer.avatar}">${initials(customer.name)}</span><div><h3>${escapeHtml(customer.name)}</h3><p>${escapeHtml(customer.phone)} · ${escapeHtml(customer.email)}</p><div class="tags"><span class="tier ${customer.tier.toLowerCase()}">${customer.tier}</span>${customer.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div></div></div>
     <div class="profile-facts"><div class="profile-fact"><span>Lifetime spend</span><strong>${inr(customer.spend)}</strong></div><div class="profile-fact"><span>Total visits</span><strong>${customer.visits}</strong></div><div class="profile-fact"><span>Loyalty points</span><strong>${customer.points.toLocaleString('en-IN')}</strong></div><div class="profile-fact"><span>Last visit</span><strong>${displayDate(customer.lastVisit)}</strong></div><div class="profile-fact"><span>Birthday</span><strong>${customer.birthday || 'Not provided'}</strong></div><div class="profile-fact"><span>Marketing consent</span><strong>${customer.consent ? 'Opted in' : 'Not recorded'}</strong></div></div>
     <div class="insight-card"><div class="insight-top"><strong>Guest notes</strong><span class="status ${customer.notes ? 'active' : 'draft'}">${customer.notes ? 'Recorded' : 'Empty'}</span></div><p>${escapeHtml(customer.notes || 'No preferences, allergies or service notes have been recorded yet.')}</p></div>
-    <div class="task-list" style="margin-top:12px"><div class="task-item"><span class="activity-icon">${icon('coffee')}</span><div class="task-copy"><strong>Relationship summary</strong><p>${customer.visits} visits · ${inr(customer.monthSpend || 0)} linked this month · ${customer.points} points available</p></div></div><div class="task-item"><span class="activity-icon" style="--soft:#eef1ff;--accent:#3f5ee8">${icon('shield')}</span><div class="task-copy"><strong>Communication status</strong><p>${customer.consent ? 'Marketing opt-in is recorded.' : 'Only transactional communication is allowed.'}</p></div></div></div>`, `<button class="btn" data-action="close-modal">Close</button><button class="btn btn-primary" data-action="message-customer" data-id="${customer.id}">${icon('whatsapp')} Message guest</button>`);
+    <div class="task-list" style="margin-top:12px"><div class="task-item"><span class="activity-icon">${icon('coffee')}</span><div class="task-copy"><strong>Relationship summary</strong><p>${customer.visits} visits · ${inr(customer.monthSpend || 0)} linked this month · ${customer.points} points available</p></div></div><div class="task-item"><span class="activity-icon" style="--soft:#f7ece6;--accent:#b5623d">${icon('shield')}</span><div class="task-copy"><strong>Communication status</strong><p>${customer.consent ? 'Marketing opt-in is recorded.' : 'Only transactional communication is allowed.'}</p></div></div></div>`, `<button class="btn" data-action="close-modal">Close</button><button class="btn btn-primary" data-action="message-customer" data-id="${customer.id}">${icon('whatsapp')} Message guest</button>`);
 }
 
 function openReservationForm() {
   openModal('New reservation', 'Reserve a table and capture the details that make the visit special.', `
     <form id="reservation-form"><div class="form-grid"><div class="field"><label>Guest name *</label><input name="name" required placeholder="Search or enter guest" /></div><div class="field"><label>Mobile number *</label><input name="phone" required placeholder="+91" /></div><div class="field"><label>Date *</label><input name="date" type="date" required value="${localDateKey()}" /></div><div class="field"><label>Time *</label><input name="time" type="time" required value="19:00" /></div><div class="field"><label>Number of guests</label><input name="guests" type="number" min="1" max="30" value="2" /></div><div class="field"><label>Table preference</label><select name="table"><option>Best available</option><option>Window</option><option>Garden</option><option>Indoor</option><option>Private area</option></select></div><div class="field"><label>Occasion</label><select name="occasion"><option>Regular visit</option><option>Birthday</option><option>Anniversary</option><option>Business meeting</option><option>Celebration</option></select></div><div class="field"><label>Status</label><select name="status"><option>Confirmed</option><option>Pending</option></select></div><div class="field full"><label>Special requests</label><textarea name="notes" placeholder="Cake, allergies, accessibility or seating notes"></textarea></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="reservation-form">${icon('check')} Confirm reservation</button>`);
-}
-
-function openCampaignForm() {
-  openModal('Create campaign', 'Build a targeted message for guests who have opted in.', `
-    <form id="campaign-form"><div class="form-grid"><div class="field full"><label>Campaign name *</label><input name="name" required placeholder="e.g. Sunday brunch invitation" /></div><div class="field"><label>Channel</label><select name="channel"><option>WhatsApp</option><option>Email</option><option>Email + WhatsApp</option></select></div><div class="field"><label>Audience</label><select name="audience"><option>All opted-in guests</option><option>VIP & Platinum</option><option>Inactive 30+ days</option><option>Birthday this month</option><option>Custom segment</option></select></div><div class="field full"><label>Message</label><textarea name="message" required placeholder="Write a concise, valuable message with a clear opt-out path."></textarea></div><div class="field"><label>Send</label><select name="send"><option>Save as draft</option><option>Schedule</option><option>Send after approval</option></select></div><div class="field"><label>Offer code</label><input name="offer" placeholder="Optional" /></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="campaign-form">${icon('check')} Save campaign</button>`);
 }
 
 function openRewardForm() {
@@ -791,7 +750,7 @@ function openReservationDetail(id) {
 function openNotifications() {
   const analytics = calculateAnalytics();
   const pending = data.reservations.filter((item) => item.status === 'Pending');
-  openModal('Notifications', 'Important activity requiring your attention.', `<div class="task-list"><div class="task-item"><span class="activity-icon" style="--soft:#fcecef;--accent:#c5444f">${icon('alert')}</span><div class="task-copy"><strong>${analytics.openFeedback} feedback case${analytics.openFeedback === 1 ? '' : 's'} need attention</strong><p>Create recovery tasks and record the outcome.</p></div>${statusPill(analytics.openFeedback ? 'High' : 'Resolved')}</div><div class="task-item"><span class="activity-icon" style="--soft:#faf3e7;--accent:#936723">${icon('calendar')}</span><div class="task-copy"><strong>${pending.length} reservation${pending.length === 1 ? '' : 's'} awaiting confirmation</strong><p>${pending[0] ? `${escapeHtml(pending[0].name)} · ${pending[0].guests} guests · ${displayTime(pending[0].time)}` : 'All current bookings are confirmed.'}</p></div>${statusPill(pending.length ? 'Pending' : 'Resolved')}</div><div class="task-item"><span class="activity-icon" style="--soft:#eef1ff;--accent:#3f5ee8">${icon('database')}</span><div class="task-copy"><strong>Private database connected</strong><p>${data.customers.length} customers and ${data.reservations.length} reservations are stored.</p></div>${statusPill('Active')}</div></div>`, `<button class="btn btn-primary" data-action="close-modal">Got it</button>`);
+  openModal('Notifications', 'Important activity requiring your attention.', `<div class="task-list"><div class="task-item"><span class="activity-icon" style="--soft:#f9e9e7;--accent:#b94e4b">${icon('alert')}</span><div class="task-copy"><strong>${analytics.openFeedback} feedback case${analytics.openFeedback === 1 ? '' : 's'} need attention</strong><p>Create recovery tasks and record the outcome.</p></div>${statusPill(analytics.openFeedback ? 'High' : 'Resolved')}</div><div class="task-item"><span class="activity-icon" style="--soft:#f7efe1;--accent:#8c642e">${icon('calendar')}</span><div class="task-copy"><strong>${pending.length} reservation${pending.length === 1 ? '' : 's'} awaiting confirmation</strong><p>${pending[0] ? `${escapeHtml(pending[0].name)} · ${pending[0].guests} guests · ${displayTime(pending[0].time)}` : 'All current bookings are confirmed.'}</p></div>${statusPill(pending.length ? 'Pending' : 'Resolved')}</div><div class="task-item"><span class="activity-icon" style="--soft:#f7ece6;--accent:#b5623d">${icon('database')}</span><div class="task-copy"><strong>Private database connected</strong><p>${data.customers.length} customers and ${data.reservations.length} reservations are stored.</p></div>${statusPill('Active')}</div></div>`, `<button class="btn btn-primary" data-action="close-modal">Got it</button>`);
 }
 
 function downloadFrom(url) {
@@ -827,7 +786,7 @@ function openPointsAdjustment() {
 }
 
 function openStaffForm() {
-  openModal('Add staff member', 'Create a secure account with the minimum required access.', `<form id="staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required /></div><div class="field"><label>Email</label><input name="email" type="email" required /></div><div class="field"><label>Role</label><select name="role"><option>Host</option><option>Manager</option><option>Owner</option></select></div><div class="field"><label>Temporary password</label><input name="password" type="password" minlength="10" required /></div></div><div class="role-guide"><div><strong>Host</strong><span>Customers, reservations and feedback.</span></div><div><strong>Manager</strong><span>Campaigns, loyalty, imports and settings.</span></div><div><strong>Owner</strong><span>Team, backups and reset controls.</span></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="staff-form">${icon('userPlus')} Create account</button>`);
+  openModal('Add staff member', 'Create a secure account with the minimum required access.', `<form id="staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required /></div><div class="field"><label>Email</label><input name="email" type="email" required /></div><div class="field"><label>Role</label><select name="role"><option>Host</option><option>Manager</option><option>Owner</option></select></div><div class="field"><label>Temporary password</label><input name="password" type="password" minlength="10" required /></div></div><div class="role-guide"><div><strong>Host</strong><span>Customers, reservations and feedback.</span></div><div><strong>Manager</strong><span>Loyalty, imports and operating settings.</span></div><div><strong>Owner</strong><span>Team, backups and reset controls.</span></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="staff-form">${icon('userPlus')} Create account</button>`);
 }
 
 function openPasswordForm() {
@@ -835,19 +794,12 @@ function openPasswordForm() {
 }
 
 function openProfileMenu() {
-  openModal('Your account', `${escapeHtml(data.user?.role || '')} workspace`, `<div class="customer-profile-head"><span class="avatar" style="--avatar:#3f5ee8">${initials(data.user?.name || 'Staff')}</span><div><h3>${escapeHtml(data.user?.name || '')}</h3><p>${escapeHtml(data.user?.email || '')}</p>${statusPill('Active')}</div></div><div class="role-guide"><div><strong>Session protection</strong><span>Automatic expiry after 12 hours.</span></div><div><strong>Role</strong><span>${escapeHtml(data.user?.role || '')} permissions enforced by the API.</span></div></div>`, `<button class="btn" data-action="change-password">${icon('lock')} Change password</button><button class="btn btn-primary" data-action="logout">Sign out</button>`);
+  openModal('Your account', `${escapeHtml(data.user?.role || '')} workspace`, `<div class="customer-profile-head"><span class="avatar" style="--avatar:#b5623d">${initials(data.user?.name || 'Staff')}</span><div><h3>${escapeHtml(data.user?.name || '')}</h3><p>${escapeHtml(data.user?.email || '')}</p>${statusPill('Active')}</div></div><div class="role-guide"><div><strong>Session protection</strong><span>Automatic expiry after 12 hours.</span></div><div><strong>Role</strong><span>${escapeHtml(data.user?.role || '')} permissions enforced by the API.</span></div></div>`, `<button class="btn" data-action="change-password">${icon('lock')} Change password</button><button class="btn btn-primary" data-action="logout">Sign out</button>`);
 }
 
 function openFeedbackLink() {
   const url = data.settings.feedback_url || 'http://127.0.0.1:4173/feedback';
   openModal('Feedback collection link', 'Use this link in table QR artwork, receipts or follow-up messages.', `<div class="share-link"><input id="feedback-link" readonly value="${escapeHtml(url)}" /><button class="btn" data-action="copy-feedback-link">Copy link</button></div><div class="form-notice">Set the final public URL in Settings before printing table materials.</div>`, `<button class="btn btn-primary" data-action="close-modal">Done</button>`);
-}
-
-function openCampaignSend(campaignId) {
-  const campaign = data.campaigns.find((item) => item.id === Number(campaignId));
-  if (!campaign) return;
-  const audience = data.customers.filter((customer) => customer.consent && (campaign.channel.includes('Email') ? customer.email : customer.phone));
-  openModal('Prepare campaign send', 'Only customers with recorded marketing consent are included.', `<form id="campaign-send-form"><input type="hidden" name="campaignId" value="${campaign.id}" /><div class="profile-facts"><div class="profile-fact"><span>Campaign</span><strong>${escapeHtml(campaign.name)}</strong></div><div class="profile-fact"><span>Channel</span><strong>${escapeHtml(campaign.channel)}</strong></div><div class="profile-fact"><span>Eligible audience</span><strong>${audience.length}</strong></div></div><div class="field"><label>Confirmation</label><input name="confirmation" required placeholder="Type SEND to confirm" /></div><div class="form-notice">In Demo mode, messages go to the local outbox. If live provider credentials are configured, this action sends real messages.</div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="campaign-send-form">${icon('send')} Send campaign</button>`);
 }
 
 function downloadTemplate() {
@@ -907,7 +859,6 @@ document.getElementById('app').addEventListener('click', async (event) => {
     } else if (action === 'add-customer') openAddCustomer();
     else if (action === 'view-customer') openCustomerProfile(target.dataset.id || target.closest('[data-id]')?.dataset.id);
     else if (action === 'add-reservation') openReservationForm();
-    else if (action === 'new-campaign') openCampaignForm();
     else if (action === 'notifications') openNotifications();
     else if (action === 'retry-data') { await loadData(); renderApp(); }
     else if (action === 'reset-demo') { if (!window.confirm('Reset all CRM demo records? A safety backup will not be created by this action.')) return; target.disabled = true; await api('/api/reset', { method: 'POST', body: '{}' }); await syncAndRender(); showToast('Sample database has been rebuilt.'); }
@@ -947,13 +898,12 @@ document.getElementById('app').addEventListener('click', async (event) => {
     else if (action === 'edit-tiers') { state.page = 'settings'; state.settingsTab = 'loyalty'; refreshPage(); }
     else if (action === 'reply-feedback') openMessageComposer(null, target.dataset.id);
     else if (action === 'create-qr') openFeedbackLink();
-    else if (action === 'send-campaign') openCampaignSend(target.dataset.id);
     else if (action === 'reservation-detail') openReservationDetail(target.dataset.id);
     else if (action === 'import-customers') openImportCustomers();
     else if (action === 'invite-staff') openStaffForm();
     else if (action === 'toggle-user') { target.disabled = true; await api(`/api/users/${target.dataset.id}/toggle`, { method: 'POST', body: '{}' }); await syncAndRender(); showToast('Staff access updated.'); }
     else if (action === 'change-password') openPasswordForm();
-    else if (action === 'logout') { await api('/api/auth/logout', { method: 'POST', body: '{}' }); authState = 'anonymous'; data = { customers: [], reservations: [], campaigns: [], feedback: [], tasks: [], rewards: [], activities: [], monthlyMetrics: [], settings: {} }; closeModal(); renderApp(); }
+    else if (action === 'logout') { await api('/api/auth/logout', { method: 'POST', body: '{}' }); authState = 'anonymous'; data = { customers: [], reservations: [], feedback: [], tasks: [], rewards: [], activities: [], monthlyMetrics: [], settings: {} }; closeModal(); renderApp(); }
     else if (action === 'create-backup') { target.disabled = true; await api('/api/backups', { method: 'POST', body: '{}' }); await syncAndRender(); showToast('Local backup created.'); }
     else if (action === 'download-backup') downloadFrom(`/api/backups/${encodeURIComponent(target.dataset.name)}`);
     else if (action === 'restore-backup') { if (!window.confirm(`Restore ${target.dataset.name}? Current data will be backed up first.`)) return; target.disabled = true; await api('/api/backups/restore', { method: 'POST', body: JSON.stringify({ name: target.dataset.name }) }); await syncAndRender(); showToast('Backup restored successfully.'); }
@@ -967,10 +917,6 @@ document.getElementById('app').addEventListener('click', async (event) => {
 
 document.getElementById('app').addEventListener('input', (event) => {
   if (event.target.id === 'customer-search') filterCustomers();
-  if (event.target.id === 'campaign-search') {
-    const query = event.target.value.trim().toLowerCase();
-    document.querySelectorAll('[data-campaign-card]').forEach((card) => { card.style.display = !query || card.dataset.search.includes(query) ? '' : 'none'; });
-  }
 });
 
 document.getElementById('app').addEventListener('change', (event) => {
@@ -1064,12 +1010,6 @@ document.getElementById('modal-root').addEventListener('submit', async (event) =
       state.page = 'reservations';
       await syncAndRender();
       showToast(`Reservation saved for ${values.name}.`);
-    } else if (form.id === 'campaign-form') {
-      await api('/api/campaigns', { method: 'POST', body: JSON.stringify(values) });
-      closeModal();
-      state.page = 'campaigns';
-      await syncAndRender();
-      showToast(`Campaign “${values.name}” saved as a draft.`);
     } else if (form.id === 'reward-form') {
       await api('/api/rewards', { method: 'POST', body: JSON.stringify(values) });
       closeModal();
@@ -1104,20 +1044,6 @@ document.getElementById('modal-root').addEventListener('submit', async (event) =
       await api('/api/auth/change-password', { method: 'POST', body: JSON.stringify(values) });
       closeModal();
       showToast('Password changed successfully.');
-    } else if (form.id === 'campaign-send-form') {
-      if (values.confirmation !== 'SEND') throw new Error('Type SEND exactly to confirm the campaign.');
-      const campaign = data.campaigns.find((item) => item.id === Number(values.campaignId));
-      const channel = campaign.channel.includes('WhatsApp') ? 'WhatsApp' : 'Email';
-      const audience = data.customers.filter((customer) => customer.consent && (channel === 'Email' ? customer.email : customer.phone));
-      let queued = 0;
-      for (const customer of audience) {
-        await api('/api/communications/send', { method: 'POST', body: JSON.stringify({ customerId: customer.id, channel, recipient: channel === 'Email' ? customer.email : customer.phone, subject: campaign.name, message: campaign.message, purpose: 'Marketing' }) });
-        queued += 1;
-      }
-      await api(`/api/campaigns/${campaign.id}/sent`, { method: 'POST', body: JSON.stringify({ audience: queued }) });
-      closeModal();
-      await syncAndRender();
-      showToast(`${queued} consented guest message${queued === 1 ? '' : 's'} processed.`);
     }
   } catch (error) {
     if (submit) { submit.disabled = false; submit.innerHTML = submit.dataset.original || 'Save'; }

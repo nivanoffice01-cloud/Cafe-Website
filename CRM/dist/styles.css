@@ -1,31 +1,31 @@
 :root {
-  --forest-950: #070d1b;
-  --forest-900: #0b1428;
-  --forest-800: #15213a;
-  --forest-700: #253a63;
-  --forest-600: #3f5ee8;
-  --forest-100: #dfe6ff;
-  --forest-50: #eef2ff;
-  --mangosteen: #3f5ee8;
-  --mangosteen-dark: #2f47ba;
-  --mangosteen-soft: #eef1ff;
-  --amber: #c59a55;
-  --amber-soft: #faf3e7;
-  --red: #c5444f;
-  --red-soft: #fcecef;
-  --blue: #3f5ee8;
-  --blue-soft: #edf1ff;
-  --cream: #f4f6fa;
-  --surface: #ffffff;
-  --surface-muted: #f7f8fb;
-  --ink: #101828;
-  --ink-2: #475467;
-  --ink-3: #667085;
-  --line: #e4e7ec;
-  --line-dark: #d0d5dd;
-  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04), 0 4px 12px rgba(16, 24, 40, 0.04);
-  --shadow-md: 0 12px 30px rgba(16, 24, 40, 0.08), 0 2px 6px rgba(16, 24, 40, 0.04);
-  --shadow-lg: 0 28px 80px rgba(7, 13, 27, 0.22);
+  --forest-950: #211511;
+  --forest-900: #2b1c16;
+  --forest-800: #39251d;
+  --forest-700: #654538;
+  --forest-600: #b5623d;
+  --forest-100: #ead8ca;
+  --forest-50: #f7ece6;
+  --mangosteen: #b5623d;
+  --mangosteen-dark: #944b30;
+  --mangosteen-soft: #f7ece6;
+  --amber: #b99258;
+  --amber-soft: #f7efe1;
+  --red: #b94e4b;
+  --red-soft: #f9e9e7;
+  --blue: #596b55;
+  --blue-soft: #eef0e8;
+  --cream: #f7f2ea;
+  --surface: #fffdf9;
+  --surface-muted: #f3ede4;
+  --ink: #291d18;
+  --ink-2: #62544b;
+  --ink-3: #897a70;
+  --line: #e7dccf;
+  --line-dark: #d8c8b8;
+  --shadow-sm: 0 1px 2px rgba(55, 36, 27, 0.04), 0 4px 12px rgba(55, 36, 27, 0.05);
+  --shadow-md: 0 12px 30px rgba(55, 36, 27, 0.09), 0 2px 6px rgba(55, 36, 27, 0.04);
+  --shadow-lg: 0 28px 80px rgba(33, 21, 17, 0.24);
   --radius-sm: 10px;
   --radius: 14px;
   --radius-lg: 20px;
@@ -631,7 +631,7 @@ svg {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: var(--glow, rgba(63, 94, 232, 0.06));
+  background: var(--glow, rgba(181, 98, 61, 0.06));
   content: "";
 }
 
@@ -2540,18 +2540,18 @@ svg {
   .role-guide > div { grid-template-columns: 1fr; gap: 3px; }
 }
 
-/* Executive premium theme: midnight, cobalt, champagne and pearl */
+/* Warm luxury theme: espresso, ivory, aged brass and terracotta */
 body {
   background:
-    radial-gradient(circle at 78% 0%, rgba(63, 94, 232, 0.045), transparent 28rem),
+    radial-gradient(circle at 78% 0%, rgba(181, 98, 61, 0.055), transparent 28rem),
     var(--cream);
 }
 
 .sidebar {
   background:
-    radial-gradient(circle at 18% -4%, rgba(82, 113, 255, 0.32), transparent 24%),
-    linear-gradient(175deg, #101a31 0%, #0a1224 54%, #070d1b 100%);
-  box-shadow: 14px 0 45px rgba(7, 13, 27, 0.12);
+    radial-gradient(circle at 18% -4%, rgba(181, 98, 61, 0.3), transparent 24%),
+    linear-gradient(175deg, #3a271f 0%, #2b1c16 54%, #211511 100%);
+  box-shadow: 14px 0 45px rgba(33, 21, 17, 0.16);
 }
 
 .brand {
@@ -2559,13 +2559,13 @@ body {
 }
 
 .brand-mark {
-  border-color: rgba(213, 184, 126, 0.42);
-  background: linear-gradient(145deg, #5271ef, #2d45aa);
-  box-shadow: 0 10px 26px rgba(30, 57, 153, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  border-color: rgba(213, 177, 119, 0.46);
+  background: linear-gradient(145deg, #c8784f, #944b30);
+  box-shadow: 0 10px 26px rgba(96, 47, 30, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 .brand-mark::after {
-  background: #d6b873;
+  background: #d4b276;
 }
 
 .brand-copy strong {
@@ -2575,57 +2575,57 @@ body {
 
 .brand-copy span,
 .nav-label {
-  color: rgba(225, 231, 246, 0.55);
+  color: rgba(244, 231, 216, 0.55);
 }
 
 .nav-item {
   min-height: 48px;
-  color: rgba(229, 234, 246, 0.7);
+  color: rgba(245, 234, 222, 0.72);
   font-size: 14px;
 }
 
 .nav-item:hover {
-  background: rgba(91, 116, 220, 0.11);
+  background: rgba(199, 151, 111, 0.11);
 }
 
 .nav-item.active {
-  background: linear-gradient(90deg, rgba(79, 105, 218, 0.24), rgba(79, 105, 218, 0.1));
-  box-shadow: inset 0 0 0 1px rgba(145, 163, 239, 0.08);
+  background: linear-gradient(90deg, rgba(181, 98, 61, 0.25), rgba(181, 98, 61, 0.09));
+  box-shadow: inset 0 0 0 1px rgba(211, 169, 130, 0.09);
 }
 
 .nav-item.active::before {
   width: 3px;
-  background: #d1ae68;
-  box-shadow: 0 0 14px rgba(209, 174, 104, 0.62);
+  background: #c7a16a;
+  box-shadow: 0 0 14px rgba(199, 161, 106, 0.58);
 }
 
 .nav-badge {
-  background: rgba(93, 119, 232, 0.22);
-  color: #cbd5ff;
+  background: rgba(190, 126, 86, 0.22);
+  color: #f0d4bf;
 }
 
 .sidebar-footer {
-  border-color: rgba(210, 222, 255, 0.11);
+  border-color: rgba(240, 221, 200, 0.11);
   background: rgba(255, 255, 255, 0.045);
 }
 
 .sidebar-footer .tiny-avatar,
 .tiny-avatar {
-  background: linear-gradient(145deg, #5271ef, #283f9e);
+  background: linear-gradient(145deg, #c8784f, #944b30);
 }
 
 .demo-pill {
-  color: #d8c18d;
+  color: #ddc18f;
 }
 
 .demo-pill::before {
-  background: #d1ae68;
-  box-shadow: 0 0 0 4px rgba(209, 174, 104, 0.12);
+  background: #c7a16a;
+  box-shadow: 0 0 0 4px rgba(199, 161, 106, 0.13);
 }
 
 .topbar {
-  border-color: rgba(208, 213, 221, 0.88);
-  background: rgba(248, 249, 252, 0.88);
+  border-color: rgba(222, 209, 195, 0.9);
+  background: rgba(250, 247, 241, 0.9);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
@@ -2641,8 +2641,8 @@ body {
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  border-color: rgba(63, 94, 232, 0.7);
-  box-shadow: 0 0 0 4px rgba(63, 94, 232, 0.09);
+  border-color: rgba(181, 98, 61, 0.72);
+  box-shadow: 0 0 0 4px rgba(181, 98, 61, 0.1);
 }
 
 .page-wrap {
@@ -2650,15 +2650,15 @@ body {
 }
 
 .demo-banner {
-  border-color: #dce4ff;
-  background: linear-gradient(90deg, #eef2ff, #f8f9ff);
-  color: #34457d;
+  border-color: #ead8ca;
+  background: linear-gradient(90deg, #f7ece6, #fcf8f2);
+  color: #6f4939;
   font-size: 13px;
 }
 
 .demo-banner button,
 .eyebrow {
-  color: #3853c5;
+  color: #9a4f32;
 }
 
 .page-header h1 {
@@ -2667,7 +2667,7 @@ body {
 }
 
 .page-header p {
-  color: #5d687a;
+  color: #6f6259;
   font-size: 14px;
 }
 
@@ -2678,23 +2678,23 @@ body {
 }
 
 .btn-primary {
-  border-color: #3653cf;
-  background: linear-gradient(135deg, #4968ec, #344fc5);
-  box-shadow: 0 8px 20px rgba(52, 79, 197, 0.22);
+  border-color: #a35435;
+  background: linear-gradient(135deg, #c36d47, #a55234);
+  box-shadow: 0 8px 20px rgba(148, 75, 48, 0.23);
 }
 
 .btn-primary:hover {
-  border-color: #2e47b5;
-  background: linear-gradient(135deg, #405fe0, #2e47b5);
+  border-color: #8e442b;
+  background: linear-gradient(135deg, #b8613e, #8e442b);
 }
 
 .stat-card,
 .panel,
 .report-card,
 .mini-stat {
-  border-color: rgba(208, 213, 221, 0.88);
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03), 0 8px 24px rgba(16, 24, 40, 0.045);
+  border-color: rgba(222, 209, 195, 0.9);
+  background: rgba(255, 253, 249, 0.95);
+  box-shadow: 0 1px 2px rgba(55, 36, 27, 0.03), 0 8px 24px rgba(55, 36, 27, 0.05);
 }
 
 .stat-card {
@@ -2706,7 +2706,7 @@ body {
   position: absolute;
   inset: 0 0 auto;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent, #3f5ee8), transparent 72%);
+  background: linear-gradient(90deg, var(--accent, #b5623d), transparent 72%);
   content: "";
 }
 
@@ -2727,7 +2727,7 @@ body {
 
 .stat-label {
   margin-top: 5px;
-  color: #5d687a;
+  color: #6f6259;
   font-size: 12px;
 }
 
@@ -2769,83 +2769,83 @@ body {
 }
 
 .chart-grid-line {
-  stroke: #edf0f5;
+  stroke: #eee5da;
 }
 
 .chart-line,
 .chart-point {
-  stroke: #3f5ee8;
+  stroke: #b5623d;
 }
 
 .segment-control button.active {
-  color: #2f47ba;
-  box-shadow: 0 1px 5px rgba(16, 24, 40, 0.1);
+  color: #944b30;
+  box-shadow: 0 1px 5px rgba(55, 36, 27, 0.1);
 }
 
 .status.confirmed,
 .status.active,
 .status.resolved,
 .status.delivered {
-  background: #e9f7f2;
-  color: #18735d;
+  background: #eaf3ed;
+  color: #39735a;
 }
 
 .status.pending,
 .status.scheduled,
 .status.medium {
-  background: #faf3e7;
-  color: #936723;
+  background: #f7efe1;
+  color: #8c642e;
 }
 
 .status.draft,
 .status.paused {
-  background: #eef1ff;
-  color: #3853c5;
+  background: #f7ece6;
+  color: #9a4f32;
 }
 
 .loyalty-card-preview {
   background:
-    radial-gradient(circle at 92% 8%, rgba(210, 177, 111, 0.28), transparent 24%),
-    radial-gradient(circle at 4% 100%, rgba(79, 105, 218, 0.32), transparent 31%),
-    linear-gradient(135deg, #0a1224, #17264a 58%, #0f1b36);
-  box-shadow: 0 24px 46px rgba(7, 13, 27, 0.24);
+    radial-gradient(circle at 92% 8%, rgba(213, 177, 119, 0.31), transparent 24%),
+    radial-gradient(circle at 4% 100%, rgba(181, 98, 61, 0.3), transparent 31%),
+    linear-gradient(135deg, #251711, #493027 58%, #2b1c16);
+  box-shadow: 0 24px 46px rgba(33, 21, 17, 0.26);
 }
 
 .loyalty-chip {
-  background: linear-gradient(135deg, #ead29c, #a77b31);
+  background: linear-gradient(135deg, #ead09c, #a87835);
 }
 
 .qr-demo {
   background:
     linear-gradient(90deg, #fff 50%, transparent 50%) 0 0 / 8px 8px,
     linear-gradient(#fff 50%, transparent 50%) 0 0 / 8px 8px,
-    #17264a;
+    #493027;
 }
 
 .login-brand .brand-mark {
-  box-shadow: 0 10px 26px rgba(30, 57, 153, 0.25);
+  box-shadow: 0 10px 26px rgba(96, 47, 30, 0.25);
 }
 
 .login-visual {
   background:
-    radial-gradient(circle at 20% 8%, rgba(83, 112, 238, 0.46), transparent 30%),
-    radial-gradient(circle at 92% 88%, rgba(204, 167, 94, 0.19), transparent 24%),
-    linear-gradient(145deg, #0a1224 0%, #111e3c 52%, #080e1c 100%);
+    radial-gradient(circle at 20% 8%, rgba(181, 98, 61, 0.48), transparent 30%),
+    radial-gradient(circle at 92% 88%, rgba(199, 161, 106, 0.21), transparent 24%),
+    linear-gradient(145deg, #251711 0%, #3c281f 52%, #1e130f 100%);
 }
 
 .login-visual .eyebrow {
-  color: #d9c18e;
+  color: #dfc493;
 }
 
 .login-demo {
-  border-color: #e0e5ef;
-  background: #f7f8fb;
+  border-color: #e7dccf;
+  background: #f7f2ea;
 }
 
 .toast {
-  background: #0b1428;
+  background: #2b1c16;
 }
 
 .toast .icon {
-  color: #91a6ff;
+  color: #d9aa84;
 }
