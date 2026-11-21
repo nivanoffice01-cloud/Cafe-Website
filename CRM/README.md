@@ -23,6 +23,10 @@ cd CRM
 Then open <http://127.0.0.1:4173>. The SQLite database is created automatically
 inside `data/` on the first run.
 
+Do not open `dist/index.html` directly. The CRM needs its local Python server for
+login and database requests. Direct file opens automatically redirect to the
+default local URL.
+
 The cafe website connects through `POST /api/public/reservations`. Website
 requests create or link a customer, store the selected seating preference, and
 appear in the CRM as **Pending**. Public submissions are validated, idempotent,
