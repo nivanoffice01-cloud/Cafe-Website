@@ -1,4 +1,6 @@
 node_modules
 dist
+!CRM/dist/
+!CRM/dist/**
 .DS_Store
 *.local

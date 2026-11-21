@@ -2,6 +2,10 @@
 
 A frontend-only, single-page cafe website built with React, TypeScript, Vite, and Three.js. There is no backend or database. The full menu, cafe facts, and scene data are static frontend assets. Reservation buttons open an on-site seat selector; ordering and directions use external services.
 
+The repository also contains the separate, local-first customer relationship
+management application in [`CRM/`](CRM/README.md). The public cafe website and
+the private CRM have independent startup commands and dependencies.
+
 ## Run locally
 
 ```sh
@@ -29,6 +33,7 @@ docs/           3D architecture and Blender handoff specification
 public/images/highres/  Four supplied, unmodified 8K Mangosteen photographs
 public/images/experience/  Two generated opening reconstructions based on supplied photos
 public/assets/3d/ Optional GLB handoff paths and Blender export notes
+CRM/          Local SQLite-backed guest CRM and operations documentation
 ```
 
 The opening is a single scroll-driven film viewport. It begins in darkness, reveals a clearer generated reconstruction of the Mangosteen exterior, cuts to a similarly reconstructed dining room and table, then lets the visitor **Take your seat**. These two scenes use the supplied café photos as reference; they are interpretations, not exact documentary photographs. That action moves the WebGL camera closer, cuts to a real dish photograph, and opens the accessible searchable HTML menu. There is no physical menu-card model on the table. The remaining page sections retain the real café photography and information, with an opening-image fallback if WebGL is unavailable.
