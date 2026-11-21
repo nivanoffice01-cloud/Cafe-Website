@@ -113,7 +113,7 @@ export function ReservationDialog({ onClose }: Props) {
         <div className="reservation-map-column">
           <div className="reservation-map-heading"><div className="reservation-step"><span>02</span><strong>Select your seats</strong></div><p>{selectedSeats.length} of {guests} selected</p></div>
           <div className="reservation-zone-switch" role="group" aria-label="Seating area"><button type="button" className={zone === 'rooftop' ? 'is-selected' : ''} aria-pressed={zone === 'rooftop'} onClick={() => changeZone('rooftop')}>The rooftop</button><button type="button" className={zone === 'inside' ? 'is-selected' : ''} aria-pressed={zone === 'inside'} onClick={() => changeZone('inside')}>Inside Mangosteen</button></div>
-          <p className="reservation-map-swipe">Swipe the plan to see all seats</p>
+          <p className="reservation-map-swipe">Tap seats in one group to choose your place</p>
           <div className="reservation-map-scroll"><div className="reservation-seat-map" aria-label={`${plan.name} schematic seating map`}>
             <div className="reservation-map-edge">{plan.orientation}</div>
             <div className="reservation-map-aisle" aria-hidden="true"/>

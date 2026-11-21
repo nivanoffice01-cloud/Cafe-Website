@@ -157,7 +157,7 @@ export function HomePage() {
 
         <section className="lux-review" aria-labelledby="review-title">
           <div className="lux-review-visual"><Photo src="/images/highres/mangosteen_original_1_8k.jpg" alt="Warmly lit dining area and wooden table at Mangosteen Café"/><span>AN EVENING AT MANGOSTEEN</span></div>
-          <div className="lux-review-copy"><Reveal><div className="lux-review-score"><strong>{cafe.rating}</strong><span>★★★★★</span><small>{cafe.reviewCount} GOOGLE REVIEWS</small></div><h2 id="review-title">Loved for the<br/><em>feeling.</em></h2><blockquote>“Amazing taste and very aesthetic ambiance. Loved the whole experience.”</blockquote><p>{reviewSummary}</p><a className="lux-text-link" href="https://www.google.com/search?q=Mangosteen+Cafe+Indore+reviews" target="_blank" rel="noreferrer">Read guest reviews <Arrow/></a></Reveal></div>
+          <div className="lux-review-copy"><Reveal><div className="lux-review-score"><strong>{cafe.rating}</strong><div className="lux-review-meta"><span>★★★★★</span><small>{cafe.reviewCount} GOOGLE REVIEWS</small></div></div><h2 id="review-title">Loved for the<br/><em>feeling.</em></h2><blockquote>“Amazing taste and very aesthetic ambiance. Loved the whole experience.”</blockquote><p>{reviewSummary}</p><a className="lux-text-link" href="https://www.google.com/search?q=Mangosteen+Cafe+Indore+reviews" target="_blank" rel="noreferrer">Read guest reviews <Arrow/></a></Reveal></div>
         </section>
 
         <section className="lux-visit" id="visit" aria-labelledby="visit-title">
