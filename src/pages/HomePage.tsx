@@ -6,6 +6,7 @@ import { ReservationDialog } from '../components/ReservationDialog'
 import { cafe, reviewSummary } from '../data/cafe'
 import { fullMenu } from '../data/fullMenu'
 import { galleryPhotos } from '../data/gallery'
+import { responsivePhotoSrcSet } from '../data/responsivePhoto'
 
 const CinematicScene = lazy(() => import('../components/CinematicScene').then((module) => ({ default: module.CinematicScene })))
 
@@ -25,7 +26,7 @@ function LeafMark() {
 function Arrow() { return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10h12m-4.8-4.8 4.8 4.8-4.8 4.8" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round"/></svg> }
 
 function Photo({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
-  return <img className={`lux-photo ${className}`} src={src} alt={alt} loading="lazy" decoding="async" />
+  return <img className={`lux-photo ${className}`} src={src} srcSet={responsivePhotoSrcSet(src)} sizes="100vw" alt={alt} loading="lazy" decoding="async" />
 }
 
 export function HomePage() {
@@ -101,13 +102,18 @@ export function HomePage() {
           <div className="film-sticky" id="cinematic-journey">
             <img className="film-fallback-photo" src="/images/experience/mangosteen-exterior-reconstruction.png" alt="" aria-hidden="true" fetchPriority="high"/>
             <Suspense fallback={null}><CinematicScene menuOpen={menuOpen} onOpenMenu={() => { setMenuSelection(null); setMenuOpen(true) }} onReady={onSceneReady} /></Suspense>
+            <div className="film-mobile-scene" aria-hidden="true">
+              <img className="film-mobile-exterior-backdrop" src="/images/mobile/mangosteen_original_4_mobile.jpg" alt="" fetchPriority="high" />
+              <img className="film-mobile-exterior" src="/images/mobile/mangosteen_original_4_mobile.jpg" alt="" fetchPriority="high" />
+              <img className="film-mobile-table" src="/images/mobile/mangosteen_original_1_mobile.jpg" alt="" loading="lazy" />
+            </div>
             <img className="film-food-reveal" alt="" aria-hidden="true" decoding="async" />
             <div className="film-curtain" aria-hidden="true"/>
             <span className="film-first-light" aria-hidden="true"/>
             <div className="film-opening">
               <p>CAFÉ · INDORE</p>
               <h1 id="film-title">MANGOSTEEN</h1>
-              <button type="button" onClick={() => window.scrollBy({ top: window.innerHeight * 1.15, behavior: 'smooth' })}>ENTER THE EVENING <span aria-hidden="true">↓</span></button>
+              <button type="button" onClick={() => window.scrollBy({ top: window.innerHeight * (window.innerWidth <= 700 ? .72 : 1.15), behavior: 'smooth' })}>ENTER THE EVENING <span aria-hidden="true">↓</span></button>
             </div>
             <div className="film-rooftop-copy" aria-hidden="true"><span>01 / ARRIVAL</span><p>Above the city.<br/><em>Inside the evening.</em></p></div>
             <div className="film-table-copy" aria-hidden="true"><span>02 / YOUR TABLE</span><p>A place is waiting.</p></div>

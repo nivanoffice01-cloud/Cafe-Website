@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { galleryPhotos } from '../data/gallery'
+import { responsivePhotoSrcSet } from '../data/responsivePhoto'
 
 export function GalleryDialog({ initialIndex = 0, onClose }: { initialIndex?: number; onClose: () => void }) {
   const [index, setIndex] = useState(initialIndex)
@@ -43,7 +44,7 @@ export function GalleryDialog({ initialIndex = 0, onClose }: { initialIndex?: nu
           <button ref={closeRef} className="gallery-close" type="button" onClick={onClose} aria-label="Close photo gallery">Close <span aria-hidden="true">×</span></button>
         </header>
         <figure className="gallery-dialog-image">
-          <img src={photo.src} alt={photo.alt} />
+          <img src={photo.src} srcSet={responsivePhotoSrcSet(photo.src)} sizes="100vw" alt={photo.alt} />
           <figcaption><span>{photo.caption}</span><span>{String(index + 1).padStart(2, '0')} / {String(galleryPhotos.length).padStart(2, '0')}</span></figcaption>
         </figure>
         <div className="gallery-controls">

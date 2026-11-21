@@ -97,5 +97,30 @@
   .reservation-counter button { width: 2.75rem; height: 2.75rem; }
   .reservation-close { min-width: 2.75rem; min-height: 2.75rem; justify-content: center; }
 }
-@media (max-width: 360px) { .reservation-seat-map { grid-template-columns: 1fr; gap: 1.3rem; } }
+@media (max-width: 700px) {
+  .reservation-dialog { min-height: 100dvh; }
+  .reservation-header { min-height: 8.5rem; gap: .75rem; }
+  .reservation-header h2 { font-size: clamp(2.15rem, 9vw, 2.7rem); }
+  .reservation-step { font-size: .94rem; }
+  .reservation-label, .reservation-zone-switch button { font-size: .84rem; }
+  .reservation-times button, .reservation-dates button { min-height: 2.75rem; font-size: .85rem; }
+  .reservation-map-heading { flex-wrap: wrap; }
+  .reservation-map-heading p { font-size: .83rem; }
+  .reservation-zone-switch { overflow-x: auto; white-space: nowrap; }
+  .reservation-zone-switch button { min-height: 2.75rem; flex: 0 0 auto; }
+  .reservation-seat-map { gap: 1.2rem .4rem; }
+  .reservation-cluster { min-width: 0; }
+  .reservation-cluster-name { font-size: .72rem; }
+  .reservation-seat { width: 2.8rem; height: 2.8rem; font-size: .85rem; }
+  .reservation-map-edge, .reservation-map-entry { font-size: .72rem; }
+  .reservation-map-footer p, .reservation-disclaimer, .reservation-notice { font-size: .82rem; }
+  .reservation-legend span { font-size: .76rem; }
+  .reservation-summary dt, .reservation-summary dd { font-size: .88rem; }
+  .reservation-copy { min-height: 2.75rem; }
+}
+@media (max-width: 360px) {
+  .reservation-seat-map { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem .25rem; }
+  .reservation-seat { width: 2.45rem; height: 2.6rem; }
+  .reservation-cluster-name { font-size: .66rem; }
+}
 @media (prefers-reduced-motion: reduce) { .reservation-backdrop, .reservation-dialog { animation: none; } .reservation-seat, .reservation-dates button, .reservation-times button { transition: none; } }

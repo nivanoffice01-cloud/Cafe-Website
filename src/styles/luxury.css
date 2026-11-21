@@ -263,6 +263,7 @@ body { background: var(--lux-night); }
 .scene-loading .lux-leaf { width: 2.1rem; height: 2.1rem; color: #d0b483; }
 .film-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; isolation: isolate; background: #030504; --film-curtain: 1; --film-opening-opacity: 1; --film-roof-opacity: 0; --film-table-opacity: 0; --film-seat-opacity: 0; --film-food-opacity: 0; --film-food-scale: 1.045; --film-progress: 0; }
 .film-fallback-photo { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(.5); }
+.film-mobile-scene { display: none; }
 .film-sticky .cinematic-canvas { position: absolute; inset: 0; z-index: 1 !important; width: 100%; height: 100%; opacity: 1 !important; transition: none; }
 .film-food-reveal { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 53%; opacity: var(--film-food-opacity); transform: scale(var(--film-food-scale)); pointer-events: none; }
 .film-curtain { position: absolute; inset: 0; z-index: 3; background: #030504; opacity: var(--film-curtain); pointer-events: none; }
@@ -306,11 +307,16 @@ body { background: var(--lux-night); }
 .scene-fallback .film-seat-invite { opacity: 1; pointer-events: auto; }
 
 @media (max-width: 700px) {
-  .film-journey { height: 500svh; }
-  .film-fallback-photo { object-position: 62% center; }
-  .film-opening { bottom: 20%; }
-  .film-opening h1 { font-size: clamp(1.95rem, 8vw, 3rem); letter-spacing: .09em; }
-  .film-opening button { margin-top: 2rem; }
+  .film-journey { height: 390svh; }
+  .film-fallback-photo, .film-sticky .cinematic-canvas { display: none; }
+  .film-mobile-scene { position: absolute; inset: 0; z-index: 1; display: block; overflow: hidden; background: #070a08; }
+  .film-mobile-scene img { position: absolute; display: block; max-width: none; pointer-events: none; }
+  .film-mobile-exterior-backdrop { inset: -2%; width: 104%; height: 104%; object-fit: cover; object-position: 50% 50%; opacity: var(--film-mobile-exterior-opacity, 1); transform: scale(1.05); filter: blur(8px) brightness(.42) saturate(.82); }
+  .film-mobile-exterior { top: 23%; left: 50%; width: 150%; height: auto; opacity: var(--film-mobile-exterior-opacity, 1); transform: translate3d(-50%, var(--film-mobile-shift, 0px), 0) scale(var(--film-mobile-scale, 1)); transform-origin: center 44%; filter: brightness(.9) saturate(.96); -webkit-mask-image: linear-gradient(180deg, transparent, #000 13%, #000 81%, transparent); mask-image: linear-gradient(180deg, transparent, #000 13%, #000 81%, transparent); }
+  .film-mobile-table { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 49% 52%; opacity: var(--film-mobile-table-opacity, 0); transform: translateY(var(--film-mobile-shift, 0px)) scale(1.04); filter: brightness(.64) saturate(.82); -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 69%, transparent 100%); mask-image: linear-gradient(180deg, #000 0%, #000 69%, transparent 100%); }
+  .film-opening { right: 1rem; bottom: 20%; left: 1rem; }
+  .film-opening h1 { max-width: 100%; font-size: clamp(1.85rem, 8vw, 3rem); letter-spacing: .065em; white-space: nowrap; }
+  .film-opening button { min-height: 2.75rem; margin-top: 1.4rem; font-size: .7rem; }
   .film-rooftop-copy { right: var(--lux-gutter); bottom: 19%; }
   .film-rooftop-copy p { font-size: clamp(2.4rem, 11vw, 4rem); }
   .film-table-copy { right: var(--lux-gutter); bottom: 21%; left: var(--lux-gutter); }
@@ -318,9 +324,81 @@ body { background: var(--lux-night); }
   .film-seat-invite { right: var(--lux-gutter); bottom: 18%; left: var(--lux-gutter); }
   .film-seat-invite span { font-size: clamp(2rem, 9vw, 3rem); }
   .film-food-reveal { object-position: 52% center; }
-  .film-progress { right: var(--lux-gutter); bottom: 5.3rem; left: var(--lux-gutter); gap: .7rem; font-size: .41rem; }
+  .film-progress { right: var(--lux-gutter); bottom: max(1.7rem, env(safe-area-inset-bottom)); left: var(--lux-gutter); gap: .7rem; font-size: .58rem; }
   .lux-header:not(.is-entered) .lux-menu-toggle { opacity: .48; }
   .scene-fallback .film-journey { height: 100svh; }
+}
+
+@media (max-width: 700px) {
+  .lux-shell { overflow-x: clip; }
+  .lux-signatures, .lux-editorial, .lux-gallery, .lux-review, .lux-visit { content-visibility: visible; contain-intrinsic-size: auto; }
+  .lux-nav { max-height: calc(100dvh - 4.6rem); overflow-y: auto; overscroll-behavior: contain; padding-bottom: max(1.15rem, env(safe-area-inset-bottom)); }
+  .lux-nav a, .lux-nav button, .lux-nav a:not(.lux-nav-book) { min-height: 2.75rem; font-size: .9rem; }
+  .lux-signatures-image { min-height: 0; height: 68vw; }
+  .lux-signatures-image img { object-position: 51% 50%; }
+  .lux-signatures-panel { padding-top: 3.4rem; padding-bottom: 4rem; }
+  .lux-signatures-intro, .lux-editorial-copy>div>p:not(.lux-overline), .lux-review-copy>div>p:not(.lux-overline), .lux-visit-copy>div>p:not(.lux-overline) { font-size: .94rem; line-height: 1.7; }
+  .lux-signature-tabs button { min-height: 3.25rem; font-size: 1.12rem; }
+  .lux-signature-detail>div { align-items: flex-start; flex-wrap: wrap; }
+  .lux-signature-detail p { min-height: 0; font-size: 1.12rem; }
+  .lux-editorial { gap: 2.6rem; padding-top: 4.4rem; padding-bottom: 4.5rem; }
+  .lux-editorial-image { height: 98vw; box-shadow: .6rem .6rem 0 rgba(113, 96, 65, .09); }
+  .lux-editorial-image img { object-position: 50% 52%; }
+  .lux-editorial-facts strong { font-size: .88rem; }
+  .lux-gallery { padding-top: 4.5rem; padding-bottom: 4.8rem; }
+  .lux-gallery-item { min-height: 0; }
+  .lux-gallery-item img { object-position: center; }
+  .lux-gallery-item-1 img { object-position: 50% 40%; }
+  .lux-gallery-item-2 img { object-position: 45% center; }
+  .lux-gallery-heading .lux-text-link, .lux-review .lux-text-link { min-height: 2.75rem; }
+  .lux-review { gap: 2.4rem; padding-top: 4.4rem; padding-bottom: 4.6rem; }
+  .lux-review-visual { height: 90vw; }
+  .lux-review-visual img { object-position: 57% 52%; }
+  .lux-review-score { flex-direction: row; align-items: flex-end; gap: 1rem; margin-bottom: 1.3rem; }
+  .lux-review-score strong { font-size: clamp(5.5rem, 25vw, 7.5rem); }
+  .lux-review-meta { padding-bottom: .8rem; }
+  .lux-review-meta span { font-size: .85rem; }
+  .lux-review-meta small { font-size: .7rem; }
+  .lux-visit { min-height: 100svh; padding-top: max(22rem, 46svh); padding-bottom: max(7rem, calc(5rem + env(safe-area-inset-bottom))); }
+  .lux-visit-image { top: 3.7rem; bottom: auto; left: -27.5%; width: 155%; height: auto; max-height: none; object-fit: contain; object-position: center top; filter: brightness(.95) saturate(.95); -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 60%, transparent 100%); }
+  .lux-visit-shade { background: linear-gradient(0deg, #050706 0%, rgba(5,7,6,.85) 36%, rgba(5,7,6,.04) 84%); }
+  .lux-visit-copy { position: relative; z-index: 1; }
+  .lux-visit-copy h2 { font-size: clamp(3.25rem, 12vw, 5rem); }
+  .lux-visit-actions { align-items: flex-start; flex-direction: column; gap: .55rem; }
+  .lux-visit-actions .lux-button, .lux-visit-actions .lux-order-link { min-height: 2.75rem; }
+  .lux-footer { gap: 1.2rem; padding-bottom: max(6rem, calc(4.6rem + env(safe-area-inset-bottom))); }
+  .lux-mobile-quick { bottom: max(.75rem, env(safe-area-inset-bottom)); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(.5rem); transition: opacity .3s ease, transform .3s ease, visibility .3s ease; }
+  .lux-header.is-entered ~ .lux-mobile-quick { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+  .lux-mobile-quick button { min-height: 2.75rem; font-size: .83rem; }
+  .menu-dialog-backdrop, .gallery-dialog-backdrop { overscroll-behavior: contain; }
+  .full-menu-dialog { height: 100dvh; max-height: 100dvh; }
+  .menu-dialog-body { overscroll-behavior: contain; }
+  .menu-toolbar { position: sticky; top: 0; z-index: 2; background: #10130f; }
+  .menu-category-nav button { min-height: 2.75rem; font-size: .8rem; }
+  .menu-search { height: 2.9rem; }
+  .menu-search input { font-size: 1rem; }
+  .menu-dish-scroll { padding-bottom: 2rem; }
+  .menu-dish-row { min-height: 3.2rem; }
+  .menu-dish-copy strong { font-size: 1.08rem; }
+  .menu-dish-copy small { font-size: .78rem; }
+  .menu-dish-price { font-size: .82rem; }
+  .menu-price-note { font-size: .72rem; }
+  .menu-mobile-choice { min-height: 4.9rem; padding-bottom: max(.65rem, env(safe-area-inset-bottom)); }
+  .menu-mobile-choice button { min-height: 2.75rem; font-size: .76rem; }
+  .menu-mobile-choice small { font-size: .68rem; }
+  .gallery-dialog { width: 100%; max-height: 100dvh; }
+  .gallery-dialog-image { height: min(64svh, 37rem); }
+  .gallery-controls button { min-width: 2.75rem; min-height: 2.75rem; }
+  .gallery-controls p { font-size: .75rem; }
+}
+
+@media (max-width: 380px) {
+  .film-mobile-exterior { top: 25%; width: 155%; }
+  .film-opening h1 { font-size: 1.8rem; letter-spacing: .045em; }
+  .lux-gallery-editorial { grid-template-rows: 74vw 46vw 54vw auto; }
+  .lux-gallery-whisper { padding: .8rem 0; }
+  .menu-mobile-choice { gap: .35rem; padding-right: .65rem; padding-left: .65rem; }
+  .menu-mobile-choice button { padding-right: .55rem; padding-left: .55rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

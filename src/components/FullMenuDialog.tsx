@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { fullMenu, fullMenuCount, type MenuItem } from '../data/fullMenu'
 import { cafe } from '../data/cafe'
+import { responsivePhotoSrcSet } from '../data/responsivePhoto'
 
 type Props = { onClose: () => void; initialSelection?: { category: string; name: string } | null }
 type SelectedDish = MenuItem & { category: string }
@@ -162,7 +163,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
           </div>
 
           <aside className="menu-food-side" aria-label="Mangosteen Cafe food photography">
-            <img className="menu-food-photo" src="/images/highres/mangosteen_original_2_8k.jpg" alt="A plated dish on a wooden table at Mangosteen Café" />
+            <img className="menu-food-photo" src="/images/highres/mangosteen_original_2_8k.jpg" srcSet={responsivePhotoSrcSet('/images/highres/mangosteen_original_2_8k.jpg')} sizes="100vw" alt="A plated dish on a wooden table at Mangosteen Café" />
             <div className="menu-food-caption">
               <p>{selectedDish.category.toUpperCase()} · MENU SELECTION</p>
               <h3>{selectedDish.name}</h3>
