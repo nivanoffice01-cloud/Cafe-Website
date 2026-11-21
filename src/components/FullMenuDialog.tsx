@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { fullMenu, fullMenuCount, type MenuItem } from '../data/fullMenu'
-import { cafe } from '../data/cafe'
 import { responsivePhotoSrcSet } from '../data/responsivePhoto'
 
 type Props = { onClose: () => void; initialSelection?: { category: string; name: string } | null }
 type SelectedDish = MenuItem & { category: string }
 
-const defaultDish: SelectedDish = { category: 'Small Plates', ...fullMenu.find((category) => category.name === 'Small Plates')!.items.find((item) => item.name === 'Arabic Mezze')! }
+const defaultDish: SelectedDish = { category: fullMenu[0].name, ...fullMenu[0].items[0] }
 
 const categoryNotes: Record<string, string> = {
   'Small Plates': 'For the first pour, and the stories that follow.',
@@ -24,8 +23,6 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
   const [selectedCategory, setSelectedCategory] = useState(initialDish.category)
   const [query, setQuery] = useState('')
   const [selectedDish, setSelectedDish] = useState<SelectedDish>(initialDish)
-  const [tableSelection, setTableSelection] = useState<SelectedDish[]>([])
-  const [copied, setCopied] = useState(false)
   const closeRef = useRef<HTMLButtonElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
 
@@ -84,23 +81,6 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
     }
   }
 
-  const toggleTable = (dish: SelectedDish) => {
-    setCopied(false)
-    setTableSelection((current) => current.some((entry) => entry.category === dish.category && entry.name === dish.name)
-      ? current.filter((entry) => entry.category !== dish.category || entry.name !== dish.name)
-      : [...current, dish])
-  }
-  const selectedForTable = tableSelection.some((dish) => dish.category === selectedDish.category && dish.name === selectedDish.name)
-  const copySelection = async () => {
-    const list = tableSelection.map((dish) => `• ${dish.name} — ₹${dish.price}`).join('\n')
-    try {
-      await navigator.clipboard.writeText(`An evening at Mangosteen Café\n${list}\n\nIndicative menu prices; confirm with the café.`)
-      setCopied(true)
-    } catch {
-      setCopied(false)
-    }
-  }
-
   return (
     <div className="menu-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
       <section className="full-menu-dialog" role="dialog" aria-modal="true" aria-labelledby="full-menu-heading">
@@ -117,6 +97,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
         <div className="menu-dialog-body">
           <div className="menu-book-pages">
             <div className="menu-toolbar">
+              <p className="menu-category-label">Explore the categories</p>
               <div className="menu-category-nav" aria-label="Menu categories">
                 {fullMenu.map((category, index) => (
                   <button
@@ -144,17 +125,21 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
                   <div className="menu-page-heading"><span>{category.name}</span><small>{category.items.length} items</small></div>
                   {!query && <p className="menu-chapter-note">{categoryNotes[category.name] ?? 'Take your time. There is always room for one more.'}</p>}
                   <div className="menu-dish-list">
-                    {category.items.map((item) => (
-                      <button
-                        key={`${category.name}-${item.name}`}
-                        type="button"
-                        className={`menu-dish-row${selectedDish.name === item.name && selectedDish.category === category.name ? ' is-active' : ''}`}
-                        onClick={() => { setSelectedCategory(category.name); setSelectedDish({ category: category.name, ...item }); setCopied(false) }}
-                      >
+                    {category.items.map((item) => {
+                      const content = <>
                         <span className="menu-dish-copy"><strong>{item.name}</strong>{item.description && <small>{item.description}</small>}</span>
-                        <span className="menu-dish-price">₹{item.price}{tableSelection.some((dish) => dish.category === category.name && dish.name === item.name) && <small>ON YOUR TABLE</small>}</span>
-                      </button>
-                    ))}
+                        <span className="menu-dish-price">₹{item.price}</span>
+                      </>
+                      return <div key={`${category.name}-${item.name}`}>
+                        <button
+                          type="button"
+                          className={`menu-dish-row menu-dish-row-desktop${selectedDish.name === item.name && selectedDish.category === category.name ? ' is-active' : ''}`}
+                          onClick={() => { setSelectedCategory(category.name); setSelectedDish({ category: category.name, ...item }) }}
+                          aria-label={`View ${item.name} details, ₹${item.price}`}
+                        >{content}</button>
+                        <div className="menu-dish-row menu-dish-row-mobile">{content}</div>
+                      </div>
+                    })}
                   </div>
                 </section>
               )) : <p className="menu-no-results">Nothing found for “{query}”. Try another dish.</p>}
@@ -165,25 +150,13 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
           <aside className="menu-food-side" aria-label="Mangosteen Cafe food photography">
             <img className="menu-food-photo" src="/images/highres/mangosteen_original_2_8k.jpg" srcSet={responsivePhotoSrcSet('/images/highres/mangosteen_original_2_8k.jpg')} sizes="100vw" alt="A plated dish on a wooden table at Mangosteen Café" />
             <div className="menu-food-caption">
-              <p>{selectedDish.category.toUpperCase()} · MENU SELECTION</p>
+              <p>{selectedDish.category.toUpperCase()} · FROM THE MENU</p>
               <h3>{selectedDish.name}</h3>
               {selectedDish.description && <span className="menu-food-description">{selectedDish.description}</span>}
               <span>₹{selectedDish.price}</span>
             </div>
-            <button className="menu-table-toggle" type="button" aria-pressed={selectedForTable} onClick={() => toggleTable(selectedDish)}>{selectedForTable ? 'Remove from your table' : 'Add to your table'} <span aria-hidden="true">{selectedForTable ? '−' : '+'}</span></button>
-            {tableSelection.length > 0 && <div className="menu-table-selection" aria-live="polite">
-              <p>YOUR TABLE <span>{tableSelection.length} {tableSelection.length === 1 ? 'SELECTION' : 'SELECTIONS'}</span></p>
-              <ul>{tableSelection.map((dish) => <li key={`${dish.category}-${dish.name}`}>{dish.name}</li>)}</ul>
-              <button type="button" onClick={copySelection}>{copied ? 'Copied to clipboard' : 'Copy this list'}</button>
-            </div>}
             <p className="menu-photo-note">Photography from Mangosteen Café; dish shown may differ from your selection.</p>
-            <a className="menu-order-link" href={cafe.orderingUrl} target="_blank" rel="noreferrer">Order online <span aria-hidden="true">↗</span></a>
           </aside>
-        </div>
-        <div className="menu-mobile-choice">
-          <span><small>SELECTED DISH · ₹{selectedDish.price}</small><strong>{selectedDish.name}</strong></span>
-          <button type="button" onClick={() => toggleTable(selectedDish)} aria-pressed={selectedForTable}>{selectedForTable ? 'Remove −' : 'Add +'}</button>
-          {tableSelection.length > 0 && <button type="button" className="menu-mobile-copy" onClick={copySelection}>{copied ? 'Copied' : `Copy ${tableSelection.length}`}</button>}
         </div>
       </section>
     </div>
