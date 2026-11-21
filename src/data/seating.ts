@@ -5,8 +5,8 @@ export type SeatCluster = {
   label: string
   capacity: number
   columns: number
-  x: number
-  y: number
+  column: 1 | 2 | 3
+  row: 1 | 2 | 3
 }
 
 // Schematic positions inspired by the supplied café photographs. These are not
@@ -17,14 +17,14 @@ export const seatingPlans: Record<SeatingZone, { name: string; orientation: stri
     orientation: 'OPEN EDGE · PLANTS & EVENING LIGHT',
     entry: 'ENTRY FROM INSIDE',
     clusters: [
-      { id: 'R1', label: 'Railside 01', capacity: 2, columns: 2, x: 12, y: 15 },
-      { id: 'R2', label: 'Railside 02', capacity: 2, columns: 2, x: 39, y: 15 },
-      { id: 'R3', label: 'Railside 03', capacity: 2, columns: 2, x: 68, y: 15 },
-      { id: 'G1', label: 'Garden 01', capacity: 4, columns: 2, x: 10, y: 46 },
-      { id: 'G2', label: 'Garden 02', capacity: 4, columns: 2, x: 38, y: 46 },
-      { id: 'C1', label: 'Canopy 01', capacity: 6, columns: 3, x: 68, y: 43 },
-      { id: 'L1', label: 'Lounge 01', capacity: 4, columns: 2, x: 14, y: 66 },
-      { id: 'L2', label: 'Lounge 02', capacity: 4, columns: 2, x: 47, y: 66 },
+      { id: 'R1', label: 'Railside 01', capacity: 2, columns: 2, column: 1, row: 1 },
+      { id: 'R2', label: 'Railside 02', capacity: 2, columns: 2, column: 2, row: 1 },
+      { id: 'R3', label: 'Railside 03', capacity: 2, columns: 2, column: 3, row: 1 },
+      { id: 'G1', label: 'Garden 01', capacity: 4, columns: 2, column: 1, row: 2 },
+      { id: 'G2', label: 'Garden 02', capacity: 4, columns: 2, column: 2, row: 2 },
+      { id: 'C1', label: 'Canopy 01', capacity: 6, columns: 3, column: 3, row: 2 },
+      { id: 'L1', label: 'Lounge 01', capacity: 4, columns: 2, column: 1, row: 3 },
+      { id: 'L2', label: 'Lounge 02', capacity: 4, columns: 2, column: 2, row: 3 },
     ],
   },
   inside: {
@@ -32,13 +32,13 @@ export const seatingPlans: Record<SeatingZone, { name: string; orientation: stri
     orientation: 'WINDOWS · WOVEN LIGHTS',
     entry: 'ENTRY / SERVICE',
     clusters: [
-      { id: 'W1', label: 'Window 01', capacity: 4, columns: 2, x: 9, y: 13 },
-      { id: 'W2', label: 'Window 02', capacity: 4, columns: 2, x: 9, y: 50 },
-      { id: 'D1', label: 'Dining 01', capacity: 6, columns: 3, x: 39, y: 17 },
-      { id: 'D2', label: 'Dining 02', capacity: 4, columns: 2, x: 41, y: 56 },
-      { id: 'S1', label: 'Sofa 01', capacity: 4, columns: 2, x: 73, y: 16 },
-      { id: 'S2', label: 'Sofa 02', capacity: 2, columns: 2, x: 74, y: 58 },
-      { id: 'B1', label: 'Bar side', capacity: 2, columns: 2, x: 73, y: 78 },
+      { id: 'W1', label: 'Window 01', capacity: 4, columns: 2, column: 1, row: 1 },
+      { id: 'W2', label: 'Window 02', capacity: 4, columns: 2, column: 1, row: 2 },
+      { id: 'D1', label: 'Dining 01', capacity: 6, columns: 3, column: 2, row: 1 },
+      { id: 'D2', label: 'Dining 02', capacity: 4, columns: 2, column: 2, row: 2 },
+      { id: 'S1', label: 'Sofa 01', capacity: 4, columns: 2, column: 3, row: 1 },
+      { id: 'S2', label: 'Sofa 02', capacity: 2, columns: 2, column: 3, row: 2 },
+      { id: 'B1', label: 'Bar side', capacity: 2, columns: 2, column: 3, row: 3 },
     ],
   },
 }

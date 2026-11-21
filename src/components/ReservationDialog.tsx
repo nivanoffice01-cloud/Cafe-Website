@@ -117,7 +117,7 @@ export function ReservationDialog({ onClose }: Props) {
           <div className="reservation-map-scroll"><div className="reservation-seat-map" aria-label={`${plan.name} schematic seating map`}>
             <div className="reservation-map-edge">{plan.orientation}</div>
             <div className="reservation-map-aisle" aria-hidden="true"/>
-            {plan.clusters.map((cluster) => <div key={cluster.id} className={`reservation-cluster${cluster.capacity < guests ? ' is-small' : ''}`} style={{ left: `${cluster.x}%`, top: `${cluster.y}%`, gridTemplateColumns: `repeat(${cluster.columns}, 2.65rem)` }}>
+            {plan.clusters.map((cluster) => <div key={cluster.id} className={`reservation-cluster${cluster.capacity < guests ? ' is-small' : ''}`} style={{ gridColumn: cluster.column, gridRow: cluster.row, gridTemplateColumns: `repeat(${cluster.columns}, 2.65rem)` }}>
               <span className="reservation-cluster-name">{cluster.label}</span>
               {seatsFor(cluster).map((seatId) => <button key={seatId} type="button" className={`reservation-seat${selectedSeats.includes(seatId) ? ' is-selected' : ''}`} aria-label={`${cluster.label}, seat ${seatId.split('-')[1]}${cluster.capacity < guests ? ', too small for your party' : ''}`} aria-pressed={selectedSeats.includes(seatId)} disabled={cluster.capacity < guests} onClick={() => toggleSeat(cluster.id, seatId)}><span>{seatId.split('-')[1]}</span></button>)}
             </div>)}

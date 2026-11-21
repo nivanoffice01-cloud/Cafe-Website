@@ -42,13 +42,13 @@
 .reservation-zone-switch button.is-selected::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; background: #d6b783; content: ''; }
 .reservation-map-swipe { display: none; }
 .reservation-map-scroll { overflow-x: auto; border: 1px solid rgba(215, 196, 163, .24); scrollbar-width: thin; scrollbar-color: #6f6959 transparent; }
-.reservation-seat-map { position: relative; width: 100%; min-width: 680px; height: 29.5rem; overflow: hidden; background: repeating-linear-gradient(0deg, transparent 0, transparent 45px, rgba(236, 224, 197, .035) 46px), repeating-linear-gradient(90deg, transparent 0, transparent 45px, rgba(236, 224, 197, .035) 46px), #171d18; }
+.reservation-seat-map { position: relative; display: grid; width: 100%; min-width: 680px; min-height: 33rem; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(8rem, 1fr)); align-items: center; justify-items: center; column-gap: .75rem; row-gap: 1rem; padding: 3.7rem 1.7rem 3rem; background: repeating-linear-gradient(0deg, transparent 0, transparent 45px, rgba(236, 224, 197, .035) 46px), repeating-linear-gradient(90deg, transparent 0, transparent 45px, rgba(236, 224, 197, .035) 46px), #171d18; }
 .reservation-seat-map::before { position: absolute; inset: 3.3rem 1.6rem 2.6rem; border: 1px solid rgba(213, 183, 132, .2); border-radius: 8rem 8rem .35rem .35rem; content: ''; pointer-events: none; }
 .reservation-map-edge, .reservation-map-entry { position: absolute; right: 1rem; left: 1rem; color: #a9987b; font-size: .67rem; font-weight: 600; letter-spacing: .17em; text-align: center; }
 .reservation-map-edge { top: .85rem; }
 .reservation-map-entry { bottom: .7rem; }
 .reservation-map-aisle { position: absolute; top: 4.2rem; bottom: 2.6rem; left: 34%; border-left: 1px dashed rgba(230, 213, 178, .14); pointer-events: none; }
-.reservation-cluster { position: absolute; display: grid; gap: .3rem; justify-items: center; }
+.reservation-cluster { position: relative; z-index: 1; display: grid; gap: .3rem; justify-items: center; }
 .reservation-cluster-name { grid-column: 1 / -1; justify-self: center; margin-bottom: .18rem; color: #b4ac98; font-size: .62rem; letter-spacing: .1em; white-space: nowrap; }
 .reservation-seat { position: relative; display: grid; width: 2.65rem; height: 2.55rem; place-items: center; border: 1px solid rgba(220, 197, 159, .52); border-radius: .55rem .55rem .3rem .3rem; color: #e9dfcf; background: #283229; font-size: .75rem; cursor: pointer; transition: transform .2s ease, color .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease; }
 .reservation-seat::after { position: absolute; right: .38rem; bottom: -.23rem; left: .38rem; height: .22rem; border: 1px solid rgba(220, 197, 159, .5); border-radius: 0 0 .18rem .18rem; background: inherit; content: ''; }
@@ -88,10 +88,10 @@
 @media (max-width: 700px) {
   .reservation-map-swipe { display: block; margin: -.35rem 0 .7rem; color: #b9a786; font-size: .72rem; }
   .reservation-map-scroll { overflow: visible; margin-right: 0; }
-  .reservation-seat-map { display: grid; width: 100%; min-width: 0; height: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; justify-items: center; gap: 1.45rem .4rem; padding: 3.5rem .55rem 3.25rem; overflow: visible; }
+  .reservation-seat-map { width: 100%; min-width: 0; min-height: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-rows: minmax(6.5rem, auto); gap: 1.45rem .4rem; padding: 3.5rem .55rem 3.25rem; }
   .reservation-seat-map::before { inset: 2.8rem .5rem 2.45rem; border-radius: 3rem 3rem .35rem .35rem; }
   .reservation-map-aisle { display: none; }
-  .reservation-cluster { position: relative; top: auto !important; left: auto !important; max-width: 100%; }
+  .reservation-cluster { grid-column: auto !important; grid-row: auto !important; max-width: 100%; }
   .reservation-map-edge, .reservation-map-entry { right: .3rem; left: .3rem; }
   .reservation-times button { min-height: 2.75rem; }
   .reservation-counter button { width: 2.75rem; height: 2.75rem; }
