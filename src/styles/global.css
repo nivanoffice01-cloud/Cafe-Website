@@ -191,8 +191,8 @@ button.text-link { appearance: none; border-top: 0; border-right: 0; border-left
 .gallery-close, .gallery-controls button { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; gap: .75rem; padding: 0 .8rem; border: 1px solid rgba(237,225,203,.28); color: #eee9df; background: transparent; cursor: pointer; }
 .gallery-close { flex: 0 0 auto; }
 .gallery-close span { color: #d6b283; font-size: 1.1rem; }
-.gallery-dialog-image { position: relative; display: grid; min-width: 0; min-height: 0; overflow: hidden; margin: 0; place-items: center; background: #080a09; }
-.gallery-dialog-image img { width: 100%; height: 100%; object-fit: contain; }
+.gallery-dialog-image { position: relative; min-width: 0; min-height: 0; overflow: hidden; margin: 0; background: #080a09; }
+.gallery-dialog-image img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; }
 .gallery-dialog-image figcaption { position: absolute; right: 0; bottom: 0; left: 0; display: flex; justify-content: space-between; gap: 1rem; padding: 1.7rem 1rem .85rem; color: #f0e8db; background: linear-gradient(transparent, rgba(0,0,0,.7)); font-size: .7rem; }
 .gallery-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: .8rem; }
 .gallery-controls p { color: #aead9f; font-size: .65rem; text-align: center; }
