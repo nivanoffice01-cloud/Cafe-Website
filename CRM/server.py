@@ -317,10 +317,10 @@ def seed_database(connection: sqlite3.Connection) -> None:
         )
 
     campaigns = [
-        ("Weekend coffee ritual", "WhatsApp", "Sent 19 Nov", "Delivered", 248, 82, 32, 38400, "WEEKEND20", "Your weekend coffee ritual awaits.", "linear-gradient(135deg, #173d32, #286b57)"),
-        ("November birthday treat", "WhatsApp", "Active until 30 Nov", "Active", 34, 88, 11, 16950, "BDAY", "A birthday dessert is waiting for you.", "linear-gradient(135deg, #6a2855, #9b4d7e)"),
-        ("We miss you, come back", "Email + WhatsApp", "Scheduled 24 Nov", "Scheduled", 68, None, 0, 0, "COMEBACK", "It has been a while. Enjoy a warm welcome back.", "linear-gradient(135deg, #805a27, #c18a3c)"),
-        ("Chef's winter menu", "Email", "Draft updated today", "Draft", 0, None, 0, 0, "", "A first look at the new winter menu.", "linear-gradient(135deg, #3e5577, #6384b5)"),
+        ("Weekend coffee ritual", "WhatsApp", "Sent 19 Nov", "Delivered", 248, 82, 32, 38400, "WEEKEND20", "Your weekend coffee ritual awaits.", "linear-gradient(135deg, #0b1730, #3156c8)"),
+        ("November birthday treat", "WhatsApp", "Active until 30 Nov", "Active", 34, 88, 11, 16950, "BDAY", "A birthday dessert is waiting for you.", "linear-gradient(135deg, #261548, #6b4bc3)"),
+        ("We miss you, come back", "Email + WhatsApp", "Scheduled 24 Nov", "Scheduled", 68, None, 0, 0, "COMEBACK", "It has been a while. Enjoy a warm welcome back.", "linear-gradient(135deg, #503719, #b98b43)"),
+        ("Chef's winter menu", "Email", "Draft updated today", "Draft", 0, None, 0, 0, "", "A first look at the new winter menu.", "linear-gradient(135deg, #17243c, #315b83)"),
     ]
     connection.executemany(
         """INSERT INTO campaigns
@@ -447,6 +447,16 @@ def init_database() -> None:
         connection.executemany(
             "INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)",
             [(key, json.dumps(value)) for key, value in additions.items()],
+        )
+        campaign_palette = {
+            "linear-gradient(135deg, #173d32, #286b57)": "linear-gradient(135deg, #0b1730, #3156c8)",
+            "linear-gradient(135deg, #6a2855, #9b4d7e)": "linear-gradient(135deg, #261548, #6b4bc3)",
+            "linear-gradient(135deg, #805a27, #c18a3c)": "linear-gradient(135deg, #503719, #b98b43)",
+            "linear-gradient(135deg, #3e5577, #6384b5)": "linear-gradient(135deg, #17243c, #315b83)",
+        }
+        connection.executemany(
+            "UPDATE campaigns SET background=? WHERE background=?",
+            [(new, old) for old, new in campaign_palette.items()],
         )
         connection.commit()
     ensure_daily_backup()
@@ -1179,7 +1189,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                            VALUES (?, ?, ?, ?, ?, NULL, 0, 0, ?, ?, ?, ?)""",
                         (name, body.get("channel", "WhatsApp"), "Scheduled from CRM" if status == "Scheduled" else "Draft created just now", status, audience,
                          str(body.get("offer", "")).strip(), str(body.get("message", "")).strip(),
-                         "linear-gradient(135deg, #173d32, #7a2f62)", now_iso()),
+                         "linear-gradient(135deg, #0b1730, #3f5ee8)", now_iso()),
                     )
                     connection.commit()
                     self.send_json({"id": cursor.lastrowid}, HTTPStatus.CREATED)

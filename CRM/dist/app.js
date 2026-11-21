@@ -252,7 +252,7 @@ function shell() {
       <aside class="sidebar ${state.sidebarOpen ? 'open' : ''}" id="sidebar">
         <div class="brand">
           <div class="brand-mark">${icon('coffee')}</div>
-          <div class="brand-copy"><strong>${escapeHtml(businessName.replace(/\s+Cafe$/i, ''))}</strong><span>Guest CRM</span></div>
+          <div class="brand-copy"><strong>${escapeHtml(businessName.replace(/\s+Cafe$/i, ''))}</strong><span>Guest Intelligence</span></div>
         </div>
         <div class="nav-label">Workspace</div>
         <nav class="nav-list" aria-label="Main navigation">
@@ -266,7 +266,7 @@ function shell() {
             <div class="tiny-avatar">${userInitials}</div>
             <div><strong>${escapeHtml(user.name)}</strong><span>${escapeHtml(user.role)} workspace</span></div>
           </div>
-          <div class="demo-pill">Local database active</div>
+          <div class="demo-pill">Private data layer active</div>
         </div>
       </aside>
       <div class="mobile-overlay ${state.sidebarOpen ? 'open' : ''}" data-action="close-sidebar"></div>
@@ -291,8 +291,8 @@ function shell() {
         <div class="page-wrap">
           <div class="demo-banner">
             ${icon('sparkles')}
-            <span><strong>Local functional workspace.</strong> Changes are saved to SQLite on this Mac. Initial records are sample data.</span>
-            <button data-action="reset-demo">Reset demo data</button>
+            <span><strong>Private operating workspace.</strong> Data stays on this Mac; website requests arrive here as pending.</span>
+            <button data-action="reset-demo">Rebuild sample data</button>
           </div>
           <div id="page-content">${renderPage()}</div>
         </div>
@@ -344,7 +344,7 @@ function lineChart(values = [], labels = [], accessibleLabel = 'CRM trend over t
   const area = `${path} L ${points.at(-1).x} ${height - bottom} L ${points[0].x} ${height - bottom} Z`;
   return `
     <svg class="line-chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="${escapeHtml(accessibleLabel)}">
-      <defs><linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7a2f62" stop-opacity=".22"/><stop offset="100%" stop-color="#7a2f62" stop-opacity="0"/></linearGradient></defs>
+      <defs><linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3f5ee8" stop-opacity=".22"/><stop offset="100%" stop-color="#3f5ee8" stop-opacity="0"/></linearGradient></defs>
       ${[25, 55, 85, 115].map((y) => `<line class="chart-grid-line" x1="12" x2="668" y1="${y}" y2="${y}"/>`).join('')}
       <path class="chart-area" d="${area}"/><path class="chart-line" d="${path}"/>
       ${points.map((point) => `<circle class="chart-point" cx="${point.x}" cy="${point.y}" r="3"/>`).join('')}
@@ -363,23 +363,23 @@ function renderDashboard() {
   const chartChange = previous ? (latest - previous) / previous * 100 : 0;
   const todayReservations = analytics.todayReservations.slice().sort((a, b) => a.time.localeCompare(b.time));
   const activityStyles = {
-    customer: ['userPlus', '#edf5f2', '#205243'], reward: ['gift', '#f4e8f0', '#7a2f62'],
-    reservation: ['calendar', '#fbf1df', '#a36a1f'], feedback: ['star', '#eaf0f9', '#4d76b8'],
+    customer: ['userPlus', '#eef2ff', '#3853c5'], reward: ['gift', '#f2efff', '#6b4bc3'],
+    reservation: ['calendar', '#faf3e7', '#936723'], feedback: ['star', '#edf1ff', '#3f5ee8'],
     alert: ['alert', '#faeaea', '#c45252'],
   };
   const slots = [
-    { label: '4:00–6:00 PM', min: '16:00', max: '18:00', color: '#4d76b8' },
-    { label: '6:00–8:00 PM', min: '18:00', max: '20:00', color: '#d99a3e' },
-    { label: '8:00–10:00 PM', min: '20:00', max: '22:00', color: '#7a2f62' },
+    { label: '4:00–6:00 PM', min: '16:00', max: '18:00', color: '#3f5ee8' },
+    { label: '6:00–8:00 PM', min: '18:00', max: '20:00', color: '#c59a55' },
+    { label: '8:00–10:00 PM', min: '20:00', max: '22:00', color: '#6b4bc3' },
   ].map((slot) => ({ ...slot, value: Math.min(100, todayReservations.filter((item) => item.time >= slot.min && item.time < slot.max).reduce((sum, item) => sum + item.guests, 0) / 25 * 100) }));
   const reservationActions = `<button class="btn" data-action="export-report">${icon('download')} Export</button><button class="btn btn-primary" data-action="add-reservation">${icon('plus')} New reservation</button>`;
   return `
     ${pageHeader('Overview', `Good afternoon, ${escapeHtml((data.user?.name || 'there').split(' ')[0])}`, 'Here is what is happening with your guests and cafe today.', reservationActions)}
     <section class="stat-grid">
-      ${statCard({ iconName: 'wallet', value: inr(analytics.monthRevenue), label: 'Customer-linked revenue this month', trend: `${analytics.totalCustomers} profiles`, accent: '#205243', soft: '#edf5f2', glow: 'rgba(32,82,67,.09)' })}
-      ${statCard({ iconName: 'users', value: analytics.totalCustomers.toLocaleString('en-IN'), label: 'Known customers', trend: `${analytics.consented} opted in`, accent: '#7a2f62', soft: '#f4e8f0', glow: 'rgba(122,47,98,.08)' })}
-      ${statCard({ iconName: 'calendar', value: analytics.todayReservations.length.toString(), label: 'Reservations today', trend: `${analytics.todayGuests} guests`, accent: '#a36a1f', soft: '#fbf1df', glow: 'rgba(217,154,62,.11)' })}
-      ${statCard({ iconName: 'gift', value: `${analytics.returningRate.toFixed(0)}%`, label: 'Returning customer rate', trend: `${analytics.returningCustomers} returning`, accent: '#4d76b8', soft: '#eaf0f9', glow: 'rgba(77,118,184,.09)' })}
+      ${statCard({ iconName: 'wallet', value: inr(analytics.monthRevenue), label: 'Customer-linked revenue this month', trend: `${analytics.totalCustomers} profiles`, accent: '#294a86', soft: '#edf3fb', glow: 'rgba(41,74,134,.10)' })}
+      ${statCard({ iconName: 'users', value: analytics.totalCustomers.toLocaleString('en-IN'), label: 'Known customers', trend: `${analytics.consented} opted in`, accent: '#3f5ee8', soft: '#eef1ff', glow: 'rgba(63,94,232,.10)' })}
+      ${statCard({ iconName: 'calendar', value: analytics.todayReservations.length.toString(), label: 'Reservations today', trend: `${analytics.todayGuests} guests`, accent: '#9b702b', soft: '#faf3e7', glow: 'rgba(197,154,85,.12)' })}
+      ${statCard({ iconName: 'gift', value: `${analytics.returningRate.toFixed(0)}%`, label: 'Returning customer rate', trend: `${analytics.returningCustomers} returning`, accent: '#6b4bc3', soft: '#f2efff', glow: 'rgba(107,75,195,.10)' })}
     </section>
     <section class="dashboard-grid">
       <article class="panel">
@@ -407,7 +407,7 @@ function renderDashboard() {
       <article class="panel">
         <div class="panel-header"><div class="panel-title"><h2>Guest recovery</h2><p>Tasks needing attention</p></div><span class="status high">2 urgent</span></div>
         <div class="panel-body task-list">
-          ${analytics.openTasks.slice(0, 3).map((task) => `<div class="task-item"><span class="activity-icon" style="--soft:${task.priority === 'High' ? '#faeaea' : '#fbf1df'};--accent:${task.priority === 'High' ? '#c45252' : '#a36a1f'}">${icon(task.type === 'Reservation' ? 'cake' : 'alert')}</span><div class="task-copy"><strong>${escapeHtml(task.title)}</strong><p>${escapeHtml(task.details)}${task.dueAt ? ` · Due ${displayTime(task.dueAt)}` : ''}</p></div><button class="btn btn-small" data-action="complete-task" data-id="${task.id}">Resolve</button></div>`).join('') || '<div class="empty-state"><p>No open tasks. Nice work.</p></div>'}
+          ${analytics.openTasks.slice(0, 3).map((task) => `<div class="task-item"><span class="activity-icon" style="--soft:${task.priority === 'High' ? '#fcecef' : '#faf3e7'};--accent:${task.priority === 'High' ? '#c5444f' : '#936723'}">${icon(task.type === 'Reservation' ? 'cake' : 'alert')}</span><div class="task-copy"><strong>${escapeHtml(task.title)}</strong><p>${escapeHtml(task.details)}${task.dueAt ? ` · Due ${displayTime(task.dueAt)}` : ''}</p></div><button class="btn btn-small" data-action="complete-task" data-id="${task.id}">Resolve</button></div>`).join('') || '<div class="empty-state"><p>No open tasks. Nice work.</p></div>'}
         </div>
       </article>
       <article class="panel">
@@ -473,7 +473,7 @@ function renderReservations() {
     return { key: localDateKey(value), weekday: new Intl.DateTimeFormat('en-IN', { weekday: 'short' }).format(value), label: new Intl.DateTimeFormat('en-IN', { day: '2-digit', month: 'short' }).format(value) };
   });
   const times = ['16:00', '17:00', '18:00', '19:00', '20:00'];
-  const eventColors = { Confirmed: ['#205243', '#edf5f2'], Pending: ['#a36a1f', '#fbf1df'], Completed: ['#4d76b8', '#eaf0f9'], 'No-show': ['#c45252', '#faeaea'] };
+  const eventColors = { Confirmed: ['#18735d', '#e9f7f2'], Pending: ['#936723', '#faf3e7'], Completed: ['#3f5ee8', '#edf1ff'], 'No-show': ['#c5444f', '#fcecef'] };
   let calendar = `<div class="calendar-head"></div>${days.map((day) => `<div class="calendar-head">${day.weekday}<span>${day.label}</span></div>`).join('')}`;
   times.forEach((time) => {
     calendar += `<div class="calendar-time">${displayTime(time)}</div>`;
@@ -516,10 +516,10 @@ function renderLoyalty() {
   const featured = data.customers.slice().sort((a, b) => b.points - a.points)[0] || { name: 'No member yet', tier: 'Member', points: 0 };
   const settings = data.settings || {};
   const tierRules = [
-    ['Platinum', `${inr(settings.tier_platinum || 35000)} lifetime spend · 2× points`, '#f4e8f0', '#7a2f62', 'award'],
-    ['Gold', `${inr(settings.tier_gold || 18000)} lifetime spend · 1.5× points`, '#fbf1df', '#a36a1f', 'award'],
+    ['Platinum', `${inr(settings.tier_platinum || 35000)} lifetime spend · 2× points`, '#eef1ff', '#3f5ee8', 'award'],
+    ['Gold', `${inr(settings.tier_gold || 18000)} lifetime spend · 1.5× points`, '#faf3e7', '#936723', 'award'],
     ['Silver', `${inr(settings.tier_silver || 8000)} lifetime spend · 1.2× points`, '#eef1f2', '#637077', 'award'],
-    ['Member', 'Joined the Circle · 1× points', '#edf5f2', '#205243', 'users'],
+    ['Member', 'Joined the Circle · 1× points', '#edf3fb', '#294a86', 'users'],
   ];
   const actions = `<button class="btn" data-action="adjust-points">${icon('edit')} Adjust points</button><button class="btn btn-primary" data-action="new-reward">${icon('plus')} Create reward</button>`;
   return `
@@ -546,7 +546,7 @@ function renderLoyalty() {
     <article class="panel">
       <div class="panel-header"><div class="panel-title"><h2>Reward catalogue</h2><p>Live and upcoming member benefits</p></div><button class="btn btn-small">View redemptions</button></div>
       <div class="table-wrap"><table class="data-table"><thead><tr><th>Reward</th><th>Cost</th><th>Eligibility</th><th>Redemptions</th><th>Expiry</th><th>Status</th><th></th></tr></thead><tbody>
-        ${data.rewards.map((reward, index) => `<tr><td><div class="customer-cell"><span class="activity-icon" style="--soft:${index % 2 ? '#edf5f2' : '#f4e8f0'};--accent:${index % 2 ? '#205243' : '#7a2f62'}">${icon(index % 2 ? 'coffee' : 'gift')}</span><div><strong>${escapeHtml(reward.name)}</strong><span>${escapeHtml(reward.description)}</span></div></div></td><td><strong>${reward.points ? `${reward.points.toLocaleString('en-IN')} points` : 'Complimentary'}</strong></td><td>${escapeHtml(reward.eligibility)}</td><td>${reward.redemptions}</td><td>${escapeHtml(reward.expiry)}</td><td>${statusPill(reward.status)}</td><td><button class="icon-btn" style="width:30px;height:30px">${icon('more')}</button></td></tr>`).join('') || '<tr><td colspan="7">No rewards created yet.</td></tr>'}
+        ${data.rewards.map((reward, index) => `<tr><td><div class="customer-cell"><span class="activity-icon" style="--soft:${index % 2 ? '#edf3fb' : '#eef1ff'};--accent:${index % 2 ? '#294a86' : '#3f5ee8'}">${icon(index % 2 ? 'coffee' : 'gift')}</span><div><strong>${escapeHtml(reward.name)}</strong><span>${escapeHtml(reward.description)}</span></div></div></td><td><strong>${reward.points ? `${reward.points.toLocaleString('en-IN')} points` : 'Complimentary'}</strong></td><td>${escapeHtml(reward.eligibility)}</td><td>${reward.redemptions}</td><td>${escapeHtml(reward.expiry)}</td><td>${statusPill(reward.status)}</td><td><button class="icon-btn" style="width:30px;height:30px">${icon('more')}</button></td></tr>`).join('') || '<tr><td colspan="7">No rewards created yet.</td></tr>'}
       </tbody></table></div>
     </article>`;
 }
@@ -607,7 +607,7 @@ function renderFeedback() {
         <article class="panel" style="margin-bottom:16px">
           <div class="panel-header"><div class="panel-title"><h2>Rating breakdown</h2><p>Last 90 days</p></div></div>
           <div class="panel-body"><div class="rating-large"><strong>${analytics.feedbackAverage.toFixed(1)}</strong><div>${stars(Math.round(analytics.feedbackAverage))}<span>${data.feedback.length} connected responses</span></div></div><div class="rating-bars">
-            ${analytics.ratingCounts.map(({ rating, count }) => { const value = data.feedback.length ? count / data.feedback.length * 100 : 0; return `<div class="rating-bar"><span>${rating} ★</span><div class="progress-track"><div class="progress-fill" style="width:${value}%;--fill:${rating > 3 ? '#286b57' : rating === 3 ? '#d99a3e' : '#c45252'}"></div></div><strong>${value.toFixed(0)}%</strong></div>`; }).join('')}
+            ${analytics.ratingCounts.map(({ rating, count }) => { const value = data.feedback.length ? count / data.feedback.length * 100 : 0; return `<div class="rating-bar"><span>${rating} ★</span><div class="progress-track"><div class="progress-fill" style="width:${value}%;--fill:${rating > 3 ? '#18735d' : rating === 3 ? '#c59a55' : '#c5444f'}"></div></div><strong>${value.toFixed(0)}%</strong></div>`; }).join('')}
           </div></div>
         </article>
         <article class="panel">
@@ -627,7 +627,7 @@ function renderReports() {
   const metrics = data.monthlyMetrics || [];
   const revenueValues = metrics.map((item) => Number(item.revenue || 0));
   const labels = metrics.map((item) => new Intl.DateTimeFormat('en-IN', { month: 'short' }).format(new Date(`${item.month}-01T12:00:00`)));
-  const tierColors = { Member: '#7a2f62', Silver: '#286b57', Gold: '#d99a3e', Platinum: '#dfe5e1' };
+  const tierColors = { Member: '#3f5ee8', Silver: '#72809a', Gold: '#c59a55', Platinum: '#b9c5e8' };
   const tierMix = ['Member', 'Silver', 'Gold', 'Platinum'].map((tier) => ({ tier, count: data.customers.filter((item) => item.tier === tier).length }));
   let cursor = 0;
   const stops = tierMix.map((item) => { const start = cursor; cursor += analytics.totalCustomers ? item.count / analytics.totalCustomers * 100 : 0; return `${tierColors[item.tier]} ${start.toFixed(1)}% ${cursor.toFixed(1)}%`; }).join(', ');
@@ -640,10 +640,10 @@ function renderReports() {
   return `
     ${pageHeader('Performance intelligence', 'Reports & insights', 'Understand which guests return, what they value and which actions create measurable revenue.', actions)}
     <section class="stat-grid">
-      ${statCard({ iconName: 'rupee', value: inr(analytics.lifetimeRevenue), label: 'Customer lifetime revenue', trend: `${inr(analytics.monthRevenue)} this month`, accent: '#205243', soft: '#edf5f2', glow: 'rgba(32,82,67,.09)' })}
-      ${statCard({ iconName: 'users', value: `${analytics.returningRate.toFixed(0)}%`, label: 'Returning customer rate', trend: `${analytics.returningCustomers} customers`, accent: '#7a2f62', soft: '#f4e8f0', glow: 'rgba(122,47,98,.08)' })}
-      ${statCard({ iconName: 'wallet', value: inr(analytics.averageSpend), label: 'Average known-guest spend', trend: `${analytics.totalCustomers} profiles`, accent: '#a36a1f', soft: '#fbf1df', glow: 'rgba(217,154,62,.11)' })}
-      ${statCard({ iconName: 'target', value: `${analytics.campaignConversion.toFixed(1)}%`, label: 'Campaign conversion', trend: `${analytics.totalRedemptions} redemptions`, accent: '#4d76b8', soft: '#eaf0f9', glow: 'rgba(77,118,184,.09)' })}
+      ${statCard({ iconName: 'rupee', value: inr(analytics.lifetimeRevenue), label: 'Customer lifetime revenue', trend: `${inr(analytics.monthRevenue)} this month`, accent: '#294a86', soft: '#edf3fb', glow: 'rgba(41,74,134,.10)' })}
+      ${statCard({ iconName: 'users', value: `${analytics.returningRate.toFixed(0)}%`, label: 'Returning customer rate', trend: `${analytics.returningCustomers} customers`, accent: '#3f5ee8', soft: '#eef1ff', glow: 'rgba(63,94,232,.10)' })}
+      ${statCard({ iconName: 'wallet', value: inr(analytics.averageSpend), label: 'Average known-guest spend', trend: `${analytics.totalCustomers} profiles`, accent: '#936723', soft: '#faf3e7', glow: 'rgba(197,154,85,.12)' })}
+      ${statCard({ iconName: 'target', value: `${analytics.campaignConversion.toFixed(1)}%`, label: 'Campaign conversion', trend: `${analytics.totalRedemptions} redemptions`, accent: '#6b4bc3', soft: '#f2efff', glow: 'rgba(107,75,195,.10)' })}
     </section>
     <div class="report-layout">
       <article class="panel">
@@ -656,10 +656,10 @@ function renderReports() {
       </article>
     </div>
     <section class="report-cards" style="margin-top:16px">
-      <article class="report-card"><div class="report-card-top"><h3>Guest retention</h3><span class="activity-icon">${icon('users')}</span></div><p>Customers with two or more visits</p><div class="report-number">${analytics.returningRate.toFixed(1)}%</div><div class="progress-track"><div class="progress-fill" style="width:${analytics.returningRate}%;--fill:#286b57"></div></div><p class="report-note">${analytics.returningCustomers} returning customers</p></article>
-      <article class="report-card"><div class="report-card-top"><h3>Loyalty engagement</h3><span class="activity-icon" style="--soft:#f4e8f0;--accent:#7a2f62">${icon('gift')}</span></div><p>Current member point balances</p><div class="report-number">${analytics.totalPoints.toLocaleString('en-IN')}</div><div class="progress-track"><div class="progress-fill" style="width:${Math.min(100, analytics.activeMembers / Math.max(1, analytics.totalCustomers) * 100)}%;--fill:#7a2f62"></div></div><p class="report-note">${analytics.totalRewardRedemptions} recorded reward redemptions</p></article>
-      <article class="report-card"><div class="report-card-top"><h3>Reservations</h3><span class="activity-icon" style="--soft:#eaf0f9;--accent:#4d76b8">${icon('calendar')}</span></div><p>Completed stored bookings</p><div class="report-number">${completed}</div><div class="progress-track"><div class="progress-fill" style="width:${completedRate}%;--fill:#4d76b8"></div></div><p class="report-note">${completedRate.toFixed(0)}% completed vs no-show</p></article>
-      <article class="report-card"><div class="report-card-top"><h3>Service recovery</h3><span class="activity-icon" style="--soft:#fbf1df;--accent:#a36a1f">${icon('checkCircle')}</span></div><p>Feedback cases resolved</p><div class="report-number">${recoveryRate.toFixed(0)}%</div><div class="progress-track"><div class="progress-fill" style="width:${recoveryRate}%;--fill:#d99a3e"></div></div><p class="report-note">${analytics.openFeedback} case${analytics.openFeedback === 1 ? '' : 's'} still open</p></article>
+      <article class="report-card"><div class="report-card-top"><h3>Guest retention</h3><span class="activity-icon">${icon('users')}</span></div><p>Customers with two or more visits</p><div class="report-number">${analytics.returningRate.toFixed(1)}%</div><div class="progress-track"><div class="progress-fill" style="width:${analytics.returningRate}%;--fill:#18735d"></div></div><p class="report-note">${analytics.returningCustomers} returning customers</p></article>
+      <article class="report-card"><div class="report-card-top"><h3>Loyalty engagement</h3><span class="activity-icon" style="--soft:#eef1ff;--accent:#3f5ee8">${icon('gift')}</span></div><p>Current member point balances</p><div class="report-number">${analytics.totalPoints.toLocaleString('en-IN')}</div><div class="progress-track"><div class="progress-fill" style="width:${Math.min(100, analytics.activeMembers / Math.max(1, analytics.totalCustomers) * 100)}%;--fill:#3f5ee8"></div></div><p class="report-note">${analytics.totalRewardRedemptions} recorded reward redemptions</p></article>
+      <article class="report-card"><div class="report-card-top"><h3>Reservations</h3><span class="activity-icon" style="--soft:#edf3fb;--accent:#294a86">${icon('calendar')}</span></div><p>Completed stored bookings</p><div class="report-number">${completed}</div><div class="progress-track"><div class="progress-fill" style="width:${completedRate}%;--fill:#294a86"></div></div><p class="report-note">${completedRate.toFixed(0)}% completed vs no-show</p></article>
+      <article class="report-card"><div class="report-card-top"><h3>Service recovery</h3><span class="activity-icon" style="--soft:#faf3e7;--accent:#936723">${icon('checkCircle')}</span></div><p>Feedback cases resolved</p><div class="report-number">${recoveryRate.toFixed(0)}%</div><div class="progress-track"><div class="progress-fill" style="width:${recoveryRate}%;--fill:#c59a55"></div></div><p class="report-note">${analytics.openFeedback} case${analytics.openFeedback === 1 ? '' : 's'} still open</p></article>
     </section>`;
 }
 
@@ -680,7 +680,7 @@ function renderSettings() {
       <div class="form-section"><h3>Cafe profile</h3><p>These details appear in guest messages, loyalty cards and booking confirmations.</p><div class="form-grid"><div class="field"><label>Business name</label><input id="setting-business-name" value="${escapeHtml(settings.business_name || '')}" /></div><div class="field"><label>Primary phone</label><input id="setting-primary-phone" value="${escapeHtml(settings.primary_phone || '')}" /></div><div class="field full"><label>Address</label><input id="setting-address" value="${escapeHtml(settings.address || '')}" /></div><div class="field"><label>Timezone</label><select id="setting-timezone"><option>${escapeHtml(settings.timezone || 'Asia/Kolkata (IST)')}</option></select></div><div class="field"><label>Currency</label><select id="setting-currency"><option>${escapeHtml(settings.currency || 'Indian Rupee (₹)')}</option></select></div></div></div>
       <div class="form-section"><h3>Guest experience defaults</h3><p>Operational rules applied to new activity.</p><div class="switch-row"><div class="switch-copy"><strong>Automatically award loyalty points</strong><span>Award points using the configured earning rate.</span></div><button id="setting-automatic-points" class="switch ${settings.automatic_points ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle automatic points"></button></div><div class="switch-row"><div class="switch-copy"><strong>Reservation reminders</strong><span>Prepare reminder messages for confirmed bookings.</span></div><button id="setting-reservation-reminders" class="switch ${settings.reservation_reminders ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle reservation reminders"></button></div><div class="switch-row"><div class="switch-copy"><strong>Marketing requires explicit opt-in</strong><span>Block marketing messages without recorded permission.</span></div><button id="setting-marketing-consent" class="switch ${settings.marketing_requires_consent ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle marketing consent"></button></div></div>`,
     team: `
-      <div class="form-section"><div class="section-heading-row"><div><h3>Team access</h3><p>Server-enforced roles: Owner, Manager and Host.</p></div>${isOwner ? `<button class="btn btn-primary" data-action="invite-staff">${icon('userPlus')} Add staff member</button>` : ''}</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Staff member</th><th>Role</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>${data.users.map((member) => `<tr><td><div class="customer-cell"><span class="avatar" style="--avatar:#205243">${initials(member.name)}</span><div><strong>${escapeHtml(member.name)}</strong><span>${escapeHtml(member.email)}</span></div></div></td><td>${escapeHtml(member.role)}</td><td>${member.lastLoginAt ? relativeTime(member.lastLoginAt) + ' ago' : 'Never'}</td><td>${statusPill(member.active ? 'Active' : 'Disabled')}</td><td>${isOwner && member.id !== data.user.id ? `<button class="btn btn-small" data-action="toggle-user" data-id="${member.id}">${member.active ? 'Disable' : 'Enable'}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></div>`,
+      <div class="form-section"><div class="section-heading-row"><div><h3>Team access</h3><p>Server-enforced roles: Owner, Manager and Host.</p></div>${isOwner ? `<button class="btn btn-primary" data-action="invite-staff">${icon('userPlus')} Add staff member</button>` : ''}</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Staff member</th><th>Role</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>${data.users.map((member) => `<tr><td><div class="customer-cell"><span class="avatar" style="--avatar:#3f5ee8">${initials(member.name)}</span><div><strong>${escapeHtml(member.name)}</strong><span>${escapeHtml(member.email)}</span></div></div></td><td>${escapeHtml(member.role)}</td><td>${member.lastLoginAt ? relativeTime(member.lastLoginAt) + ' ago' : 'Never'}</td><td>${statusPill(member.active ? 'Active' : 'Disabled')}</td><td>${isOwner && member.id !== data.user.id ? `<button class="btn btn-small" data-action="toggle-user" data-id="${member.id}">${member.active ? 'Disable' : 'Enable'}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></div>`,
     loyalty: `
       <div class="form-section"><h3>Loyalty earning and tiers</h3><p>Thresholds are based on recorded lifetime spend.</p><div class="form-grid"><div class="field"><label>Points per ₹1</label><input id="setting-points-rate" type="number" min="0" step="0.01" value="${Number(settings.points_per_rupee ?? 0.1)}" /></div><div class="field"><label>Silver threshold</label><input id="setting-tier-silver" type="number" min="0" value="${Number(settings.tier_silver || 8000)}" /></div><div class="field"><label>Gold threshold</label><input id="setting-tier-gold" type="number" min="0" value="${Number(settings.tier_gold || 18000)}" /></div><div class="field"><label>Platinum threshold</label><input id="setting-tier-platinum" type="number" min="0" value="${Number(settings.tier_platinum || 35000)}" /></div></div></div><div class="form-section"><h3>Points controls</h3><p>Every manual change is recorded in the local audit ledger.</p><button class="btn" data-action="adjust-points">${icon('edit')} Adjust customer points</button></div>`,
     integrations: `
@@ -703,7 +703,7 @@ function renderSettings() {
 }
 
 function renderLogin() {
-  return `<main class="login-shell"><section class="login-card"><div class="login-brand"><div class="brand-mark">${icon('coffee')}</div><div><strong>Mangosteen</strong><span>Guest CRM</span></div></div><div class="login-copy"><span class="eyebrow">Secure staff workspace</span><h1>Welcome back</h1><p>Sign in to manage guests, reservations, loyalty and communication.</p></div>${dataError ? `<div class="form-error">${escapeHtml(dataError)}</div>` : ''}<form id="login-form"><div class="field"><label>Email address</label><input name="email" type="email" autocomplete="username" required value="owner@mangosteen.local" /></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required value="Mangosteen@123" /></div><button class="btn btn-primary login-button" type="submit">${icon('lock')} Sign in securely</button></form><div class="login-demo"><strong>Demo owner account</strong><span>Credentials are prefilled for this local client review. Change the password in Settings before entering real data.</span></div></section><aside class="login-visual"><div><span class="eyebrow">Mangosteen Cafe · Indore</span><h2>Premium guest relationships, without losing the personal touch.</h2><p>Local-first customer profiles, reservations, rewards, feedback recovery and consent-aware communication.</p></div></aside></main>`;
+  return `<main class="login-shell"><section class="login-card"><div class="login-brand"><div class="brand-mark">${icon('coffee')}</div><div><strong>Mangosteen</strong><span>Guest Intelligence</span></div></div><div class="login-copy"><span class="eyebrow">Private operating system</span><h1>Welcome to Mangosteen</h1><p>One secure workspace for every guest, reservation and relationship.</p></div>${dataError ? `<div class="form-error">${escapeHtml(dataError)}</div>` : ''}<form id="login-form"><div class="field"><label>Email address</label><input name="email" type="email" autocomplete="username" required value="owner@mangosteen.local" /></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required value="Mangosteen@123" /></div><button class="btn btn-primary login-button" type="submit">${icon('lock')} Enter private workspace</button></form><div class="login-demo"><strong>Private client preview</strong><span>Owner credentials are prefilled for review. Change the password in Settings before entering real guest data.</span></div></section><aside class="login-visual"><div><span class="eyebrow">Mangosteen Cafe · Indore</span><h2>Know every guest. Elevate every visit.</h2><p>A refined operating layer for reservations, loyalty, communication, feedback recovery and revenue intelligence.</p></div></aside></main>`;
 }
 
 function renderApp() {
@@ -763,7 +763,7 @@ function openCustomerProfile(id) {
     <div class="customer-profile-head"><span class="avatar" style="--avatar:${customer.avatar}">${initials(customer.name)}</span><div><h3>${escapeHtml(customer.name)}</h3><p>${escapeHtml(customer.phone)} · ${escapeHtml(customer.email)}</p><div class="tags"><span class="tier ${customer.tier.toLowerCase()}">${customer.tier}</span>${customer.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div></div></div>
     <div class="profile-facts"><div class="profile-fact"><span>Lifetime spend</span><strong>${inr(customer.spend)}</strong></div><div class="profile-fact"><span>Total visits</span><strong>${customer.visits}</strong></div><div class="profile-fact"><span>Loyalty points</span><strong>${customer.points.toLocaleString('en-IN')}</strong></div><div class="profile-fact"><span>Last visit</span><strong>${displayDate(customer.lastVisit)}</strong></div><div class="profile-fact"><span>Birthday</span><strong>${customer.birthday || 'Not provided'}</strong></div><div class="profile-fact"><span>Marketing consent</span><strong>${customer.consent ? 'Opted in' : 'Not recorded'}</strong></div></div>
     <div class="insight-card"><div class="insight-top"><strong>Guest notes</strong><span class="status ${customer.notes ? 'active' : 'draft'}">${customer.notes ? 'Recorded' : 'Empty'}</span></div><p>${escapeHtml(customer.notes || 'No preferences, allergies or service notes have been recorded yet.')}</p></div>
-    <div class="task-list" style="margin-top:12px"><div class="task-item"><span class="activity-icon">${icon('coffee')}</span><div class="task-copy"><strong>Relationship summary</strong><p>${customer.visits} visits · ${inr(customer.monthSpend || 0)} linked this month · ${customer.points} points available</p></div></div><div class="task-item"><span class="activity-icon" style="--soft:#f4e8f0;--accent:#7a2f62">${icon('shield')}</span><div class="task-copy"><strong>Communication status</strong><p>${customer.consent ? 'Marketing opt-in is recorded.' : 'Only transactional communication is allowed.'}</p></div></div></div>`, `<button class="btn" data-action="close-modal">Close</button><button class="btn btn-primary" data-action="message-customer" data-id="${customer.id}">${icon('whatsapp')} Message guest</button>`);
+    <div class="task-list" style="margin-top:12px"><div class="task-item"><span class="activity-icon">${icon('coffee')}</span><div class="task-copy"><strong>Relationship summary</strong><p>${customer.visits} visits · ${inr(customer.monthSpend || 0)} linked this month · ${customer.points} points available</p></div></div><div class="task-item"><span class="activity-icon" style="--soft:#eef1ff;--accent:#3f5ee8">${icon('shield')}</span><div class="task-copy"><strong>Communication status</strong><p>${customer.consent ? 'Marketing opt-in is recorded.' : 'Only transactional communication is allowed.'}</p></div></div></div>`, `<button class="btn" data-action="close-modal">Close</button><button class="btn btn-primary" data-action="message-customer" data-id="${customer.id}">${icon('whatsapp')} Message guest</button>`);
 }
 
 function openReservationForm() {
@@ -791,7 +791,7 @@ function openReservationDetail(id) {
 function openNotifications() {
   const analytics = calculateAnalytics();
   const pending = data.reservations.filter((item) => item.status === 'Pending');
-  openModal('Notifications', 'Important activity requiring your attention.', `<div class="task-list"><div class="task-item"><span class="activity-icon" style="--soft:#faeaea;--accent:#c45252">${icon('alert')}</span><div class="task-copy"><strong>${analytics.openFeedback} feedback case${analytics.openFeedback === 1 ? '' : 's'} need attention</strong><p>Create recovery tasks and record the outcome.</p></div>${statusPill(analytics.openFeedback ? 'High' : 'Resolved')}</div><div class="task-item"><span class="activity-icon" style="--soft:#fbf1df;--accent:#a36a1f">${icon('calendar')}</span><div class="task-copy"><strong>${pending.length} reservation${pending.length === 1 ? '' : 's'} awaiting confirmation</strong><p>${pending[0] ? `${escapeHtml(pending[0].name)} · ${pending[0].guests} guests · ${displayTime(pending[0].time)}` : 'All current bookings are confirmed.'}</p></div>${statusPill(pending.length ? 'Pending' : 'Resolved')}</div><div class="task-item"><span class="activity-icon" style="--soft:#edf5f2;--accent:#205243">${icon('database')}</span><div class="task-copy"><strong>Local database connected</strong><p>${data.customers.length} customers and ${data.reservations.length} reservations are stored.</p></div>${statusPill('Active')}</div></div>`, `<button class="btn btn-primary" data-action="close-modal">Got it</button>`);
+  openModal('Notifications', 'Important activity requiring your attention.', `<div class="task-list"><div class="task-item"><span class="activity-icon" style="--soft:#fcecef;--accent:#c5444f">${icon('alert')}</span><div class="task-copy"><strong>${analytics.openFeedback} feedback case${analytics.openFeedback === 1 ? '' : 's'} need attention</strong><p>Create recovery tasks and record the outcome.</p></div>${statusPill(analytics.openFeedback ? 'High' : 'Resolved')}</div><div class="task-item"><span class="activity-icon" style="--soft:#faf3e7;--accent:#936723">${icon('calendar')}</span><div class="task-copy"><strong>${pending.length} reservation${pending.length === 1 ? '' : 's'} awaiting confirmation</strong><p>${pending[0] ? `${escapeHtml(pending[0].name)} · ${pending[0].guests} guests · ${displayTime(pending[0].time)}` : 'All current bookings are confirmed.'}</p></div>${statusPill(pending.length ? 'Pending' : 'Resolved')}</div><div class="task-item"><span class="activity-icon" style="--soft:#eef1ff;--accent:#3f5ee8">${icon('database')}</span><div class="task-copy"><strong>Private database connected</strong><p>${data.customers.length} customers and ${data.reservations.length} reservations are stored.</p></div>${statusPill('Active')}</div></div>`, `<button class="btn btn-primary" data-action="close-modal">Got it</button>`);
 }
 
 function downloadFrom(url) {
@@ -835,7 +835,7 @@ function openPasswordForm() {
 }
 
 function openProfileMenu() {
-  openModal('Your account', `${escapeHtml(data.user?.role || '')} workspace`, `<div class="customer-profile-head"><span class="avatar" style="--avatar:#205243">${initials(data.user?.name || 'Staff')}</span><div><h3>${escapeHtml(data.user?.name || '')}</h3><p>${escapeHtml(data.user?.email || '')}</p>${statusPill('Active')}</div></div><div class="role-guide"><div><strong>Session protection</strong><span>Automatic expiry after 12 hours.</span></div><div><strong>Role</strong><span>${escapeHtml(data.user?.role || '')} permissions enforced by the API.</span></div></div>`, `<button class="btn" data-action="change-password">${icon('lock')} Change password</button><button class="btn btn-primary" data-action="logout">Sign out</button>`);
+  openModal('Your account', `${escapeHtml(data.user?.role || '')} workspace`, `<div class="customer-profile-head"><span class="avatar" style="--avatar:#3f5ee8">${initials(data.user?.name || 'Staff')}</span><div><h3>${escapeHtml(data.user?.name || '')}</h3><p>${escapeHtml(data.user?.email || '')}</p>${statusPill('Active')}</div></div><div class="role-guide"><div><strong>Session protection</strong><span>Automatic expiry after 12 hours.</span></div><div><strong>Role</strong><span>${escapeHtml(data.user?.role || '')} permissions enforced by the API.</span></div></div>`, `<button class="btn" data-action="change-password">${icon('lock')} Change password</button><button class="btn btn-primary" data-action="logout">Sign out</button>`);
 }
 
 function openFeedbackLink() {
