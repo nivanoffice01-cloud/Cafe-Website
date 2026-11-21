@@ -137,7 +137,7 @@ export function HomePage() {
             <div className="lux-signature-detail" aria-live="polite">
               <span>{featuredDishes[featuredIndex].category.toUpperCase()}</span>
               <p>{featuredDishes[featuredIndex].description}</p>
-              <div><strong>₹{featuredDishes[featuredIndex].price}</strong><button className="lux-text-link" type="button" onClick={openFeaturedDish}>Explore in the menu <Arrow/></button></div>
+              <div><strong>₹{featuredDishes[featuredIndex].price}</strong><button className="lux-signature-cta" type="button" onClick={openFeaturedDish}>Explore in the menu <Arrow/></button></div>
             </div>
             <p className="lux-signature-note">Café photography is for atmosphere; pictured dishes may differ. Prices are indicative.</p>
           </div>

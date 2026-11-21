@@ -67,6 +67,10 @@ body { background: var(--lux-night); }
 .lux-signature-detail p { max-width: 26rem; min-height: 2.6rem; margin: .7rem 0 1rem; color: #ded7c9; font-family: var(--lux-serif); font-size: clamp(1rem, 1.35vw, 1.3rem); font-style: italic; line-height: 1.5; }
 .lux-signature-detail>div { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .lux-signature-detail strong { color: #d5bf9b; font-size: .75rem; font-weight: 500; }
+.lux-signature-cta { display: inline-flex; min-height: 3.1rem; align-items: center; justify-content: space-between; gap: 1.25rem; padding: .75rem 1.05rem; border: 1px solid #d6bb8d; color: #181b16; background: #d6bb8d; font-size: .69rem; font-weight: 700; letter-spacing: .035em; white-space: nowrap; cursor: pointer; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+.lux-signature-cta svg { width: 1rem; height: 1rem; transition: transform .2s ease; }
+.lux-signature-cta:hover { border-color: #f2d8a8; background: #f2d8a8; transform: translateY(-2px); }
+.lux-signature-cta:hover svg { transform: translateX(3px); }
 .lux-signature-note { max-width: 27rem; margin: 1.5rem 0 0; color: #8e958a; font-size: .57rem; line-height: 1.5; }
 
 .lux-editorial { display: grid; min-height: 53rem; grid-template-columns: minmax(18rem, .86fr) minmax(25rem, 1.14fr); align-items: center; gap: clamp(3rem, 9vw, 10rem); padding: 8rem var(--lux-gutter); color: var(--lux-ink); background: var(--lux-paper); }
@@ -341,6 +345,7 @@ body { background: var(--lux-night); }
   .lux-signature-tabs button { min-height: 3.25rem; font-size: 1.12rem; }
   .lux-signature-detail>div { align-items: flex-start; flex-wrap: wrap; }
   .lux-signature-detail p { min-height: 0; font-size: 1.12rem; }
+  .lux-signature-cta { min-height: 3.25rem; font-size: .81rem; }
   .lux-editorial { gap: 2.6rem; padding-top: 4.4rem; padding-bottom: 4.5rem; }
   .lux-editorial-image { height: 98vw; box-shadow: .6rem .6rem 0 rgba(113, 96, 65, .09); }
   .lux-editorial-image img { object-position: 50% 52%; }
@@ -392,6 +397,7 @@ body { background: var(--lux-night); }
 }
 
 @media (max-width: 380px) {
+  .lux-signature-cta { width: 100%; }
   .film-mobile-exterior { top: 25%; width: 155%; }
   .film-opening h1 { font-size: 1.8rem; letter-spacing: .045em; }
   .lux-gallery-editorial { grid-template-rows: 74vw 46vw 54vw auto; }
