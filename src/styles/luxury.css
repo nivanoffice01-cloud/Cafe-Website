@@ -387,7 +387,6 @@ body { background: var(--lux-night); }
   .menu-mobile-choice button { min-height: 2.75rem; font-size: .76rem; }
   .menu-mobile-choice small { font-size: .68rem; }
   .gallery-dialog { width: 100%; max-height: 100dvh; }
-  .gallery-dialog-image { height: min(64svh, 37rem); }
   .gallery-controls button { min-width: 2.75rem; min-height: 2.75rem; }
   .gallery-controls p { font-size: .75rem; }
 }
