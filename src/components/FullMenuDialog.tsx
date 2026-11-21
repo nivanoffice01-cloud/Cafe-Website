@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { fullMenu, fullMenuCount, type MenuItem } from '../data/fullMenu'
+import { menuPhotoFor } from '../data/menuPhotos'
 import { responsivePhotoSrcSet } from '../data/responsivePhoto'
 
 type Props = { onClose: () => void; initialSelection?: { category: string; name: string } | null }
@@ -23,6 +24,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
   const [selectedCategory, setSelectedCategory] = useState(initialDish.category)
   const [query, setQuery] = useState('')
   const [selectedDish, setSelectedDish] = useState<SelectedDish>(initialDish)
+  const [expandedPhoto, setExpandedPhoto] = useState<string | null>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
 
@@ -63,6 +65,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
   const chooseCategory = (name: string) => {
     setSelectedCategory(name)
     setQuery('')
+    setExpandedPhoto(null)
     const category = fullMenu.find((entry) => entry.name === name)
     const first = category?.items[0]
     if (first) setSelectedDish({ category: name, ...first })
@@ -70,6 +73,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
   }
   const searchMenu = (value: string) => {
     setQuery(value)
+    setExpandedPhoto(null)
     const normalized = value.trim().toLowerCase()
     if (!normalized) return
     for (const category of fullMenu) {
@@ -80,6 +84,8 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
       }
     }
   }
+
+  const selectedPhoto = menuPhotoFor(selectedDish.category, selectedDish.name)
 
   return (
     <div className="menu-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
@@ -126,7 +132,10 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
                   {!query && <p className="menu-chapter-note">{categoryNotes[category.name] ?? 'Take your time. There is always room for one more.'}</p>}
                   <div className="menu-dish-list">
                     {category.items.map((item) => {
+                      const photo = menuPhotoFor(category.name, item.name)
+                      const photoKey = `${category.name}|${item.name}`
                       const content = <>
+                        {photo && <img className="menu-dish-thumb" src={photo.src} alt="" loading="lazy" decoding="async" />}
                         <span className="menu-dish-copy"><strong>{item.name}</strong>{item.description && <small>{item.description}</small>}</span>
                         <span className="menu-dish-price">₹{item.price}</span>
                       </>
@@ -137,7 +146,16 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
                           onClick={() => { setSelectedCategory(category.name); setSelectedDish({ category: category.name, ...item }) }}
                           aria-label={`View ${item.name} details, ₹${item.price}`}
                         >{content}</button>
-                        <div className="menu-dish-row menu-dish-row-mobile">{content}</div>
+                        {photo ? <>
+                          <button
+                            type="button"
+                            className="menu-dish-row menu-dish-row-mobile menu-dish-photo-trigger"
+                            aria-expanded={expandedPhoto === photoKey}
+                            aria-label={`${expandedPhoto === photoKey ? 'Hide' : 'View'} illustrative photo of ${item.name}`}
+                            onClick={() => setExpandedPhoto(expandedPhoto === photoKey ? null : photoKey)}
+                          >{content}<span className="menu-dish-photo-cue" aria-hidden="true">{expandedPhoto === photoKey ? '−' : '+'}</span></button>
+                          {expandedPhoto === photoKey && <figure className="menu-dish-mobile-photo"><img src={photo.src} alt={photo.alt} decoding="async" /><figcaption>Illustrative photo · Mangosteen serving may differ</figcaption></figure>}
+                        </> : <div className="menu-dish-row menu-dish-row-mobile">{content}</div>}
                       </div>
                     })}
                   </div>
@@ -147,15 +165,15 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
             </div>
           </div>
 
-          <aside className="menu-food-side" aria-label="Mangosteen Cafe food photography">
-            <img className="menu-food-photo" src="/images/highres/mangosteen_original_2_8k.jpg" srcSet={responsivePhotoSrcSet('/images/highres/mangosteen_original_2_8k.jpg')} sizes="100vw" alt="A plated dish on a wooden table at Mangosteen Café" />
+          <aside className="menu-food-side" aria-label="Selected dish and photography">
+            <img className="menu-food-photo" key={selectedPhoto?.src ?? 'cafe-photo'} src={selectedPhoto?.src ?? '/images/highres/mangosteen_original_2_8k.jpg'} srcSet={selectedPhoto ? undefined : responsivePhotoSrcSet('/images/highres/mangosteen_original_2_8k.jpg')} sizes="(max-width: 1100px) 36vw, 33vw" alt={selectedPhoto?.alt ?? 'A plated dish photographed at Mangosteen Café'} decoding="async" />
             <div className="menu-food-caption">
               <p>{selectedDish.category.toUpperCase()} · FROM THE MENU</p>
               <h3>{selectedDish.name}</h3>
               {selectedDish.description && <span className="menu-food-description">{selectedDish.description}</span>}
               <span>₹{selectedDish.price}</span>
             </div>
-            <p className="menu-photo-note">Photography from Mangosteen Café; dish shown may differ from your selection.</p>
+            <p className="menu-photo-note">{selectedPhoto ? 'Illustrative food photo; presentation at Mangosteen may differ.' : 'Photographed at Mangosteen Café. This is not the selected dish.'}</p>
           </aside>
         </div>
       </section>

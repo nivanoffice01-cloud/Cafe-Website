@@ -242,7 +242,10 @@ button.text-link { appearance: none; border-top: 0; border-right: 0; border-left
 .menu-dish-row-mobile { display: none; }
 .menu-dish-row:hover, .menu-dish-row.is-active { background: rgba(218,188,144,.065); }
 .menu-dish-row.is-active { box-shadow: inset 2px 0 #d6b283; }
-.menu-dish-copy { display: grid; gap: .32rem; }
+.menu-dish-thumb { width: 3.3rem; height: 3.3rem; flex: 0 0 auto; border: 1px solid rgba(237,225,203,.15); object-fit: cover; }
+.menu-dish-copy { display: grid; min-width: 0; flex: 1; gap: .32rem; }
+.menu-dish-photo-cue { display: none; }
+.menu-dish-mobile-photo { display: none; }
 .menu-dish-copy strong { color: #f1ece3; font-family: 'Playfair Display', Georgia, serif; font-size: .99rem; font-weight: 400; line-height: 1.25; }
 .menu-dish-copy small { max-width: 35rem; color: #aead9f; font-size: .62rem; line-height: 1.55; }
 .menu-dish-price { flex: 0 0 auto; padding-top: .08rem; color: #d7ba8d; font-size: .69rem; letter-spacing: .015em; }
@@ -296,6 +299,13 @@ button.text-link { appearance: none; border-top: 0; border-right: 0; border-left
   .menu-dish-row { padding: .78rem .5rem; }
   .menu-dish-row-desktop { display: none; }
   .menu-dish-row-mobile { display: flex; cursor: default; }
+  .menu-dish-thumb { width: 3.75rem; height: 3.75rem; }
+  .menu-dish-photo-trigger { align-items: center; cursor: pointer; }
+  .menu-dish-photo-trigger:hover, .menu-dish-photo-trigger[aria-expanded="true"] { background: rgba(218,188,144,.065); }
+  .menu-dish-photo-cue { display: block; align-self: center; color: #d7ba8d; font-size: 1.2rem; line-height: 1; }
+  .menu-dish-mobile-photo { display: block; margin: 0 0 .6rem; padding: .2rem .5rem .9rem; border-bottom: 1px solid rgba(237,225,203,.14); }
+  .menu-dish-mobile-photo img { display: block; width: 100%; max-height: 17rem; aspect-ratio: 1.45; object-fit: cover; object-position: center; }
+  .menu-dish-mobile-photo figcaption { margin-top: .55rem; color: #bbb3a5; font-size: .64rem; line-height: 1.4; }
   .menu-dish-row.is-active { background: transparent; box-shadow: none; }
   .menu-dish-copy strong { font-size: .96rem; }
   .menu-dish-copy small { font-size: .59rem; }
