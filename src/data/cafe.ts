@@ -7,6 +7,7 @@ export const cafe = {
   hours: 'Closes at 11:30 pm',
   orderingUrl: 'https://www.zomato.com/indore/mangosteen-cafe-by-pass-road-north/order',
   directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Mangosteen+Cafe+Olympus+Bicholi+Mardana+Indore',
+  mapEmbedUrl: 'https://www.google.com/maps?q=Mangosteen%20Cafe%2C%20Olympus%2C%20Bicholi%20Mardana%2C%20Indore&z=16&output=embed',
   photoGalleryUrl: 'https://www.zomato.com/indore/mangosteen-cafe-by-pass-road-north/photos',
 }
 
