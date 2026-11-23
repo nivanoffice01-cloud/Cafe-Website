@@ -6,9 +6,11 @@ import { submitGuestOrder, type GuestOrderReceipt } from '../lib/orders'
 
 type CartLine = MenuItem & { category: string; quantity: number }
 type CheckoutStep = 'cart' | 'details' | 'payment'
+type DietFilter = 'all' | 'veg' | 'non-veg'
 
 const money = (value: number) => `₹${value.toLocaleString('en-IN')}`
 const requestKey = () => globalThis.crypto?.randomUUID?.() || `order-${Date.now()}-${Math.random().toString(16).slice(2)}`
+const isNonVeg = (item: MenuItem) => /chicken|fish|prawn|egg|pepperoni|mutton|lamb|meat|tuna/i.test(`${item.name} ${item.description || ''}`)
 
 function LeafMark() {
   return <svg viewBox="0 0 44 44" aria-hidden="true"><path d="M35 8C20 9 9 18 9 31c7 2 14 0 19-5 5-5 7-11 7-18Z" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M11 31c7-6 13-11 23-21" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>
@@ -19,6 +21,7 @@ export function OrderMenuPage() {
   const table = useMemo(() => orderTableFor(params.get('table')), [params])
   const [category, setCategory] = useState(fullMenu[0].name)
   const [query, setQuery] = useState('')
+  const [diet, setDiet] = useState<DietFilter>('all')
   const [cart, setCart] = useState<CartLine[]>([])
   const [cartOpen, setCartOpen] = useState(false)
   const [step, setStep] = useState<CheckoutStep>('cart')
@@ -32,12 +35,17 @@ export function OrderMenuPage() {
 
   const visibleCategories = useMemo(() => {
     const needle = query.trim().toLowerCase()
-    if (!needle) return fullMenu.filter((entry) => entry.name === category)
-    return fullMenu.map((entry) => ({
+    const categories = needle ? fullMenu : fullMenu.filter((entry) => entry.name === category)
+    return categories.map((entry) => ({
       ...entry,
-      items: entry.items.filter((item) => `${item.name} ${item.description || ''} ${entry.name}`.toLowerCase().includes(needle)),
+      items: entry.items.filter((item) => {
+        const matchesSearch = !needle || `${item.name} ${item.description || ''} ${entry.name}`.toLowerCase().includes(needle)
+        const nonVeg = isNonVeg(item)
+        const matchesDiet = diet === 'all' || (diet === 'non-veg' ? nonVeg : !nonVeg)
+        return matchesSearch && matchesDiet
+      }),
     })).filter((entry) => entry.items.length)
-  }, [category, query])
+  }, [category, diet, query])
 
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0)
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -107,10 +115,10 @@ export function OrderMenuPage() {
 
     <section className={`order-menu-intro${table ? ' has-table' : ' is-preview'}`}>
       <div className="order-menu-intro-copy">
-        <p className="order-kicker">{table ? `${table.label.toUpperCase()} · YOUR EVENING` : 'THE MANGOSTEEN MENU'}</p>
-        <h1>Choose slowly.<br/><em>Stay a while.</em></h1>
-        <p>{table ? 'Explore the menu, add what feels right, and send everything straight to the kitchen when you are ready.' : 'A table-side look at the Mangosteen menu. Scan the dedicated QR at your table when you are ready to order.'}</p>
-        <div className="order-menu-intro-actions"><a href="#order-menu-content">Explore the menu</a><span>{fullMenuCount} dishes · 13 chapters</span></div>
+        <p className="order-kicker">{table ? `${table.label.toUpperCase()} · DINE-IN MENU` : 'MANGOSTEEN MENU'}</p>
+        <h1>Ready when<br/><em>you are.</em></h1>
+        <p>{table ? 'Take a look, add what you like and place the order when your table is ready.' : 'Take a look through the menu. To order, scan the QR printed on your table.'}</p>
+        <div className="order-menu-intro-actions"><a href="#order-menu-content">View the menu</a><span>{fullMenuCount} dishes · 13 sections</span></div>
       </div>
       <div className="order-menu-visual">
         <img className="order-menu-visual-main" src="/images/menu-ai/pizza-pide.webp" alt="" fetchPriority="high" decoding="async"/>
@@ -122,26 +130,30 @@ export function OrderMenuPage() {
     {!table && <div className="order-table-warning"><strong>Menu preview</strong><span>To place an order, scan the dedicated QR printed on your physical table. The table number is locked into that QR.</span></div>}
 
     <div className="order-menu-tools" id="order-menu-start">
-      <label className="order-search"><span aria-hidden="true">⌕</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search dishes or ingredients" aria-label="Search menu"/>{query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search">×</button>}</label>
-      {!query && <nav className="order-categories" aria-label="Menu categories">{fullMenu.map((entry) => <button key={entry.name} type="button" className={entry.name === category ? 'is-active' : ''} onClick={() => setCategory(entry.name)}>{entry.name}</button>)}</nav>}
+      <label className="order-search"><span aria-hidden="true">⌕</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by dish or ingredient" aria-label="Search menu"/>{query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search">×</button>}</label>
+      <div className="order-filter-row">
+        {!query && <label className="order-category-select"><span>Menu section</span><select value={category} onChange={(event) => setCategory(event.target.value)}>{fullMenu.map((entry) => <option key={entry.name} value={entry.name}>{entry.name}</option>)}</select></label>}
+        {!query && <nav className="order-categories" aria-label="Menu categories">{fullMenu.map((entry) => <button key={entry.name} type="button" className={entry.name === category ? 'is-active' : ''} onClick={() => setCategory(entry.name)}>{entry.name}</button>)}</nav>}
+        <div className="order-diet-filter" aria-label="Dietary filter">{([['all', 'All'], ['veg', 'Veg'], ['non-veg', 'Non-veg']] as const).map(([value, label]) => <button key={value} type="button" className={diet === value ? 'is-active' : ''} aria-pressed={diet === value} onClick={() => setDiet(value)}>{label}</button>)}</div>
+      </div>
     </div>
 
     <main className="order-menu-content" id="order-menu-content">
       {visibleCategories.map((entry) => <section className="order-category" key={entry.name}>
-        <header><div><p>FROM THE KITCHEN</p><h2>{entry.name}</h2></div><span>{entry.items.length} items</span></header>
+        <header><div><p>MENU</p><h2>{entry.name}</h2></div><span>{entry.items.length} {entry.items.length === 1 ? 'dish' : 'dishes'}</span></header>
         <div className="order-dish-grid">{entry.items.map((item) => {
           const photo = menuPhotoFor(entry.name, item.name)
           const quantity = quantityFor(item.name, entry.name)
-          const likelyNonVeg = /chicken|fish|prawn|egg|pepperoni/i.test(`${item.name} ${item.description || ''}`)
+          const likelyNonVeg = isNonVeg(item)
           return <article className={`order-dish-card${photo ? ' has-photo' : ''}`} key={`${entry.name}-${item.name}`}>
             {photo && <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async"/>}
-            <div className="order-dish-copy"><div className="order-dish-type"><i className={likelyNonVeg ? 'non-veg' : 'veg'}/><span>{likelyNonVeg ? 'Non-veg' : 'Veg'}</span></div><h3>{item.name}</h3>{item.description && <p>{item.description}</p>}<strong>{money(item.price)}</strong></div>
-            {quantity ? <div className="order-quantity" aria-label={`${item.name} quantity`}><button type="button" onClick={() => changeQuantity({ ...item, category: entry.name, quantity }, -1)} aria-label={`Remove one ${item.name}`}>−</button><span>{quantity}</span><button type="button" onClick={() => addItem(item, entry.name)} aria-label={`Add another ${item.name}`}>+</button></div> : <button className="order-add" type="button" disabled={!table} onClick={() => addItem(item, entry.name)}>{table ? <>Add <span>+</span></> : 'Scan table QR'}</button>}
+            <div className="order-dish-copy"><div className="order-dish-type"><i className={likelyNonVeg ? 'non-veg' : 'veg'}/><span>{likelyNonVeg ? 'Non-veg' : 'Veg'}</span></div><h3>{item.name}</h3>{item.description && <p>{item.description}</p>}</div>
+            <div className="order-dish-actions"><strong>{money(item.price)}</strong>{quantity ? <div className="order-quantity" aria-label={`${item.name} quantity`}><button type="button" onClick={() => changeQuantity({ ...item, category: entry.name, quantity }, -1)} aria-label={`Remove one ${item.name}`}>−</button><span>{quantity}</span><button type="button" onClick={() => addItem(item, entry.name)} aria-label={`Add another ${item.name}`}>+</button></div> : <button className="order-add" type="button" disabled={!table} onClick={() => addItem(item, entry.name)}>{table ? <>Add <span>+</span></> : 'Scan table QR'}</button>}</div>
           </article>
         })}</div>
       </section>)}
-      {!visibleCategories.length && <div className="order-empty"><h2>No dishes found</h2><p>Try a category or a different ingredient.</p><button type="button" onClick={() => setQuery('')}>Clear search</button></div>}
-      <p className="order-menu-disclaimer">Demo menu. Prices and availability should be confirmed by Mangosteen Café before public use. A 5% demo service charge is shown at checkout.</p>
+      {!visibleCategories.length && <div className="order-empty"><h2>Nothing here yet</h2><p>Try another section, filter or search term.</p><button type="button" onClick={() => { setQuery(''); setDiet('all') }}>Reset filters</button></div>}
+      <p className="order-menu-disclaimer">This is a demo menu. Please confirm prices and availability with Mangosteen Café. A 5% demo service charge is shown at checkout.</p>
     </main>
 
     {itemCount > 0 && <button className="order-cart-bar" type="button" onClick={openCart}><span><i>{itemCount}</i><span>View order</span></span><strong>{money(total)}</strong></button>}
