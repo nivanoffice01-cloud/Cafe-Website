@@ -1,16 +1,13 @@
 import { useMemo, useState } from 'react'
 import { fullMenu, fullMenuCount, type MenuItem } from '../data/fullMenu'
 import { menuPhotoFor } from '../data/menuPhotos'
+import { orderTableFor } from '../data/seating'
 import { submitGuestOrder, type GuestOrderReceipt } from '../lib/orders'
 
 type CartLine = MenuItem & { category: string; quantity: number }
 type CheckoutStep = 'cart' | 'details' | 'payment'
 
 const money = (value: number) => `₹${value.toLocaleString('en-IN')}`
-const cleanTable = (value: string | null) => {
-  const normalized = String(value || '').trim().replace(/[^a-zA-Z0-9 -]/g, '').slice(0, 20)
-  return normalized || 'Demo table'
-}
 const requestKey = () => globalThis.crypto?.randomUUID?.() || `order-${Date.now()}-${Math.random().toString(16).slice(2)}`
 
 function LeafMark() {
@@ -19,8 +16,7 @@ function LeafMark() {
 
 export function OrderMenuPage() {
   const params = useMemo(() => new URLSearchParams(window.location.search), [])
-  const initialTable = cleanTable(params.get('table'))
-  const [table, setTable] = useState(initialTable)
+  const table = useMemo(() => orderTableFor(params.get('table')), [params])
   const [category, setCategory] = useState(fullMenu[0].name)
   const [query, setQuery] = useState('')
   const [cart, setCart] = useState<CartLine[]>([])
@@ -73,12 +69,13 @@ export function OrderMenuPage() {
   }
 
   const placeOrder = async () => {
+    if (!table) { setError('Scan the QR fixed to your table before placing an order.'); return }
     if (guestName.trim().length < 2) { setStep('details'); setError('Please enter the guest name for this table.'); return }
     setSubmitting(true)
     setError('')
     try {
       const result = await submitGuestOrder({
-        requestKey: requestKey(), table, guestName: guestName.trim(), phone: phone.trim(), notes: notes.trim(), paymentMethod,
+        requestKey: requestKey(), table: table.id, guestName: guestName.trim(), phone: phone.trim(), notes: notes.trim(), paymentMethod,
         items: cart.map((item) => ({ category: item.category, name: item.name, quantity: item.quantity, unitPrice: item.price })),
         website: '',
       })
@@ -95,7 +92,7 @@ export function OrderMenuPage() {
     <div className="order-success-mark">✓</div>
     <p className="order-kicker">ORDER RECEIVED</p>
     <h1>Your table is in the kitchen queue.</h1>
-    <p>The café CRM received <strong>{receipt.reference}</strong> for <strong>{table}</strong>. A team member can now follow it through preparation.</p>
+    <p>The café CRM received <strong>{receipt.reference}</strong> for <strong>{table?.label}</strong>. A team member can now follow it through preparation.</p>
     <div className="order-success-ticket"><span>Demo payment</span><strong>{receipt.paymentLabel}</strong><span>Total</span><strong>{money(receipt.total)}</strong></div>
     <div className="demo-notice"><strong>Demonstration only</strong><span>No money was transferred and no payment details were collected.</span></div>
     <button type="button" onClick={() => { setReceipt(null); setCartOpen(false); setGuestName(''); setPhone(''); setNotes('') }}>Start another order</button>
@@ -105,13 +102,15 @@ export function OrderMenuPage() {
   return <div className="order-menu-shell">
     <header className="order-menu-header">
       <a className="order-brand" href="/" aria-label="Mangosteen Cafe home"><LeafMark/><span>MANGOSTEEN<small>TABLE MENU · INDORE</small></span></a>
-      <button className="order-table-button" type="button" onClick={() => { const next = window.prompt('Enter table number', table); if (next !== null) setTable(cleanTable(next)) }}><span>Serving</span><strong>{table}</strong></button>
+      <div className={`order-table-button${table ? '' : ' is-missing'}`}><span>{table ? 'Serving' : 'Preview'}</span><strong>{table ? `${table.label} · ${table.id}` : 'No table QR'}</strong></div>
     </header>
 
     <section className="order-menu-intro">
       <div><p className="order-kicker">SCAN · CHOOSE · ENJOY</p><h1>What are you in the mood for?</h1><p>Order for the table at your own pace. The kitchen receives it as soon as the demo payment is complete.</p></div>
       <div className="order-menu-meta"><span>{fullMenuCount} dishes</span><span>13 categories</span><span>Vegetarian & non-vegetarian</span></div>
     </section>
+
+    {!table && <div className="order-table-warning"><strong>Menu preview</strong><span>To place an order, scan the dedicated QR printed on your physical table. The table number is locked into that QR.</span></div>}
 
     <div className="order-menu-tools">
       <label className="order-search"><span aria-hidden="true">⌕</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search dishes or ingredients" aria-label="Search menu"/>{query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search">×</button>}</label>
@@ -128,7 +127,7 @@ export function OrderMenuPage() {
           return <article className={`order-dish-card${photo ? ' has-photo' : ''}`} key={`${entry.name}-${item.name}`}>
             {photo && <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async"/>}
             <div className="order-dish-copy"><div className="order-dish-type"><i className={likelyNonVeg ? 'non-veg' : 'veg'}/><span>{likelyNonVeg ? 'Non-veg' : 'Veg'}</span></div><h3>{item.name}</h3>{item.description && <p>{item.description}</p>}<strong>{money(item.price)}</strong></div>
-            {quantity ? <div className="order-quantity" aria-label={`${item.name} quantity`}><button type="button" onClick={() => changeQuantity({ ...item, category: entry.name, quantity }, -1)} aria-label={`Remove one ${item.name}`}>−</button><span>{quantity}</span><button type="button" onClick={() => addItem(item, entry.name)} aria-label={`Add another ${item.name}`}>+</button></div> : <button className="order-add" type="button" onClick={() => addItem(item, entry.name)}>Add <span>+</span></button>}
+            {quantity ? <div className="order-quantity" aria-label={`${item.name} quantity`}><button type="button" onClick={() => changeQuantity({ ...item, category: entry.name, quantity }, -1)} aria-label={`Remove one ${item.name}`}>−</button><span>{quantity}</span><button type="button" onClick={() => addItem(item, entry.name)} aria-label={`Add another ${item.name}`}>+</button></div> : <button className="order-add" type="button" disabled={!table} onClick={() => addItem(item, entry.name)}>{table ? <>Add <span>+</span></> : 'Scan table QR'}</button>}
           </article>
         })}</div>
       </section>)}
@@ -146,7 +145,7 @@ export function OrderMenuPage() {
             <div className="order-cart-lines">{cart.map((line) => <div className="order-cart-line" key={`${line.category}-${line.name}`}><div><strong>{line.name}</strong><span>{line.category} · {money(line.price)}</span></div><div className="order-quantity"><button type="button" onClick={() => changeQuantity(line, -1)}>−</button><span>{line.quantity}</span><button type="button" onClick={() => changeQuantity(line, 1)}>+</button></div><strong>{money(line.price * line.quantity)}</strong></div>)}</div>
             <label className="order-note"><span>Kitchen note <small>Optional</small></span><textarea value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={300} placeholder="Less spicy, allergy note, serve together…"/></label>
           </>}
-          {step === 'details' && <div className="order-details-form"><label><span>Table</span><input value={table} onChange={(event) => setTable(cleanTable(event.target.value))} maxLength={20}/></label><label><span>Guest name</span><input value={guestName} onChange={(event) => setGuestName(event.target.value)} maxLength={60} autoComplete="name" placeholder="Name for the order"/></label><label><span>Mobile number <small>Optional for this demo</small></span><input value={phone} onChange={(event) => setPhone(event.target.value)} maxLength={20} inputMode="tel" autoComplete="tel" placeholder="For order updates"/></label><div className="order-privacy-note">Your details are used only for this demo order and the café CRM.</div></div>}
+          {step === 'details' && <div className="order-details-form"><div className="order-locked-table"><span>Table from QR</span><strong>{table?.label} · {table?.id}</strong><small>{table?.zoneName} · {table?.capacity} seats</small></div><label><span>Guest name</span><input value={guestName} onChange={(event) => setGuestName(event.target.value)} maxLength={60} autoComplete="name" placeholder="Name for the order"/></label><label><span>Mobile number <small>Optional for this demo</small></span><input value={phone} onChange={(event) => setPhone(event.target.value)} maxLength={20} inputMode="tel" autoComplete="tel" placeholder="For order updates"/></label><div className="order-privacy-note">Your details are used only for this demo order and the café CRM.</div></div>}
           {step === 'payment' && <div className="demo-payment"><div className="demo-notice"><strong>Demo payment—no money will move</strong><span>Do not enter a real card number, UPI PIN, OTP or bank information.</span></div><label className={paymentMethod === 'demo-upi' ? 'is-selected' : ''}><input type="radio" name="payment" checked={paymentMethod === 'demo-upi'} onChange={() => setPaymentMethod('demo-upi')}/><span className="payment-icon">UPI</span><span><strong>Demo UPI</strong><small>Simulated instant payment</small></span><i>✓</i></label><label className={paymentMethod === 'demo-card' ? 'is-selected' : ''}><input type="radio" name="payment" checked={paymentMethod === 'demo-card'} onChange={() => setPaymentMethod('demo-card')}/><span className="payment-icon">••••</span><span><strong>Demo card</strong><small>No card details required</small></span><i>✓</i></label></div>}
           {error && <p className="order-error" role="alert">{error}</p>}
         </div>

@@ -44,3 +44,14 @@ export const seatingPlans: Record<SeatingZone, { name: string; orientation: stri
 }
 
 export const seatsFor = (cluster: SeatCluster) => Array.from({ length: cluster.capacity }, (_, index) => `${cluster.id}-${index + 1}`)
+
+export type OrderTable = SeatCluster & { zone: SeatingZone; zoneName: string }
+
+export const orderTables: OrderTable[] = (Object.entries(seatingPlans) as [SeatingZone, (typeof seatingPlans)[SeatingZone]][]).flatMap(([zone, plan]) =>
+  plan.clusters.map((cluster) => ({ ...cluster, zone, zoneName: plan.name })),
+)
+
+export const orderTableFor = (code: string | null | undefined) => {
+  const normalized = String(code || '').trim().toUpperCase()
+  return orderTables.find((table) => table.id === normalized) || null
+}

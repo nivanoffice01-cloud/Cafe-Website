@@ -220,8 +220,8 @@ export function HomePage() {
         </section>
 
         <section className="lux-qr-order" aria-labelledby="qr-order-title">
-          <div className="lux-qr-order-copy"><Reveal><p className="lux-overline">AT YOUR TABLE</p><h2 id="qr-order-title">Scan. Choose.<br/><em>Send to the kitchen.</em></h2><p>Browse the table menu, build your order, and try the clearly labelled demo checkout. Your ticket appears directly in the Mangosteen CRM.</p><div className="lux-qr-actions"><a className="lux-button lux-button-gold" href="/menu">Open table menu <Arrow/></a><a className="lux-order-link" href="/menu-qr.svg" download="mangosteen-menu-qr.svg">Download QR <Arrow/></a></div></Reveal></div>
-          <a className="lux-qr-card" href="/menu" aria-label="Open the Mangosteen table menu"><img src="/menu-qr.svg" alt="QR code for the Mangosteen table menu"/><span>SCAN TO ORDER</span><small>Demo ordering · no real payment</small></a>
+          <div className="lux-qr-order-copy"><Reveal><p className="lux-overline">AT YOUR TABLE</p><h2 id="qr-order-title">Scan. Choose.<br/><em>Send to the kitchen.</em></h2><p>Each physical table has its own locked QR code. Scan the code at your seat, build your order, and try the clearly labelled demo checkout. Your ticket appears directly in the Mangosteen CRM with the correct table.</p><div className="lux-qr-actions"><a className="lux-button lux-button-gold" href="/menu">Preview table menu <Arrow/></a><a className="lux-order-link" href="/table-qr.html" target="_blank" rel="noreferrer">View printable table QRs <Arrow/></a></div></Reveal></div>
+          <a className="lux-qr-card" href="/menu" aria-label="Preview the Mangosteen table menu"><img src="/menu-qr.svg" alt="QR code for a preview of the Mangosteen table menu"/><span>PREVIEW THE MENU</span><small>Ordering unlocks from a dedicated table QR</small></a>
         </section>
 
         <section className="lux-visit" id="visit" aria-labelledby="visit-title">

@@ -1,12 +1,14 @@
 import { getStore } from '@netlify/blobs'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
 import { fullMenu } from '../../src/data/fullMenu.ts'
+import { seatingPlans } from '../../src/data/seating.ts'
 
 const STORE_KEY = 'production-state-v1'
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
 const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
 const PUBLIC_MENU = new Map(fullMenu.flatMap((category) => category.items.map((item) => [`${category.name}|${item.name}`, { ...item, category: category.name }])))
+const PUBLIC_TABLES = new Map(Object.values(seatingPlans).flatMap((plan) => plan.clusters.map((table) => [table.id, { ...table, zoneName: plan.name }])))
 
 const store = () => getStore('mangosteen-crm', { consistency: 'strong' })
 const now = () => new Date().toISOString()
@@ -322,11 +324,12 @@ async function handlePublicOrder(request, state, body) {
   state.publicSubmissions ||= {}
   if (state.publicSubmissions[key]) return json(state.publicSubmissions[key])
 
-  const table = String(body.table || '').trim().slice(0, 20)
+  const tableCode = String(body.table || '').trim().toUpperCase()
+  const table = PUBLIC_TABLES.get(tableCode)
   const guestName = String(body.guestName || '').trim().slice(0, 60)
   const phone = String(body.phone || '').trim().slice(0, 20)
   const notes = String(body.notes || '').trim().slice(0, 300)
-  if (!/^[A-Za-z0-9 -]{1,20}$/.test(table)) throw new Error('Please enter a valid table number')
+  if (!table) throw new Error('This order did not come from a recognized table QR')
   if (guestName.length < 2) throw new Error('Please enter the guest name for this order')
   if (phone && !/^[+0-9 ()-]{7,20}$/.test(phone)) throw new Error('Please enter a valid mobile number or leave it blank')
   if (!Array.isArray(body.items) || !body.items.length || body.items.length > 24) throw new Error('Add between 1 and 24 menu items')
@@ -348,7 +351,7 @@ async function handlePublicOrder(request, state, body) {
   const total = subtotal + serviceCharge
   const createdAt = now()
   const order = {
-    id: nextId(state.orders), table: `QR ${table} · ${guestName}`.slice(0, 40), status: 'Kitchen',
+    id: nextId(state.orders), table: `QR ${table.id} · ${table.label} · ${guestName}`.slice(0, 40), tableCode: table.id, tableLabel: table.label, status: 'Kitchen',
     subtotal, serviceCharge, total, paymentMethod: paymentLabel, paymentDemo: true, notes,
     guestName, phone, createdAt, sentAt: createdAt, readyAt: null, paidAt: null, items,
   }

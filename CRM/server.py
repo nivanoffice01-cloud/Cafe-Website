@@ -66,6 +66,11 @@ PUBLIC_SEATING = {
         "Bar side": ("B1", 2),
     },
 }
+ORDER_TABLES = {
+    code: label
+    for zone in PUBLIC_SEATING.values()
+    for label, (code, _capacity) in zone.items()
+}
 
 
 SCHEMA = """
@@ -1516,14 +1521,15 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         self.send_json({"error": "Too many order attempts. Please try again later."}, HTTPStatus.TOO_MANY_REQUESTS)
                         return
 
-                    table_name = str(body.get("table", "")).strip()[:20]
+                    table_code = str(body.get("table", "")).strip().upper()
+                    table_label = ORDER_TABLES.get(table_code)
                     guest_name = str(body.get("guestName", "")).strip()[:60]
                     phone = str(body.get("phone", "")).strip()[:20]
                     requested_items = body.get("items", [])
                     payment_key = str(body.get("paymentMethod", ""))
                     payment_label = "Demo card" if payment_key == "demo-card" else "Demo UPI" if payment_key == "demo-upi" else ""
-                    if not re.fullmatch(r"[A-Za-z0-9 -]{1,20}", table_name):
-                        raise ValueError("Please enter a valid table number")
+                    if not table_label:
+                        raise ValueError("This order did not come from a recognized table QR")
                     if len(guest_name) < 2:
                         raise ValueError("Please enter the guest name for this order")
                     if phone and not re.fullmatch(r"[+0-9 ()-]{7,20}", phone):
@@ -1550,7 +1556,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     service_charge = round(subtotal * 0.05)
                     total = subtotal + service_charge
                     timestamp = now_iso()
-                    display_table = f"QR {table_name} · {guest_name}"[:40]
+                    display_table = f"QR {table_code} · {table_label} · {guest_name}"[:40]
                     cursor = connection.execute(
                         """INSERT INTO orders (table_name, status, subtotal, total, payment_method, created_at, sent_at)
                            VALUES (?, 'Kitchen', ?, ?, ?, ?, ?)""",
