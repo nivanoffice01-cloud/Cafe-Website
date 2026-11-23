@@ -389,7 +389,8 @@ async function handlePublicOrder(request, state, body) {
 
 async function handleRequest(request) {
   const url = new URL(request.url)
-  const path = normalizePath(url.pathname)
+  const routedPath = url.searchParams.get('path')
+  const path = routedPath ? `/${routedPath.replace(/^\/+/, '')}` : normalizePath(url.pathname)
   try {
     let state = await loadState()
     const body = await readBody(request)
