@@ -8,6 +8,7 @@
     "generate:qr": "node scripts/generate-menu-qr.mjs",
     "build": "tsc -b && vite build",
     "build:netlify": "npm run build && node scripts/prepare-netlify.mjs",
+    "build:vercel": "npm run build && node scripts/prepare-netlify.mjs",
     "preview": "vite preview",
     "test": "python3 -m unittest discover -s CRM/tests -v",
     "check": "npm run build && node --check CRM/dist/app.js && npm test"
