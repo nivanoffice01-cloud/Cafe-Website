@@ -5,10 +5,7 @@
   "outputDirectory": "dist",
   "functions": {
     "api/[...path].mjs": {
-      "includeFiles": [
-        "src/data/fullMenu.ts",
-        "src/data/seating.ts"
-      ]
+      "includeFiles": "src/data/{fullMenu,seating}.ts"
     }
   },
   "redirects": [
