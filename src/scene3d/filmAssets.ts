@@ -2,7 +2,7 @@
  * photographs remain in /images/highres for documentary gallery use. */
 export const filmAssets = {
   exterior: '/images/experience/mangosteen-arrival-enhanced.jpg',
-  interior: '/images/mobile/mangosteen_original_3_mobile.jpg',
+  interior: '/images/experience/mangosteen-interior-enhanced.jpg',
   table: '/images/experience/mangosteen-table-enhanced.jpg',
   food: '/images/experience/mangosteen-table-dish.jpg',
 } as const

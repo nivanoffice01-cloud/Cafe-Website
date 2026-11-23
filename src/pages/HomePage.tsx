@@ -134,7 +134,7 @@ export function HomePage() {
             <div className="film-mobile-scene" aria-hidden="true">
               <img className="film-mobile-exterior-backdrop" src="/images/mobile/mangosteen-arrival-mobile.jpg" alt="" fetchPriority="high" />
               <img className="film-mobile-exterior" src="/images/mobile/mangosteen-arrival-mobile.jpg" alt="" fetchPriority="high" />
-              <img className="film-mobile-interior" src="/images/mobile/mangosteen_original_3_mobile.jpg" alt="" loading="lazy" />
+              <img className="film-mobile-interior" src="/images/mobile/mangosteen-interior-mobile.jpg" alt="" loading="lazy" />
               <img className="film-mobile-table" src="/images/mobile/mangosteen-table-mobile.jpg" alt="" loading="lazy" />
             </div>
             <img className="film-food-reveal" alt="" aria-hidden="true" decoding="async" />
@@ -182,7 +182,7 @@ export function HomePage() {
             <p>A table. A little warmth. An evening that stays longer than expected.</p>
             <div className="lux-editorial-facts"><div><span>THE SETTING</span><strong>Open air · warm light</strong></div><div><span>THE MENU</span><strong>Indian · Italian · Asian</strong></div><div><span>FOR TWO</span><strong>{cafe.priceRange}</strong></div></div>
           </Reveal></div>
-          <figure className="lux-editorial-image"><Photo src="/images/highres/mangosteen_original_3_8k.jpg" alt="Mangosteen Café seating under woven pendant lights in the evening"/><figcaption>Inside Mangosteen <span>02 / 04</span></figcaption></figure>
+          <figure className="lux-editorial-image"><Photo src="/images/experience/mangosteen-interior-enhanced.jpg" alt="Mangosteen Café seating under woven pendant lights in the evening"/><figcaption>Inside Mangosteen <span>02 / 04</span></figcaption></figure>
         </section>
 
         <section className="lux-gallery" id="gallery" aria-labelledby="gallery-title">
