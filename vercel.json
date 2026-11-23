@@ -12,19 +12,15 @@
   ],
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://mangosteen-cafe-indore-206.netlify.app/api/:path*"
-    },
-    {
       "source": "/crm-api/api/:path*",
-      "destination": "https://mangosteen-cafe-indore-206.netlify.app/api/:path*"
+      "destination": "/api/:path*"
     },
     {
       "source": "/crm/:path*",
       "destination": "/crm/index.html"
     },
     {
-      "source": "/:path*",
+      "source": "/:path((?!api/).*)",
       "destination": "/index.html"
     }
   ],

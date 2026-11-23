@@ -428,7 +428,3 @@ button.text-link { appearance: none; border-top: 0; border-right: 0; border-left
   .reveal { opacity: 1; transform: none; }
 }
 
-/* Netlify injects this promotional badge after the application mounts. */
-#nl-badge-frame {
-  display: none !important;
-}

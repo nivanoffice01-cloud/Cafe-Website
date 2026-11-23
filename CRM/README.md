@@ -48,19 +48,19 @@ requests create or link a customer, store the selected seating preference, and
 appear in the CRM as **Pending**. Public submissions are validated, idempotent,
 rate-limited and do not require a staff session.
 
-## Netlify deployment
+## Vercel deployment
 
-The production Netlify build publishes both experiences from one project:
+The production Vercel build publishes both experiences from one project:
 
 - Public website: `/`
 - CRM: `/crm/`
-- Shared Functions API: `/api/*`
+- Shared Vercel Functions API: `/api/*`
 - Website reservation bridge: `/crm-api/api/*`
 
-Run `npm run build:netlify` from the repository root to build the website and
+Run `npm run build:vercel` from the repository root to build the website and
 copy the CRM client into `dist/crm`. The hosted adapter stores demo records,
-sessions and backups in Netlify Blobs. Local development continues to use the
-Python/SQLite server.
+sessions and backups in a private Vercel Blob store. Local development
+continues to use the Python/SQLite server.
 
 ## Demo owner sign-in
 
@@ -107,5 +107,5 @@ export MANGOSTEEN_WHATSAPP_TOKEN="..."
 ```
 
 Do not commit real credentials. Local Python development binds to `127.0.0.1`.
-The hosted client demo uses HTTPS and Netlify Blobs, but real customer data still
+The hosted client demo uses HTTPS and a private Vercel Blob store, but real customer data still
 requires managed secrets, monitoring, rate limiting and an infrastructure review.

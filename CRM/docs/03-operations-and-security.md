@@ -73,15 +73,15 @@ service recovery.
 
 ## Public deployment checklist
 
-The Netlify client-demo deployment uses HTTPS, HttpOnly session cookies,
-server-enforced roles and Netlify Blobs persistence. It is suitable for review
+The Vercel client-demo deployment uses HTTPS, HttpOnly session cookies,
+server-enforced roles and private Vercel Blob persistence. It is suitable for review
 and controlled demonstrations. Before entering real customer or payment data at
 scale:
 
 - Replace seeded passwords and create named staff accounts.
-- Store provider credentials in Netlify environment variables.
+- Store provider credentials in Vercel environment variables.
 - Add production-grade rate limiting, account lockout and abuse monitoring to
-  the Netlify function. The local Python server already enforces CSRF tokens and
+  the Vercel Function. The local Python server already enforces CSRF tokens and
   sign-in lockouts.
 - For a separately hosted Python server, use HTTPS, a managed secret service,
   trusted-proxy configuration and `MANGOSTEEN_SECURE_COOKIES=true`.

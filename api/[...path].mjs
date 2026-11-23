@@ -1,16 +1,38 @@
-import { getStore } from '@netlify/blobs'
+import { get, put } from '@vercel/blob'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
-import { fullMenu } from '../../src/data/fullMenu.ts'
-import { orderTables } from '../../src/data/seating.ts'
+import { fullMenu } from '../src/data/fullMenu.ts'
+import { orderTables } from '../src/data/seating.ts'
 
-const STORE_KEY = 'production-state-v1'
+const STORE_KEY = 'production-state-v1.json'
+const STORE_PREFIX = 'mangosteen-crm'
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
 const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
 const PUBLIC_MENU = new Map(fullMenu.flatMap((category) => category.items.map((item) => [`${category.name}|${item.name}`, { ...item, category: category.name }])))
 const PUBLIC_TABLES = new Map(orderTables.map((table) => [table.id, table]))
 
-const store = () => getStore('mangosteen-crm', { consistency: 'strong' })
+const blobPath = (key) => `${STORE_PREFIX}/${String(key).replaceAll(':', '/')}`
+const store = () => ({
+  async get(key, options = {}) {
+    const result = await get(blobPath(key), { access: 'private', useCache: false })
+    if (!result?.stream) return null
+    const value = await new Response(result.stream).text()
+    if (options.type === 'json') return JSON.parse(value)
+    return value
+  },
+  async set(key, value) {
+    await put(blobPath(key), value, {
+      access: 'private',
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      cacheControlMaxAge: 60,
+      contentType: 'application/json; charset=utf-8',
+    })
+  },
+  async setJSON(key, value) {
+    await this.set(key, JSON.stringify(value))
+  },
+})
 const now = () => new Date().toISOString()
 const indiaDate = (value = new Date()) => new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit',
@@ -192,7 +214,7 @@ function text(body, contentType = 'text/plain; charset=utf-8', status = 200, hea
 }
 
 function normalizePath(pathname) {
-  const prefixes = ['/crm-api/api', '/.netlify/functions/api', '/api']
+  const prefixes = ['/crm-api/api', '/api']
   for (const prefix of prefixes) if (pathname.startsWith(prefix)) return pathname.slice(prefix.length) || '/'
   return pathname
 }
@@ -245,7 +267,7 @@ function bootstrap(state, user) {
     communications: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.communications : [],
     pointLedger: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.pointLedger : [],
     backups: role === 'Owner' ? state.backups : [],
-    integrations: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? { email: { mode: 'Demo', provider: 'Netlify outbox' }, whatsapp: { mode: 'Demo', provider: 'Netlify outbox' }, pos: { mode: 'Ready', provider: 'CSV import' } } : {},
+    integrations: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? { email: { mode: 'Demo', provider: 'Vercel outbox' }, whatsapp: { mode: 'Demo', provider: 'Vercel outbox' }, pos: { mode: 'Ready', provider: 'CSV import' } } : {},
     menuItems: state.menuItems,
     orders: state.orders.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 100),
     inventory: ['Owner', 'Manager'].includes(role) ? state.inventory : [],
@@ -370,7 +392,7 @@ export default async (request) => {
     let state = await loadState()
     const body = await readBody(request)
 
-    if (request.method === 'GET' && path === '/health') return json({ status: 'ok', storage: 'Netlify Blobs' })
+    if (request.method === 'GET' && path === '/health') return json({ status: 'ok', storage: 'Vercel Blob' })
     if (request.method === 'POST' && path === '/public/reservations') return handlePublicReservation(request, state, body)
     if (request.method === 'POST' && path === '/public/orders') return handlePublicOrder(request, state, body)
 
@@ -549,7 +571,7 @@ export default async (request) => {
     if (path === '/communications/send') {
       requireUser(request, state, 'Host')
       if (!String(body.recipient || '').trim() || !String(body.message || '').trim()) throw new Error('Recipient and message are required')
-      const communication = { id: nextId(state.communications), customerId: body.customerId ? Number(body.customerId) : null, channel: String(body.channel || 'WhatsApp'), recipient: String(body.recipient), subject: String(body.subject || ''), message: String(body.message), purpose: String(body.purpose || 'Transactional'), status: 'Queued', provider: 'Netlify demo outbox', createdAt: now(), sentAt: null, error: '' }
+      const communication = { id: nextId(state.communications), customerId: body.customerId ? Number(body.customerId) : null, channel: String(body.channel || 'WhatsApp'), recipient: String(body.recipient), subject: String(body.subject || ''), message: String(body.message), purpose: String(body.purpose || 'Transactional'), status: 'Queued', provider: 'Vercel demo outbox', createdAt: now(), sentAt: null, error: '' }
       state.communications.unshift(communication); await saveState(state); return json({ id: communication.id, status: communication.status, provider: communication.provider })
     }
     if (path === '/points/adjust') {
