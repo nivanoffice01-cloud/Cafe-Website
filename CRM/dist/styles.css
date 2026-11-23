@@ -2437,6 +2437,11 @@ svg {
   }
 }
 
+/* Keep the production workspace free of hosting-provider promotion. */
+#nl-badge-frame {
+  display: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
