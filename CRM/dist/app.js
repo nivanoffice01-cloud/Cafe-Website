@@ -279,6 +279,7 @@ function pageHeader(eyebrow, title, description, actions = '') {
   return `
     <header class="page-header">
       <div>
+        <div class="eyebrow">${eyebrow}</div>
         <h1>${title}</h1>
         <p>${description}</p>
       </div>
@@ -308,8 +309,9 @@ function shell() {
       <aside class="sidebar ${state.sidebarOpen ? 'open' : ''}" id="sidebar">
         <div class="brand">
           <div class="brand-mark">${icon('coffee')}</div>
-          <div class="brand-copy"><strong>${escapeHtml(businessName.replace(/\s+Cafe$/i, ''))}</strong><span>Cafe manager</span></div>
+          <div class="brand-copy"><strong>${escapeHtml(businessName.replace(/\s+Cafe$/i, ''))}</strong><span>Cafe Operating Suite</span></div>
         </div>
+        <div class="nav-label">Workspace</div>
         <nav class="nav-list" aria-label="Main navigation">
           ${visibleNav.map((item) => `
             <button class="nav-item ${state.page === item.id ? 'active' : ''}" data-page="${item.id}">
@@ -319,9 +321,9 @@ function shell() {
         <div class="sidebar-footer">
           <div class="sidebar-footer-top">
             <div class="tiny-avatar">${userInitials}</div>
-            <div><strong>${escapeHtml(user.name)}</strong><span>${escapeHtml(user.role)}</span></div>
+            <div><strong>${escapeHtml(user.name)}</strong><span>${escapeHtml(user.role)} workspace</span></div>
           </div>
-          <div class="demo-pill">Demo workspace</div>
+          <div class="demo-pill">Private data layer active</div>
         </div>
       </aside>
       <div class="mobile-overlay ${state.sidebarOpen ? 'open' : ''}" data-action="close-sidebar"></div>
@@ -345,8 +347,9 @@ function shell() {
         </div>
         <div class="page-wrap">
           <div class="demo-banner">
-            <span><strong>Demo mode.</strong> Explore freely—changes are saved to the demo workspace.</span>
-            ${user.role === 'Owner' ? '<button data-action="reset-demo">Reset sample data</button>' : ''}
+            ${icon('sparkles')}
+            <span><strong>Private operating workspace.</strong> ${isCloudHosted ? 'Orders, stock and guest data use the secured Netlify data layer' : 'Orders, stock and guest data stay on this Mac'}; website requests arrive here as pending.</span>
+            ${user.role === 'Owner' ? '<button data-action="reset-demo">Rebuild sample data</button>' : ''}
           </div>
           <div id="page-content">${renderPage()}</div>
         </div>
@@ -853,7 +856,7 @@ function renderSettings() {
 }
 
 function renderLogin() {
-  return `<main class="login-shell"><section class="login-card"><div class="login-brand"><div class="brand-mark">${icon('coffee')}</div><div><strong>Mangosteen Cafe</strong><span>Team workspace</span></div></div><div class="login-copy"><h1>Welcome back</h1><p>Choose a role and sign in to explore the demo.</p></div>${dataError ? `<div class="form-error">${escapeHtml(dataError)}</div>` : ''}<form id="login-form"><div class="field"><label for="demo-role">Demo role</label><select id="demo-role"><option value="owner@mangosteen.local">Owner — full access</option><option value="manager@mangosteen.local">Manager — daily operations</option><option value="cashier@mangosteen.local">Cashier — orders and billing</option><option value="kitchen@mangosteen.local">Kitchen — live tickets</option></select></div><div class="field"><label for="login-email">Email</label><input id="login-email" name="email" type="email" autocomplete="username" required value="owner@mangosteen.local" /></div><div class="field"><label for="login-password">Password</label><input id="login-password" name="password" type="password" autocomplete="current-password" required value="Mangosteen@123" /></div><button class="btn btn-primary login-button" type="submit">Sign in</button></form><p class="login-help">The demo password is already filled in.</p></section></main>`;
+  return `<main class="login-shell"><section class="login-card"><div class="login-brand"><div class="brand-mark">${icon('coffee')}</div><div><strong>Mangosteen</strong><span>Cafe Operating Suite</span></div></div><div class="login-copy"><span class="eyebrow">Private operating system</span><h1>Welcome to Mangosteen</h1><p>One secure workspace for orders, kitchen, billing, stock, staff and every guest.</p></div>${dataError ? `<div class="form-error">${escapeHtml(dataError)}</div>` : ''}<form id="login-form"><div class="field"><label>Email address</label><input name="email" type="email" autocomplete="username" required /></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required /></div><button class="btn btn-primary login-button" type="submit">${icon('lock')} Enter private workspace</button></form><div class="login-demo"><strong>Private workspace</strong><span>Use the account provided by the owner. Replace every seeded demo password before storing real customer data.</span></div></section><aside class="login-visual"><div><span class="eyebrow">Mangosteen Cafe · Indore</span><h2>Run the whole cafe. Know every guest.</h2><p>A premium operating layer for tables, kitchen, billing, inventory, people, loyalty and profit intelligence.</p></div></aside></main>`;
 }
 
 function renderApp() {
@@ -902,8 +905,8 @@ function openModal(title, subtitle, body, footer = '') {
 }
 
 function openAddCustomer() {
-  openModal('Add customer', 'Save the details your team will actually use.', `
-    <form id="customer-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required placeholder="Customer’s name" /></div><div class="field"><label>Mobile number</label><input name="phone" required placeholder="+91 98765 43210" /></div><div class="field"><label>Email (optional)</label><input name="email" type="email" placeholder="name@example.com" /></div><div class="field"><label>Birthday (optional)</label><input name="birthday" type="date" /></div><div class="field"><label>Membership</label><select name="tier"><option>Member</option><option>Silver</option><option>Gold</option><option>Platinum</option></select></div><div class="field"><label>What do they enjoy?</label><select name="tag"><option>New customer</option><option>Vegetarian</option><option>Vegan</option><option>Coffee lover</option><option>Celebrations</option></select></div><div class="field full"><label>Notes for the team</label><textarea name="notes" placeholder="Favourite table, allergies, or anything worth remembering"></textarea></div></div><div class="switch-row"><div class="switch-copy"><strong>Send offers and updates</strong><span>Turn this on only when the customer has agreed.</span></div><button type="button" class="switch" id="new-customer-consent" data-action="toggle-switch" aria-label="Customer agreed to offers"></button></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="customer-form">Save customer</button>`);
+  openModal('Add a customer', 'Create a guest profile with clear communication preferences.', `
+    <form id="customer-form"><div class="form-grid"><div class="field"><label>Full name *</label><input name="name" required placeholder="Guest name" /></div><div class="field"><label>Mobile number *</label><input name="phone" required placeholder="+91" /></div><div class="field"><label>Email</label><input name="email" type="email" placeholder="name@example.com" /></div><div class="field"><label>Birthday</label><input name="birthday" type="date" /></div><div class="field"><label>Initial tier</label><select name="tier"><option>Member</option><option>Silver</option><option>Gold</option><option>Platinum</option></select></div><div class="field"><label>Primary preference</label><select name="tag"><option>New</option><option>Vegetarian</option><option>Vegan</option><option>Coffee lover</option><option>Celebrations</option></select></div><div class="field full"><label>Guest notes</label><textarea name="notes" placeholder="Preferences, allergies or service notes"></textarea></div></div><div class="switch-row"><div class="switch-copy"><strong>Marketing opt-in recorded</strong><span>Only enable after the guest gives clear permission.</span></div><button type="button" class="switch" id="new-customer-consent" data-action="toggle-switch"></button></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="customer-form">${icon('plus')} Create customer</button>`);
 }
 
 function openCustomerProfile(id) {
@@ -917,8 +920,8 @@ function openCustomerProfile(id) {
 }
 
 function openReservationForm() {
-  openModal('Book a table', 'Add the visit details and any notes for the floor team.', `
-    <form id="reservation-form"><div class="form-grid"><div class="field"><label>Customer name</label><input name="name" required placeholder="Name for the booking" /></div><div class="field"><label>Mobile number</label><input name="phone" required placeholder="+91 98765 43210" /></div><div class="field"><label>Date</label><input name="date" type="date" required value="${localDateKey()}" /></div><div class="field"><label>Arrival time</label><input name="time" type="time" required value="19:00" /></div><div class="field"><label>Guests</label><input name="guests" type="number" min="1" max="30" value="2" /></div><div class="field"><label>Where would they like to sit?</label><select name="table"><option>Best available</option><option>Window</option><option>Garden</option><option>Indoor</option><option>Private area</option></select></div><div class="field"><label>Visit type</label><select name="occasion"><option>Regular visit</option><option>Birthday</option><option>Anniversary</option><option>Business meeting</option><option>Celebration</option></select></div><div class="field"><label>Booking status</label><select name="status"><option>Confirmed</option><option>Pending</option></select></div><div class="field full"><label>Notes for the team</label><textarea name="notes" placeholder="Cake, allergies, accessibility, or seating request"></textarea></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="reservation-form">Save booking</button>`);
+  openModal('New reservation', 'Reserve a table and capture the details that make the visit special.', `
+    <form id="reservation-form"><div class="form-grid"><div class="field"><label>Guest name *</label><input name="name" required placeholder="Search or enter guest" /></div><div class="field"><label>Mobile number *</label><input name="phone" required placeholder="+91" /></div><div class="field"><label>Date *</label><input name="date" type="date" required value="${localDateKey()}" /></div><div class="field"><label>Time *</label><input name="time" type="time" required value="19:00" /></div><div class="field"><label>Number of guests</label><input name="guests" type="number" min="1" max="30" value="2" /></div><div class="field"><label>Table preference</label><select name="table"><option>Best available</option><option>Window</option><option>Garden</option><option>Indoor</option><option>Private area</option></select></div><div class="field"><label>Occasion</label><select name="occasion"><option>Regular visit</option><option>Birthday</option><option>Anniversary</option><option>Business meeting</option><option>Celebration</option></select></div><div class="field"><label>Status</label><select name="status"><option>Confirmed</option><option>Pending</option></select></div><div class="field full"><label>Special requests</label><textarea name="notes" placeholder="Cake, allergies, accessibility or seating notes"></textarea></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="reservation-form">${icon('check')} Confirm reservation</button>`);
 }
 
 function openRewardForm() {
@@ -974,28 +977,28 @@ function openPointsAdjustment() {
 function openOrderForm() {
   const groups = [...new Set((data.menuItems || []).map((item) => item.category))];
   const menu = groups.map((category) => `<section class="menu-group"><h3>${escapeHtml(category)}</h3><div class="menu-picker">${data.menuItems.filter((item) => item.category === category && item.active).map((item) => `<label class="menu-pick"><span><strong>${escapeHtml(item.name)}</strong><small>${inr(item.price)}</small></span><input name="qty_${item.id}" type="number" min="0" max="20" value="0" aria-label="Quantity for ${escapeHtml(item.name)}" /></label>`).join('')}</div></section>`).join('');
-  openModal('New order', 'Choose the table, then add the items they ordered.', `<form id="order-form"><div class="field"><label>Table or takeaway name</label><input name="table" required placeholder="For example: Table 5 or Rahul takeaway" maxlength="40" /></div><div class="menu-scroll">${menu}</div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="order-form">Save order</button>`);
+  openModal('Create table order', 'Choose the table and add menu quantities. The order remains editable until sent to the kitchen.', `<form id="order-form"><div class="field"><label>Table / service reference</label><input name="table" required placeholder="Table 5" maxlength="40" /></div><div class="menu-scroll">${menu}</div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="order-form">${icon('check')} Create order</button>`);
 }
 
 function openPaymentForm(orderId) {
   const order = data.orders.find((item) => String(item.id) === String(orderId));
   if (!order) return;
-  openModal(`Take payment for ${escapeHtml(order.table)}`, `Order #${String(order.id).padStart(3, '0')}`, `<form id="payment-form"><input type="hidden" name="orderId" value="${order.id}" /><div class="field-label">How did the customer pay?</div><div class="payment-methods">${['Cash', 'UPI', 'Card'].map((method, index) => `<label><input type="radio" name="method" value="${method}" ${index === 0 ? 'checked' : ''} /><span>${icon(method === 'Cash' ? 'rupee' : method === 'UPI' ? 'phone' : 'wallet')}<strong>${method}</strong></span></label>`).join('')}</div><div class="order-total modal-total"><span>Total to collect</span><strong>${inr(order.total)}</strong></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="payment-form">Mark as paid</button>`);
+  openModal(`Settle ${escapeHtml(order.table)}`, `Order #${String(order.id).padStart(3, '0')} · ${inr(order.total)}`, `<form id="payment-form"><input type="hidden" name="orderId" value="${order.id}" /><div class="payment-methods">${['Cash', 'UPI', 'Card'].map((method, index) => `<label><input type="radio" name="method" value="${method}" ${index === 0 ? 'checked' : ''} /><span>${icon(method === 'Cash' ? 'rupee' : method === 'UPI' ? 'phone' : 'wallet')}<strong>${method}</strong></span></label>`).join('')}</div><div class="order-total modal-total"><span>Amount to collect</span><strong>${inr(order.total)}</strong></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="payment-form">${icon('wallet')} Confirm payment</button>`);
 }
 
 function openInventoryAdjustment(id) {
   const item = data.inventory.find((entry) => String(entry.id) === String(id));
   if (!item) return;
-  openModal(`Update ${escapeHtml(item.name)} stock`, `You currently have ${item.quantity} ${escapeHtml(item.unit)}.`, `<form id="inventory-form"><input type="hidden" name="id" value="${item.id}" /><div class="form-grid"><div class="field"><label>How much should change?</label><input name="quantity" type="number" step="0.01" required placeholder="Use 5 to add or -1 to remove" /></div><div class="field"><label>Why is it changing?</label><select name="reason"><option>Purchase received</option><option>Stock correction</option><option>Wastage</option><option>Stock count</option></select></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="inventory-form">Update stock</button>`);
+  openModal(`Adjust ${escapeHtml(item.name)}`, `Current stock: ${item.quantity} ${escapeHtml(item.unit)} · use a negative number for wastage.`, `<form id="inventory-form"><input type="hidden" name="id" value="${item.id}" /><div class="form-grid"><div class="field"><label>Quantity change (${escapeHtml(item.unit)})</label><input name="quantity" type="number" step="0.01" required placeholder="e.g. 5 or -1" /></div><div class="field"><label>Reason</label><select name="reason"><option>Purchase received</option><option>Manual correction</option><option>Wastage</option><option>Stock count</option></select></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="inventory-form">Save adjustment</button>`);
 }
 
 function openExpenseForm() {
   const vendors = (data.vendors || []).map((vendor) => `<option value="${vendor.id}">${escapeHtml(vendor.name)}</option>`).join('');
-  openModal('Add expense', 'Record what was paid so today’s profit stays accurate.', `<form id="expense-form"><div class="form-grid"><div class="field"><label>What was it for?</label><input name="name" required placeholder="For example: electricity bill" /></div><div class="field"><label>Amount paid</label><input name="amount" type="number" min="1" step="0.01" required placeholder="₹" /></div><div class="field"><label>Category</label><select name="category"><option>Kitchen</option><option>Vendor</option><option>Rent</option><option>Utilities</option><option>Salary</option><option>Other</option></select></div><div class="field"><label>Payment date</label><input name="date" type="date" value="${localDateKey()}" required /></div><div class="field"><label>Vendor (optional)</label><select name="vendorId"><option value="">Not linked to a vendor</option>${vendors}</select></div><div class="field full"><label>Note (optional)</label><textarea name="note" placeholder="Invoice number or anything the team should know"></textarea></div></div><label class="check-row"><input type="checkbox" name="addToBalance" value="true" /><span>Add this amount to the vendor’s unpaid balance</span></label></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="expense-form">Save expense</button>`);
+  openModal('Record an expense', 'This cost is included immediately in operating-profit reports.', `<form id="expense-form"><div class="form-grid"><div class="field"><label>Expense name</label><input name="name" required placeholder="Electricity bill" /></div><div class="field"><label>Amount</label><input name="amount" type="number" min="1" step="0.01" required /></div><div class="field"><label>Category</label><select name="category"><option>Kitchen</option><option>Vendor</option><option>Rent</option><option>Utilities</option><option>Salary</option><option>Other</option></select></div><div class="field"><label>Date</label><input name="date" type="date" value="${localDateKey()}" required /></div><div class="field"><label>Vendor (optional)</label><select name="vendorId"><option value="">No vendor</option>${vendors}</select></div><div class="field full"><label>Note</label><textarea name="note" placeholder="Invoice number or context"></textarea></div></div><label class="check-row"><input type="checkbox" name="addToBalance" value="true" /><span>Add this amount to the selected vendor’s outstanding balance</span></label></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="expense-form">${icon('check')} Record expense</button>`);
 }
 
 function openVendorForm() {
-  openModal('Add supplier', 'Save their contact details and what they deliver.', `<form id="vendor-form"><div class="form-grid"><div class="field"><label>Supplier name</label><input name="name" required placeholder="Business or contact name" /></div><div class="field"><label>Phone number</label><input name="phone" placeholder="+91" /></div><div class="field full"><label>What do they supply?</label><input name="supplies" placeholder="Milk, cream, paneer" /></div><div class="field"><label>Amount already due</label><input name="balance" type="number" min="0" step="0.01" value="0" /></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="vendor-form">Save supplier</button>`);
+  openModal('Add vendor', 'Create a supplier record for purchasing and balance tracking.', `<form id="vendor-form"><div class="form-grid"><div class="field"><label>Vendor name</label><input name="name" required /></div><div class="field"><label>Phone</label><input name="phone" /></div><div class="field full"><label>Supplies</label><input name="supplies" placeholder="Milk, cream, paneer" /></div><div class="field"><label>Opening balance</label><input name="balance" type="number" min="0" step="0.01" value="0" /></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="vendor-form">Add vendor</button>`);
 }
 
 function openVendorPayment(id) {
@@ -1005,7 +1008,7 @@ function openVendorPayment(id) {
 }
 
 function openOperationStaffForm() {
-  openModal('Add team member', 'Add their role, regular shift, and monthly salary.', `<form id="operation-staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required placeholder="Team member’s name" /></div><div class="field"><label>Role at the cafe</label><input name="jobRole" required placeholder="For example: Barista" /></div><div class="field"><label>Shift starts</label><input name="shiftStart" type="time" value="09:00" required /></div><div class="field"><label>Shift ends</label><input name="shiftEnd" type="time" value="18:00" required /></div><div class="field"><label>Monthly salary</label><input name="salary" type="number" min="0" step="1" required placeholder="₹" /></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="operation-staff-form">Save team member</button>`);
+  openModal('Add roster member', 'Add a staff profile for shifts, attendance, and salary tracking.', `<form id="operation-staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required /></div><div class="field"><label>Job role</label><input name="jobRole" required placeholder="Barista" /></div><div class="field"><label>Shift starts</label><input name="shiftStart" type="time" value="09:00" required /></div><div class="field"><label>Shift ends</label><input name="shiftEnd" type="time" value="18:00" required /></div><div class="field"><label>Monthly salary</label><input name="salary" type="number" min="0" step="1" required /></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="operation-staff-form">Add to roster</button>`);
 }
 
 function openAttendanceForm(id) {
@@ -1162,10 +1165,6 @@ document.getElementById('app').addEventListener('input', (event) => {
 
 document.getElementById('app').addEventListener('change', (event) => {
   if (event.target.id === 'customer-tier') filterCustomers();
-  if (event.target.id === 'demo-role') {
-    const email = document.getElementById('login-email');
-    if (email) email.value = event.target.value;
-  }
 });
 
 document.getElementById('app').addEventListener('keydown', (event) => {
