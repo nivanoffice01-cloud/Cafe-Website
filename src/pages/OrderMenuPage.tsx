@@ -105,14 +105,23 @@ export function OrderMenuPage() {
       <div className={`order-table-button${table ? '' : ' is-missing'}`}><span>{table ? 'Serving' : 'Preview'}</span><strong>{table ? `${table.label} · ${table.id}` : 'No table QR'}</strong></div>
     </header>
 
-    <section className="order-menu-intro">
-      <div><p className="order-kicker">SCAN · CHOOSE · ENJOY</p><h1>What are you in the mood for?</h1><p>Order for the table at your own pace. The kitchen receives it as soon as the demo payment is complete.</p></div>
-      <div className="order-menu-meta"><span>{fullMenuCount} dishes</span><span>13 categories</span><span>Vegetarian & non-vegetarian</span></div>
+    <section className={`order-menu-intro${table ? ' has-table' : ' is-preview'}`}>
+      <div className="order-menu-intro-copy">
+        <p className="order-kicker">{table ? `${table.label.toUpperCase()} · YOUR EVENING` : 'THE MANGOSTEEN MENU'}</p>
+        <h1>Choose slowly.<br/><em>Stay a while.</em></h1>
+        <p>{table ? 'Explore the menu, add what feels right, and send everything straight to the kitchen when you are ready.' : 'A table-side look at the Mangosteen menu. Scan the dedicated QR at your table when you are ready to order.'}</p>
+        <div className="order-menu-intro-actions"><a href="#order-menu-start">Explore the menu</a><span>{fullMenuCount} dishes · 13 chapters</span></div>
+      </div>
+      <div className="order-menu-visual">
+        <img className="order-menu-visual-main" src="/images/menu-ai/pizza-pide.webp" alt="" fetchPriority="high" decoding="async"/>
+        <img className="order-menu-visual-accent" src="/images/menu-ai/mocktails.webp" alt="" fetchPriority="high" decoding="async"/>
+        <div className="order-menu-table-card"><small>{table ? 'ORDERING FOR' : 'MENU PREVIEW'}</small><strong>{table?.label ?? 'Mangosteen'}</strong><span>{table ? `${table.zoneName} · ${table.capacity} seats` : `${fullMenuCount} dishes · 13 chapters`}</span></div>
+      </div>
     </section>
 
     {!table && <div className="order-table-warning"><strong>Menu preview</strong><span>To place an order, scan the dedicated QR printed on your physical table. The table number is locked into that QR.</span></div>}
 
-    <div className="order-menu-tools">
+    <div className="order-menu-tools" id="order-menu-start">
       <label className="order-search"><span aria-hidden="true">⌕</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search dishes or ingredients" aria-label="Search menu"/>{query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search">×</button>}</label>
       {!query && <nav className="order-categories" aria-label="Menu categories">{fullMenu.map((entry) => <button key={entry.name} type="button" className={entry.name === category ? 'is-active' : ''} onClick={() => setCategory(entry.name)}>{entry.name}</button>)}</nav>}
     </div>
