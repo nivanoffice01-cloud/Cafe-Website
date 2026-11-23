@@ -1,10 +1,12 @@
 import { getStore } from '@netlify/blobs'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
+import { fullMenu } from '../../src/data/fullMenu.ts'
 
 const STORE_KEY = 'production-state-v1'
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
 const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
+const PUBLIC_MENU = new Map(fullMenu.flatMap((category) => category.items.map((item) => [`${category.name}|${item.name}`, { ...item, category: category.name }])))
 
 const store = () => getStore('mangosteen-crm', { consistency: 'strong' })
 const now = () => new Date().toISOString()
@@ -312,6 +314,52 @@ async function handlePublicReservation(request, state, body) {
   return json(receipt, 201)
 }
 
+async function handlePublicOrder(request, state, body) {
+  if (String(body.website || '').trim()) return json({ accepted: true, status: 'Kitchen' }, 201)
+  const rawKey = request.headers.get('idempotency-key') || body.requestKey
+  if (!rawKey || !/^[A-Za-z0-9._:-]{8,128}$/.test(String(rawKey))) throw new Error('A valid order request key is required')
+  const key = `order:${rawKey}`
+  state.publicSubmissions ||= {}
+  if (state.publicSubmissions[key]) return json(state.publicSubmissions[key])
+
+  const table = String(body.table || '').trim().slice(0, 20)
+  const guestName = String(body.guestName || '').trim().slice(0, 60)
+  const phone = String(body.phone || '').trim().slice(0, 20)
+  const notes = String(body.notes || '').trim().slice(0, 300)
+  if (!/^[A-Za-z0-9 -]{1,20}$/.test(table)) throw new Error('Please enter a valid table number')
+  if (guestName.length < 2) throw new Error('Please enter the guest name for this order')
+  if (phone && !/^[+0-9 ()-]{7,20}$/.test(phone)) throw new Error('Please enter a valid mobile number or leave it blank')
+  if (!Array.isArray(body.items) || !body.items.length || body.items.length > 24) throw new Error('Add between 1 and 24 menu items')
+  const requestedPayment = String(body.paymentMethod || '')
+  const paymentLabel = requestedPayment === 'demo-card' ? 'Demo card' : requestedPayment === 'demo-upi' ? 'Demo UPI' : ''
+  if (!paymentLabel) throw new Error('Choose one of the demo payment methods')
+
+  let itemCount = 0
+  const items = body.items.map((requested) => {
+    const menu = PUBLIC_MENU.get(`${String(requested.category || '')}|${String(requested.name || '')}`)
+    const quantity = Math.floor(safeNumber(requested.quantity))
+    if (!menu || quantity < 1 || quantity > 10) throw new Error('One selected menu item is invalid or unavailable')
+    itemCount += quantity
+    return { id: randomUUID(), menuItemId: null, name: menu.name, category: menu.category, quantity, unitPrice: menu.price, lineTotal: menu.price * quantity }
+  })
+  if (itemCount > 30) throw new Error('A QR order can contain up to 30 dishes')
+  const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0)
+  const serviceCharge = Math.round(subtotal * 0.05)
+  const total = subtotal + serviceCharge
+  const createdAt = now()
+  const order = {
+    id: nextId(state.orders), table: `QR ${table} · ${guestName}`.slice(0, 40), status: 'Kitchen',
+    subtotal, serviceCharge, total, paymentMethod: paymentLabel, paymentDemo: true, notes,
+    guestName, phone, createdAt, sentAt: createdAt, readyAt: null, paidAt: null, items,
+  }
+  state.orders.unshift(order)
+  const receipt = { id: order.id, reference: `QR-${String(order.id).padStart(6, '0')}`, status: 'Kitchen', total, paymentLabel }
+  state.publicSubmissions[key] = receipt
+  addActivity(state, 'order', 'QR demo order received', `${order.table} · ${receipt.reference} · ${paymentLabel}`)
+  await saveState(state)
+  return json(receipt, 201)
+}
+
 export default async (request) => {
   const url = new URL(request.url)
   const path = normalizePath(url.pathname)
@@ -321,6 +369,7 @@ export default async (request) => {
 
     if (request.method === 'GET' && path === '/health') return json({ status: 'ok', storage: 'Netlify Blobs' })
     if (request.method === 'POST' && path === '/public/reservations') return handlePublicReservation(request, state, body)
+    if (request.method === 'POST' && path === '/public/orders') return handlePublicOrder(request, state, body)
 
     if (request.method === 'POST' && path === '/auth/login') {
       const user = state.users.find((item) => item.email === String(body.email || '').trim().toLowerCase() && item.active)

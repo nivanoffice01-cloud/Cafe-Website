@@ -93,6 +93,28 @@ class CRMServerTests(unittest.TestCase):
         self.assertEqual(status, 400)
         self.assertIn("unique seats", payload["error"])
 
+    def test_public_demo_order_reaches_kitchen_and_is_idempotent(self):
+        key = "qr-order-idempotency-test"
+        body = {
+            "table": "T-05", "guestName": "Demo Guest", "phone": "9876543210",
+            "paymentMethod": "demo-upi", "notes": "Less spicy", "website": "",
+            "items": [
+                {"category": "Pizza & Pide", "name": "Margarita", "quantity": 2, "unitPrice": 499},
+                {"category": "Mocktail & Coolers", "name": "Virgin mojito", "quantity": 1, "unitPrice": 250},
+            ],
+        }
+        first_status, first, _ = self.request("/api/public/orders", headers={"Idempotency-Key": key}, body=body)
+        second_status, second, _ = self.request("/api/public/orders", headers={"Idempotency-Key": key}, body=body)
+        self.assertEqual(first_status, 201)
+        self.assertEqual(second_status, 200)
+        self.assertEqual(first["id"], second["id"])
+        self.assertEqual(first["total"], 1310)
+        with crm.connect() as connection:
+            order = connection.execute("SELECT table_name, status, payment_method FROM orders WHERE id=?", (first["id"],)).fetchone()
+            self.assertEqual(order["status"], "Kitchen")
+            self.assertEqual(order["payment_method"], "Demo UPI")
+            self.assertIn("QR T-05", order["table_name"])
+
     def test_trusted_proxy_uses_forwarded_client_for_rate_limits(self):
         previous = os.environ.get("MANGOSTEEN_TRUSTED_PROXIES")
         os.environ["MANGOSTEEN_TRUSTED_PROXIES"] = "127.0.0.1"

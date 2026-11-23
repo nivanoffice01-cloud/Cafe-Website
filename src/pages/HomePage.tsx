@@ -219,6 +219,11 @@ export function HomePage() {
           <div className="lux-review-copy"><Reveal><p className="lux-overline">GOOGLE RATING</p><div className="lux-review-score"><div className="lux-rating-value"><strong>{cafe.rating}</strong><span>/ 5</span></div><div className="lux-review-meta"><span aria-label={`Rated ${cafe.rating} out of 5`}>★★★★★</span><small><b>{cafe.reviewCount}</b> reviews on Google</small></div></div><h2 id="review-title">What guests say.</h2><blockquote><p>“Amazing taste and very aesthetic ambiance. Loved the whole experience.”</p><cite>Guest review on Google</cite></blockquote><p>{reviewSummary}</p><a className="lux-text-link" href="https://www.google.com/search?q=Mangosteen+Cafe+Indore+reviews" target="_blank" rel="noreferrer">Read guest reviews <Arrow/></a></Reveal></div>
         </section>
 
+        <section className="lux-qr-order" aria-labelledby="qr-order-title">
+          <div className="lux-qr-order-copy"><Reveal><p className="lux-overline">AT YOUR TABLE</p><h2 id="qr-order-title">Scan. Choose.<br/><em>Send to the kitchen.</em></h2><p>Browse the table menu, build your order, and try the clearly labelled demo checkout. Your ticket appears directly in the Mangosteen CRM.</p><div className="lux-qr-actions"><a className="lux-button lux-button-gold" href="/menu">Open table menu <Arrow/></a><a className="lux-order-link" href="/menu-qr.svg" download="mangosteen-menu-qr.svg">Download QR <Arrow/></a></div></Reveal></div>
+          <a className="lux-qr-card" href="/menu" aria-label="Open the Mangosteen table menu"><img src="/menu-qr.svg" alt="QR code for the Mangosteen table menu"/><span>SCAN TO ORDER</span><small>Demo ordering · no real payment</small></a>
+        </section>
+
         <section className="lux-visit" id="visit" aria-labelledby="visit-title">
           <Photo src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="The Mangosteen Café exterior and illuminated sign at night" className="lux-visit-image"/><div className="lux-visit-shade"/>
           <div className="lux-visit-copy"><Reveal><p className="lux-overline">OLYMPUS · BICHOLI MARDANA</p><h2 id="visit-title">Stay for<br/><em>the evening.</em></h2><p>{cafe.address}</p><div className="lux-hours"><span>HOURS</span><strong>{cafe.hours}</strong></div><div className="lux-visit-actions"><button className="lux-button lux-button-gold" type="button" onClick={() => setReservationOpen(true)}>Reserve a table <Arrow/></button><a className="lux-order-link" href={cafe.directionsUrl} target="_blank" rel="noreferrer">Get directions <Arrow/></a></div></Reveal></div>
@@ -235,7 +240,7 @@ export function HomePage() {
       </main>
 
       <footer className="lux-footer"><a className="lux-brand" href="#top"><LeafMark/><span>MANGOSTEEN<small>CAFE · INDORE</small></span></a><span>Made for long evenings.</span><button type="button" onClick={() => openGallery(0)}>Cafe photo gallery</button><a href="#top" className="lux-back-top">Back to top ↑</a></footer>
-      <div className="lux-mobile-quick"><button type="button" onClick={openMenu}>Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve</button></div>
+      <div className="lux-mobile-quick"><a href="/menu">Order</a><button type="button" onClick={() => setReservationOpen(true)}>Reserve</button></div>
     </div>
     {menuOpen && <FullMenuDialog onClose={closeMenu} initialSelection={menuSelection}/>}
     {galleryOpen && <GalleryDialog initialIndex={galleryIndex} onClose={closeGallery}/>}

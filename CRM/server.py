@@ -227,6 +227,13 @@ CREATE TABLE IF NOT EXISTS public_submissions (
   FOREIGN KEY(reservation_id) REFERENCES reservations(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS public_order_submissions (
+  request_key TEXT PRIMARY KEY,
+  order_id INTEGER NOT NULL,
+  created_at TEXT NOT NULL,
+  FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS menu_items (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL UNIQUE,
@@ -1490,6 +1497,83 @@ class CRMHandler(SimpleHTTPRequestHandler):
                 self.send_json({"id": reservation_id, "reference": reference, "status": "Pending"}, HTTPStatus.CREATED)
                 return
 
+            if path == "/api/public/orders":
+                if str(body.get("website", "")).strip():
+                    self.send_json({"accepted": True, "status": "Kitchen"}, HTTPStatus.CREATED)
+                    return
+                request_key = str(self.headers.get("Idempotency-Key", "")).strip()
+                if not 8 <= len(request_key) <= 128 or not re.fullmatch(r"[A-Za-z0-9._:-]+", request_key):
+                    raise ValueError("A valid order request key is required")
+                with connect() as connection:
+                    previous = connection.execute(
+                        "SELECT order_id FROM public_order_submissions WHERE request_key=?", (request_key,)
+                    ).fetchone()
+                    if previous:
+                        order = connection.execute("SELECT id, total, payment_method FROM orders WHERE id=?", (previous["order_id"],)).fetchone()
+                        self.send_json({"id": order["id"], "reference": f"QR-{order['id']:06d}", "status": "Kitchen", "total": order["total"], "paymentLabel": order["payment_method"]})
+                        return
+                    if not self.allow_public_request():
+                        self.send_json({"error": "Too many order attempts. Please try again later."}, HTTPStatus.TOO_MANY_REQUESTS)
+                        return
+
+                    table_name = str(body.get("table", "")).strip()[:20]
+                    guest_name = str(body.get("guestName", "")).strip()[:60]
+                    phone = str(body.get("phone", "")).strip()[:20]
+                    requested_items = body.get("items", [])
+                    payment_key = str(body.get("paymentMethod", ""))
+                    payment_label = "Demo card" if payment_key == "demo-card" else "Demo UPI" if payment_key == "demo-upi" else ""
+                    if not re.fullmatch(r"[A-Za-z0-9 -]{1,20}", table_name):
+                        raise ValueError("Please enter a valid table number")
+                    if len(guest_name) < 2:
+                        raise ValueError("Please enter the guest name for this order")
+                    if phone and not re.fullmatch(r"[+0-9 ()-]{7,20}", phone):
+                        raise ValueError("Please enter a valid mobile number or leave it blank")
+                    if not isinstance(requested_items, list) or not 1 <= len(requested_items) <= 24:
+                        raise ValueError("Add between 1 and 24 menu items")
+                    if not payment_label:
+                        raise ValueError("Choose one of the demo payment methods")
+
+                    normalized_items = []
+                    item_count = 0
+                    subtotal = 0.0
+                    for requested in requested_items:
+                        name = str(requested.get("name", "")).strip()[:100]
+                        quantity = int(requested.get("quantity", 0))
+                        unit_price = float(requested.get("unitPrice", 0))
+                        if not name or quantity < 1 or quantity > 10 or unit_price < 1 or unit_price > 5000:
+                            raise ValueError("One selected menu item is invalid or unavailable")
+                        item_count += quantity
+                        subtotal += unit_price * quantity
+                        normalized_items.append((name, quantity, unit_price))
+                    if item_count > 30:
+                        raise ValueError("A QR order can contain up to 30 dishes")
+                    service_charge = round(subtotal * 0.05)
+                    total = subtotal + service_charge
+                    timestamp = now_iso()
+                    display_table = f"QR {table_name} · {guest_name}"[:40]
+                    cursor = connection.execute(
+                        """INSERT INTO orders (table_name, status, subtotal, total, payment_method, created_at, sent_at)
+                           VALUES (?, 'Kitchen', ?, ?, ?, ?, ?)""",
+                        (display_table, subtotal, total, payment_label, timestamp, timestamp),
+                    )
+                    order_id = cursor.lastrowid
+                    connection.executemany(
+                        """INSERT INTO order_items (order_id, menu_item_id, item_name, quantity, unit_price)
+                           VALUES (?, NULL, ?, ?, ?)""",
+                        [(order_id, name, quantity, unit_price) for name, quantity, unit_price in normalized_items],
+                    )
+                    connection.execute(
+                        "INSERT INTO public_order_submissions (request_key, order_id, created_at) VALUES (?, ?, ?)",
+                        (request_key, order_id, timestamp),
+                    )
+                    connection.execute(
+                        "INSERT INTO activities (kind, title, details, created_at) VALUES ('order', ?, ?, ?)",
+                        ("QR demo order received", f"{display_table} · QR-{order_id:06d} · {payment_label}", timestamp),
+                    )
+                    connection.commit()
+                self.send_json({"id": order_id, "reference": f"QR-{order_id:06d}", "status": "Kitchen", "total": total, "paymentLabel": payment_label}, HTTPStatus.CREATED)
+                return
+
             if path == "/api/auth/login":
                 email = str(body.get("email", "")).strip().lower()
                 password = str(body.get("password", ""))
@@ -2010,7 +2094,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
                 if path == "/api/reset":
                     self.require_user("Owner")
-                    for table in ("public_submissions", "communications", "point_ledger", "payments",
+                    for table in ("public_order_submissions", "public_submissions", "communications", "point_ledger", "payments",
                                   "inventory_movements", "order_items", "attendance", "expenses",
                                   "recipes", "orders", "staff", "vendors", "inventory_items", "menu_items",
                                   "reservations", "feedback", "tasks", "campaigns", "rewards",
