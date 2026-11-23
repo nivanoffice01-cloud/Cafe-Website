@@ -2452,57 +2452,8 @@ svg {
 .login-shell {
   display: grid;
   min-height: 100vh;
-  grid-template-columns: minmax(270px, .58fr) minmax(420px, .82fr) minmax(460px, 1.1fr);
+  grid-template-columns: minmax(420px, .82fr) minmax(460px, 1.18fr);
   background: #fff;
-}
-
-.login-poster {
-  position: relative;
-  min-height: 100vh;
-  overflow: hidden;
-  background: #24150f url("./assets/login-poster-mangosteen.png") center / cover no-repeat;
-  color: #fff8ec;
-  isolation: isolate;
-}
-
-.login-poster::before {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(18, 11, 7, .08) 30%, rgba(18, 11, 7, .82) 100%),
-    linear-gradient(90deg, rgba(20, 12, 8, .22), transparent 50%);
-  content: "";
-}
-
-.login-poster-copy {
-  position: absolute;
-  right: 34px;
-  bottom: 38px;
-  left: 34px;
-}
-
-.login-poster-copy span {
-  display: block;
-  margin-bottom: 10px;
-  color: #e3c38e;
-  font-size: .68rem;
-  font-weight: 800;
-  letter-spacing: .18em;
-}
-
-.login-poster-copy strong {
-  display: block;
-  font: 700 clamp(2rem, 3vw, 3.5rem)/.95 "Manrope", sans-serif;
-  letter-spacing: -.055em;
-}
-
-.login-poster-copy p {
-  max-width: 290px;
-  margin: 12px 0 0;
-  color: rgba(255, 248, 236, .78);
-  font-size: .82rem;
-  line-height: 1.55;
 }
 
 .login-card {
@@ -2533,7 +2484,8 @@ svg {
 .login-demo { display: grid; gap: 4px; margin-top: 22px; padding: 15px 16px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-muted); }
 .login-demo strong { font-size: .875rem; }
 .login-demo span { color: var(--ink-2); font-size: .8rem; line-height: 1.5; }
-.login-visual { display: flex; align-items: flex-end; padding: 72px; background: radial-gradient(circle at 20% 10%, rgba(168,82,137,.56), transparent 28%), linear-gradient(145deg, #102c24 0%, #173d32 48%, #5e214a 140%); color: #fff; }
+.login-visual { position: relative; display: flex; align-items: flex-end; overflow: hidden; padding: 72px; background: #24150f url("./assets/login-poster-mangosteen.png") center / cover no-repeat; color: #fff; isolation: isolate; }
+.login-visual::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgba(22,13,9,.06) 18%, rgba(22,13,9,.34) 55%, rgba(22,13,9,.9) 100%); content: ""; }
 .login-visual > div { max-width: 650px; }
 .login-visual .eyebrow { color: #efc4df; }
 .login-visual h2 { max-width: 620px; margin: 12px 0 16px; font: 800 clamp(2.4rem, 4vw, 4.8rem)/1.06 "Manrope", sans-serif; letter-spacing: -.045em; }
@@ -2575,16 +2527,8 @@ svg {
 .share-link input { min-width: 0; flex: 1; height: 42px; padding: 0 12px; border: 1px solid var(--line-dark); border-radius: 10px; }
 .empty-state.compact { min-height: 110px; }
 
-@media (max-width: 1200px) {
-  .login-shell { grid-template-columns: minmax(280px, .72fr) minmax(420px, 1fr); }
-  .login-visual { display: none; }
-}
-
-@media (max-width: 760px) {
+@media (max-width: 920px) {
   .login-shell { grid-template-columns: 1fr; }
-  .login-poster { min-height: 230px; }
-  .login-poster-copy { right: 24px; bottom: 24px; left: 24px; }
-  .login-poster-copy strong { font-size: 2.25rem; }
   .login-visual { display: none; }
   .settings-layout { grid-template-columns: 1fr; }
   .settings-nav { position: static; }
@@ -2885,9 +2829,8 @@ body {
 
 .login-visual {
   background:
-    radial-gradient(circle at 20% 8%, rgba(181, 98, 61, 0.48), transparent 30%),
-    radial-gradient(circle at 92% 88%, rgba(199, 161, 106, 0.21), transparent 24%),
-    linear-gradient(145deg, #251711 0%, #3c281f 52%, #1e130f 100%);
+    linear-gradient(180deg, rgba(22, 13, 9, .04) 12%, rgba(22, 13, 9, .28) 50%, rgba(22, 13, 9, .9) 100%),
+    url("./assets/login-poster-mangosteen.png") center / cover no-repeat;
 }
 
 .login-visual .eyebrow {
