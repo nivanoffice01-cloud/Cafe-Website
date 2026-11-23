@@ -15,6 +15,8 @@ const featuredDishes = [
   { category: 'Pizza & Pide', name: 'Margarita' },
   { category: 'Burger & sandwich', name: 'Veg Cheese Burger' },
   { category: 'Pasta', name: 'Pesto cream Pasta' },
+  { category: 'Mocktail & Coolers', name: 'Virgin mojito', editorialLine: 'A cool pause between courses.' },
+  { category: 'Desserts', name: 'Chocolate Cheesecake', editorialLine: 'The evening’s final note.' },
 ].map((reference) => ({
   ...reference,
   ...fullMenu.find((category) => category.name === reference.category)!.items.find((item) => item.name === reference.name)!,
@@ -26,8 +28,8 @@ function LeafMark() {
 
 function Arrow() { return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10h12m-4.8-4.8 4.8 4.8-4.8 4.8" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round"/></svg> }
 
-function Photo({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
-  return <img className={`lux-photo ${className}`} src={src} srcSet={responsivePhotoSrcSet(src)} sizes="100vw" alt={alt} loading="lazy" decoding="async" />
+function Photo({ src, alt, className = '', sizes = '(max-width: 700px) 100vw, 70vw' }: { src: string; alt: string; className?: string; sizes?: string }) {
+  return <img className={`lux-photo ${className}`} src={src} srcSet={responsivePhotoSrcSet(src)} sizes={sizes} alt={alt} loading="lazy" decoding="async" />
 }
 
 function CafeFilm() {
@@ -130,9 +132,10 @@ export function HomePage() {
             <img className="film-fallback-photo" src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="" aria-hidden="true" fetchPriority="high"/>
             <Suspense fallback={null}><CinematicScene menuOpen={menuOpen} onOpenMenu={() => { setMenuSelection(null); setMenuOpen(true) }} onReady={onSceneReady} /></Suspense>
             <div className="film-mobile-scene" aria-hidden="true">
-              <img className="film-mobile-exterior-backdrop" src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="" fetchPriority="high" />
-              <img className="film-mobile-exterior" src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="" fetchPriority="high" />
-              <img className="film-mobile-table" src="/images/experience/mangosteen-table-enhanced.jpg" alt="" loading="lazy" />
+              <img className="film-mobile-exterior-backdrop" src="/images/mobile/mangosteen-arrival-mobile.jpg" alt="" fetchPriority="high" />
+              <img className="film-mobile-exterior" src="/images/mobile/mangosteen-arrival-mobile.jpg" alt="" fetchPriority="high" />
+              <img className="film-mobile-interior" src="/images/mobile/mangosteen_original_3_mobile.jpg" alt="" loading="lazy" />
+              <img className="film-mobile-table" src="/images/mobile/mangosteen-table-mobile.jpg" alt="" loading="lazy" />
             </div>
             <img className="film-food-reveal" alt="" aria-hidden="true" decoding="async" />
             <div className="film-curtain" aria-hidden="true"/>
@@ -142,9 +145,10 @@ export function HomePage() {
               <h1 id="film-title">MANGOSTEEN</h1>
               <button type="button" onClick={() => window.scrollBy({ top: window.innerHeight * (window.innerWidth <= 700 ? .72 : 1.15), behavior: 'smooth' })}>ENTER THE EVENING <span aria-hidden="true">↓</span></button>
             </div>
-            <nav className="film-shortcuts" aria-label="Quick actions"><button type="button" onClick={openMenu}>Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve</button></nav>
-            <div className="film-rooftop-copy" aria-hidden="true"><span>01 / ARRIVAL</span><p>Above the city.<br/><em>Inside the evening.</em></p></div>
-            <div className="film-table-copy" aria-hidden="true"><span>02 / YOUR TABLE</span><p>A place is waiting.</p></div>
+            <nav className="film-shortcuts" aria-label="Quick actions"><a href="#signatures">Skip intro</a><button type="button" onClick={openMenu}>Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve</button></nav>
+            <div className="film-rooftop-copy" aria-hidden="true"><span>01 / ARRIVAL</span><p>The evening begins<br/><em>at Mangosteen.</em></p></div>
+            <div className="film-interior-copy" aria-hidden="true"><span>02 / INSIDE</span><p>Come a little<br/><em>closer.</em></p></div>
+            <div className="film-table-copy" aria-hidden="true"><span>03 / YOUR TABLE</span><p>A place is waiting.</p></div>
             <button className="film-seat-invite" type="button" onClick={takeSeat}><span>Take your seat</span><small>DISCOVER THE MENU</small></button>
             <div className="film-progress" aria-hidden="true"><span>THE EVENING</span><i/><span>SCROLL TO ENTER</span></div>
           </div>
@@ -153,18 +157,18 @@ export function HomePage() {
         <section className="lux-signatures" id="signatures" aria-labelledby="signatures-title">
           <figure className="lux-signatures-image">
             <Photo src={menuPhotoFor(featuredDishes[featuredIndex].category, featuredDishes[featuredIndex].name)!.src} alt={menuPhotoFor(featuredDishes[featuredIndex].category, featuredDishes[featuredIndex].name)!.alt}/>
-            <figcaption>AN ILLUSTRATIVE DISH PORTRAIT <span>{String(featuredIndex + 1).padStart(2, '0')} / 03</span></figcaption>
+            <figcaption>AN ILLUSTRATIVE DISH PORTRAIT <span>{String(featuredIndex + 1).padStart(2, '0')} / {String(featuredDishes.length).padStart(2, '0')}</span></figcaption>
           </figure>
           <div className="lux-signatures-panel">
             <p className="lux-overline">A FEW FAVOURITES</p>
             <h2 id="signatures-title">For the table.<br/><em>For the moment.</em></h2>
-            <p className="lux-signatures-intro">Three ways into the menu. Choose what calls to you, then take a closer look.</p>
+            <p className="lux-signatures-intro">A few favourites, from the first sip to the last bite. Choose what calls to you.</p>
             <div className="lux-signature-tabs" aria-label="Featured menu dishes">
               {featuredDishes.map((dish, index) => <button key={dish.name} type="button" className={featuredIndex === index ? 'is-active' : ''} aria-pressed={featuredIndex === index} onClick={() => setFeaturedIndex(index)}><span>{String(index + 1).padStart(2, '0')}</span>{dish.name}<i aria-hidden="true">↗</i></button>)}
             </div>
             <div className="lux-signature-detail" aria-live="polite">
               <span>{featuredDishes[featuredIndex].category.toUpperCase()}</span>
-              <p>{featuredDishes[featuredIndex].description}</p>
+              <p>{featuredDishes[featuredIndex].editorialLine ?? featuredDishes[featuredIndex].description}</p>
               <div><strong>₹{featuredDishes[featuredIndex].price}</strong><button className="lux-signature-cta" type="button" onClick={openFeaturedDish}>Explore in the menu <Arrow/></button></div>
             </div>
             <p className="lux-signature-note">Dish photography is illustrative; Mangosteen's plating may differ. Prices are indicative.</p>
