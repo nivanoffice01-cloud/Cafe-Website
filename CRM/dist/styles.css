@@ -3590,8 +3590,8 @@ body {
   min-height: 116px;
   justify-content: center;
   padding: 14px 16px;
-  border-bottom: 1px solid #ded6ca;
-  background: #fff;
+  border-bottom: 1px solid rgba(240, 221, 200, 0.11);
+  background: transparent;
 }
 
 .brand-lockup {
@@ -3600,6 +3600,11 @@ body {
   max-width: 232px;
   height: auto;
   object-fit: contain;
+}
+
+.sidebar .brand-lockup {
+  filter: grayscale(1) brightness(0) invert(1);
+  opacity: 0.96;
 }
 
 .login-brand-lockup {
