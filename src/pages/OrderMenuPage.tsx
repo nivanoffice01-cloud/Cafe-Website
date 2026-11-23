@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { fullMenu, fullMenuCount, type MenuItem } from '../data/fullMenu'
 import { menuPhotoFor } from '../data/menuPhotos'
 import { orderTableFor } from '../data/seating'
@@ -17,10 +17,10 @@ function LeafMark() {
 }
 
 export function OrderMenuPage() {
-  const params = useMemo(() => new URLSearchParams(window.location.search), [])
-  const table = useMemo(() => orderTableFor(params.get('table')), [params])
+  // The public website is a menu preview. Table-specific ordering is only
+  // enabled when this page is deliberately reconnected to a physical QR flow.
+  const table = useMemo(() => orderTableFor(null), [])
   const [category, setCategory] = useState(fullMenu[0].name)
-  const [categoryPickerOpen, setCategoryPickerOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [diet, setDiet] = useState<DietFilter>('all')
   const [cart, setCart] = useState<CartLine[]>([])
@@ -33,18 +33,6 @@ export function OrderMenuPage() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [receipt, setReceipt] = useState<GuestOrderReceipt | null>(null)
-
-  useEffect(() => {
-    if (!categoryPickerOpen) return
-    const previousOverflow = document.body.style.overflow
-    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setCategoryPickerOpen(false) }
-    document.body.style.overflow = 'hidden'
-    window.addEventListener('keydown', closeOnEscape)
-    return () => {
-      document.body.style.overflow = previousOverflow
-      window.removeEventListener('keydown', closeOnEscape)
-    }
-  }, [categoryPickerOpen])
 
   const visibleCategories = useMemo(() => {
     const needle = query.trim().toLowerCase()
@@ -89,12 +77,6 @@ export function OrderMenuPage() {
     setCartOpen(true)
   }
 
-  const chooseCategory = (nextCategory: string) => {
-    setCategory(nextCategory)
-    setQuery('')
-    setCategoryPickerOpen(false)
-  }
-
   const placeOrder = async () => {
     if (!table) { setError('Scan the QR fixed to your table before placing an order.'); return }
     if (guestName.trim().length < 2) { setStep('details'); setError('Please enter the guest name for this table.'); return }
@@ -129,7 +111,7 @@ export function OrderMenuPage() {
   return <div className="order-menu-shell">
     <header className="order-menu-header">
       <a className="order-brand" href="/" aria-label="Mangosteen Cafe home"><LeafMark/><span>MANGOSTEEN<small>TABLE MENU · INDORE</small></span></a>
-      <div className={`order-table-button${table ? '' : ' is-missing'}`}><span>{table ? 'Serving' : 'Preview'}</span><strong>{table ? `${table.label} · ${table.id}` : 'No table QR'}</strong></div>
+      <div className={`order-table-button${table ? '' : ' is-missing'}`}><span>{table ? 'Serving' : 'Explore'}</span><strong>{table ? `${table.label} · ${table.id}` : 'Menu'}</strong></div>
     </header>
 
     <section className={`order-menu-intro${table ? ' has-table' : ' is-preview'}`}>
@@ -151,7 +133,7 @@ export function OrderMenuPage() {
     <div className="order-menu-tools" id="order-menu-start">
       <label className="order-search"><span aria-hidden="true">⌕</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by dish or ingredient" aria-label="Search menu"/>{query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search">×</button>}</label>
       <div className="order-filter-row">
-        <button className="order-category-trigger" type="button" aria-haspopup="dialog" aria-expanded={categoryPickerOpen} aria-controls="order-category-picker" onClick={() => setCategoryPickerOpen(true)}><span><small>Menu section</small><strong>{query ? 'All sections' : category}</strong></span><em>Change</em></button>
+        <nav className="order-categories" aria-label="Menu categories">{fullMenu.map((entry) => <button key={entry.name} type="button" className={entry.name === category && !query ? 'is-active' : ''} aria-pressed={entry.name === category && !query} onClick={() => { setCategory(entry.name); setQuery('') }}>{entry.name}</button>)}</nav>
         <div className="order-diet-filter" aria-label="Dietary filter">{([['all', 'All'], ['veg', 'Veg'], ['non-veg', 'Non-veg']] as const).map(([value, label]) => <button key={value} type="button" className={diet === value ? 'is-active' : ''} aria-pressed={diet === value} onClick={() => setDiet(value)}>{label}</button>)}</div>
       </div>
     </div>
@@ -173,13 +155,6 @@ export function OrderMenuPage() {
       {!visibleCategories.length && <div className="order-empty"><h2>Nothing here yet</h2><p>Try another section, filter or search term.</p><button type="button" onClick={() => { setQuery(''); setDiet('all') }}>Reset filters</button></div>}
       <p className="order-menu-disclaimer">This is a demo menu. Please confirm prices and availability with Mangosteen Café. A 5% demo service charge is shown at checkout.</p>
     </main>
-
-    {categoryPickerOpen && <div className="order-category-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setCategoryPickerOpen(false) }}>
-      <section className="order-category-sheet" id="order-category-picker" role="dialog" aria-modal="true" aria-labelledby="order-category-title">
-        <header><div><p>FULL MENU</p><h2 id="order-category-title">Choose a section</h2></div><button type="button" onClick={() => setCategoryPickerOpen(false)} aria-label="Close menu sections">×</button></header>
-        <div className="order-category-grid">{fullMenu.map((entry) => <button key={entry.name} type="button" className={entry.name === category && !query ? 'is-active' : ''} aria-pressed={entry.name === category && !query} onClick={() => chooseCategory(entry.name)}><span><strong>{entry.name}</strong><small>{entry.items.length} {entry.items.length === 1 ? 'dish' : 'dishes'}</small></span>{entry.name === category && !query && <i aria-hidden="true">✓</i>}</button>)}</div>
-      </section>
-    </div>}
 
     {itemCount > 0 && <button className="order-cart-bar" type="button" onClick={openCart}><span><i>{itemCount}</i><span>View order</span></span><strong>{money(total)}</strong></button>}
 
