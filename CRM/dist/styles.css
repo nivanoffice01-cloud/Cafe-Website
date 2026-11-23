@@ -2452,8 +2452,57 @@ svg {
 .login-shell {
   display: grid;
   min-height: 100vh;
-  grid-template-columns: minmax(420px, 0.82fr) minmax(460px, 1.18fr);
+  grid-template-columns: minmax(270px, .58fr) minmax(420px, .82fr) minmax(460px, 1.1fr);
   background: #fff;
+}
+
+.login-poster {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #24150f url("./assets/login-poster-mangosteen.png") center / cover no-repeat;
+  color: #fff8ec;
+  isolation: isolate;
+}
+
+.login-poster::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(18, 11, 7, .08) 30%, rgba(18, 11, 7, .82) 100%),
+    linear-gradient(90deg, rgba(20, 12, 8, .22), transparent 50%);
+  content: "";
+}
+
+.login-poster-copy {
+  position: absolute;
+  right: 34px;
+  bottom: 38px;
+  left: 34px;
+}
+
+.login-poster-copy span {
+  display: block;
+  margin-bottom: 10px;
+  color: #e3c38e;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .18em;
+}
+
+.login-poster-copy strong {
+  display: block;
+  font: 700 clamp(2rem, 3vw, 3.5rem)/.95 "Manrope", sans-serif;
+  letter-spacing: -.055em;
+}
+
+.login-poster-copy p {
+  max-width: 290px;
+  margin: 12px 0 0;
+  color: rgba(255, 248, 236, .78);
+  font-size: .82rem;
+  line-height: 1.55;
 }
 
 .login-card {
@@ -2526,8 +2575,16 @@ svg {
 .share-link input { min-width: 0; flex: 1; height: 42px; padding: 0 12px; border: 1px solid var(--line-dark); border-radius: 10px; }
 .empty-state.compact { min-height: 110px; }
 
-@media (max-width: 920px) {
+@media (max-width: 1200px) {
+  .login-shell { grid-template-columns: minmax(280px, .72fr) minmax(420px, 1fr); }
+  .login-visual { display: none; }
+}
+
+@media (max-width: 760px) {
   .login-shell { grid-template-columns: 1fr; }
+  .login-poster { min-height: 230px; }
+  .login-poster-copy { right: 24px; bottom: 24px; left: 24px; }
+  .login-poster-copy strong { font-size: 2.25rem; }
   .login-visual { display: none; }
   .settings-layout { grid-template-columns: 1fr; }
   .settings-nav { position: static; }
