@@ -1,13 +1,15 @@
 import { get, put } from '@vercel/blob'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
-import { fullMenu } from '../src/data/fullMenu.ts'
-import { orderTables } from '../src/data/seating.ts'
+import { fullMenu } from './full-menu.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
 const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
+const orderTables = [
+  { id: '4', label: 'Table 4', capacity: 4, columns: 2, column: 2, row: 2, zone: 'inside', zoneName: 'Cafe floor' },
+]
 const PUBLIC_MENU = new Map(fullMenu.flatMap((category) => category.items.map((item) => [`${category.name}|${item.name}`, { ...item, category: category.name }])))
 const PUBLIC_TABLES = new Map(orderTables.map((table) => [table.id, table]))
 
@@ -385,7 +387,7 @@ async function handlePublicOrder(request, state, body) {
   return json(receipt, 201)
 }
 
-export default async (request) => {
+async function handleRequest(request) {
   const url = new URL(request.url)
   const path = normalizePath(url.pathname)
   try {
@@ -633,4 +635,6 @@ export default async (request) => {
     return json({ error: error.message || 'The CRM could not complete this request.' }, error.status || 400)
   }
 }
+
+export default { fetch: handleRequest }
 
