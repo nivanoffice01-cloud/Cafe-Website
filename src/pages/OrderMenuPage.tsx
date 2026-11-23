@@ -17,9 +17,8 @@ function LeafMark() {
 }
 
 export function OrderMenuPage() {
-  // The public website is a menu preview. Table-specific ordering is only
-  // enabled when this page is deliberately reconnected to a physical QR flow.
-  const table = useMemo(() => orderTableFor(null), [])
+  const params = useMemo(() => new URLSearchParams(window.location.search), [])
+  const table = useMemo(() => orderTableFor(params.get('table')), [params])
   const [category, setCategory] = useState(fullMenu[0].name)
   const [query, setQuery] = useState('')
   const [diet, setDiet] = useState<DietFilter>('all')
