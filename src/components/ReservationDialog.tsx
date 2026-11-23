@@ -34,6 +34,7 @@ export function ReservationDialog({ onClose }: Props) {
   const [guests, setGuests] = useState(2)
   const [zone, setZone] = useState<SeatingZone>('rooftop')
   const [selectedSeats, setSelectedSeats] = useState<string[]>([])
+  const [stage, setStage] = useState<'seats' | 'details'>('seats')
   const [saved, setSaved] = useState(false)
   const [notice, setNotice] = useState('')
   const [name, setName] = useState('')
@@ -45,10 +46,19 @@ export function ReservationDialog({ onClose }: Props) {
   const [submissionState, setSubmissionState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [reference, setReference] = useState('')
   const requestKeyRef = useRef(crypto.randomUUID())
+  const backdropRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
+  const datesRef = useRef<HTMLDivElement>(null)
+  const backRef = useRef<HTMLButtonElement>(null)
   const plan = seatingPlans[zone]
   const chosenCluster = plan.clusters.find((cluster) => selectedSeats.some((seat) => seat.startsWith(`${cluster.id}-`)))
   const dateLabel = new Intl.DateTimeFormat('en-IN', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(`${date}T12:00:00`))
+  const seatsComplete = selectedSeats.length === guests && Boolean(chosenCluster)
+
+  useEffect(() => {
+    backdropRef.current?.scrollTo({ top: 0, behavior: 'instant' })
+    if (stage === 'details') backRef.current?.focus({ preventScroll: true })
+  }, [stage])
 
   useEffect(() => {
     const previousFocus = document.activeElement as HTMLElement | null
@@ -99,6 +109,9 @@ export function ReservationDialog({ onClose }: Props) {
       return [...current, seatId]
     })
   }
+  const moveDates = (direction: -1 | 1) => {
+    datesRef.current?.scrollBy({ left: direction * 240, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })
+  }
   const requestText = `Mangosteen Café seating preference\n${dateLabel} at ${time}\n${guests} ${guests === 1 ? 'guest' : 'guests'} · ${plan.name}\n${chosenCluster?.label ?? 'No cluster selected'} · seats ${selectedSeats.join(', ')}\n\nThis is a seating preference, not a confirmed reservation. Please confirm availability with the café.`
   const saveSelection = () => {
     if (selectedSeats.length !== guests) return
@@ -121,7 +134,7 @@ export function ReservationDialog({ onClose }: Props) {
 
   const sendReservation = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (selectedSeats.length !== guests || !chosenCluster) return
+    if (!seatsComplete || !chosenCluster) return
     setSubmissionState('submitting')
     setNotice('Sending your request securely to the café…')
     try {
@@ -155,23 +168,23 @@ export function ReservationDialog({ onClose }: Props) {
     }
   }
 
-  return <div className="reservation-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
+  return <div ref={backdropRef} className="reservation-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
     <section className="reservation-dialog" role="dialog" aria-modal="true" aria-labelledby="reservation-title">
       <header className="reservation-header">
-        <div><p className="reservation-eyebrow">MANGOSTEEN · INDORE</p><h2 id="reservation-title">Choose your <em>place.</em></h2><p>A little corner of the evening, just for you.</p></div>
+        <div><p className="reservation-eyebrow">MANGOSTEEN · INDORE</p><h2 id="reservation-title">{stage === 'seats' ? <>Choose your <em>place.</em></> : <>Make it <em>yours.</em></>}</h2><p>{stage === 'seats' ? 'Plan your evening and select seats together.' : 'Add your details to send a reservation request.'}</p></div>
         <button ref={closeRef} type="button" className="reservation-close" onClick={onClose} aria-label="Close reservation">Close <span aria-hidden="true">×</span></button>
       </header>
 
-      <div className="reservation-content">
+      {stage === 'seats' ? <div className="reservation-content">
         <div className="reservation-settings">
           <div className="reservation-step"><span>01</span><strong>Plan your visit</strong></div>
-          <div className="reservation-field"><span className="reservation-label">YOUR EVENING</span><div className="reservation-dates" role="group" aria-label="Preferred date">{dates.map((item) => <button key={item.value} type="button" className={date === item.value ? 'is-selected' : ''} aria-pressed={date === item.value} onClick={() => { setDate(item.value); markDirty() }}><small>{item.weekday}</small><strong>{item.day}</strong><small>{item.month}</small></button>)}</div></div>
+          <div className="reservation-field"><div className="reservation-field-heading"><span className="reservation-label">YOUR EVENING</span><div className="reservation-date-controls"><button type="button" onClick={() => moveDates(-1)} aria-label="Earlier dates">←</button><button type="button" onClick={() => moveDates(1)} aria-label="Later dates">→</button></div></div><div ref={datesRef} className="reservation-dates" role="group" aria-label="Preferred date">{dates.map((item) => <button key={item.value} type="button" className={date === item.value ? 'is-selected' : ''} aria-pressed={date === item.value} onClick={() => { setDate(item.value); markDirty() }}><small>{item.weekday}</small><strong>{item.day}</strong><small>{item.month}</small></button>)}</div></div>
           <div className="reservation-field"><span className="reservation-label">PREFERRED ARRIVAL</span><div className="reservation-times" role="group" aria-label="Preferred arrival time">{arrivalTimes.map((item) => <button key={item} type="button" className={time === item ? 'is-selected' : ''} aria-pressed={time === item} onClick={() => { setTime(item); markDirty() }}>{item}</button>)}</div></div>
           <div className="reservation-field reservation-party"><div><span className="reservation-label">YOUR PARTY</span><small>Up to 6 guests</small></div><div className="reservation-counter"><button type="button" onClick={() => changeGuests(guests - 1)} disabled={guests === 1} aria-label="Remove a guest">−</button><output aria-live="polite">{guests}</output><button type="button" onClick={() => changeGuests(guests + 1)} disabled={guests === 6} aria-label="Add a guest">+</button></div></div>
         </div>
 
         <div className="reservation-map-column">
-          <div className="reservation-map-heading"><div className="reservation-step"><span>02</span><strong>Select your seats</strong></div><p>{selectedSeats.length} of {guests} selected</p></div>
+          <div className="reservation-map-heading"><div className="reservation-step"><span>02</span><strong>Select your seats</strong></div><p className={seatsComplete ? 'is-complete' : ''} aria-live="polite">{seatsComplete ? 'Seats selected ✓' : `${selectedSeats.length} of ${guests} selected`}</p></div>
           <div className="reservation-zone-switch" role="group" aria-label="Seating area"><button type="button" className={zone === 'rooftop' ? 'is-selected' : ''} aria-pressed={zone === 'rooftop'} onClick={() => changeZone('rooftop')}>The rooftop</button><button type="button" className={zone === 'inside' ? 'is-selected' : ''} aria-pressed={zone === 'inside'} onClick={() => changeZone('inside')}>Inside Mangosteen</button></div>
           <p className="reservation-map-swipe">Tap seats in one group to choose your place</p>
           <div className="reservation-map-scroll"><div className="reservation-seat-map" aria-label={`${plan.name} schematic seating map`}>
@@ -187,7 +200,7 @@ export function ReservationDialog({ onClose }: Props) {
         </div>
 
         <aside className="reservation-summary">
-          <div className="reservation-step"><span>03</span><strong>Send your request</strong></div>
+          <div className="reservation-step"><span>03</span><strong>Review your choice</strong></div>
           <div className="reservation-summary-rule"/>
           <p className="reservation-summary-date">{dateLabel}</p>
           <dl>
@@ -196,7 +209,11 @@ export function ReservationDialog({ onClose }: Props) {
             <div><dt>Area</dt><dd>{plan.name}</dd></div>
             <div><dt>Seats</dt><dd>{selectedSeats.length ? `${chosenCluster?.label} · ${selectedSeats.join(', ')}` : 'Choose on the map'}</dd></div>
           </dl>
-          <form className="reservation-contact" onSubmit={sendReservation}>
+          <div className="reservation-stage-action"><p>Seats are a preference. The café will confirm availability after you send your request.</p><button className="reservation-save" type="button" disabled={!seatsComplete} onClick={() => setStage('details')}>Continue to your details <span aria-hidden="true">→</span></button><small>{seatsComplete ? 'Next: contact details · no payment needed' : `Choose ${guests} ${guests === 1 ? 'seat' : 'seats'} in one group to continue`}</small></div>
+        </aside>
+      </div> : <div className="reservation-details">
+        <aside className="reservation-details-recap"><button ref={backRef} type="button" className="reservation-back" onClick={() => setStage('seats')}>← Change seats or arrival</button><p className="reservation-eyebrow">YOUR EVENING</p><h3>{dateLabel}</h3><dl><div><dt>Arrival</dt><dd>{time}</dd></div><div><dt>Guests</dt><dd>{guests}</dd></div><div><dt>Area</dt><dd>{plan.name}</dd></div><div><dt>Selected seats</dt><dd>{chosenCluster?.label} · {selectedSeats.join(', ')}</dd></div></dl><p>Your request is sent to the café for confirmation. Selecting seats here does not guarantee availability.</p></aside>
+        <div className="reservation-details-form"><div className="reservation-step"><span>03</span><strong>Send your request</strong></div><h3>Your details</h3><p>We’ll use these details to follow up about your table.</p><form className="reservation-contact" onSubmit={sendReservation}>
             <label><span>Your name *</span><input required autoComplete="name" maxLength={80} value={name} onChange={(event) => { setName(event.target.value); markDirty() }} placeholder="Guest name"/></label>
             <label><span>Mobile number *</span><input required autoComplete="tel" inputMode="tel" minLength={7} maxLength={24} value={phone} onChange={(event) => { setPhone(event.target.value); markDirty() }} placeholder="+91"/></label>
             <label><span>Email</span><input type="email" autoComplete="email" maxLength={120} value={email} onChange={(event) => { setEmail(event.target.value); markDirty() }} placeholder="Optional"/></label>
@@ -211,9 +228,8 @@ export function ReservationDialog({ onClose }: Props) {
               {submissionState === 'error' && <button className="reservation-copy" type="button" onClick={saveSelection}>{saved ? 'Saved on this device' : 'Save request on this device'}</button>}
               <p className={`reservation-notice is-${submissionState}`} role="status" aria-live="polite">{notice || 'Requests enter the café CRM as pending and require staff confirmation.'}</p>
             </div>
-          </form>
-        </aside>
-      </div>
+          </form></div>
+      </div>}
     </section>
   </div>
 }
