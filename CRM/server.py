@@ -44,7 +44,7 @@ SESSION_COOKIE = "mangosteen_session"
 SESSION_TTL = timedelta(hours=12)
 SESSIONS: dict[str, dict] = {}
 PUBLIC_REQUESTS: dict[str, list[datetime]] = {}
-ROLE_LEVEL = {"Host": 1, "Manager": 2, "Owner": 3}
+ROLE_LEVEL = {"Kitchen": 0, "Cashier": 1, "Host": 1, "Manager": 2, "Owner": 3}
 
 
 SCHEMA = """
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
-  role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host')),
+  role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host', 'Cashier', 'Kitchen')),
   password_hash TEXT NOT NULL,
   active INTEGER NOT NULL DEFAULT 1,
   created_at TEXT NOT NULL,
@@ -204,6 +204,131 @@ CREATE TABLE IF NOT EXISTS public_submissions (
   reservation_id INTEGER NOT NULL,
   created_at TEXT NOT NULL,
   FOREIGN KEY(reservation_id) REFERENCES reservations(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS menu_items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
+  category TEXT NOT NULL DEFAULT 'General',
+  price REAL NOT NULL CHECK (price >= 0),
+  active INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS inventory_items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
+  unit TEXT NOT NULL,
+  quantity REAL NOT NULL DEFAULT 0 CHECK (quantity >= 0),
+  reorder_level REAL NOT NULL DEFAULT 0 CHECK (reorder_level >= 0),
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS recipes (
+  menu_item_id INTEGER NOT NULL,
+  inventory_item_id INTEGER NOT NULL,
+  quantity REAL NOT NULL CHECK (quantity > 0),
+  PRIMARY KEY(menu_item_id, inventory_item_id),
+  FOREIGN KEY(menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE,
+  FOREIGN KEY(inventory_item_id) REFERENCES inventory_items(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  table_name TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'Draft',
+  subtotal REAL NOT NULL DEFAULT 0,
+  total REAL NOT NULL DEFAULT 0,
+  payment_method TEXT,
+  created_by INTEGER,
+  created_at TEXT NOT NULL,
+  sent_at TEXT,
+  ready_at TEXT,
+  paid_at TEXT,
+  FOREIGN KEY(created_by) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  order_id INTEGER NOT NULL,
+  menu_item_id INTEGER,
+  item_name TEXT NOT NULL,
+  quantity INTEGER NOT NULL CHECK (quantity > 0),
+  unit_price REAL NOT NULL CHECK (unit_price >= 0),
+  FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY(menu_item_id) REFERENCES menu_items(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS payments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  order_id INTEGER NOT NULL,
+  method TEXT NOT NULL CHECK (method IN ('Cash', 'UPI', 'Card')),
+  amount REAL NOT NULL CHECK (amount >= 0),
+  created_by INTEGER,
+  created_at TEXT NOT NULL,
+  FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY(created_by) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS inventory_movements (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  inventory_item_id INTEGER NOT NULL,
+  order_id INTEGER,
+  quantity REAL NOT NULL,
+  reason TEXT NOT NULL,
+  created_by INTEGER,
+  created_at TEXT NOT NULL,
+  FOREIGN KEY(inventory_item_id) REFERENCES inventory_items(id) ON DELETE CASCADE,
+  FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE SET NULL,
+  FOREIGN KEY(created_by) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS vendors (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
+  supplies TEXT NOT NULL DEFAULT '',
+  phone TEXT NOT NULL DEFAULT '',
+  balance REAL NOT NULL DEFAULT 0 CHECK (balance >= 0),
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS expenses (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  amount REAL NOT NULL CHECK (amount > 0),
+  expense_date TEXT NOT NULL,
+  vendor_id INTEGER,
+  note TEXT NOT NULL DEFAULT '',
+  created_by INTEGER,
+  created_at TEXT NOT NULL,
+  FOREIGN KEY(vendor_id) REFERENCES vendors(id) ON DELETE SET NULL,
+  FOREIGN KEY(created_by) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS staff (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  job_role TEXT NOT NULL,
+  shift_start TEXT NOT NULL,
+  shift_end TEXT NOT NULL,
+  monthly_salary REAL NOT NULL DEFAULT 0 CHECK (monthly_salary >= 0),
+  user_id INTEGER,
+  active INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS attendance (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  staff_id INTEGER NOT NULL,
+  attendance_date TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('Present', 'Late', 'Leave', 'Absent')),
+  check_in TEXT,
+  note TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL,
+  UNIQUE(staff_id, attendance_date),
+  FOREIGN KEY(staff_id) REFERENCES staff(id) ON DELETE CASCADE
 );
 """
 
@@ -417,6 +542,201 @@ def seed_database(connection: sqlite3.Connection) -> None:
     connection.commit()
 
 
+def migrate_user_roles(connection: sqlite3.Connection) -> None:
+    record = connection.execute(
+        "SELECT sql FROM sqlite_master WHERE type='table' AND name='users'"
+    ).fetchone()
+    if not record or "'Cashier'" in (record["sql"] or ""):
+        return
+    connection.commit()
+    connection.execute("PRAGMA foreign_keys = OFF")
+    connection.executescript(
+        """
+        CREATE TABLE users_new (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          email TEXT NOT NULL UNIQUE,
+          role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host', 'Cashier', 'Kitchen')),
+          password_hash TEXT NOT NULL,
+          active INTEGER NOT NULL DEFAULT 1,
+          created_at TEXT NOT NULL,
+          last_login_at TEXT
+        );
+        INSERT INTO users_new (id, name, email, role, password_hash, active, created_at, last_login_at)
+        SELECT id, name, email, role, password_hash, active, created_at, last_login_at FROM users;
+        DROP TABLE users;
+        ALTER TABLE users_new RENAME TO users;
+        """
+    )
+    connection.execute("PRAGMA foreign_keys = ON")
+    connection.commit()
+
+
+def seed_operation_users(connection: sqlite3.Connection) -> None:
+    created = now_iso()
+    demo_users = [
+        ("Rohan Sharma", "manager@mangosteen.local", "Manager"),
+        ("Pooja Verma", "cashier@mangosteen.local", "Cashier"),
+        ("Kitchen Team", "kitchen@mangosteen.local", "Kitchen"),
+    ]
+    for name, email, role in demo_users:
+        connection.execute(
+            """INSERT OR IGNORE INTO users (name, email, role, password_hash, created_at)
+               VALUES (?, ?, ?, ?, ?)""",
+            (name, email, role, password_hash("Mangosteen@123"), created),
+        )
+    connection.commit()
+
+
+def seed_operations(connection: sqlite3.Connection) -> None:
+    if connection.execute("SELECT COUNT(*) FROM menu_items").fetchone()[0]:
+        return
+    created = now_iso()
+    today = date.today().isoformat()
+    menu_rows = [
+        ("Cold Coffee", "Beverages", 180), ("Cappuccino", "Beverages", 160),
+        ("Masala Chai", "Beverages", 80), ("Maggi", "Quick bites", 140),
+        ("Paneer Sandwich", "Sandwiches", 180), ("Cheese Toast", "Sandwiches", 150),
+        ("Peri Peri Fries", "Sides", 100), ("Chocolate Brownie", "Desserts", 140),
+    ]
+    connection.executemany(
+        "INSERT INTO menu_items (name, category, price, created_at) VALUES (?, ?, ?, ?)",
+        [(*row, created) for row in menu_rows],
+    )
+    inventory_rows = [
+        ("Doodh", "L", 12, 4), ("Coffee beans", "kg", 2.4, 0.75),
+        ("Bread", "pcs", 40, 12), ("Paneer", "kg", 3, 0.8),
+        ("Cheese slices", "pcs", 60, 15), ("Potato", "kg", 8, 2),
+        ("Maggi packs", "pcs", 24, 8), ("Tea leaves", "kg", 1.5, 0.4),
+        ("Sugar", "kg", 6, 1.5), ("Chocolate syrup", "L", 2, 0.5),
+    ]
+    connection.executemany(
+        """INSERT INTO inventory_items (name, unit, quantity, reorder_level, created_at)
+           VALUES (?, ?, ?, ?, ?)""",
+        [(*row, created) for row in inventory_rows],
+    )
+    menu_ids = {row["name"]: row["id"] for row in connection.execute("SELECT id, name FROM menu_items")}
+    stock_ids = {row["name"]: row["id"] for row in connection.execute("SELECT id, name FROM inventory_items")}
+    recipes = {
+        "Cold Coffee": [("Doodh", 0.25), ("Coffee beans", 0.025), ("Sugar", 0.02)],
+        "Cappuccino": [("Doodh", 0.2), ("Coffee beans", 0.02), ("Sugar", 0.01)],
+        "Masala Chai": [("Doodh", 0.15), ("Tea leaves", 0.012), ("Sugar", 0.015)],
+        "Maggi": [("Maggi packs", 1)],
+        "Paneer Sandwich": [("Bread", 2), ("Paneer", 0.12), ("Cheese slices", 1)],
+        "Cheese Toast": [("Bread", 2), ("Cheese slices", 2)],
+        "Peri Peri Fries": [("Potato", 0.25)],
+        "Chocolate Brownie": [("Chocolate syrup", 0.03)],
+    }
+    for menu_name, ingredients in recipes.items():
+        connection.executemany(
+            "INSERT INTO recipes (menu_item_id, inventory_item_id, quantity) VALUES (?, ?, ?)",
+            [(menu_ids[menu_name], stock_ids[stock_name], quantity) for stock_name, quantity in ingredients],
+        )
+
+    vendors = [
+        ("Sharma Dairy", "Doodh · paneer", "+91 98260 11001", 6800),
+        ("Fresh Bakery", "Bread · buns", "+91 98260 11002", 2400),
+        ("Bean Roasters", "Coffee beans", "+91 98260 11003", 0),
+    ]
+    connection.executemany(
+        "INSERT INTO vendors (name, supplies, phone, balance, created_at) VALUES (?, ?, ?, ?, ?)",
+        [(*row, created) for row in vendors],
+    )
+    vendor_ids = {row["name"]: row["id"] for row in connection.execute("SELECT id, name FROM vendors")}
+    expense_rows = [
+        ("Rent", "Rent", 45000, date.today().replace(day=1).isoformat(), None, "Monthly cafe rent"),
+        ("Gas cylinder", "Utilities", 1100, (date.today() - timedelta(days=3)).isoformat(), None, "Kitchen gas refill"),
+        ("Sharma Dairy bill", "Vendor", 6800, (date.today() - timedelta(days=2)).isoformat(), vendor_ids["Sharma Dairy"], "Milk and paneer supply"),
+        ("Sabzi mandi", "Kitchen", 950, today, None, "Fresh produce"),
+    ]
+    connection.executemany(
+        """INSERT INTO expenses (name, category, amount, expense_date, vendor_id, note, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?)""",
+        [(*row, created) for row in expense_rows],
+    )
+
+    staff_rows = [
+        ("Ravi Kumar", "Chef", "09:00", "18:00", 18000),
+        ("Pooja Verma", "Cashier", "10:00", "19:00", 14000),
+        ("Aman Singh", "Waiter", "12:00", "21:00", 12000),
+        ("Sunil Yadav", "Helper", "09:00", "18:00", 10000),
+    ]
+    connection.executemany(
+        """INSERT INTO staff (name, job_role, shift_start, shift_end, monthly_salary, created_at)
+           VALUES (?, ?, ?, ?, ?, ?)""",
+        [(*row, created) for row in staff_rows],
+    )
+    staff_ids = {row["name"]: row["id"] for row in connection.execute("SELECT id, name FROM staff")}
+    attendance_rows = [
+        (staff_ids["Ravi Kumar"], today, "Present", "08:54", ""),
+        (staff_ids["Pooja Verma"], today, "Present", "09:58", ""),
+        (staff_ids["Aman Singh"], today, "Late", "12:20", "20 minutes late"),
+        (staff_ids["Sunil Yadav"], today, "Leave", None, "Approved leave"),
+    ]
+    connection.executemany(
+        """INSERT INTO attendance (staff_id, attendance_date, status, check_in, note, created_at)
+           VALUES (?, ?, ?, ?, ?, ?)""",
+        [(*row, created) for row in attendance_rows],
+    )
+
+    owner_id = connection.execute("SELECT id FROM users WHERE role='Owner' ORDER BY id LIMIT 1").fetchone()
+    creator_id = owner_id["id"] if owner_id else None
+    order_specs = [
+        ("T-02", "Kitchen", [("Cappuccino", 2), ("Cheese Toast", 1)], None, "10:12"),
+        ("T-09", "Preparing", [("Maggi", 2), ("Masala Chai", 2)], None, "10:18"),
+        ("T-06", "Ready", [("Cold Coffee", 2), ("Paneer Sandwich", 1), ("Peri Peri Fries", 1)], None, "10:22"),
+        ("T-04", "Paid", [("Cold Coffee", 2), ("Chocolate Brownie", 2)], "UPI", "09:42"),
+        ("T-11", "Paid", [("Cappuccino", 2), ("Paneer Sandwich", 2)], "Cash", "11:04"),
+        ("Takeaway", "Paid", [("Masala Chai", 4), ("Maggi", 2)], "Card", "12:14"),
+    ]
+    for table_name, status, items, payment_method, time_value in order_specs:
+        timestamp = f"{today}T{time_value}:00+05:30"
+        total = sum(connection.execute("SELECT price FROM menu_items WHERE name=?", (name,)).fetchone()[0] * quantity for name, quantity in items)
+        cursor = connection.execute(
+            """INSERT INTO orders (table_name, status, subtotal, total, payment_method, created_by,
+                                    created_at, sent_at, ready_at, paid_at)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (table_name, status, total, total, payment_method, creator_id, timestamp,
+             timestamp if status != "Draft" else None, timestamp if status in {"Ready", "Paid"} else None,
+             timestamp if status == "Paid" else None),
+        )
+        order_id = cursor.lastrowid
+        for item_name, quantity in items:
+            price = connection.execute("SELECT price FROM menu_items WHERE name=?", (item_name,)).fetchone()[0]
+            connection.execute(
+                """INSERT INTO order_items (order_id, menu_item_id, item_name, quantity, unit_price)
+                   VALUES (?, ?, ?, ?, ?)""",
+                (order_id, menu_ids[item_name], item_name, quantity, price),
+            )
+        if payment_method:
+            connection.execute(
+                "INSERT INTO payments (order_id, method, amount, created_by, created_at) VALUES (?, ?, ?, ?, ?)",
+                (order_id, payment_method, total, creator_id, timestamp),
+            )
+    # Imported day-closing totals make the monthly operating report realistic
+    # without filling the live order board with dozens of historical tickets.
+    month_start = date.today().replace(day=1)
+    archive_days = min(max(date.today().day - 1, 0), 18)
+    methods = ("UPI", "Cash", "Card")
+    for offset in range(archive_days):
+        closing_date = month_start + timedelta(days=offset)
+        amount = 3850 + (offset % 5) * 460 + (offset % 3) * 275
+        timestamp = f"{closing_date.isoformat()}T22:45:00+05:30"
+        method = methods[offset % len(methods)]
+        cursor = connection.execute(
+            """INSERT INTO orders (table_name, status, subtotal, total, payment_method, created_by,
+                                    created_at, sent_at, ready_at, paid_at)
+               VALUES (?, 'Paid', ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (f"POS import · {closing_date.strftime('%d %b')}", amount, amount, method, creator_id,
+             timestamp, timestamp, timestamp, timestamp),
+        )
+        connection.execute(
+            "INSERT INTO payments (order_id, method, amount, created_by, created_at) VALUES (?, ?, ?, ?, ?)",
+            (cursor.lastrowid, method, amount, creator_id, timestamp),
+        )
+    connection.commit()
+
+
 def seed_owner(connection: sqlite3.Connection) -> None:
     if connection.execute("SELECT COUNT(*) FROM users").fetchone()[0]:
         return
@@ -434,8 +754,11 @@ def init_database() -> None:
     BACKUP_DIR.mkdir(parents=True, exist_ok=True)
     with connect() as connection:
         connection.executescript(SCHEMA)
+        migrate_user_roles(connection)
         seed_database(connection)
         seed_owner(connection)
+        seed_operation_users(connection)
+        seed_operations(connection)
         additions = {
             "backup_enabled": True,
             "backup_retention_days": 30,
@@ -524,6 +847,100 @@ def normalize_customer(row: dict) -> dict:
     }
 
 
+def operations_payload(connection: sqlite3.Connection, current_user: dict | None = None) -> dict:
+    role = (current_user or {}).get("role", "Host")
+    menu_items = [{"id": row["id"], "name": row["name"], "category": row["category"],
+                   "price": row["price"], "active": bool(row["active"])}
+                  for row in rows(connection, "SELECT * FROM menu_items ORDER BY category, name")]
+    order_items: dict[int, list[dict]] = {}
+    for row in rows(connection, "SELECT * FROM order_items ORDER BY id"):
+        order_items.setdefault(row["order_id"], []).append({
+            "id": row["id"], "menuItemId": row["menu_item_id"], "name": row["item_name"],
+            "quantity": row["quantity"], "unitPrice": row["unit_price"],
+            "lineTotal": row["quantity"] * row["unit_price"],
+        })
+    orders = [{"id": row["id"], "table": row["table_name"], "status": row["status"],
+               "subtotal": row["subtotal"], "total": row["total"],
+               "paymentMethod": row["payment_method"], "createdAt": row["created_at"],
+               "sentAt": row["sent_at"], "readyAt": row["ready_at"], "paidAt": row["paid_at"],
+               "items": order_items.get(row["id"], [])}
+              for row in rows(connection, "SELECT * FROM orders ORDER BY created_at DESC, id DESC LIMIT 100")]
+    inventory = [{"id": row["id"], "name": row["name"], "unit": row["unit"],
+                  "quantity": row["quantity"], "reorderLevel": row["reorder_level"],
+                  "low": row["quantity"] <= row["reorder_level"]}
+                 for row in rows(connection, "SELECT * FROM inventory_items ORDER BY name")]
+    vendors = [{"id": row["id"], "name": row["name"], "supplies": row["supplies"],
+                "phone": row["phone"], "balance": row["balance"],
+                "status": "Paid" if row["balance"] <= 0 else "Due"}
+               for row in rows(connection, "SELECT * FROM vendors ORDER BY name")]
+    expenses = [{"id": row["id"], "name": row["name"], "category": row["category"],
+                 "amount": row["amount"], "date": row["expense_date"],
+                 "vendorId": row["vendor_id"], "note": row["note"]}
+                for row in rows(connection, "SELECT * FROM expenses ORDER BY expense_date DESC, id DESC LIMIT 100")]
+    attendance_lookup = {row["staff_id"]: dict(row) for row in connection.execute(
+        "SELECT * FROM attendance WHERE attendance_date=?", (date.today().isoformat(),)
+    )}
+    staff = []
+    for row in rows(connection, "SELECT * FROM staff WHERE active=1 ORDER BY id"):
+        attendance = attendance_lookup.get(row["id"])
+        staff.append({"id": row["id"], "name": row["name"], "jobRole": row["job_role"],
+                      "shiftStart": row["shift_start"], "shiftEnd": row["shift_end"],
+                      "salary": row["monthly_salary"], "userId": row["user_id"],
+                      "attendance": {"status": attendance["status"], "checkIn": attendance["check_in"],
+                                     "note": attendance["note"]} if attendance else None})
+    payments = [{"id": row["id"], "orderId": row["order_id"], "method": row["method"],
+                 "amount": row["amount"], "createdAt": row["created_at"]}
+                for row in rows(connection, "SELECT * FROM payments ORDER BY id DESC LIMIT 200")]
+    if role == "Kitchen":
+        return {"menuItems": menu_items, "orders": orders, "inventory": [], "expenses": [],
+                "vendors": [], "staff": [], "payments": []}
+    if role in {"Cashier", "Host"}:
+        return {"menuItems": menu_items, "orders": orders, "inventory": [], "expenses": [],
+                "vendors": [], "staff": [], "payments": payments}
+    return {"menuItems": menu_items, "orders": orders, "inventory": inventory,
+            "expenses": expenses, "vendors": vendors, "staff": staff, "payments": payments}
+
+
+def send_order_to_kitchen(connection: sqlite3.Connection, order_id: int, user_id: int) -> None:
+    order = connection.execute("SELECT status FROM orders WHERE id=?", (order_id,)).fetchone()
+    if not order:
+        raise ValueError("Order not found")
+    if order["status"] != "Draft":
+        raise ValueError("Only draft orders can be sent to the kitchen")
+    requirements = rows(
+        connection,
+        """SELECT inventory_items.id, inventory_items.name, inventory_items.quantity AS available,
+                  inventory_items.unit, SUM(recipes.quantity * order_items.quantity) AS required
+           FROM order_items
+           JOIN recipes ON recipes.menu_item_id=order_items.menu_item_id
+           JOIN inventory_items ON inventory_items.id=recipes.inventory_item_id
+           WHERE order_items.order_id=?
+           GROUP BY inventory_items.id""",
+        (order_id,),
+    )
+    shortages = [item for item in requirements if item["available"] + 1e-9 < item["required"]]
+    if shortages:
+        item = shortages[0]
+        raise ValueError(f'Not enough {item["name"]}: {item["available"]:g} {item["unit"]} available')
+    timestamp = now_iso()
+    for item in requirements:
+        connection.execute(
+            "UPDATE inventory_items SET quantity=MAX(0, quantity-?) WHERE id=?",
+            (item["required"], item["id"]),
+        )
+        connection.execute(
+            """INSERT INTO inventory_movements
+               (inventory_item_id, order_id, quantity, reason, created_by, created_at)
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            (item["id"], order_id, -item["required"], "Order consumption", user_id, timestamp),
+        )
+    connection.execute("UPDATE orders SET status='Kitchen', sent_at=? WHERE id=?", (timestamp, order_id))
+    connection.execute(
+        "INSERT INTO activities (kind, title, details, created_at) VALUES ('reservation', ?, ?, ?)",
+        ("Order sent to kitchen", f"Order #{order_id}", timestamp),
+    )
+
+
 def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None = None) -> dict:
     customers = [normalize_customer(row) for row in rows(connection, "SELECT * FROM customers ORDER BY id DESC")]
     reservations = []
@@ -579,6 +996,9 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
                      "reason": row["reason"], "createdAt": row["created_at"]}
                     for row in rows(connection, "SELECT * FROM point_ledger ORDER BY id DESC LIMIT 25")]
     role_level = ROLE_LEVEL.get((current_user or {}).get("role", "Host"), 1)
+    operations = operations_payload(connection, current_user)
+    if (current_user or {}).get("role") == "Kitchen":
+        customers, reservations, campaigns, feedback, tasks, rewards, activities, metrics = [], [], [], [], [], [], [], []
     return {"customers": customers, "reservations": reservations, "campaigns": campaigns,
             "feedback": feedback, "tasks": tasks, "rewards": rewards,
             "activities": activities, "monthlyMetrics": metrics, "settings": settings,
@@ -587,6 +1007,7 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
             "pointLedger": point_ledger if role_level >= ROLE_LEVEL["Manager"] else [],
             "backups": list_backups() if role_level >= ROLE_LEVEL["Owner"] else [],
             "integrations": integration_status() if role_level >= ROLE_LEVEL["Manager"] else {},
+            **operations,
             "user": current_user}
 
 
@@ -758,6 +1179,14 @@ class CRMHandler(SimpleHTTPRequestHandler):
             raise PermissionError(f"{minimum_role} access is required")
         return user
 
+    def require_roles(self, *allowed_roles: str) -> dict:
+        user = self.current_user()
+        if not user:
+            raise PermissionError("Authentication required")
+        if user["role"] not in allowed_roles:
+            raise PermissionError(f"Access is limited to {', '.join(allowed_roles)}")
+        return user
+
     def set_session_cookie(self, token: str) -> None:
         self.send_header("Set-Cookie", f"{SESSION_COOKIE}={token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=43200")
 
@@ -808,7 +1237,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
             return
         if path.startswith("/api/"):
             try:
-                user = self.require_user()
+                user = self.require_user("Kitchen" if path == "/api/bootstrap" else "Host")
                 if path == "/api/bootstrap":
                     with connect() as connection:
                         self.send_json(bootstrap_payload(connection, user))
@@ -958,7 +1387,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                 self.send_json({"authenticated": True, "user": user}, session_token=token)
                 return
 
-            user = self.require_user()
+            user = self.require_user("Kitchen")
             if path == "/api/auth/logout":
                 cookie = SimpleCookie(self.headers.get("Cookie", ""))
                 morsel = cookie.get(SESSION_COOKIE)
@@ -981,6 +1410,204 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     self.send_json({"changed": True})
                     return
 
+                if path == "/api/orders":
+                    self.require_roles("Owner", "Manager", "Cashier")
+                    table_name = str(body.get("table", "")).strip()[:40]
+                    requested_items = body.get("items", [])
+                    if not table_name or not isinstance(requested_items, list):
+                        raise ValueError("Table and order items are required")
+                    normalized_items = []
+                    total = 0.0
+                    for requested in requested_items:
+                        menu_item_id = int(requested.get("menuItemId", 0))
+                        quantity = max(0, int(requested.get("quantity", 0)))
+                        if not menu_item_id or not quantity:
+                            continue
+                        menu_item = connection.execute(
+                            "SELECT id, name, price FROM menu_items WHERE id=? AND active=1", (menu_item_id,)
+                        ).fetchone()
+                        if not menu_item:
+                            raise ValueError("One selected menu item is unavailable")
+                        total += menu_item["price"] * quantity
+                        normalized_items.append((menu_item, quantity))
+                    if not normalized_items:
+                        raise ValueError("Add at least one item to the order")
+                    cursor = connection.execute(
+                        """INSERT INTO orders (table_name, status, subtotal, total, created_by, created_at)
+                           VALUES (?, 'Draft', ?, ?, ?, ?)""",
+                        (table_name, total, total, user["id"], now_iso()),
+                    )
+                    order_id = cursor.lastrowid
+                    connection.executemany(
+                        """INSERT INTO order_items
+                           (order_id, menu_item_id, item_name, quantity, unit_price)
+                           VALUES (?, ?, ?, ?, ?)""",
+                        [(order_id, item["id"], item["name"], quantity, item["price"])
+                         for item, quantity in normalized_items],
+                    )
+                    connection.commit()
+                    self.send_json({"id": order_id, "total": total}, HTTPStatus.CREATED)
+                    return
+
+                if path.startswith("/api/orders/") and path.endswith("/send"):
+                    self.require_roles("Owner", "Manager", "Cashier")
+                    order_id = int(path.split("/")[3])
+                    send_order_to_kitchen(connection, order_id, user["id"])
+                    connection.commit()
+                    self.send_json({"updated": True, "status": "Kitchen"})
+                    return
+
+                if path.startswith("/api/orders/") and path.endswith("/status"):
+                    self.require_roles("Owner", "Manager", "Kitchen")
+                    order_id = int(path.split("/")[3])
+                    requested = str(body.get("status", "")).title()
+                    if requested not in {"Kitchen", "Preparing", "Ready"}:
+                        raise ValueError("Kitchen status must be Kitchen, Preparing or Ready")
+                    record = connection.execute("SELECT id, status FROM orders WHERE id=?", (order_id,)).fetchone()
+                    if not record or record["status"] == "Paid":
+                        raise ValueError("Order is unavailable or already paid")
+                    ready_at = now_iso() if requested == "Ready" else None
+                    connection.execute(
+                        "UPDATE orders SET status=?, ready_at=COALESCE(?, ready_at) WHERE id=?",
+                        (requested, ready_at, order_id),
+                    )
+                    connection.commit()
+                    self.send_json({"updated": True, "status": requested})
+                    return
+
+                if path.startswith("/api/orders/") and path.endswith("/pay"):
+                    self.require_roles("Owner", "Manager", "Cashier")
+                    order_id = int(path.split("/")[3])
+                    method = str(body.get("method", "")).upper()
+                    method = "UPI" if method == "UPI" else method.title()
+                    if method not in {"Cash", "UPI", "Card"}:
+                        raise ValueError("Payment method must be Cash, UPI or Card")
+                    order = connection.execute("SELECT * FROM orders WHERE id=?", (order_id,)).fetchone()
+                    if not order:
+                        raise ValueError("Order not found")
+                    if order["status"] == "Paid":
+                        raise ValueError("Order is already paid")
+                    timestamp = now_iso()
+                    connection.execute(
+                        "INSERT INTO payments (order_id, method, amount, created_by, created_at) VALUES (?, ?, ?, ?, ?)",
+                        (order_id, method, order["total"], user["id"], timestamp),
+                    )
+                    connection.execute(
+                        "UPDATE orders SET status='Paid', payment_method=?, paid_at=? WHERE id=?",
+                        (method, timestamp, order_id),
+                    )
+                    connection.commit()
+                    self.send_json({"paid": True, "method": method, "amount": order["total"]})
+                    return
+
+                if path.startswith("/api/inventory/") and path.endswith("/adjust"):
+                    self.require_roles("Owner", "Manager")
+                    inventory_id = int(path.split("/")[3])
+                    quantity = float(body.get("quantity", 0))
+                    reason = str(body.get("reason", "Manual stock adjustment")).strip()[:120]
+                    if not quantity:
+                        raise ValueError("Enter a non-zero stock adjustment")
+                    item = connection.execute("SELECT quantity FROM inventory_items WHERE id=?", (inventory_id,)).fetchone()
+                    if not item or item["quantity"] + quantity < 0:
+                        raise ValueError("Stock adjustment would create a negative quantity")
+                    connection.execute("UPDATE inventory_items SET quantity=quantity+? WHERE id=?", (quantity, inventory_id))
+                    connection.execute(
+                        """INSERT INTO inventory_movements
+                           (inventory_item_id, quantity, reason, created_by, created_at)
+                           VALUES (?, ?, ?, ?, ?)""",
+                        (inventory_id, quantity, reason, user["id"], now_iso()),
+                    )
+                    connection.commit()
+                    self.send_json({"adjusted": True})
+                    return
+
+                if path == "/api/expenses":
+                    self.require_roles("Owner", "Manager")
+                    name = str(body.get("name", "")).strip()
+                    category = str(body.get("category", "Kitchen")).strip().title()
+                    amount = float(body.get("amount", 0))
+                    expense_date = str(body.get("date", date.today().isoformat())).strip()
+                    vendor_id = int(body["vendorId"]) if body.get("vendorId") else None
+                    if not name or amount <= 0 or category not in {"Rent", "Utilities", "Vendor", "Kitchen", "Salary", "Other"}:
+                        raise ValueError("Expense name, valid category and positive amount are required")
+                    cursor = connection.execute(
+                        """INSERT INTO expenses
+                           (name, category, amount, expense_date, vendor_id, note, created_by, created_at)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                        (name, category, amount, expense_date, vendor_id,
+                         str(body.get("note", "")).strip(), user["id"], now_iso()),
+                    )
+                    if vendor_id and bool(body.get("addToBalance")):
+                        connection.execute("UPDATE vendors SET balance=balance+? WHERE id=?", (amount, vendor_id))
+                    connection.commit()
+                    self.send_json({"id": cursor.lastrowid}, HTTPStatus.CREATED)
+                    return
+
+                if path == "/api/vendors":
+                    self.require_roles("Owner", "Manager")
+                    name = str(body.get("name", "")).strip()
+                    if not name:
+                        raise ValueError("Vendor name is required")
+                    cursor = connection.execute(
+                        "INSERT INTO vendors (name, supplies, phone, balance, created_at) VALUES (?, ?, ?, ?, ?)",
+                        (name, str(body.get("supplies", "")).strip(), str(body.get("phone", "")).strip(),
+                         max(0, float(body.get("balance", 0))), now_iso()),
+                    )
+                    connection.commit()
+                    self.send_json({"id": cursor.lastrowid}, HTTPStatus.CREATED)
+                    return
+
+                if path.startswith("/api/vendors/") and path.endswith("/pay"):
+                    self.require_roles("Owner", "Manager")
+                    vendor_id = int(path.split("/")[3])
+                    amount = float(body.get("amount", 0))
+                    vendor = connection.execute("SELECT balance FROM vendors WHERE id=?", (vendor_id,)).fetchone()
+                    if not vendor or amount <= 0 or amount > vendor["balance"]:
+                        raise ValueError("Enter a payment no greater than the outstanding balance")
+                    connection.execute("UPDATE vendors SET balance=balance-? WHERE id=?", (amount, vendor_id))
+                    connection.commit()
+                    self.send_json({"paid": True})
+                    return
+
+                if path == "/api/staff":
+                    self.require_roles("Owner", "Manager")
+                    name = str(body.get("name", "")).strip()
+                    job_role = str(body.get("jobRole", "")).strip()
+                    if not name or not job_role:
+                        raise ValueError("Staff name and role are required")
+                    cursor = connection.execute(
+                        """INSERT INTO staff
+                           (name, job_role, shift_start, shift_end, monthly_salary, created_at)
+                           VALUES (?, ?, ?, ?, ?, ?)""",
+                        (name, job_role, body.get("shiftStart", "09:00"), body.get("shiftEnd", "18:00"),
+                         max(0, float(body.get("salary", 0))), now_iso()),
+                    )
+                    connection.commit()
+                    self.send_json({"id": cursor.lastrowid}, HTTPStatus.CREATED)
+                    return
+
+                if path == "/api/attendance":
+                    self.require_roles("Owner", "Manager")
+                    staff_id = int(body.get("staffId", 0))
+                    status = str(body.get("status", "Present")).title()
+                    attendance_date = str(body.get("date", date.today().isoformat()))
+                    if not staff_id or status not in {"Present", "Late", "Leave", "Absent"}:
+                        raise ValueError("Staff member and valid attendance status are required")
+                    connection.execute(
+                        """INSERT INTO attendance
+                           (staff_id, attendance_date, status, check_in, note, created_at)
+                           VALUES (?, ?, ?, ?, ?, ?)
+                           ON CONFLICT(staff_id, attendance_date) DO UPDATE SET
+                             status=excluded.status, check_in=excluded.check_in, note=excluded.note""",
+                        (staff_id, attendance_date, status, body.get("checkIn") or None,
+                         str(body.get("note", "")).strip(), now_iso()),
+                    )
+                    connection.commit()
+                    self.send_json({"saved": True})
+                    return
+
+                self.require_user("Host")
+
                 if path == "/api/users":
                     self.require_user("Owner")
                     name = str(body.get("name", "")).strip()
@@ -990,7 +1617,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     if not name or "@" not in email:
                         raise ValueError("Name and a valid email are required")
                     if role not in ROLE_LEVEL:
-                        raise ValueError("Role must be Owner, Manager or Host")
+                        raise ValueError("Role must be Owner, Manager, Host, Cashier or Kitchen")
                     if len(password) < 10:
                         raise ValueError("Temporary password must be at least 10 characters")
                     cursor = connection.execute(
@@ -1226,10 +1853,15 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
                 if path == "/api/reset":
                     self.require_user("Owner")
-                    for table in ("public_submissions", "communications", "point_ledger", "reservations", "feedback", "tasks", "campaigns", "rewards", "activities", "monthly_metrics", "customers", "settings"):
+                    for table in ("public_submissions", "communications", "point_ledger", "payments",
+                                  "inventory_movements", "order_items", "attendance", "expenses",
+                                  "recipes", "orders", "staff", "vendors", "inventory_items", "menu_items",
+                                  "reservations", "feedback", "tasks", "campaigns", "rewards",
+                                  "activities", "monthly_metrics", "customers", "settings"):
                         connection.execute(f"DELETE FROM {table}")
                     connection.commit()
                     seed_database(connection)
+                    seed_operations(connection)
                     self.send_json({"reset": True})
                     return
                 if path.startswith("/api/tasks/") and path.endswith("/complete"):

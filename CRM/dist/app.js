@@ -57,6 +57,7 @@ let data = {
   customers: [], reservations: [], feedback: [], tasks: [],
   rewards: [], activities: [], monthlyMetrics: [], settings: {}, users: [],
   communications: [], pointLedger: [], backups: [], integrations: {}, user: null,
+  menuItems: [], orders: [], inventory: [], expenses: [], vendors: [], staff: [], payments: [],
 };
 let loading = true;
 let dataError = '';
@@ -169,6 +170,47 @@ function calculateAnalytics() {
     openTasks,
   };
 }
+
+function calculateOperations() {
+  const today = localDateKey();
+  const month = today.slice(0, 7);
+  const orders = data.orders || [];
+  const payments = data.payments || [];
+  const expenses = data.expenses || [];
+  const todayPayments = payments.filter((item) => (item.createdAt || '').slice(0, 10) === today);
+  const monthPayments = payments.filter((item) => (item.createdAt || '').slice(0, 7) === month);
+  const todayExpenses = expenses.filter((item) => item.date === today);
+  const monthExpenses = expenses.filter((item) => (item.date || '').slice(0, 7) === month);
+  const paymentTotals = { Cash: 0, UPI: 0, Card: 0 };
+  todayPayments.forEach((item) => { paymentTotals[item.method] = (paymentTotals[item.method] || 0) + Number(item.amount || 0); });
+  const itemSales = {};
+  orders.filter((order) => order.status === 'Paid').forEach((order) => order.items.forEach((item) => {
+    itemSales[item.name] = (itemSales[item.name] || 0) + Number(item.quantity || 0);
+  }));
+  const topItem = Object.entries(itemSales).sort((a, b) => b[1] - a[1])[0] || ['No paid orders yet', 0];
+  const categoryExpenses = {};
+  monthExpenses.forEach((item) => { categoryExpenses[item.category] = (categoryExpenses[item.category] || 0) + Number(item.amount || 0); });
+  const todaySales = todayPayments.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const monthSales = monthPayments.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const todayExpenseTotal = todayExpenses.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const monthExpenseTotal = monthExpenses.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  return {
+    activeOrders: orders.filter((item) => !['Paid', 'Cancelled'].includes(item.status)),
+    kitchenOrders: orders.filter((item) => ['Kitchen', 'Preparing', 'Ready'].includes(item.status)),
+    unpaidOrders: orders.filter((item) => item.status !== 'Paid'),
+    paidOrders: orders.filter((item) => item.status === 'Paid'),
+    todaySales, monthSales, todayExpenseTotal, monthExpenseTotal, todayPaymentCount: todayPayments.length,
+    todayProfit: todaySales - todayExpenseTotal,
+    monthProfit: monthSales - monthExpenseTotal,
+    paymentTotals,
+    lowStock: (data.inventory || []).filter((item) => item.low),
+    vendorDue: (data.vendors || []).reduce((sum, item) => sum + Number(item.balance || 0), 0),
+    payroll: (data.staff || []).reduce((sum, item) => sum + Number(item.salary || 0), 0),
+    presentStaff: (data.staff || []).filter((item) => ['Present', 'Late'].includes(item.attendance?.status)).length,
+    topItem: { name: topItem[0], quantity: topItem[1] },
+    categoryExpenses,
+  };
+}
 let state = {
   page: 'dashboard',
   customerQuery: '',
@@ -180,6 +222,13 @@ let state = {
 
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: 'grid' },
+  { id: 'orders', label: 'Orders & POS', icon: 'coffee' },
+  { id: 'kitchen', label: 'Kitchen display', icon: 'clock' },
+  { id: 'billing', label: 'Billing & closing', icon: 'wallet' },
+  { id: 'stock', label: 'Inventory', icon: 'database' },
+  { id: 'expenses', label: 'Expenses', icon: 'rupee' },
+  { id: 'vendors', label: 'Vendors', icon: 'building' },
+  { id: 'staff', label: 'Staff & attendance', icon: 'users' },
   { id: 'customers', label: 'Customers', icon: 'users' },
   { id: 'reservations', label: 'Reservations', icon: 'calendar', badge: '5' },
   { id: 'loyalty', label: 'Loyalty & rewards', icon: 'gift' },
@@ -231,18 +280,27 @@ function pageHeader(eyebrow, title, description, actions = '') {
 
 function shell() {
   const analytics = calculateAnalytics();
+  const operations = calculateOperations();
   const businessName = data.settings.business_name || 'Mangosteen Cafe';
   const user = data.user || { name: 'Staff member', role: 'Host' };
   const userInitials = initials(user.name || 'Staff');
-  const hostPages = new Set(['dashboard', 'customers', 'reservations', 'feedback', 'reports']);
-  const visibleNav = navItems.filter((item) => user.role !== 'Host' ? true : hostPages.has(item.id));
-  const dynamicBadge = (id) => id === 'reservations' ? analytics.todayReservations.length : id === 'feedback' ? analytics.openFeedback : null;
+  const rolePages = {
+    Owner: navItems.map((item) => item.id),
+    Manager: navItems.map((item) => item.id),
+    Cashier: ['dashboard', 'orders', 'billing', 'customers', 'reservations'],
+    Kitchen: ['kitchen'],
+    Host: ['dashboard', 'customers', 'reservations', 'feedback', 'reports'],
+  };
+  const allowedPages = rolePages[user.role] || rolePages.Host;
+  if (!allowedPages.includes(state.page)) state.page = allowedPages[0];
+  const visibleNav = navItems.filter((item) => allowedPages.includes(item.id));
+  const dynamicBadge = (id) => id === 'reservations' ? analytics.todayReservations.length : id === 'feedback' ? analytics.openFeedback : id === 'kitchen' ? operations.kitchenOrders.length : id === 'stock' ? operations.lowStock.length : null;
   return `
     <div class="app-shell">
       <aside class="sidebar ${state.sidebarOpen ? 'open' : ''}" id="sidebar">
         <div class="brand">
           <div class="brand-mark">${icon('coffee')}</div>
-          <div class="brand-copy"><strong>${escapeHtml(businessName.replace(/\s+Cafe$/i, ''))}</strong><span>Guest Intelligence</span></div>
+          <div class="brand-copy"><strong>${escapeHtml(businessName.replace(/\s+Cafe$/i, ''))}</strong><span>Cafe Operating Suite</span></div>
         </div>
         <div class="nav-label">Workspace</div>
         <nav class="nav-list" aria-label="Main navigation">
@@ -265,7 +323,7 @@ function shell() {
           <button class="icon-btn menu-toggle" data-action="toggle-sidebar" aria-label="Open navigation">${icon('menu')}</button>
           <div class="global-search">
             ${icon('search')}
-            <input id="global-search" type="search" placeholder="Search customers and reservations…" aria-label="Global search" />
+            <input id="global-search" type="search" placeholder="Search guests, tables and orders…" aria-label="Global search" />
             <span class="shortcut">⌘ K</span>
           </div>
           <div class="topbar-right">
@@ -281,8 +339,8 @@ function shell() {
         <div class="page-wrap">
           <div class="demo-banner">
             ${icon('sparkles')}
-            <span><strong>Private operating workspace.</strong> Data stays on this Mac; website requests arrive here as pending.</span>
-            <button data-action="reset-demo">Rebuild sample data</button>
+            <span><strong>Private operating workspace.</strong> Orders, stock and guest data stay on this Mac; website requests arrive here as pending.</span>
+            ${user.role === 'Owner' ? '<button data-action="reset-demo">Rebuild sample data</button>' : ''}
           </div>
           <div id="page-content">${renderPage()}</div>
         </div>
@@ -295,6 +353,13 @@ function renderPage() {
   if (dataError) return `<div class="empty-state"><div><div class="empty-icon">${icon('alert')}</div><h3>Local server unavailable</h3><p>${escapeHtml(dataError)} Start the CRM with <strong>./run-local.sh</strong>, then try again.</p><button class="btn btn-primary" style="margin-top:14px" data-action="retry-data">${icon('refresh')} Retry</button></div></div>`;
   const pages = {
     dashboard: renderDashboard,
+    orders: renderOrders,
+    kitchen: renderKitchen,
+    billing: renderBilling,
+    stock: renderStock,
+    expenses: renderExpenses,
+    vendors: renderVendors,
+    staff: renderStaff,
     customers: renderCustomers,
     reservations: renderReservations,
     loyalty: renderLoyalty,
@@ -343,6 +408,7 @@ function lineChart(values = [], labels = [], accessibleLabel = 'CRM trend over t
 
 function renderDashboard() {
   const analytics = calculateAnalytics();
+  const operations = calculateOperations();
   const metrics = data.monthlyMetrics || [];
   const chartValues = metrics.map((item) => item.returningVisits);
   const chartLabels = metrics.map((item) => new Intl.DateTimeFormat('en-IN', { month: 'short' }).format(new Date(`${item.month}-01T12:00:00`)));
@@ -361,14 +427,16 @@ function renderDashboard() {
     { label: '6:00–8:00 PM', min: '18:00', max: '20:00', color: '#b99258' },
     { label: '8:00–10:00 PM', min: '20:00', max: '22:00', color: '#596b55' },
   ].map((slot) => ({ ...slot, value: Math.min(100, todayReservations.filter((item) => item.time >= slot.min && item.time < slot.max).reduce((sum, item) => sum + item.guests, 0) / 25 * 100) }));
-  const reservationActions = `<button class="btn" data-action="export-report">${icon('download')} Export</button><button class="btn btn-primary" data-action="add-reservation">${icon('plus')} New reservation</button>`;
+  const reservationActions = data.user?.role === 'Host'
+    ? `<button class="btn" data-action="export-report">${icon('download')} Export</button><button class="btn btn-primary" data-action="add-reservation">${icon('plus')} New reservation</button>`
+    : `<button class="btn" data-page="billing">${icon('wallet')} Day closing</button><button class="btn btn-primary" data-action="new-order">${icon('plus')} New order</button>`;
   return `
-    ${pageHeader('Overview', `Good afternoon, ${escapeHtml((data.user?.name || 'there').split(' ')[0])}`, 'Here is what is happening with your guests and cafe today.', reservationActions)}
+    ${pageHeader('Live operations', `Good afternoon, ${escapeHtml((data.user?.name || 'there').split(' ')[0])}`, 'Sales, orders, stock and guest service—together in one premium workspace.', reservationActions)}
     <section class="stat-grid">
-      ${statCard({ iconName: 'wallet', value: inr(analytics.monthRevenue), label: 'Customer-linked revenue this month', trend: `${analytics.totalCustomers} profiles`, accent: '#5d4a3f', soft: '#f3ece3', glow: 'rgba(93,74,63,.10)' })}
-      ${statCard({ iconName: 'users', value: analytics.totalCustomers.toLocaleString('en-IN'), label: 'Known customers', trend: `${analytics.consented} opted in`, accent: '#b5623d', soft: '#f7ece6', glow: 'rgba(181,98,61,.11)' })}
-      ${statCard({ iconName: 'calendar', value: analytics.todayReservations.length.toString(), label: 'Reservations today', trend: `${analytics.todayGuests} guests`, accent: '#8c642e', soft: '#f7efe1', glow: 'rgba(185,146,88,.13)' })}
-      ${statCard({ iconName: 'gift', value: `${analytics.returningRate.toFixed(0)}%`, label: 'Returning customer rate', trend: `${analytics.returningCustomers} returning`, accent: '#596b55', soft: '#eef0e8', glow: 'rgba(89,107,85,.11)' })}
+      ${statCard({ iconName: 'wallet', value: inr(operations.todaySales), label: 'Sales today', trend: `${operations.todayPaymentCount} paid orders`, accent: '#173f35', soft: '#e8f1ed', glow: 'rgba(23,63,53,.11)' })}
+      ${statCard({ iconName: 'coffee', value: operations.activeOrders.length.toString(), label: 'Active orders', trend: `${operations.kitchenOrders.length} in kitchen`, accent: '#a96d2d', soft: '#fbf1e5', glow: 'rgba(169,109,45,.12)' })}
+      ${statCard({ iconName: 'rupee', value: inr(operations.todayProfit), label: 'Profit today', trend: `${inr(operations.todayExpenseTotal)} expenses`, accent: '#65533f', soft: '#f4efe8', glow: 'rgba(101,83,63,.11)', down: operations.todayProfit < 0 })}
+      ${statCard({ iconName: 'alert', value: operations.lowStock.length.toString(), label: 'Low-stock ingredients', trend: operations.lowStock.length ? 'Review inventory' : 'Stock healthy', accent: '#8f4f43', soft: '#f8ebe7', glow: 'rgba(143,79,67,.11)', down: operations.lowStock.length > 0 })}
     </section>
     <section class="dashboard-grid">
       <article class="panel">
@@ -407,6 +475,111 @@ function renderDashboard() {
         </div>
       </article>
     </section>`;
+}
+
+function orderItemsMarkup(order) {
+  return `<div class="order-items">${order.items.map((item) => `<div><span>${item.quantity} × ${escapeHtml(item.name)}</span><strong>${inr(item.lineTotal)}</strong></div>`).join('')}</div>`;
+}
+
+function renderOrders() {
+  const operations = calculateOperations();
+  const orders = (data.orders || []).filter((order) => order.items.length);
+  const actions = `<button class="btn" data-page="kitchen">${icon('clock')} Kitchen display</button><button class="btn btn-primary" data-action="new-order">${icon('plus')} New table order</button>`;
+  return `
+    ${pageHeader('Point of sale', 'Orders & tables', 'Build a table order, send it to the kitchen, and follow every preparation stage.', actions)}
+    <section class="ops-stat-grid">
+      <article class="ops-stat"><span>Open tables</span><strong>${operations.activeOrders.length}</strong><small>Live service</small></article>
+      <article class="ops-stat"><span>Kitchen queue</span><strong>${operations.kitchenOrders.length}</strong><small>Preparing or ready</small></article>
+      <article class="ops-stat"><span>Paid today</span><strong>${inr(operations.todaySales)}</strong><small>${(data.payments || []).filter((item) => (item.createdAt || '').slice(0, 10) === localDateKey()).length} bills</small></article>
+    </section>
+    <div class="orders-grid">
+      ${orders.map((order) => `<article class="order-card ${order.status.toLowerCase()}">
+        <div class="order-card-head"><div><span class="eyebrow">Order #${String(order.id).padStart(3, '0')}</span><h3>${escapeHtml(order.table)}</h3></div>${statusPill(order.status)}</div>
+        ${orderItemsMarkup(order)}
+        <div class="order-total"><span>Total</span><strong>${inr(order.total)}</strong></div>
+        <div class="order-meta"><span>${relativeTime(order.createdAt)} ago</span>${order.paymentMethod ? `<span>${escapeHtml(order.paymentMethod)}</span>` : ''}</div>
+        ${order.status === 'Draft' ? `<button class="btn btn-primary btn-block" data-action="send-order" data-id="${order.id}">${icon('send')} Send to kitchen</button>` : ''}
+        ${order.status === 'Ready' ? `<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
+      </article>`).join('') || '<div class="empty-state"><div><h3>No orders yet</h3><p>Create the first table order to begin service.</p></div></div>'}
+    </div>`;
+}
+
+function renderKitchen() {
+  const orders = (data.orders || []).filter((order) => ['Kitchen', 'Preparing', 'Ready'].includes(order.status));
+  const columns = [
+    ['Kitchen', 'New tickets', 'Waiting to begin'],
+    ['Preparing', 'In preparation', 'Being made now'],
+    ['Ready', 'Ready to serve', 'Collect at the pass'],
+  ];
+  return `
+    ${pageHeader('Kitchen display system', 'Live kitchen queue', 'A focused preparation board with ticket timers and clear hand-off stages.', `<button class="btn" data-action="refresh-operations">${icon('refresh')} Refresh queue</button>`)}
+    <div class="kds-board">
+      ${columns.map(([status, title, subtitle]) => `<section class="kds-column ${status.toLowerCase()}">
+        <div class="kds-column-head"><div><h2>${title}</h2><p>${subtitle}</p></div><span>${orders.filter((item) => item.status === status).length}</span></div>
+        <div class="kds-stack">${orders.filter((item) => item.status === status).map((order) => `<article class="kds-card">
+          <div class="kds-ticket-head"><div><span>Order #${String(order.id).padStart(3, '0')}</span><strong>${escapeHtml(order.table)}</strong></div><div class="kds-timer">${icon('clock')} ${relativeTime(order.sentAt || order.createdAt)}</div></div>
+          <ul>${order.items.map((item) => `<li><strong>${item.quantity}×</strong> ${escapeHtml(item.name)}</li>`).join('')}</ul>
+          ${status === 'Kitchen' ? `<button class="btn btn-primary btn-block" data-action="kitchen-start" data-id="${order.id}">Start preparing</button>` : ''}
+          ${status === 'Preparing' ? `<button class="btn btn-primary btn-block" data-action="kitchen-ready" data-id="${order.id}">${icon('check')} Mark ready</button>` : ''}
+          ${status === 'Ready' ? `<div class="ready-callout">${icon('checkCircle')} Ready for service</div>` : ''}
+        </article>`).join('') || '<div class="kds-empty">No tickets</div>'}</div>
+      </section>`).join('')}
+    </div>`;
+}
+
+function renderBilling() {
+  const operations = calculateOperations();
+  const unpaid = operations.unpaidOrders.filter((order) => order.status !== 'Draft');
+  const total = Math.max(1, operations.todaySales);
+  return `
+    ${pageHeader('Cashier workspace', 'Billing & day closing', 'Settle table bills and reconcile cash, UPI, and card totals before closing.', `<button class="btn btn-primary" data-action="new-order">${icon('plus')} New order</button>`)}
+    <section class="payment-summary">
+      <article><span>Today’s collection</span><strong>${inr(operations.todaySales)}</strong><small>${(data.payments || []).filter((item) => (item.createdAt || '').slice(0, 10) === localDateKey()).length} settled bills</small></article>
+      ${['Cash', 'UPI', 'Card'].map((method) => `<article><span>${method}</span><strong>${inr(operations.paymentTotals[method])}</strong><div class="payment-bar"><i style="width:${Math.min(100, operations.paymentTotals[method] / total * 100)}%"></i></div></article>`).join('')}
+    </section>
+    <div class="ops-grid two">
+      <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Open bills</h2><p>Ready and in-service tables</p></div><span class="status active">${unpaid.length} open</span></div><div class="panel-body bill-list">
+        ${unpaid.map((order) => `<div class="bill-row"><div><strong>${escapeHtml(order.table)} · #${String(order.id).padStart(3, '0')}</strong><span>${order.items.map((item) => `${item.quantity}× ${escapeHtml(item.name)}`).join(', ')}</span></div><div><strong>${inr(order.total)}</strong><button class="btn btn-small btn-primary" data-action="take-payment" data-id="${order.id}">Collect</button></div></div>`).join('') || '<div class="empty-state compact"><p>All current bills are settled.</p></div>'}
+      </div></article>
+      <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Day closing</h2><p>${todayLabel()}</p></div>${statusPill('Live')}</div><div class="panel-body closing-list">
+        <div><span>Gross sales</span><strong>${inr(operations.todaySales)}</strong></div><div><span>Operating expenses</span><strong>− ${inr(operations.todayExpenseTotal)}</strong></div><div class="closing-total"><span>Net operating result</span><strong>${inr(operations.todayProfit)}</strong></div><p class="form-notice">Payment totals are calculated from settled bills in the local database. Verify the physical cash drawer before final close.</p>
+      </div></article>
+    </div>`;
+}
+
+function renderStock() {
+  const operations = calculateOperations();
+  return `
+    ${pageHeader('Stock control', 'Inventory', 'Recipe-linked stock is deducted automatically when an order reaches the kitchen.', `<button class="btn" data-action="refresh-operations">${icon('refresh')} Refresh stock</button>`)}
+    ${operations.lowStock.length ? `<div class="stock-alert">${icon('alert')}<div><strong>${operations.lowStock.length} ingredient${operations.lowStock.length === 1 ? '' : 's'} need attention</strong><span>${operations.lowStock.map((item) => item.name).join(', ')}</span></div></div>` : ''}
+    <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Ingredient ledger</h2><p>Current balance and reorder threshold</p></div><span class="status active">${data.inventory.length} ingredients</span></div><div class="panel-body stock-list">
+      ${(data.inventory || []).map((item) => { const max = Math.max(item.quantity, item.reorderLevel * 2, 1); const width = Math.min(100, item.quantity / max * 100); return `<div class="stock-row ${item.low ? 'low' : ''}"><div class="stock-copy"><strong>${escapeHtml(item.name)}</strong><span>Reorder at ${item.reorderLevel} ${escapeHtml(item.unit)}</span></div><div class="stock-quantity"><strong>${Number(item.quantity).toLocaleString('en-IN')} ${escapeHtml(item.unit)}</strong><div class="stock-meter"><i style="width:${width}%"></i></div></div><div>${item.low ? statusPill('Low') : statusPill('Healthy')}<button class="btn btn-small" data-action="adjust-stock" data-id="${item.id}">Adjust</button></div></div>`; }).join('')}
+    </div></article>`;
+}
+
+function renderExpenses() {
+  const operations = calculateOperations();
+  const categories = Object.entries(operations.categoryExpenses).sort((a, b) => b[1] - a[1]);
+  return `
+    ${pageHeader('Cost control', 'Expenses', 'Record daily costs by category and see their direct effect on actual profit.', `<button class="btn btn-primary" data-action="add-expense">${icon('plus')} Add expense</button>`)}
+    <section class="ops-stat-grid"><article class="ops-stat"><span>Today</span><strong>${inr(operations.todayExpenseTotal)}</strong><small>Recorded costs</small></article><article class="ops-stat"><span>This month</span><strong>${inr(operations.monthExpenseTotal)}</strong><small>${data.expenses.length} entries stored</small></article><article class="ops-stat"><span>Actual monthly profit</span><strong>${inr(operations.monthProfit)}</strong><small>Sales less expenses</small></article></section>
+    <div class="ops-grid two"><article class="panel"><div class="panel-header"><div class="panel-title"><h2>Expense ledger</h2><p>Newest entry first</p></div></div><div class="panel-body expense-list">${(data.expenses || []).map((item) => `<div class="expense-row"><span class="activity-icon">${icon(item.category === 'Rent' ? 'building' : 'rupee')}</span><div><strong>${escapeHtml(item.name)}</strong><span>${escapeHtml(item.category)} · ${displayDate(item.date)}${item.note ? ` · ${escapeHtml(item.note)}` : ''}</span></div><strong>${inr(item.amount)}</strong></div>`).join('')}</div></article><article class="panel"><div class="panel-header"><div class="panel-title"><h2>Monthly cost mix</h2><p>Where the money is going</p></div></div><div class="panel-body category-list">${categories.map(([category, amount]) => `<div><span>${escapeHtml(category)}</span><strong>${inr(amount)}</strong><div class="progress-track"><i class="progress-fill" style="width:${operations.monthExpenseTotal ? amount / operations.monthExpenseTotal * 100 : 0}%;--fill:#a96d2d"></i></div></div>`).join('') || '<div class="empty-state compact"><p>No expenses this month.</p></div>'}</div></article></div>`;
+}
+
+function renderVendors() {
+  const operations = calculateOperations();
+  return `
+    ${pageHeader('Supplier management', 'Vendors', 'Track supplier contacts, materials, outstanding balances, and payments.', `<button class="btn btn-primary" data-action="add-vendor">${icon('plus')} Add vendor</button>`)}
+    <section class="ops-stat-grid"><article class="ops-stat"><span>Active vendors</span><strong>${data.vendors.length}</strong><small>Supplier directory</small></article><article class="ops-stat"><span>Outstanding</span><strong>${inr(operations.vendorDue)}</strong><small>Combined balances</small></article><article class="ops-stat"><span>Paid accounts</span><strong>${data.vendors.filter((item) => item.status === 'Paid').length}</strong><small>Nothing due</small></article></section>
+    <div class="vendor-grid">${(data.vendors || []).map((vendor) => `<article class="vendor-card"><div class="vendor-icon">${icon('building')}</div><div class="vendor-head"><div><h3>${escapeHtml(vendor.name)}</h3><p>${escapeHtml(vendor.supplies || 'General supplier')}</p></div>${statusPill(vendor.status)}</div><div class="vendor-details"><div><span>Phone</span><strong>${escapeHtml(vendor.phone || 'Not added')}</strong></div><div><span>Balance</span><strong>${inr(vendor.balance)}</strong></div></div>${vendor.balance > 0 ? `<button class="btn btn-primary btn-block" data-action="pay-vendor" data-id="${vendor.id}">${icon('wallet')} Record payment</button>` : '<div class="paid-note">Account is fully settled</div>'}</article>`).join('')}</div>`;
+}
+
+function renderStaff() {
+  const operations = calculateOperations();
+  return `
+    ${pageHeader('People operations', 'Staff & attendance', 'Manage shifts, attendance, job responsibilities, and monthly salary commitments.', `<button class="btn btn-primary" data-action="add-operation-staff">${icon('userPlus')} Add staff</button>`)}
+    <section class="ops-stat-grid"><article class="ops-stat"><span>On duty today</span><strong>${operations.presentStaff}</strong><small>Present or late</small></article><article class="ops-stat"><span>Team members</span><strong>${data.staff.length}</strong><small>Active roster</small></article><article class="ops-stat"><span>Monthly payroll</span><strong>${inr(operations.payroll)}</strong><small>Salary commitment</small></article></section>
+    <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Today’s roster</h2><p>${todayLabel()} attendance</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Team member</th><th>Role</th><th>Shift</th><th>Salary</th><th>Attendance</th><th></th></tr></thead><tbody>${(data.staff || []).map((member) => `<tr><td><div class="customer-cell"><span class="avatar" style="--avatar:#173f35">${initials(member.name)}</span><div><strong>${escapeHtml(member.name)}</strong><span>${member.attendance?.checkIn ? `Checked in ${displayTime(member.attendance.checkIn)}` : 'No check-in recorded'}</span></div></div></td><td>${escapeHtml(member.jobRole)}</td><td>${displayTime(member.shiftStart)}–${displayTime(member.shiftEnd)}</td><td>${inr(member.salary)}</td><td>${statusPill(member.attendance?.status || 'Unmarked')}</td><td><button class="btn btn-small" data-action="mark-attendance" data-id="${member.id}">Update</button></td></tr>`).join('')}</tbody></table></div></article>`;
 }
 
 function renderCustomerRows(customers) {
@@ -588,6 +761,7 @@ function renderFeedback() {
 
 function renderReports() {
   const analytics = calculateAnalytics();
+  const operations = calculateOperations();
   const metrics = data.monthlyMetrics || [];
   const revenueValues = metrics.map((item) => Number(item.revenue || 0));
   const labels = metrics.map((item) => new Intl.DateTimeFormat('en-IN', { month: 'short' }).format(new Date(`${item.month}-01T12:00:00`)));
@@ -602,7 +776,13 @@ function renderReports() {
   const recoveryRate = data.feedback.length ? resolvedFeedback / data.feedback.length * 100 : 0;
   const actions = `<button class="btn">${icon('calendar')} Live database</button><button class="btn btn-primary" data-action="export-report">${icon('download')} Export report</button>`;
   return `
-    ${pageHeader('Performance intelligence', 'Reports & insights', 'Understand which guests return, what they value and which actions create measurable revenue.', actions)}
+    ${pageHeader('Performance intelligence', 'Reports & insights', 'See sales, true profit, product demand, operating costs, and guest relationships together.', actions)}
+    <section class="ops-stat-grid report-highlight-grid">
+      <article class="ops-stat featured"><span>Monthly sales</span><strong>${inr(operations.monthSales)}</strong><small>Settled order revenue</small></article>
+      <article class="ops-stat"><span>Monthly expenses</span><strong>${inr(operations.monthExpenseTotal)}</strong><small>All recorded costs</small></article>
+      <article class="ops-stat"><span>Actual profit</span><strong>${inr(operations.monthProfit)}</strong><small>Sales minus expenses</small></article>
+      <article class="ops-stat"><span>Top-selling item</span><strong>${escapeHtml(operations.topItem.name)}</strong><small>${operations.topItem.quantity} units sold</small></article>
+    </section>
     <section class="stat-grid">
       ${statCard({ iconName: 'rupee', value: inr(analytics.lifetimeRevenue), label: 'Customer lifetime revenue', trend: `${inr(analytics.monthRevenue)} this month`, accent: '#5d4a3f', soft: '#f3ece3', glow: 'rgba(93,74,63,.10)' })}
       ${statCard({ iconName: 'users', value: `${analytics.returningRate.toFixed(0)}%`, label: 'Returning customer rate', trend: `${analytics.returningCustomers} customers`, accent: '#b5623d', soft: '#f7ece6', glow: 'rgba(181,98,61,.11)' })}
@@ -644,7 +824,7 @@ function renderSettings() {
       <div class="form-section"><h3>Cafe profile</h3><p>These details appear in guest messages, loyalty cards and booking confirmations.</p><div class="form-grid"><div class="field"><label>Business name</label><input id="setting-business-name" value="${escapeHtml(settings.business_name || '')}" /></div><div class="field"><label>Primary phone</label><input id="setting-primary-phone" value="${escapeHtml(settings.primary_phone || '')}" /></div><div class="field full"><label>Address</label><input id="setting-address" value="${escapeHtml(settings.address || '')}" /></div><div class="field"><label>Timezone</label><select id="setting-timezone"><option>${escapeHtml(settings.timezone || 'Asia/Kolkata (IST)')}</option></select></div><div class="field"><label>Currency</label><select id="setting-currency"><option>${escapeHtml(settings.currency || 'Indian Rupee (₹)')}</option></select></div></div></div>
       <div class="form-section"><h3>Guest experience defaults</h3><p>Operational rules applied to new activity.</p><div class="switch-row"><div class="switch-copy"><strong>Automatically award loyalty points</strong><span>Award points using the configured earning rate.</span></div><button id="setting-automatic-points" class="switch ${settings.automatic_points ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle automatic points"></button></div><div class="switch-row"><div class="switch-copy"><strong>Reservation reminders</strong><span>Prepare reminder messages for confirmed bookings.</span></div><button id="setting-reservation-reminders" class="switch ${settings.reservation_reminders ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle reservation reminders"></button></div><div class="switch-row"><div class="switch-copy"><strong>Marketing requires explicit opt-in</strong><span>Block marketing messages without recorded permission.</span></div><button id="setting-marketing-consent" class="switch ${settings.marketing_requires_consent ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle marketing consent"></button></div></div>`,
     team: `
-      <div class="form-section"><div class="section-heading-row"><div><h3>Team access</h3><p>Server-enforced roles: Owner, Manager and Host.</p></div>${isOwner ? `<button class="btn btn-primary" data-action="invite-staff">${icon('userPlus')} Add staff member</button>` : ''}</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Staff member</th><th>Role</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>${data.users.map((member) => `<tr><td><div class="customer-cell"><span class="avatar" style="--avatar:#b5623d">${initials(member.name)}</span><div><strong>${escapeHtml(member.name)}</strong><span>${escapeHtml(member.email)}</span></div></div></td><td>${escapeHtml(member.role)}</td><td>${member.lastLoginAt ? relativeTime(member.lastLoginAt) + ' ago' : 'Never'}</td><td>${statusPill(member.active ? 'Active' : 'Disabled')}</td><td>${isOwner && member.id !== data.user.id ? `<button class="btn btn-small" data-action="toggle-user" data-id="${member.id}">${member.active ? 'Disable' : 'Enable'}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></div>`,
+      <div class="form-section"><div class="section-heading-row"><div><h3>Team access</h3><p>Server-enforced roles: Owner, Manager, Cashier, Kitchen and Host.</p></div>${isOwner ? `<button class="btn btn-primary" data-action="invite-staff">${icon('userPlus')} Add login account</button>` : ''}</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Staff member</th><th>Role</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>${data.users.map((member) => `<tr><td><div class="customer-cell"><span class="avatar" style="--avatar:#173f35">${initials(member.name)}</span><div><strong>${escapeHtml(member.name)}</strong><span>${escapeHtml(member.email)}</span></div></div></td><td>${escapeHtml(member.role)}</td><td>${member.lastLoginAt ? relativeTime(member.lastLoginAt) + ' ago' : 'Never'}</td><td>${statusPill(member.active ? 'Active' : 'Disabled')}</td><td>${isOwner && member.id !== data.user.id ? `<button class="btn btn-small" data-action="toggle-user" data-id="${member.id}">${member.active ? 'Disable' : 'Enable'}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></div>`,
     loyalty: `
       <div class="form-section"><h3>Loyalty earning and tiers</h3><p>Thresholds are based on recorded lifetime spend.</p><div class="form-grid"><div class="field"><label>Points per ₹1</label><input id="setting-points-rate" type="number" min="0" step="0.01" value="${Number(settings.points_per_rupee ?? 0.1)}" /></div><div class="field"><label>Silver threshold</label><input id="setting-tier-silver" type="number" min="0" value="${Number(settings.tier_silver || 8000)}" /></div><div class="field"><label>Gold threshold</label><input id="setting-tier-gold" type="number" min="0" value="${Number(settings.tier_gold || 18000)}" /></div><div class="field"><label>Platinum threshold</label><input id="setting-tier-platinum" type="number" min="0" value="${Number(settings.tier_platinum || 35000)}" /></div></div></div><div class="form-section"><h3>Points controls</h3><p>Every manual change is recorded in the local audit ledger.</p><button class="btn" data-action="adjust-points">${icon('edit')} Adjust customer points</button></div>`,
     integrations: `
@@ -667,7 +847,7 @@ function renderSettings() {
 }
 
 function renderLogin() {
-  return `<main class="login-shell"><section class="login-card"><div class="login-brand"><div class="brand-mark">${icon('coffee')}</div><div><strong>Mangosteen</strong><span>Guest Intelligence</span></div></div><div class="login-copy"><span class="eyebrow">Private operating system</span><h1>Welcome to Mangosteen</h1><p>One secure workspace for every guest, reservation and relationship.</p></div>${dataError ? `<div class="form-error">${escapeHtml(dataError)}</div>` : ''}<form id="login-form"><div class="field"><label>Email address</label><input name="email" type="email" autocomplete="username" required value="owner@mangosteen.local" /></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required value="Mangosteen@123" /></div><button class="btn btn-primary login-button" type="submit">${icon('lock')} Enter private workspace</button></form><div class="login-demo"><strong>Private client preview</strong><span>Owner credentials are prefilled for review. Change the password in Settings before entering real guest data.</span></div></section><aside class="login-visual"><div><span class="eyebrow">Mangosteen Cafe · Indore</span><h2>Know every guest. Elevate every visit.</h2><p>A refined operating layer for reservations, loyalty, communication, feedback recovery and revenue intelligence.</p></div></aside></main>`;
+  return `<main class="login-shell"><section class="login-card"><div class="login-brand"><div class="brand-mark">${icon('coffee')}</div><div><strong>Mangosteen</strong><span>Cafe Operating Suite</span></div></div><div class="login-copy"><span class="eyebrow">Private operating system</span><h1>Welcome to Mangosteen</h1><p>One secure workspace for orders, kitchen, billing, stock, staff and every guest.</p></div>${dataError ? `<div class="form-error">${escapeHtml(dataError)}</div>` : ''}<form id="login-form"><div class="field"><label>Email address</label><input name="email" type="email" autocomplete="username" required value="owner@mangosteen.local" /></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required value="Mangosteen@123" /></div><button class="btn btn-primary login-button" type="submit">${icon('lock')} Enter private workspace</button></form><div class="login-demo"><strong>Private client preview</strong><span>Owner credentials are prefilled for review. Change the password in Settings before entering real customer data.</span></div></section><aside class="login-visual"><div><span class="eyebrow">Mangosteen Cafe · Indore</span><h2>Run the whole cafe. Know every guest.</h2><p>A premium operating layer for tables, kitchen, billing, inventory, people, loyalty and profit intelligence.</p></div></aside></main>`;
 }
 
 function renderApp() {
@@ -785,8 +965,51 @@ function openPointsAdjustment() {
   openModal('Adjust loyalty points', 'Every manual change is stored in the audit ledger.', `<form id="points-form"><div class="form-grid"><div class="field full"><label>Customer</label><select name="customerId" required>${options}</select></div><div class="field"><label>Points adjustment</label><input name="points" type="number" required placeholder="e.g. 100 or -50" /></div><div class="field"><label>Reason</label><input name="reason" required placeholder="Purchase correction" /></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="points-form">${icon('check')} Save adjustment</button>`);
 }
 
+function openOrderForm() {
+  const groups = [...new Set((data.menuItems || []).map((item) => item.category))];
+  const menu = groups.map((category) => `<section class="menu-group"><h3>${escapeHtml(category)}</h3><div class="menu-picker">${data.menuItems.filter((item) => item.category === category && item.active).map((item) => `<label class="menu-pick"><span><strong>${escapeHtml(item.name)}</strong><small>${inr(item.price)}</small></span><input name="qty_${item.id}" type="number" min="0" max="20" value="0" aria-label="Quantity for ${escapeHtml(item.name)}" /></label>`).join('')}</div></section>`).join('');
+  openModal('Create table order', 'Choose the table and add menu quantities. The order remains editable until sent to the kitchen.', `<form id="order-form"><div class="field"><label>Table / service reference</label><input name="table" required placeholder="Table 5" maxlength="40" /></div><div class="menu-scroll">${menu}</div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="order-form">${icon('check')} Create order</button>`);
+}
+
+function openPaymentForm(orderId) {
+  const order = data.orders.find((item) => String(item.id) === String(orderId));
+  if (!order) return;
+  openModal(`Settle ${escapeHtml(order.table)}`, `Order #${String(order.id).padStart(3, '0')} · ${inr(order.total)}`, `<form id="payment-form"><input type="hidden" name="orderId" value="${order.id}" /><div class="payment-methods">${['Cash', 'UPI', 'Card'].map((method, index) => `<label><input type="radio" name="method" value="${method}" ${index === 0 ? 'checked' : ''} /><span>${icon(method === 'Cash' ? 'rupee' : method === 'UPI' ? 'phone' : 'wallet')}<strong>${method}</strong></span></label>`).join('')}</div><div class="order-total modal-total"><span>Amount to collect</span><strong>${inr(order.total)}</strong></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="payment-form">${icon('wallet')} Confirm payment</button>`);
+}
+
+function openInventoryAdjustment(id) {
+  const item = data.inventory.find((entry) => String(entry.id) === String(id));
+  if (!item) return;
+  openModal(`Adjust ${escapeHtml(item.name)}`, `Current stock: ${item.quantity} ${escapeHtml(item.unit)} · use a negative number for wastage.`, `<form id="inventory-form"><input type="hidden" name="id" value="${item.id}" /><div class="form-grid"><div class="field"><label>Quantity change (${escapeHtml(item.unit)})</label><input name="quantity" type="number" step="0.01" required placeholder="e.g. 5 or -1" /></div><div class="field"><label>Reason</label><select name="reason"><option>Purchase received</option><option>Manual correction</option><option>Wastage</option><option>Stock count</option></select></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="inventory-form">Save adjustment</button>`);
+}
+
+function openExpenseForm() {
+  const vendors = (data.vendors || []).map((vendor) => `<option value="${vendor.id}">${escapeHtml(vendor.name)}</option>`).join('');
+  openModal('Record an expense', 'This cost is included immediately in operating-profit reports.', `<form id="expense-form"><div class="form-grid"><div class="field"><label>Expense name</label><input name="name" required placeholder="Electricity bill" /></div><div class="field"><label>Amount</label><input name="amount" type="number" min="1" step="0.01" required /></div><div class="field"><label>Category</label><select name="category"><option>Kitchen</option><option>Vendor</option><option>Rent</option><option>Utilities</option><option>Salary</option><option>Other</option></select></div><div class="field"><label>Date</label><input name="date" type="date" value="${localDateKey()}" required /></div><div class="field"><label>Vendor (optional)</label><select name="vendorId"><option value="">No vendor</option>${vendors}</select></div><div class="field full"><label>Note</label><textarea name="note" placeholder="Invoice number or context"></textarea></div></div><label class="check-row"><input type="checkbox" name="addToBalance" value="true" /><span>Add this amount to the selected vendor’s outstanding balance</span></label></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="expense-form">${icon('check')} Record expense</button>`);
+}
+
+function openVendorForm() {
+  openModal('Add vendor', 'Create a supplier record for purchasing and balance tracking.', `<form id="vendor-form"><div class="form-grid"><div class="field"><label>Vendor name</label><input name="name" required /></div><div class="field"><label>Phone</label><input name="phone" /></div><div class="field full"><label>Supplies</label><input name="supplies" placeholder="Milk, cream, paneer" /></div><div class="field"><label>Opening balance</label><input name="balance" type="number" min="0" step="0.01" value="0" /></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="vendor-form">Add vendor</button>`);
+}
+
+function openVendorPayment(id) {
+  const vendor = data.vendors.find((item) => String(item.id) === String(id));
+  if (!vendor) return;
+  openModal(`Pay ${escapeHtml(vendor.name)}`, `Outstanding balance: ${inr(vendor.balance)}`, `<form id="vendor-payment-form"><input type="hidden" name="id" value="${vendor.id}" /><div class="field"><label>Payment amount</label><input name="amount" type="number" min="1" max="${vendor.balance}" step="0.01" value="${vendor.balance}" required /></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="vendor-payment-form">Record payment</button>`);
+}
+
+function openOperationStaffForm() {
+  openModal('Add roster member', 'Add a staff profile for shifts, attendance, and salary tracking.', `<form id="operation-staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required /></div><div class="field"><label>Job role</label><input name="jobRole" required placeholder="Barista" /></div><div class="field"><label>Shift starts</label><input name="shiftStart" type="time" value="09:00" required /></div><div class="field"><label>Shift ends</label><input name="shiftEnd" type="time" value="18:00" required /></div><div class="field"><label>Monthly salary</label><input name="salary" type="number" min="0" step="1" required /></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="operation-staff-form">Add to roster</button>`);
+}
+
+function openAttendanceForm(id) {
+  const member = data.staff.find((item) => String(item.id) === String(id));
+  if (!member) return;
+  openModal(`Attendance · ${escapeHtml(member.name)}`, 'Update today’s status and check-in time.', `<form id="attendance-form"><input type="hidden" name="staffId" value="${member.id}" /><input type="hidden" name="date" value="${localDateKey()}" /><div class="form-grid"><div class="field"><label>Status</label><select name="status">${['Present', 'Late', 'Leave', 'Absent'].map((status) => `<option ${member.attendance?.status === status ? 'selected' : ''}>${status}</option>`).join('')}</select></div><div class="field"><label>Check-in time</label><input name="checkIn" type="time" value="${escapeHtml(member.attendance?.checkIn || '')}" /></div><div class="field full"><label>Note</label><input name="note" value="${escapeHtml(member.attendance?.note || '')}" /></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="attendance-form">Save attendance</button>`);
+}
+
 function openStaffForm() {
-  openModal('Add staff member', 'Create a secure account with the minimum required access.', `<form id="staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required /></div><div class="field"><label>Email</label><input name="email" type="email" required /></div><div class="field"><label>Role</label><select name="role"><option>Host</option><option>Manager</option><option>Owner</option></select></div><div class="field"><label>Temporary password</label><input name="password" type="password" minlength="10" required /></div></div><div class="role-guide"><div><strong>Host</strong><span>Customers, reservations and feedback.</span></div><div><strong>Manager</strong><span>Loyalty, imports and operating settings.</span></div><div><strong>Owner</strong><span>Team, backups and reset controls.</span></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="staff-form">${icon('userPlus')} Create account</button>`);
+  openModal('Add login account', 'Create a secure account with only the access this teammate needs.', `<form id="staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required /></div><div class="field"><label>Email</label><input name="email" type="email" required /></div><div class="field"><label>Role</label><select name="role"><option>Host</option><option>Cashier</option><option>Kitchen</option><option>Manager</option><option>Owner</option></select></div><div class="field"><label>Temporary password</label><input name="password" type="password" minlength="10" required /></div></div><div class="role-guide"><div><strong>Cashier</strong><span>Orders, billing and guest desk.</span></div><div><strong>Kitchen</strong><span>Kitchen tickets and status only.</span></div><div><strong>Manager</strong><span>All operations except owner-only security.</span></div><div><strong>Owner</strong><span>Full access, accounts and backups.</span></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="staff-form">${icon('userPlus')} Create account</button>`);
 }
 
 function openPasswordForm() {
@@ -856,7 +1079,19 @@ document.getElementById('app').addEventListener('click', async (event) => {
       state.sidebarOpen = false;
       document.getElementById('sidebar').classList.remove('open');
       target.classList.remove('open');
-    } else if (action === 'add-customer') openAddCustomer();
+    } else if (action === 'new-order') openOrderForm();
+    else if (action === 'send-order') { target.disabled = true; await api(`/api/orders/${target.dataset.id}/send`, { method: 'POST', body: '{}' }); await syncAndRender(); showToast('Order sent to the kitchen and recipe stock deducted.'); }
+    else if (action === 'kitchen-start') { target.disabled = true; await api(`/api/orders/${target.dataset.id}/status`, { method: 'POST', body: JSON.stringify({ status: 'Preparing' }) }); await syncAndRender(); showToast('Kitchen started preparing this order.'); }
+    else if (action === 'kitchen-ready') { target.disabled = true; await api(`/api/orders/${target.dataset.id}/status`, { method: 'POST', body: JSON.stringify({ status: 'Ready' }) }); await syncAndRender(); showToast('Order is ready for service.'); }
+    else if (action === 'take-payment') openPaymentForm(target.dataset.id);
+    else if (action === 'adjust-stock') openInventoryAdjustment(target.dataset.id);
+    else if (action === 'add-expense') openExpenseForm();
+    else if (action === 'add-vendor') openVendorForm();
+    else if (action === 'pay-vendor') openVendorPayment(target.dataset.id);
+    else if (action === 'add-operation-staff') openOperationStaffForm();
+    else if (action === 'mark-attendance') openAttendanceForm(target.dataset.id);
+    else if (action === 'refresh-operations') { target.disabled = true; await syncAndRender(); showToast('Live operating data refreshed.'); }
+    else if (action === 'add-customer') openAddCustomer();
     else if (action === 'view-customer') openCustomerProfile(target.dataset.id || target.closest('[data-id]')?.dataset.id);
     else if (action === 'add-reservation') openReservationForm();
     else if (action === 'notifications') openNotifications();
@@ -997,7 +1232,56 @@ document.getElementById('modal-root').addEventListener('submit', async (event) =
   const submit = form.closest('.modal')?.querySelector('[type="submit"]');
   if (submit) { submit.disabled = true; submit.dataset.original = submit.innerHTML; submit.textContent = 'Saving…'; }
   try {
-    if (form.id === 'customer-form') {
+    if (form.id === 'order-form') {
+      const items = (data.menuItems || []).map((item) => ({ menuItemId: item.id, quantity: Number(values[`qty_${item.id}`] || 0) })).filter((item) => item.quantity > 0);
+      await api('/api/orders', { method: 'POST', body: JSON.stringify({ table: values.table, items }) });
+      closeModal();
+      state.page = 'orders';
+      await syncAndRender();
+      showToast('Draft order created. Review it, then send it to the kitchen.');
+    } else if (form.id === 'payment-form') {
+      await api(`/api/orders/${values.orderId}/pay`, { method: 'POST', body: JSON.stringify({ method: values.method }) });
+      closeModal();
+      state.page = 'billing';
+      await syncAndRender();
+      showToast(`Payment recorded by ${values.method}.`);
+    } else if (form.id === 'inventory-form') {
+      await api(`/api/inventory/${values.id}/adjust`, { method: 'POST', body: JSON.stringify({ quantity: Number(values.quantity), reason: values.reason }) });
+      closeModal();
+      state.page = 'stock';
+      await syncAndRender();
+      showToast('Inventory balance and movement ledger updated.');
+    } else if (form.id === 'expense-form') {
+      await api('/api/expenses', { method: 'POST', body: JSON.stringify({ ...values, amount: Number(values.amount), addToBalance: values.addToBalance === 'true' }) });
+      closeModal();
+      state.page = 'expenses';
+      await syncAndRender();
+      showToast('Expense recorded and profit recalculated.');
+    } else if (form.id === 'vendor-form') {
+      await api('/api/vendors', { method: 'POST', body: JSON.stringify({ ...values, balance: Number(values.balance || 0) }) });
+      closeModal();
+      state.page = 'vendors';
+      await syncAndRender();
+      showToast(`${values.name} was added to the supplier directory.`);
+    } else if (form.id === 'vendor-payment-form') {
+      await api(`/api/vendors/${values.id}/pay`, { method: 'POST', body: JSON.stringify({ amount: Number(values.amount) }) });
+      closeModal();
+      state.page = 'vendors';
+      await syncAndRender();
+      showToast('Vendor payment recorded.');
+    } else if (form.id === 'operation-staff-form') {
+      await api('/api/staff', { method: 'POST', body: JSON.stringify({ ...values, salary: Number(values.salary || 0) }) });
+      closeModal();
+      state.page = 'staff';
+      await syncAndRender();
+      showToast(`${values.name} was added to the roster.`);
+    } else if (form.id === 'attendance-form') {
+      await api('/api/attendance', { method: 'POST', body: JSON.stringify(values) });
+      closeModal();
+      state.page = 'staff';
+      await syncAndRender();
+      showToast('Attendance updated.');
+    } else if (form.id === 'customer-form') {
       values.consent = document.getElementById('new-customer-consent')?.classList.contains('on') || false;
       await api('/api/customers', { method: 'POST', body: JSON.stringify(values) });
       closeModal();

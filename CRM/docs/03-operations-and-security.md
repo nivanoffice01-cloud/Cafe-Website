@@ -3,11 +3,33 @@
 ## Staff roles
 
 - **Owner:** full access, team accounts, backups, restore and demo reset.
-- **Manager:** campaigns, loyalty, CSV import, communication and business settings.
+- **Manager:** orders, kitchen, billing, inventory, expenses, vendors, roster,
+  loyalty, CSV import, communication and business settings.
+- **Cashier:** orders, billing, customers and reservations.
+- **Kitchen:** kitchen ticket display and preparation status only.
 - **Host:** dashboard, customers, reservations, feedback and reports.
 
 Permissions are checked by the local API. Hiding a navigation item is only a
 usability feature and is not the security boundary.
+
+## Order, kitchen and inventory workflow
+
+Orders begin as drafts. When a Cashier, Manager or Owner sends a draft to the
+kitchen, the server totals its recipe requirements and rejects the action if an
+ingredient is insufficient. Otherwise, stock is deducted and an auditable
+inventory movement is recorded. Kitchen or management staff can move the ticket
+to Preparing and Ready. The bill can then be settled by Cash, UPI or Card.
+
+The current payment module records the chosen tender and amount; it does not
+connect to a bank, card terminal or UPI provider. Hardware and payment-gateway
+integration should be treated as a separate production phase.
+
+## Operating reports
+
+Daily closing totals are derived from recorded payments. Actual profit is paid
+sales less recorded expenses. Monthly sample data includes imported closing
+totals so client demonstrations show a useful month-to-date report without
+crowding the live kitchen board with historical tickets.
 
 ## Authentication
 

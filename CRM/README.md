@@ -1,11 +1,27 @@
-# Mangosteen Cafe CRM
+# Mangosteen Cafe Operating CRM
 
-Planning and implementation workspace for Mangosteen Cafe's customer relationship management system.
+A premium, local-first operating system for Mangosteen Cafe. It combines the
+day-to-day cafe workflow with customer relationship management in one secured
+workspace.
 
 ## Current stage
 
-Functional local CRM using SQLite persistence, staff authentication, role-based
-permissions, CSV/POS import, backups, audit history and consent-aware messaging.
+Functional local suite using SQLite persistence, staff authentication,
+role-based permissions, order-to-kitchen workflow, billing, inventory,
+expenses, vendors, attendance, reporting, CSV import, backups, audit history
+and consent-aware messaging.
+
+## Included modules
+
+- Owner dashboard with live sales, profit, orders and stock alerts
+- Table orders and point of sale
+- Kitchen display system with waiting, preparing and ready stages
+- Cash, UPI and card billing with daily closing totals
+- Recipe-linked inventory deduction and manual stock ledger
+- Expenses, vendor balances and supplier payments
+- Staff roster, shifts, attendance and salary totals
+- Actual-profit, top-product and guest relationship reporting
+- Customers, reservations, loyalty, feedback and website reservation intake
 
 - Discovery draft: [docs/01-discovery-and-scope.md](docs/01-discovery-and-scope.md)
 - Frontend: `dist/`
@@ -40,6 +56,19 @@ rate-limited and do not require a staff session.
 Change the password from **Settings → Privacy & security** before entering real
 customer data. Set `MANGOSTEEN_OWNER_EMAIL` and `MANGOSTEEN_OWNER_PASSWORD`
 before the first run to seed different credentials.
+
+## Demo role accounts
+
+All demo accounts use `Mangosteen@123` until changed:
+
+- Owner: `owner@mangosteen.local`
+- Manager: `manager@mangosteen.local`
+- Cashier: `cashier@mangosteen.local`
+- Kitchen: `kitchen@mangosteen.local`
+
+The Kitchen account sees only the kitchen display. Cashier access is limited to
+orders, billing and the guest desk. Manager and Owner roles receive wider
+operating access; Owner alone controls accounts, backups and demo reset.
 
 ## Communication modes
 
