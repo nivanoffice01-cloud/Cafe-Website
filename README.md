@@ -33,6 +33,15 @@ the same `/crm-api` reverse-proxy path.
 npm run build
 ```
 
+## Verify
+
+```sh
+npm run check
+```
+
+This builds the website and runs the CRM integration tests against an isolated
+temporary database.
+
 ## Structure
 
 ```text

@@ -35,7 +35,10 @@ crowding the live kitchen board with historical tickets.
 
 Passwords use PBKDF2-HMAC-SHA256 with a unique random salt and 240,000 rounds.
 Successful sign-in creates a random, HTTP-only, SameSite session cookie that
-expires after 12 hours. Change the seeded owner password before using real data.
+expires after 12 hours. Sessions are hashed and persisted in SQLite, authenticated
+mutations require a per-session CSRF token, and five failed sign-ins lock that
+account-and-address pair for 15 minutes. Change every seeded password before
+using real data.
 
 ## Customer CSV/POS import
 
@@ -77,7 +80,11 @@ scale:
 
 - Replace seeded passwords and create named staff accounts.
 - Store provider credentials in Netlify environment variables.
-- Add rate limiting, CSRF protection and account lockout.
+- Add production-grade rate limiting, account lockout and abuse monitoring to
+  the Netlify function. The local Python server already enforces CSRF tokens and
+  sign-in lockouts.
+- For a separately hosted Python server, use HTTPS, a managed secret service,
+  trusted-proxy configuration and `MANGOSTEEN_SECURE_COOKIES=true`.
 - Encrypt backups and verify restore drills.
 - Confirm Indian privacy, consent and retention requirements with counsel.
 - Add monitoring, error reporting and an incident response owner.
@@ -90,6 +97,12 @@ selected seats, then creates a pending CRM reservation and customer profile.
 Repeated delivery of the same request key returns the original reference instead
 of creating a duplicate. Staff can open the pending reservation in the CRM and
 confirm it; the status change is stored and added to the activity history.
+
+The application uses the direct socket address for rate limiting by default. If
+it is behind a trusted proxy, set `MANGOSTEEN_TRUSTED_PROXIES` to a comma-separated
+list of that proxy's IP addresses. Only requests arriving from those addresses
+may supply `X-Forwarded-For`; the proxy must replace, not append to, untrusted
+client headers.
 
 The local Vite server proxies `/crm-api` to the CRM on port 4173. In production,
 configure the same reverse-proxy route or build the website with

@@ -1,4 +1,5 @@
-import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
+import { Component, Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import { Reveal } from '../components/Reveal'
 import { FullMenuDialog } from '../components/FullMenuDialog'
 import { GalleryDialog } from '../components/GalleryDialog'
@@ -10,6 +11,13 @@ import { galleryPhotos } from '../data/gallery'
 import { responsivePhotoSrcSet } from '../data/responsivePhoto'
 
 const CinematicScene = lazy(() => import('../components/CinematicScene').then((module) => ({ default: module.CinematicScene })))
+
+class SceneErrorBoundary extends Component<{ children: ReactNode; onError: () => void }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() { return { failed: true } }
+  componentDidCatch() { this.props.onError() }
+  render() { return this.state.failed ? null : this.props.children }
+}
 
 const featuredDishes = [
   { category: 'Pizza & Pide', name: 'Margarita' },
@@ -69,6 +77,7 @@ export function HomePage() {
   const [showSceneLoader, setShowSceneLoader] = useState(true)
   const [hasEntered, setHasEntered] = useState(false)
   const [mapReady, setMapReady] = useState(false)
+  const [canRenderScene, setCanRenderScene] = useState(() => window.matchMedia('(min-width: 701px)').matches)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
   const closeGallery = useCallback(() => setGalleryOpen(false), [])
   const openMenu = useCallback(() => {
@@ -76,9 +85,9 @@ export function HomePage() {
     setMenuOpen(true)
   }, [])
   const takeSeat = useCallback(() => {
-    if (!sceneReady || document.documentElement.classList.contains('scene-fallback') || window.matchMedia('(prefers-reduced-motion: reduce)').matches) openMenu()
+    if (!canRenderScene || !sceneReady || document.documentElement.classList.contains('scene-fallback') || window.matchMedia('(prefers-reduced-motion: reduce)').matches) openMenu()
     else window.dispatchEvent(new Event('mangosteen:take-seat'))
-  }, [openMenu, sceneReady])
+  }, [canRenderScene, openMenu, sceneReady])
   const openFeaturedDish = () => {
     const { category, name } = featuredDishes[featuredIndex]
     setMenuSelection({ category, name })
@@ -89,6 +98,18 @@ export function HomePage() {
     setSceneReady(true)
     window.setTimeout(() => setShowSceneLoader(false), 500)
   }, [])
+  const onSceneError = useCallback(() => {
+    document.documentElement.classList.add('scene-fallback')
+    onSceneReady()
+  }, [onSceneReady])
+
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 701px)')
+    const update = () => setCanRenderScene(media.matches)
+    media.addEventListener('change', update)
+    if (!media.matches) onSceneReady()
+    return () => media.removeEventListener('change', update)
+  }, [onSceneReady])
 
   useEffect(() => {
     if (!mobileMenuOpen) return
@@ -130,7 +151,7 @@ export function HomePage() {
         <section className="film-journey" id="top" aria-labelledby="film-title">
           <div className="film-sticky" id="cinematic-journey">
             <img className="film-fallback-photo" src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="" aria-hidden="true" fetchPriority="high"/>
-            <Suspense fallback={null}><CinematicScene menuOpen={menuOpen} onOpenMenu={() => { setMenuSelection(null); setMenuOpen(true) }} onReady={onSceneReady} /></Suspense>
+            {canRenderScene && <SceneErrorBoundary onError={onSceneError}><Suspense fallback={null}><CinematicScene menuOpen={menuOpen} onOpenMenu={() => { setMenuSelection(null); setMenuOpen(true) }} onReady={onSceneReady} /></Suspense></SceneErrorBoundary>}
             <div className="film-mobile-scene" aria-hidden="true">
               <img className="film-mobile-exterior-backdrop" src="/images/mobile/mangosteen-arrival-mobile.jpg" alt="" fetchPriority="high" />
               <img className="film-mobile-exterior" src="/images/mobile/mangosteen-arrival-mobile.jpg" alt="" fetchPriority="high" />
@@ -195,7 +216,7 @@ export function HomePage() {
 
         <section className="lux-review" aria-labelledby="review-title">
           <div className="lux-review-visual"><Photo src="/images/experience/mangosteen-table-enhanced.jpg" alt="Warmly lit dining area and wooden table at Mangosteen Café"/><span>AN EVENING AT MANGOSTEEN</span></div>
-          <div className="lux-review-copy"><Reveal><div className="lux-review-score"><strong>{cafe.rating}</strong><div className="lux-review-meta"><span>★★★★★</span><small>{cafe.reviewCount} GOOGLE REVIEWS</small></div></div><h2 id="review-title">Loved for the<br/><em>feeling.</em></h2><blockquote>“Amazing taste and very aesthetic ambiance. Loved the whole experience.”</blockquote><p>{reviewSummary}</p><a className="lux-text-link" href="https://www.google.com/search?q=Mangosteen+Cafe+Indore+reviews" target="_blank" rel="noreferrer">Read guest reviews <Arrow/></a></Reveal></div>
+          <div className="lux-review-copy"><Reveal><p className="lux-overline">GOOGLE RATING</p><div className="lux-review-score"><div className="lux-rating-value"><strong>{cafe.rating}</strong><span>/ 5</span></div><div className="lux-review-meta"><span aria-label={`Rated ${cafe.rating} out of 5`}>★★★★★</span><small><b>{cafe.reviewCount}</b> reviews on Google</small></div></div><h2 id="review-title">What guests say.</h2><blockquote><p>“Amazing taste and very aesthetic ambiance. Loved the whole experience.”</p><cite>Guest review on Google</cite></blockquote><p>{reviewSummary}</p><a className="lux-text-link" href="https://www.google.com/search?q=Mangosteen+Cafe+Indore+reviews" target="_blank" rel="noreferrer">Read guest reviews <Arrow/></a></Reveal></div>
         </section>
 
         <section className="lux-visit" id="visit" aria-labelledby="visit-title">

@@ -6,6 +6,11 @@ import { submitWebsiteReservation } from '../lib/crm'
 type Props = { onClose: () => void }
 
 const arrivalTimes = ['5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM']
+const localRetentionMs = 30 * 24 * 60 * 60 * 1000
+
+function storeLocally(key: string, value: object) {
+  window.localStorage.setItem(key, JSON.stringify({ ...value, savedAt: new Date().toISOString() }))
+}
 
 function localDateValue(date: Date) {
   const year = date.getFullYear()
@@ -83,6 +88,15 @@ export function ReservationDialog({ onClose }: Props) {
     }
   }, [onClose])
 
+  useEffect(() => {
+    for (const key of ['mangosteen-reservation-receipt', 'mangosteen-seating-preference']) {
+      try {
+        const stored = JSON.parse(window.localStorage.getItem(key) || 'null') as { savedAt?: string } | null
+        if (stored?.savedAt && Date.now() - new Date(stored.savedAt).getTime() > localRetentionMs) window.localStorage.removeItem(key)
+      } catch { /* Storage can be unavailable in privacy-restricted browsers. */ }
+    }
+  }, [])
+
   const markDirty = () => {
     setSaved(false)
     setSubmissionState('idle')
@@ -116,7 +130,7 @@ export function ReservationDialog({ onClose }: Props) {
   const saveSelection = () => {
     if (selectedSeats.length !== guests) return
     try {
-      window.localStorage.setItem('mangosteen-seating-preference', JSON.stringify({ date, time, guests, zone, seats: selectedSeats }))
+      storeLocally('mangosteen-seating-preference', { date, time, guests, zone, seats: selectedSeats })
       setSaved(true)
       setNotice('Your seating preference is saved on this device. It has not been sent to the café.')
     } catch {
@@ -129,6 +143,17 @@ export function ReservationDialog({ onClose }: Props) {
       setNotice('Request details copied. Share them with the café to ask for confirmation.')
     } catch {
       setNotice('Copy was unavailable in this browser. Please note your selected seats.')
+    }
+  }
+
+  const clearStoredDetails = () => {
+    try {
+      window.localStorage.removeItem('mangosteen-reservation-receipt')
+      window.localStorage.removeItem('mangosteen-seating-preference')
+      setSaved(false)
+      setNotice('Saved reservation details were removed from this device.')
+    } catch {
+      setNotice('This browser would not allow the saved details to be removed. Clear this site’s storage in your browser settings.')
     }
   }
 
@@ -154,17 +179,24 @@ export function ReservationDialog({ onClose }: Props) {
         consent,
         website: '',
       })
-      window.localStorage.setItem('mangosteen-reservation-receipt', JSON.stringify({ ...receipt, name, phone, date, time, guests, zone, seats: selectedSeats }))
       setReference(receipt.reference)
       setSaved(true)
       setSubmissionState('success')
-      setNotice(`Request ${receipt.reference} reached the café and is pending confirmation.`)
-    } catch (error) {
       try {
-        window.localStorage.setItem('mangosteen-seating-preference', JSON.stringify({ name, phone, email, date, time, guests, zone, seats: selectedSeats, occasion, specialRequests }))
+        storeLocally('mangosteen-reservation-receipt', { ...receipt, name, phone, date, time, guests, zone, seats: selectedSeats })
+        setNotice(`Request ${receipt.reference} reached the café and is pending confirmation. The receipt is saved on this device.`)
+      } catch {
+        setNotice(`Request ${receipt.reference} reached the café and is pending confirmation. This browser could not save the receipt locally.`)
+      }
+    } catch (error) {
+      let locallySaved = false
+      try {
+        storeLocally('mangosteen-seating-preference', { name, phone, email, date, time, guests, zone, seats: selectedSeats, occasion, specialRequests })
+        locallySaved = true
       } catch { /* The visible error below remains the source of truth. */ }
       setSubmissionState('error')
-      setNotice(error instanceof Error ? `${error.message} A copy was saved on this device.` : 'The request was not sent. A copy was saved on this device.')
+      const message = error instanceof Error ? error.message : 'The request was not sent.'
+      setNotice(`${message}${locallySaved ? ' A copy was saved on this device.' : ' This browser could not save a local copy.'}`)
     }
   }
 
@@ -215,7 +247,7 @@ export function ReservationDialog({ onClose }: Props) {
         <aside className="reservation-details-recap"><button ref={backRef} type="button" className="reservation-back" onClick={() => setStage('seats')}>← Change seats or arrival</button><p className="reservation-eyebrow">YOUR EVENING</p><h3>{dateLabel}</h3><dl><div><dt>Arrival</dt><dd>{time}</dd></div><div><dt>Guests</dt><dd>{guests}</dd></div><div><dt>Area</dt><dd>{plan.name}</dd></div><div><dt>Selected seats</dt><dd>{chosenCluster?.label} · {selectedSeats.join(', ')}</dd></div></dl><p>Your request is sent to the café for confirmation. Selecting seats here does not guarantee availability.</p></aside>
         <div className="reservation-details-form"><div className="reservation-step"><span>03</span><strong>Send your request</strong></div><h3>Your details</h3><p>We’ll use these details to follow up about your table.</p><form className="reservation-contact" onSubmit={sendReservation}>
             <label><span>Your name *</span><input required autoComplete="name" maxLength={80} value={name} onChange={(event) => { setName(event.target.value); markDirty() }} placeholder="Guest name"/></label>
-            <label><span>Mobile number *</span><input required autoComplete="tel" inputMode="tel" minLength={7} maxLength={24} value={phone} onChange={(event) => { setPhone(event.target.value); markDirty() }} placeholder="+91"/></label>
+            <label><span>Mobile number *</span><input required autoComplete="tel" inputMode="tel" minLength={7} maxLength={24} pattern="[+0-9 ()-]{7,24}" title="Use digits and common phone punctuation only" value={phone} onChange={(event) => { setPhone(event.target.value); markDirty() }} placeholder="+91"/></label>
             <label><span>Email</span><input type="email" autoComplete="email" maxLength={120} value={email} onChange={(event) => { setEmail(event.target.value); markDirty() }} placeholder="Optional"/></label>
             <label><span>Occasion</span><select value={occasion} onChange={(event) => { setOccasion(event.target.value); markDirty() }}><option>Regular visit</option><option>Birthday</option><option>Anniversary</option><option>Business meeting</option><option>Celebration</option></select></label>
             <label className="reservation-contact-wide"><span>Anything we should know?</span><textarea maxLength={500} value={specialRequests} onChange={(event) => { setSpecialRequests(event.target.value); markDirty() }} placeholder="Allergies, accessibility, cake or seating notes"/></label>
@@ -226,6 +258,8 @@ export function ReservationDialog({ onClose }: Props) {
               <button className="reservation-save" type="submit" disabled={selectedSeats.length !== guests || !name.trim() || phone.trim().length < 7 || submissionState === 'submitting' || submissionState === 'success'}>{submissionState === 'submitting' ? 'Sending securely…' : submissionState === 'success' ? `Request ${reference} received` : 'Send reservation request'}</button>
               <button className="reservation-copy" type="button" disabled={selectedSeats.length !== guests} onClick={copySelection}>Copy request details</button>
               {submissionState === 'error' && <button className="reservation-copy" type="button" onClick={saveSelection}>{saved ? 'Saved on this device' : 'Save request on this device'}</button>}
+              {(saved || submissionState === 'success') && <button className="reservation-copy" type="button" onClick={clearStoredDetails}>Remove saved details from this device</button>}
+              {(saved || submissionState === 'success') && <p className="reservation-disclaimer">Local copies expire automatically after 30 days. Remove them sooner on a shared device.</p>}
               <p className={`reservation-notice is-${submissionState}`} role="status" aria-live="polite">{notice || 'Requests enter the café CRM as pending and require staff confirmation.'}</p>
             </div>
           </form></div>

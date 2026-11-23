@@ -9,8 +9,8 @@
   --lux-olive: #6b765d;
   --lux-line-dark: rgba(14, 18, 15, .18);
   --lux-gutter: clamp(1.35rem, 6vw, 7rem);
-  --lux-serif: 'Playfair Display', Georgia, serif;
-  --lux-sans: 'DM Sans', Arial, sans-serif;
+  --lux-serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  --lux-sans: 'Manrope', Arial, sans-serif;
 }
 
 body { background: var(--lux-night); }
@@ -107,15 +107,20 @@ body { background: var(--lux-night); }
 .lux-review-visual { position: relative; height: min(42rem, 58vw); min-height: 29rem; overflow: hidden; }
 .lux-review-visual img { position: absolute; inset: 0; filter: saturate(.82) contrast(1.05); }
 .lux-review-visual>span { position: absolute; bottom: 1.2rem; left: 1.2rem; color: rgba(255, 249, 239, .88); font-size: .53rem; letter-spacing: .16em; }
-.lux-review-copy { max-width: 35rem; }
-.lux-review-score { display: flex; align-items: flex-end; gap: 1.5rem; margin: 0 0 2rem; }
-.lux-review-score strong { display: block; color: #292b23; font-family: var(--lux-serif); font-size: clamp(6rem, 10vw, 10rem); font-weight: 400; letter-spacing: -.09em; line-height: 1; }
-.lux-review-meta { display: flex; flex-direction: column; gap: .45rem; padding-bottom: .65rem; white-space: nowrap; }
-.lux-review-meta span { color: #98794b; font-size: .8rem; letter-spacing: .22em; }
-.lux-review-meta small { color: #706c61; font-size: .55rem; letter-spacing: .17em; }
-.lux-review-copy h2 { color: #292b23; font-size: clamp(3rem, 4.8vw, 5.25rem); }
-.lux-review-copy h2 em { color: #967c53; }
-.lux-review-copy blockquote { max-width: 30rem; margin: 2rem 0 1.2rem; color: #4a4b42; font-family: var(--lux-serif); font-size: clamp(1.3rem, 2vw, 1.7rem); font-style: italic; line-height: 1.5; }
+.lux-review-copy { max-width: 38rem; }
+.lux-review-copy .lux-overline { margin-bottom: 1rem; color: #806d4f; }
+.lux-review-score { display: flex; align-items: center; gap: 1.35rem; margin: 0 0 3.3rem; }
+.lux-rating-value { display: flex; align-items: baseline; gap: .38rem; }
+.lux-rating-value strong { display: block; color: #292b23; font-family: var(--lux-sans); font-size: clamp(4rem, 5.7vw, 5.25rem); font-variant-numeric: lining-nums tabular-nums; font-weight: 500; letter-spacing: -.075em; line-height: .9; }
+.lux-rating-value>span { color: #777368; font-size: .72rem; font-weight: 600; }
+.lux-review-meta { display: flex; flex-direction: column; gap: .5rem; padding: 0; white-space: nowrap; }
+.lux-review-meta>span { color: #98794b; font-size: .78rem; letter-spacing: .16em; }
+.lux-review-meta small { color: #706c61; font-size: .68rem; letter-spacing: .015em; }
+.lux-review-meta b { color: #4f5048; font-weight: 700; }
+.lux-review-copy h2 { max-width: 9ch; color: #292b23; font-size: clamp(3.1rem, 4.5vw, 4.8rem); line-height: .94; }
+.lux-review-copy blockquote { max-width: 32rem; margin: 2.25rem 0 1.5rem; padding-left: 1.35rem; border-left: 2px solid rgba(150, 124, 83, .72); color: #4a4b42; }
+.lux-review-copy blockquote p { margin: 0; font-family: var(--lux-serif); font-size: clamp(1.35rem, 1.75vw, 1.65rem); font-style: italic; line-height: 1.45; }
+.lux-review-copy blockquote cite { display: block; margin-top: .85rem; color: #777368; font-family: var(--lux-sans); font-size: .63rem; font-style: normal; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .lux-review-copy>div>p:not(.lux-overline) { color: #65655b; }
 .lux-review-copy .lux-text-link { margin-top: 1.5rem; color: #504836; }
 
@@ -245,9 +250,8 @@ body { background: var(--lux-night); }
   .lux-gallery-film button { right: .7rem; bottom: .65rem; left: .7rem; }
   .lux-review { min-height: 0; grid-template-columns: 1fr; gap: 3rem; padding: 5rem var(--lux-gutter); }
   .lux-review-visual { height: 103vw; min-height: 0; }
-  .lux-review-score { align-items: flex-start; flex-direction: column; gap: .45rem; }
-  .lux-review-score strong { font-size: clamp(6rem, 28vw, 8rem); }
-  .lux-review-meta { padding-bottom: 0; }
+  .lux-review-score { align-items: center; gap: 1rem; }
+  .lux-rating-value strong { font-size: clamp(4rem, 18vw, 5.25rem); }
   .lux-review-copy h2 { font-size: clamp(3rem, 11vw, 4.2rem); }
   .lux-review-copy blockquote { font-size: 1.35rem; }
   .lux-visit { display: flex; min-height: 0; align-items: stretch; flex-direction: column; justify-content: flex-end; gap: 2.2rem; padding: 5rem var(--lux-gutter); }
@@ -383,9 +387,8 @@ body { background: var(--lux-night); }
   .lux-review { gap: 2.4rem; padding-top: 4.4rem; padding-bottom: 4.6rem; }
   .lux-review-visual { height: 90vw; }
   .lux-review-visual img { object-position: 57% 52%; }
-  .lux-review-score { flex-direction: row; align-items: flex-end; gap: 1rem; margin-bottom: 1.3rem; }
-  .lux-review-score strong { font-size: clamp(5.5rem, 25vw, 7.5rem); }
-  .lux-review-meta { padding-bottom: .8rem; }
+  .lux-review-score { align-items: center; gap: .9rem; margin-bottom: 2.5rem; }
+  .lux-rating-value strong { font-size: clamp(3.75rem, 18vw, 4.75rem); }
   .lux-review-meta span { font-size: .85rem; }
   .lux-review-meta small { font-size: .7rem; }
   .lux-visit { gap: 2.4rem; padding-top: max(19rem, 42svh); padding-bottom: max(5rem, calc(4rem + env(safe-area-inset-bottom))); }

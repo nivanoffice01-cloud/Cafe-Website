@@ -63,15 +63,23 @@ let loading = true;
 let dataError = '';
 let authState = 'checking';
 const isCloudHosted = !['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+let csrfToken = '';
 
 async function api(path, options = {}) {
+  const method = (options.method || 'GET').toUpperCase();
   const response = await fetch(path, {
     ...options,
-    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(csrfToken && method !== 'GET' && path !== '/api/auth/login' ? { 'X-CSRF-Token': csrfToken } : {}),
+      ...(options.headers || {}),
+    },
   });
   const payload = await response.json().catch(() => ({}));
+  if (payload.csrfToken) csrfToken = payload.csrfToken;
   if (response.status === 401) {
     authState = 'anonymous';
+    csrfToken = '';
     if (path !== '/api/auth/login') window.setTimeout(() => renderApp(), 0);
   }
   if (!response.ok) throw new Error(payload.error || 'The local CRM server could not complete this request.');
@@ -848,7 +856,7 @@ function renderSettings() {
 }
 
 function renderLogin() {
-  return `<main class="login-shell"><section class="login-card"><div class="login-brand"><div class="brand-mark">${icon('coffee')}</div><div><strong>Mangosteen</strong><span>Cafe Operating Suite</span></div></div><div class="login-copy"><span class="eyebrow">Private operating system</span><h1>Welcome to Mangosteen</h1><p>One secure workspace for orders, kitchen, billing, stock, staff and every guest.</p></div>${dataError ? `<div class="form-error">${escapeHtml(dataError)}</div>` : ''}<form id="login-form"><div class="field"><label>Email address</label><input name="email" type="email" autocomplete="username" required value="owner@mangosteen.local" /></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required value="Mangosteen@123" /></div><button class="btn btn-primary login-button" type="submit">${icon('lock')} Enter private workspace</button></form><div class="login-demo"><strong>Private client preview</strong><span>Owner credentials are prefilled for review. Change the password in Settings before entering real customer data.</span></div></section><aside class="login-visual"><div><span class="eyebrow">Mangosteen Cafe · Indore</span><h2>Run the whole cafe. Know every guest.</h2><p>A premium operating layer for tables, kitchen, billing, inventory, people, loyalty and profit intelligence.</p></div></aside></main>`;
+  return `<main class="login-shell"><section class="login-card"><div class="login-brand"><div class="brand-mark">${icon('coffee')}</div><div><strong>Mangosteen</strong><span>Cafe Operating Suite</span></div></div><div class="login-copy"><span class="eyebrow">Private operating system</span><h1>Welcome to Mangosteen</h1><p>One secure workspace for orders, kitchen, billing, stock, staff and every guest.</p></div>${dataError ? `<div class="form-error">${escapeHtml(dataError)}</div>` : ''}<form id="login-form"><div class="field"><label>Email address</label><input name="email" type="email" autocomplete="username" required /></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required /></div><button class="btn btn-primary login-button" type="submit">${icon('lock')} Enter private workspace</button></form><div class="login-demo"><strong>Private workspace</strong><span>Use the account provided by the owner. Replace every seeded demo password before storing real customer data.</span></div></section><aside class="login-visual"><div><span class="eyebrow">Mangosteen Cafe · Indore</span><h2>Run the whole cafe. Know every guest.</h2><p>A premium operating layer for tables, kitchen, billing, inventory, people, loyalty and profit intelligence.</p></div></aside></main>`;
 }
 
 function renderApp() {
@@ -1139,7 +1147,7 @@ document.getElementById('app').addEventListener('click', async (event) => {
     else if (action === 'invite-staff') openStaffForm();
     else if (action === 'toggle-user') { target.disabled = true; await api(`/api/users/${target.dataset.id}/toggle`, { method: 'POST', body: '{}' }); await syncAndRender(); showToast('Staff access updated.'); }
     else if (action === 'change-password') openPasswordForm();
-    else if (action === 'logout') { await api('/api/auth/logout', { method: 'POST', body: '{}' }); authState = 'anonymous'; data = { customers: [], reservations: [], feedback: [], tasks: [], rewards: [], activities: [], monthlyMetrics: [], settings: {} }; closeModal(); renderApp(); }
+    else if (action === 'logout') { await api('/api/auth/logout', { method: 'POST', body: '{}' }); csrfToken = ''; authState = 'anonymous'; data = { customers: [], reservations: [], feedback: [], tasks: [], rewards: [], activities: [], monthlyMetrics: [], settings: {} }; closeModal(); renderApp(); }
     else if (action === 'create-backup') { target.disabled = true; await api('/api/backups', { method: 'POST', body: '{}' }); await syncAndRender(); showToast(isCloudHosted ? 'Cloud backup created.' : 'Local backup created.'); }
     else if (action === 'download-backup') downloadFrom(`/api/backups/${encodeURIComponent(target.dataset.name)}`);
     else if (action === 'restore-backup') { if (!window.confirm(`Restore ${target.dataset.name}? Current data will be backed up first.`)) return; target.disabled = true; await api('/api/backups/restore', { method: 'POST', body: JSON.stringify({ name: target.dataset.name }) }); await syncAndRender(); showToast('Backup restored successfully.'); }
@@ -1220,6 +1228,7 @@ document.getElementById('modal-root').addEventListener('click', async (event) =>
   }
   if (target.dataset.action === 'logout') {
     await api('/api/auth/logout', { method: 'POST', body: '{}' });
+    csrfToken = '';
     authState = 'anonymous';
     closeModal();
     renderApp();

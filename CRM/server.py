@@ -10,6 +10,7 @@ using real customer data over a network.
 from __future__ import annotations
 
 import csv
+from contextlib import closing, contextmanager
 import hashlib
 import hmac
 import io
@@ -22,6 +23,7 @@ import smtplib
 import ssl
 import sqlite3
 import sys
+import threading
 from email.message import EmailMessage
 from http.cookies import SimpleCookie
 from datetime import date, datetime, timedelta
@@ -31,6 +33,7 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlparse
 from urllib.request import Request, urlopen
+from typing import Iterator
 
 
 ROOT = Path(__file__).resolve().parent
@@ -42,9 +45,27 @@ HOST = "127.0.0.1"
 DEFAULT_PORT = 4173
 SESSION_COOKIE = "mangosteen_session"
 SESSION_TTL = timedelta(hours=12)
-SESSIONS: dict[str, dict] = {}
 PUBLIC_REQUESTS: dict[str, list[datetime]] = {}
+PUBLIC_REQUESTS_LOCK = threading.Lock()
 ROLE_LEVEL = {"Kitchen": 0, "Cashier": 1, "Host": 1, "Manager": 2, "Owner": 3}
+LOGIN_FAILURE_LIMIT = 5
+LOGIN_LOCKOUT = timedelta(minutes=15)
+
+# Keep this allow-list aligned with src/data/seating.ts. These values are
+# preferences, not live inventory, but rejecting invented seats keeps the CRM
+# queue trustworthy.
+PUBLIC_SEATING = {
+    "The rooftop": {
+        "Railside 01": ("R1", 2), "Railside 02": ("R2", 2), "Railside 03": ("R3", 2),
+        "Garden 01": ("G1", 4), "Garden 02": ("G2", 4), "Canopy 01": ("C1", 6),
+        "Lounge 01": ("L1", 4), "Lounge 02": ("L2", 4),
+    },
+    "Inside Mangosteen": {
+        "Window 01": ("W1", 4), "Window 02": ("W2", 4), "Dining 01": ("D1", 6),
+        "Dining 02": ("D2", 4), "Sofa 01": ("S1", 4), "Sofa 02": ("S2", 2),
+        "Bar side": ("B1", 2),
+    },
+}
 
 
 SCHEMA = """
@@ -330,6 +351,22 @@ CREATE TABLE IF NOT EXISTS attendance (
   UNIQUE(staff_id, attendance_date),
   FOREIGN KEY(staff_id) REFERENCES staff(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS sessions (
+  token_hash TEXT PRIMARY KEY,
+  user_id INTEGER NOT NULL,
+  csrf_token TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  expires_at TEXT NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS login_attempts (
+  attempt_key TEXT PRIMARY KEY,
+  failures INTEGER NOT NULL DEFAULT 0,
+  locked_until TEXT,
+  updated_at TEXT NOT NULL
+);
 """
 
 
@@ -380,11 +417,59 @@ def setting_value(connection: sqlite3.Connection, key: str, default=None):
     return safe_json(row["value"], default) if row else default
 
 
-def connect() -> sqlite3.Connection:
+@contextmanager
+def connect() -> Iterator[sqlite3.Connection]:
     connection = sqlite3.connect(DB_PATH, timeout=10)
     connection.row_factory = sqlite3.Row
     connection.execute("PRAGMA foreign_keys = ON")
-    return connection
+    try:
+        yield connection
+        connection.commit()
+    except Exception:
+        connection.rollback()
+        raise
+    finally:
+        connection.close()
+
+
+def token_hash(token: str) -> str:
+    return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+def normalize_phone(value: str) -> str:
+    value = value.strip()
+    digits = re.sub(r"\D", "", value)
+    if len(digits) == 10:
+        digits = f"91{digits}"
+    if not 10 <= len(digits) <= 15:
+        raise ValueError("Please enter a valid mobile number")
+    return f"+{digits}"
+
+
+def find_customer_by_phone(connection: sqlite3.Connection, phone: str):
+    direct = connection.execute("SELECT id, phone FROM customers WHERE phone=?", (phone,)).fetchone()
+    if direct:
+        return direct
+    for customer in connection.execute("SELECT id, phone FROM customers"):
+        try:
+            if normalize_phone(customer["phone"]) == phone:
+                return customer
+        except ValueError:
+            continue
+    return None
+
+
+def validate_public_seating(area: str, table_name: str, seats: object, guests: int) -> list[str]:
+    clusters = PUBLIC_SEATING.get(area)
+    cluster = clusters.get(table_name) if clusters else None
+    if not cluster or not isinstance(seats, list) or len(seats) != guests:
+        raise ValueError("Please select a valid seating group for every guest")
+    prefix, capacity = cluster
+    normalized = [str(seat) for seat in seats]
+    allowed = {f"{prefix}-{index}" for index in range(1, capacity + 1)}
+    if len(set(normalized)) != guests or any(seat not in allowed for seat in normalized):
+        raise ValueError("Please select valid, unique seats in one seating group")
+    return normalized
 
 
 def month_keys(count: int = 12) -> list[str]:
@@ -790,7 +875,7 @@ def create_backup(label: str = "manual") -> Path:
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     safe_label = "".join(character for character in label.lower() if character.isalnum() or character == "-")[:24] or "backup"
     destination = BACKUP_DIR / f"mangosteen-{stamp}-{safe_label}.sqlite3"
-    with connect() as source, sqlite3.connect(destination) as target:
+    with connect() as source, closing(sqlite3.connect(destination)) as target:
         source.backup(target)
     return destination
 
@@ -1046,7 +1131,13 @@ def import_customers_csv(connection: sqlite3.Connection, text: str, mode: str = 
             skipped += 1
             errors.append(f"Row {row_number}: missing name or phone")
             continue
-        existing = connection.execute("SELECT id FROM customers WHERE phone=?", (phone,)).fetchone()
+        try:
+            phone = normalize_phone(phone)
+        except ValueError:
+            skipped += 1
+            errors.append(f"Row {row_number}: invalid phone number")
+            continue
+        existing = find_customer_by_phone(connection, phone)
         get = lambda key, default="": str(record.get(columns[key], default)).strip() if columns.get(key) else default
         try:
             visits = max(0, int(float(get("visits", "0") or 0)))
@@ -1127,6 +1218,13 @@ class CRMHandler(SimpleHTTPRequestHandler):
     def log_message(self, fmt: str, *args) -> None:
         sys.stdout.write(f"[{datetime.now().strftime('%H:%M:%S')}] {fmt % args}\n")
 
+    def end_headers(self) -> None:
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        super().end_headers()
+
     def send_json(self, payload, status=HTTPStatus.OK, session_token: str | None = None, clear_cookie: bool = False) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
         self.send_response(status)
@@ -1156,19 +1254,25 @@ class CRMHandler(SimpleHTTPRequestHandler):
         morsel = cookie.get(SESSION_COOKIE)
         if not morsel:
             return None
-        session = SESSIONS.get(morsel.value)
-        if not session:
-            return None
-        if datetime.now().astimezone() - session["created_at"] > SESSION_TTL:
-            SESSIONS.pop(morsel.value, None)
-            return None
         with connect() as connection:
+            session = connection.execute(
+                "SELECT * FROM sessions WHERE token_hash=?", (token_hash(morsel.value),)
+            ).fetchone()
+            if not session:
+                return None
+            if datetime.fromisoformat(session["expires_at"]) <= datetime.now().astimezone():
+                connection.execute("DELETE FROM sessions WHERE token_hash=?", (session["token_hash"],))
+                connection.commit()
+                return None
             row = connection.execute(
                 "SELECT id, name, email, role, active FROM users WHERE id=?", (session["user_id"],)
             ).fetchone()
         if not row or not row["active"]:
-            SESSIONS.pop(morsel.value, None)
+            with connect() as connection:
+                connection.execute("DELETE FROM sessions WHERE token_hash=?", (token_hash(morsel.value),))
+                connection.commit()
             return None
+        self.session_csrf_token = session["csrf_token"]
         return dict(row)
 
     def require_user(self, minimum_role: str = "Host") -> dict:
@@ -1187,8 +1291,15 @@ class CRMHandler(SimpleHTTPRequestHandler):
             raise PermissionError(f"Access is limited to {', '.join(allowed_roles)}")
         return user
 
+    def require_csrf(self) -> None:
+        supplied = self.headers.get("X-CSRF-Token", "")
+        expected = getattr(self, "session_csrf_token", "")
+        if not expected or not hmac.compare_digest(supplied, expected):
+            raise PermissionError("A valid CSRF token is required")
+
     def set_session_cookie(self, token: str) -> None:
-        self.send_header("Set-Cookie", f"{SESSION_COOKIE}={token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=43200")
+        secure = "; Secure" if os.environ.get("MANGOSTEEN_SECURE_COOKIES", "").lower() in {"1", "true", "yes"} else ""
+        self.send_header("Set-Cookie", f"{SESSION_COOKIE}={token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=43200{secure}")
 
     def clear_session_cookie(self) -> None:
         self.send_header("Set-Cookie", f"{SESSION_COOKIE}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0")
@@ -1204,15 +1315,25 @@ class CRMHandler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def allow_public_request(self) -> bool:
-        address = self.client_address[0]
+        address = self.client_ip()
         now = datetime.now().astimezone()
-        recent = [timestamp for timestamp in PUBLIC_REQUESTS.get(address, []) if now - timestamp < timedelta(hours=1)]
-        if len(recent) >= 8:
+        with PUBLIC_REQUESTS_LOCK:
+            recent = [timestamp for timestamp in PUBLIC_REQUESTS.get(address, []) if now - timestamp < timedelta(hours=1)]
+            if len(recent) >= 8:
+                PUBLIC_REQUESTS[address] = recent
+                return False
+            recent.append(now)
             PUBLIC_REQUESTS[address] = recent
-            return False
-        recent.append(now)
-        PUBLIC_REQUESTS[address] = recent
         return True
+
+    def client_ip(self) -> str:
+        address = self.client_address[0]
+        trusted = {item.strip() for item in os.environ.get("MANGOSTEEN_TRUSTED_PROXIES", "").split(",") if item.strip()}
+        if address in trusted:
+            forwarded = self.headers.get("X-Forwarded-For", "")
+            if forwarded:
+                return forwarded.split(",", 1)[0].strip()[:64]
+        return address
 
     def do_OPTIONS(self):
         path = urlparse(self.path).path
@@ -1233,7 +1354,8 @@ class CRMHandler(SimpleHTTPRequestHandler):
             return
         if path == "/api/auth/session":
             user = self.current_user()
-            self.send_json({"authenticated": bool(user), "user": user})
+            self.send_json({"authenticated": bool(user), "user": user,
+                            "csrfToken": getattr(self, "session_csrf_token", "") if user else ""})
             return
         if path.startswith("/api/"):
             try:
@@ -1300,7 +1422,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         return
 
                     name = str(body.get("name", "")).strip()
-                    phone = str(body.get("phone", "")).strip()
+                    phone = normalize_phone(str(body.get("phone", "")))
                     email = str(body.get("email", "")).strip().lower()
                     reservation_date = str(body.get("date", "")).strip()
                     reservation_time = str(body.get("time", "")).strip()
@@ -1313,8 +1435,6 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     consent = parse_bool(body.get("consent"))
                     if len(name) < 2 or len(name) > 80:
                         raise ValueError("Please enter a valid guest name")
-                    if len(phone) < 7 or len(phone) > 24:
-                        raise ValueError("Please enter a valid mobile number")
                     if email and (len(email) > 120 or "@" not in email):
                         raise ValueError("Please enter a valid email address")
                     requested_day = date.fromisoformat(reservation_date)
@@ -1322,12 +1442,11 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         raise ValueError("Reservation date must be within the next 90 days")
                     if not re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", reservation_time):
                         raise ValueError("Please choose a valid arrival time")
-                    if guests < 1 or guests > 12:
-                        raise ValueError("Online reservations support 1 to 12 guests")
-                    if not isinstance(seats, list) or len(seats) != guests or any(len(str(seat)) > 20 for seat in seats):
-                        raise ValueError("Please select one seat for every guest")
+                    if guests < 1 or guests > 6:
+                        raise ValueError("Online reservations support 1 to 6 guests")
+                    seats = validate_public_seating(area, table_name, seats, guests)
 
-                    customer = connection.execute("SELECT id FROM customers WHERE phone=?", (phone,)).fetchone()
+                    customer = find_customer_by_phone(connection, phone)
                     if customer:
                         customer_id = customer["id"]
                         connection.execute(
@@ -1374,25 +1493,53 @@ class CRMHandler(SimpleHTTPRequestHandler):
             if path == "/api/auth/login":
                 email = str(body.get("email", "")).strip().lower()
                 password = str(body.get("password", ""))
+                attempt_key = hashlib.sha256(f"{self.client_ip()}|{email}".encode("utf-8")).hexdigest()
                 with connect() as connection:
+                    attempt = connection.execute(
+                        "SELECT failures, locked_until FROM login_attempts WHERE attempt_key=?", (attempt_key,)
+                    ).fetchone()
+                    now = datetime.now().astimezone()
+                    if attempt and attempt["locked_until"] and datetime.fromisoformat(attempt["locked_until"]) > now:
+                        self.send_json({"error": "Too many failed sign-in attempts. Try again in 15 minutes."}, HTTPStatus.TOO_MANY_REQUESTS)
+                        return
+                    if attempt and attempt["locked_until"]:
+                        connection.execute("DELETE FROM login_attempts WHERE attempt_key=?", (attempt_key,))
+                        attempt = None
                     row = connection.execute("SELECT * FROM users WHERE email=?", (email,)).fetchone()
                     if not row or not row["active"] or not password_matches(password, row["password_hash"]):
+                        failures = (attempt["failures"] if attempt else 0) + 1
+                        locked_until = (now + LOGIN_LOCKOUT).isoformat(timespec="seconds") if failures >= LOGIN_FAILURE_LIMIT else None
+                        connection.execute(
+                            """INSERT INTO login_attempts (attempt_key, failures, locked_until, updated_at)
+                               VALUES (?, ?, ?, ?) ON CONFLICT(attempt_key) DO UPDATE SET
+                               failures=excluded.failures, locked_until=excluded.locked_until, updated_at=excluded.updated_at""",
+                            (attempt_key, failures, locked_until, now_iso()),
+                        )
+                        connection.commit()
                         self.send_json({"error": "Email or password is incorrect"}, HTTPStatus.UNAUTHORIZED)
                         return
                     token = secrets.token_urlsafe(32)
-                    SESSIONS[token] = {"user_id": row["id"], "created_at": datetime.now().astimezone()}
+                    csrf_token = secrets.token_urlsafe(32)
+                    connection.execute("DELETE FROM login_attempts WHERE attempt_key=?", (attempt_key,))
+                    connection.execute(
+                        "INSERT INTO sessions (token_hash, user_id, csrf_token, created_at, expires_at) VALUES (?, ?, ?, ?, ?)",
+                        (token_hash(token), row["id"], csrf_token, now_iso(), (now + SESSION_TTL).isoformat(timespec="seconds")),
+                    )
                     connection.execute("UPDATE users SET last_login_at=? WHERE id=?", (now_iso(), row["id"]))
                     connection.commit()
                     user = {"id": row["id"], "name": row["name"], "email": row["email"], "role": row["role"]}
-                self.send_json({"authenticated": True, "user": user}, session_token=token)
+                self.send_json({"authenticated": True, "user": user, "csrfToken": csrf_token}, session_token=token)
                 return
 
             user = self.require_user("Kitchen")
+            self.require_csrf()
             if path == "/api/auth/logout":
                 cookie = SimpleCookie(self.headers.get("Cookie", ""))
                 morsel = cookie.get(SESSION_COOKIE)
                 if morsel:
-                    SESSIONS.pop(morsel.value, None)
+                    with connect() as connection:
+                        connection.execute("DELETE FROM sessions WHERE token_hash=?", (token_hash(morsel.value),))
+                        connection.commit()
                 self.send_json({"authenticated": False}, clear_cookie=True)
                 return
 
@@ -1406,6 +1553,10 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     if len(new_password) < 10 or not any(char.isdigit() for char in new_password) or not any(char.isalpha() for char in new_password):
                         raise ValueError("New password must be at least 10 characters and include letters and numbers")
                     connection.execute("UPDATE users SET password_hash=? WHERE id=?", (password_hash(new_password), user["id"]))
+                    cookie = SimpleCookie(self.headers.get("Cookie", ""))
+                    morsel = cookie.get(SESSION_COOKIE)
+                    current_hash = token_hash(morsel.value) if morsel else ""
+                    connection.execute("DELETE FROM sessions WHERE user_id=? AND token_hash<>?", (user["id"], current_hash))
                     connection.commit()
                     self.send_json({"changed": True})
                     return
@@ -1669,6 +1820,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
 
                 if path == "/api/communications/send":
+                    self.require_roles("Owner", "Manager")
                     channel = str(body.get("channel", "WhatsApp")).title()
                     if channel not in {"Email", "Whatsapp", "WhatsApp"}:
                         raise ValueError("Channel must be Email or WhatsApp")
@@ -1726,6 +1878,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
 
                 if path.startswith("/api/reservations/") and path.endswith("/status"):
+                    self.require_roles("Owner", "Manager", "Cashier", "Host")
                     reservation_id = int(path.split("/")[3])
                     requested_status = str(body.get("status", "")).strip().lower()
                     allowed_statuses = {"pending": "Pending", "confirmed": "Confirmed", "completed": "Completed", "no-show": "No-show", "cancelled": "Cancelled"}
@@ -1758,10 +1911,13 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
 
                 if path == "/api/customers":
+                    self.require_roles("Owner", "Manager", "Cashier", "Host")
                     name = str(body.get("name", "")).strip()
-                    phone = str(body.get("phone", "")).strip()
+                    phone = normalize_phone(str(body.get("phone", "")))
                     if not name or not phone:
                         raise ValueError("Name and mobile number are required")
+                    if find_customer_by_phone(connection, phone):
+                        raise ValueError("A customer with this mobile number already exists")
                     cursor = connection.execute(
                         """INSERT INTO customers
                            (name, phone, email, tier, birthday, tags, notes,
@@ -1779,11 +1935,12 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     self.send_json({"id": cursor.lastrowid}, HTTPStatus.CREATED)
                     return
                 if path == "/api/reservations":
+                    self.require_roles("Owner", "Manager", "Cashier", "Host")
                     name = str(body.get("name", "")).strip()
-                    phone = str(body.get("phone", "")).strip()
+                    phone = normalize_phone(str(body.get("phone", "")))
                     if not name or not phone or not body.get("date") or not body.get("time"):
                         raise ValueError("Guest, phone, date and time are required")
-                    customer = connection.execute("SELECT id FROM customers WHERE phone = ?", (phone,)).fetchone()
+                    customer = find_customer_by_phone(connection, phone)
                     cursor = connection.execute(
                         """INSERT INTO reservations
                            (reservation_date, reservation_time, customer_id, name, phone, guests,
@@ -1865,12 +2022,14 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     self.send_json({"reset": True})
                     return
                 if path.startswith("/api/tasks/") and path.endswith("/complete"):
+                    self.require_roles("Owner", "Manager", "Host")
                     task_id = int(path.split("/")[3])
                     connection.execute("UPDATE tasks SET status='Completed', completed_at=? WHERE id=?", (now_iso(), task_id))
                     connection.commit()
                     self.send_json({"completed": True})
                     return
                 if path.startswith("/api/feedback/") and path.endswith("/recovery"):
+                    self.require_roles("Owner", "Manager", "Host")
                     feedback_id = int(path.split("/")[3])
                     item = connection.execute("SELECT * FROM feedback WHERE id=?", (feedback_id,)).fetchone()
                     if not item:

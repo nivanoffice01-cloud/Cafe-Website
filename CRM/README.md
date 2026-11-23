@@ -71,6 +71,11 @@ Change the password from **Settings → Privacy & security** before entering rea
 customer data. Set `MANGOSTEEN_OWNER_EMAIL` and `MANGOSTEEN_OWNER_PASSWORD`
 before the first run to seed different credentials.
 
+Run the repository checks with `npm run check` from the repository root. The
+suite builds the public website and exercises reservation validation,
+idempotency, persistent sessions, CSRF enforcement and role boundaries against
+a temporary CRM database.
+
 ## Demo role accounts
 
 All demo accounts use `Mangosteen@123` until changed:
