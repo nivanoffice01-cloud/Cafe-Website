@@ -3,6 +3,14 @@
   "framework": null,
   "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist",
+  "functions": {
+    "api/[...path].mjs": {
+      "includeFiles": [
+        "src/data/fullMenu.ts",
+        "src/data/seating.ts"
+      ]
+    }
+  },
   "redirects": [
     {
       "source": "/crm",
