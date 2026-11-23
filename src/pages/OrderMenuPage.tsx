@@ -110,7 +110,7 @@ export function OrderMenuPage() {
         <p className="order-kicker">{table ? `${table.label.toUpperCase()} · YOUR EVENING` : 'THE MANGOSTEEN MENU'}</p>
         <h1>Choose slowly.<br/><em>Stay a while.</em></h1>
         <p>{table ? 'Explore the menu, add what feels right, and send everything straight to the kitchen when you are ready.' : 'A table-side look at the Mangosteen menu. Scan the dedicated QR at your table when you are ready to order.'}</p>
-        <div className="order-menu-intro-actions"><a href="#order-menu-start">Explore the menu</a><span>{fullMenuCount} dishes · 13 chapters</span></div>
+        <div className="order-menu-intro-actions"><a href="#order-menu-content">Explore the menu</a><span>{fullMenuCount} dishes · 13 chapters</span></div>
       </div>
       <div className="order-menu-visual">
         <img className="order-menu-visual-main" src="/images/menu-ai/pizza-pide.webp" alt="" fetchPriority="high" decoding="async"/>
@@ -126,7 +126,7 @@ export function OrderMenuPage() {
       {!query && <nav className="order-categories" aria-label="Menu categories">{fullMenu.map((entry) => <button key={entry.name} type="button" className={entry.name === category ? 'is-active' : ''} onClick={() => setCategory(entry.name)}>{entry.name}</button>)}</nav>}
     </div>
 
-    <main className="order-menu-content">
+    <main className="order-menu-content" id="order-menu-content">
       {visibleCategories.map((entry) => <section className="order-category" key={entry.name}>
         <header><div><p>FROM THE KITCHEN</p><h2>{entry.name}</h2></div><span>{entry.items.length} items</span></header>
         <div className="order-dish-grid">{entry.items.map((item) => {
