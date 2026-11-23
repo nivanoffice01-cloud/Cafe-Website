@@ -45,15 +45,15 @@ src/
   styles/       Responsive site styles, motion, and reduced-motion rules
 docs/           3D architecture and Blender handoff specification
 public/images/highres/  Four supplied, unmodified 8K Mangosteen photographs
-public/images/experience/  Optimized exports of the supplied exterior, table, and dish photos; video poster
+public/images/experience/  Restored editorial exterior/table images, dish photo, and video poster
 public/media/        Supplied portrait café film
 public/assets/3d/ Optional GLB handoff paths and Blender export notes
 CRM/          Local SQLite-backed guest CRM and operations documentation
 ```
 
-The opening is a single scroll-driven film viewport. It begins in darkness, reveals the supplied real Mangosteen exterior photo, cuts to the supplied interior table photo, then lets the visitor **Take your seat**. That action moves the WebGL camera closer, cuts to a real dish photograph, and opens the accessible searchable HTML menu. There is no physical menu-card model on the table. The remaining page sections retain the real café photography and information, with a photographic fallback if WebGL is unavailable. Menu and Reserve shortcuts stay available during the sequence.
+The opening is a single scroll-driven film viewport. It begins in darkness, reveals a restored editorial version of the supplied Mangosteen exterior photo, cuts to a restored version of the supplied interior table photo, then lets the visitor **Take your seat**. That action moves the WebGL camera closer, cuts to a real dish photograph, and opens the accessible searchable HTML menu. There is no physical menu-card model on the table. The gallery retains the unmodified café photographs; the large opening, review, and visit visuals use the restored versions. A photographic fallback appears if WebGL is unavailable. Menu and Reserve shortcuts stay available during the sequence.
 
-The supplied 30-second portrait video is in the gallery with a visitor-controlled Play/Pause button and no autoplay. Its 360×640 source is suited to a small frame, not a full-screen hero. The four new 141-pixel-wide JPG thumbnails were not used because they would blur at display size. The 8K photo files have large dimensions but limited original detail; the camera path limits enlargement to avoid exaggerating that softness. A sharper exterior and table shoot would improve the opening most.
+The supplied 30-second portrait video is in the gallery with a visitor-controlled Play/Pause button and no autoplay. Its 360×640 source is suited to a small frame, not a full-screen hero. The four new 141-pixel-wide JPG thumbnails were not used because they would blur at display size. The 8K photo files have large dimensions but limited original detail. The opening and large editorial placements use AI-assisted restorations made from the supplied exterior and table photos. These improve perceived clarity, but are 1673×940 and 1537×1023, respectively, and may reinterpret fine details. The original files remain available in `public/images/highres/` and in the gallery. A sharper exterior and table shoot would improve the opening most.
 
 Cafe photos are from the public [Mangosteen Cafe Zomato gallery](https://www.zomato.com/indore/mangosteen-cafe-by-pass-road-north/photos). Menu names and indicative prices come from the [public 131-item listing](https://indiarestros.com/r/mangosteen-cafe-bhichaulimardana-2hgmr68h2t/menu), updated October 16, 2026; the cafe should confirm current prices before publication. Cafe facts are static values in `src/data/cafe.ts`.
 

@@ -126,12 +126,12 @@ export function HomePage() {
       <main id="main-content">
         <section className="film-journey" id="top" aria-labelledby="film-title">
           <div className="film-sticky" id="cinematic-journey">
-            <img className="film-fallback-photo" src="/images/experience/mangosteen-arrival.jpg" alt="" aria-hidden="true" fetchPriority="high"/>
+            <img className="film-fallback-photo" src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="" aria-hidden="true" fetchPriority="high"/>
             <Suspense fallback={null}><CinematicScene menuOpen={menuOpen} onOpenMenu={() => { setMenuSelection(null); setMenuOpen(true) }} onReady={onSceneReady} /></Suspense>
             <div className="film-mobile-scene" aria-hidden="true">
-              <img className="film-mobile-exterior-backdrop" src="/images/mobile/mangosteen_original_4_mobile.jpg" alt="" fetchPriority="high" />
-              <img className="film-mobile-exterior" src="/images/mobile/mangosteen_original_4_mobile.jpg" alt="" fetchPriority="high" />
-              <img className="film-mobile-table" src="/images/mobile/mangosteen_original_1_mobile.jpg" alt="" loading="lazy" />
+              <img className="film-mobile-exterior-backdrop" src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="" fetchPriority="high" />
+              <img className="film-mobile-exterior" src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="" fetchPriority="high" />
+              <img className="film-mobile-table" src="/images/experience/mangosteen-table-enhanced.jpg" alt="" loading="lazy" />
             </div>
             <img className="film-food-reveal" alt="" aria-hidden="true" decoding="async" />
             <div className="film-curtain" aria-hidden="true"/>
@@ -189,12 +189,12 @@ export function HomePage() {
         </section>
 
         <section className="lux-review" aria-labelledby="review-title">
-          <div className="lux-review-visual"><Photo src="/images/highres/mangosteen_original_1_8k.jpg" alt="Warmly lit dining area and wooden table at Mangosteen Café"/><span>AN EVENING AT MANGOSTEEN</span></div>
+          <div className="lux-review-visual"><Photo src="/images/experience/mangosteen-table-enhanced.jpg" alt="Warmly lit dining area and wooden table at Mangosteen Café"/><span>AN EVENING AT MANGOSTEEN</span></div>
           <div className="lux-review-copy"><Reveal><div className="lux-review-score"><strong>{cafe.rating}</strong><div className="lux-review-meta"><span>★★★★★</span><small>{cafe.reviewCount} GOOGLE REVIEWS</small></div></div><h2 id="review-title">Loved for the<br/><em>feeling.</em></h2><blockquote>“Amazing taste and very aesthetic ambiance. Loved the whole experience.”</blockquote><p>{reviewSummary}</p><a className="lux-text-link" href="https://www.google.com/search?q=Mangosteen+Cafe+Indore+reviews" target="_blank" rel="noreferrer">Read guest reviews <Arrow/></a></Reveal></div>
         </section>
 
         <section className="lux-visit" id="visit" aria-labelledby="visit-title">
-          <Photo src="/images/highres/mangosteen_original_4_8k.jpg" alt="The Mangosteen Café exterior and illuminated sign at night" className="lux-visit-image"/><div className="lux-visit-shade"/>
+          <Photo src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="The Mangosteen Café exterior and illuminated sign at night" className="lux-visit-image"/><div className="lux-visit-shade"/>
           <div className="lux-visit-copy"><Reveal><p className="lux-overline">OLYMPUS · BICHOLI MARDANA</p><h2 id="visit-title">Stay for<br/><em>the evening.</em></h2><p>{cafe.address}</p><div className="lux-hours"><span>HOURS</span><strong>{cafe.hours}</strong></div><div className="lux-visit-actions"><button className="lux-button lux-button-gold" type="button" onClick={() => setReservationOpen(true)}>Reserve a table <Arrow/></button><a className="lux-order-link" href={cafe.directionsUrl} target="_blank" rel="noreferrer">Get directions <Arrow/></a></div></Reveal></div>
           <div className="lux-visit-map" aria-label="Mangosteen Café location preview">
             <div className="lux-visit-map-heading"><span>FIND MANGOSTEEN</span><span>INDORE · INDIA</span></div>

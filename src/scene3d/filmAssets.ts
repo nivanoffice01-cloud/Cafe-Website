@@ -1,8 +1,8 @@
-/** Optimized exports of the supplied Mangosteen photographs. Replace these with
- * matched footage/stills when a dedicated arrival shoot is available. */
+/** Restored editorial versions of the supplied Mangosteen references. The original
+ * photographs remain in /images/highres for documentary gallery use. */
 export const filmAssets = {
-  exterior: '/images/experience/mangosteen-arrival.jpg',
-  table: '/images/experience/mangosteen-table.jpg',
+  exterior: '/images/experience/mangosteen-arrival-enhanced.jpg',
+  table: '/images/experience/mangosteen-table-enhanced.jpg',
   food: '/images/experience/mangosteen-table-dish.jpg',
 } as const
 
