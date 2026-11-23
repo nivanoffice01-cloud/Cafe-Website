@@ -66,6 +66,7 @@ export function HomePage() {
   const [sceneReady, setSceneReady] = useState(false)
   const [showSceneLoader, setShowSceneLoader] = useState(true)
   const [hasEntered, setHasEntered] = useState(false)
+  const [mapReady, setMapReady] = useState(false)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
   const closeGallery = useCallback(() => setGalleryOpen(false), [])
   const openMenu = useCallback(() => {
@@ -198,8 +199,9 @@ export function HomePage() {
           <div className="lux-visit-copy"><Reveal><p className="lux-overline">OLYMPUS · BICHOLI MARDANA</p><h2 id="visit-title">Stay for<br/><em>the evening.</em></h2><p>{cafe.address}</p><div className="lux-hours"><span>HOURS</span><strong>{cafe.hours}</strong></div><div className="lux-visit-actions"><button className="lux-button lux-button-gold" type="button" onClick={() => setReservationOpen(true)}>Reserve a table <Arrow/></button><a className="lux-order-link" href={cafe.directionsUrl} target="_blank" rel="noreferrer">Get directions <Arrow/></a></div></Reveal></div>
           <div className="lux-visit-map" aria-label="Mangosteen Café location preview">
             <div className="lux-visit-map-heading"><span>FIND MANGOSTEEN</span><span>INDORE · INDIA</span></div>
-            <div className="lux-visit-map-frame">
-              <iframe src={cafe.mapEmbedUrl} title="Map showing Mangosteen Café in Indore" loading="lazy" referrerPolicy="no-referrer-when-downgrade" tabIndex={-1}/>
+            <div className={`lux-visit-map-frame${mapReady ? ' is-ready' : ''}`}>
+              <div className="lux-visit-map-poster" aria-hidden="true"><span>OLYMPUS · INDORE</span><strong>Mangosteen Café</strong><small>Bicholi Mardana, Madhya Pradesh</small></div>
+              <iframe src={cafe.mapEmbedUrl} title="Map showing Mangosteen Café in Indore" loading="lazy" referrerPolicy="no-referrer-when-downgrade" tabIndex={-1} onLoad={() => setMapReady(true)}/>
               <a href={cafe.directionsUrl} target="_blank" rel="noreferrer" aria-label="Open Mangosteen Café in Google Maps"/>
             </div>
             <p>Olympus, Bicholi Mardana <a href={cafe.directionsUrl} target="_blank" rel="noreferrer">Open in Google Maps ↗</a></p>
