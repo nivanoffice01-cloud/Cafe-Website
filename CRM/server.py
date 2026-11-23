@@ -67,9 +67,7 @@ PUBLIC_SEATING = {
     },
 }
 ORDER_TABLES = {
-    code: label
-    for zone in PUBLIC_SEATING.values()
-    for label, (code, _capacity) in zone.items()
+    "4": "Table 4",
 }
 
 

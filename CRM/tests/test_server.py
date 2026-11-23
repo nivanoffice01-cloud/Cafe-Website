@@ -96,7 +96,7 @@ class CRMServerTests(unittest.TestCase):
     def test_public_demo_order_reaches_kitchen_and_is_idempotent(self):
         key = "qr-order-idempotency-test"
         body = {
-            "table": "R1", "guestName": "Demo Guest", "phone": "9876543210",
+            "table": "4", "guestName": "Demo Guest", "phone": "9876543210",
             "paymentMethod": "demo-upi", "notes": "Less spicy", "website": "",
             "items": [
                 {"category": "Pizza & Pide", "name": "Margarita", "quantity": 2, "unitPrice": 499},
@@ -113,7 +113,7 @@ class CRMServerTests(unittest.TestCase):
             order = connection.execute("SELECT table_name, status, payment_method FROM orders WHERE id=?", (first["id"],)).fetchone()
             self.assertEqual(order["status"], "Kitchen")
             self.assertEqual(order["payment_method"], "Demo UPI")
-            self.assertIn("QR R1 · Railside 01", order["table_name"])
+            self.assertIn("QR 4 · Table 4", order["table_name"])
 
     def test_public_demo_order_rejects_unknown_table_qr(self):
         status, payload, _ = self.request("/api/public/orders", headers={"Idempotency-Key": "unknown-table-order"}, body={

@@ -1,14 +1,14 @@
 import { getStore } from '@netlify/blobs'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
 import { fullMenu } from '../../src/data/fullMenu.ts'
-import { seatingPlans } from '../../src/data/seating.ts'
+import { orderTables } from '../../src/data/seating.ts'
 
 const STORE_KEY = 'production-state-v1'
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
 const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
 const PUBLIC_MENU = new Map(fullMenu.flatMap((category) => category.items.map((item) => [`${category.name}|${item.name}`, { ...item, category: category.name }])))
-const PUBLIC_TABLES = new Map(Object.values(seatingPlans).flatMap((plan) => plan.clusters.map((table) => [table.id, { ...table, zoneName: plan.name }])))
+const PUBLIC_TABLES = new Map(orderTables.map((table) => [table.id, table]))
 
 const store = () => getStore('mangosteen-crm', { consistency: 'strong' })
 const now = () => new Date().toISOString()
