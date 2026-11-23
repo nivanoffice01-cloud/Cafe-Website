@@ -246,6 +246,78 @@ const navItems = [
   { id: 'settings', label: 'Settings', icon: 'settings' },
 ];
 
+const rolePages = {
+  Owner: navItems.map((item) => item.id),
+  Manager: navItems.map((item) => item.id),
+  Cashier: ['dashboard', 'orders', 'billing', 'customers', 'reservations'],
+  Kitchen: ['kitchen'],
+  Host: ['dashboard', 'customers', 'reservations', 'feedback', 'reports'],
+};
+
+const pageSearchAliases = {
+  dashboard: 'home overview summary',
+  orders: 'order orders pos table takeaway menu',
+  kitchen: 'kitchen display tickets cooking',
+  billing: 'billing bill payment payments closing cash',
+  stock: 'inventory stock ingredients supplies',
+  expenses: 'expense expenses costs spending',
+  vendors: 'vendor vendors supplier suppliers',
+  staff: 'staff team employee employees attendance roster',
+  customers: 'customer customers guest guests crm',
+  reservations: 'reservation reservations booking bookings tables',
+  loyalty: 'loyalty rewards points membership',
+  feedback: 'feedback review reviews rating ratings',
+  reports: 'report reports analytics sales profit',
+  settings: 'setting settings configuration preferences account security',
+};
+
+function allowedPagesForCurrentUser() {
+  return rolePages[data.user?.role] || rolePages.Host;
+}
+
+function runGlobalSearch(rawQuery) {
+  const query = rawQuery.trim().toLowerCase();
+  if (!query) return;
+  const allowedPages = allowedPagesForCurrentUser();
+  const pageMatch = navItems.find((item) => {
+    if (!allowedPages.includes(item.id)) return false;
+    const terms = `${item.id} ${item.label} ${pageSearchAliases[item.id] || ''}`.toLowerCase();
+    return terms.split(/\s+/).some((term) => term.startsWith(query)) || terms.includes(query);
+  });
+
+  if (pageMatch) {
+    state.page = pageMatch.id;
+    state.customerQuery = '';
+    refreshPage();
+    showToast(`Opened ${pageMatch.label}.`);
+    return;
+  }
+
+  const sources = [
+    { page: 'customers', label: 'Customers', records: data.customers },
+    { page: 'orders', label: 'Orders & POS', records: [...(data.orders || []), ...(data.menuItems || [])] },
+    { page: 'reservations', label: 'Reservations', records: data.reservations },
+    { page: 'stock', label: 'Inventory', records: data.inventory },
+    { page: 'expenses', label: 'Expenses', records: data.expenses },
+    { page: 'vendors', label: 'Vendors', records: data.vendors },
+    { page: 'staff', label: 'Staff & attendance', records: data.staff },
+    { page: 'feedback', label: 'Feedback', records: data.feedback },
+  ];
+  const recordMatch = sources.find((source) => allowedPages.includes(source.page)
+    && (source.records || []).some((record) => JSON.stringify(record).toLowerCase().includes(query)));
+
+  if (!recordMatch) {
+    showToast(`No CRM result found for “${rawQuery.trim()}”.`, 'error');
+    return;
+  }
+
+  state.page = recordMatch.page;
+  state.customerQuery = recordMatch.page === 'customers' ? rawQuery.trim() : '';
+  refreshPage();
+  if (recordMatch.page === 'customers') window.setTimeout(() => filterCustomers(), 0);
+  showToast(`Found a match in ${recordMatch.label}.`);
+}
+
 function escapeHtml(value = '') {
   return String(value)
     .replaceAll('&', '&amp;')
@@ -293,14 +365,7 @@ function shell() {
   const businessName = data.settings.business_name || 'Mangosteen Cafe';
   const user = data.user || { name: 'Staff member', role: 'Host' };
   const userInitials = initials(user.name || 'Staff');
-  const rolePages = {
-    Owner: navItems.map((item) => item.id),
-    Manager: navItems.map((item) => item.id),
-    Cashier: ['dashboard', 'orders', 'billing', 'customers', 'reservations'],
-    Kitchen: ['kitchen'],
-    Host: ['dashboard', 'customers', 'reservations', 'feedback', 'reports'],
-  };
-  const allowedPages = rolePages[user.role] || rolePages.Host;
+  const allowedPages = allowedPagesForCurrentUser();
   if (!allowedPages.includes(state.page)) state.page = allowedPages[0];
   const visibleNav = navItems.filter((item) => allowedPages.includes(item.id));
   const dynamicBadge = (id) => id === 'reservations' ? analytics.todayReservations.length : id === 'feedback' ? analytics.openFeedback : id === 'kitchen' ? operations.kitchenOrders.length : id === 'stock' ? operations.lowStock.length : null;
@@ -329,10 +394,9 @@ function shell() {
       <div class="mobile-overlay ${state.sidebarOpen ? 'open' : ''}" data-action="close-sidebar"></div>
       <main class="main-shell">
         <div class="topbar">
-          <button class="icon-btn menu-toggle" data-action="toggle-sidebar" aria-label="Open navigation">${icon('menu')}</button>
           <div class="global-search">
             ${icon('search')}
-            <input id="global-search" type="search" placeholder="Search guests, tables and orders…" aria-label="Global search" />
+            <input id="global-search" type="search" placeholder="Search pages, guests, orders, stock…" aria-label="Global search" />
             <span class="shortcut">⌘ K</span>
           </div>
           <div class="topbar-right">
@@ -1169,13 +1233,8 @@ document.getElementById('app').addEventListener('change', (event) => {
 
 document.getElementById('app').addEventListener('keydown', (event) => {
   if (event.target.id === 'global-search' && event.key === 'Enter') {
-    const query = event.target.value.trim();
-    if (query) {
-      state.page = 'customers';
-      state.customerQuery = query;
-      refreshPage();
-      window.setTimeout(() => filterCustomers(), 0);
-    }
+    event.preventDefault();
+    runGlobalSearch(event.target.value);
   }
 });
 

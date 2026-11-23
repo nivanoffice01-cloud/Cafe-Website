@@ -299,10 +299,6 @@ svg {
   backdrop-filter: blur(18px);
 }
 
-.menu-toggle {
-  display: none;
-}
-
 .global-search {
   position: relative;
   width: min(420px, 42vw);
@@ -2303,10 +2299,6 @@ svg {
 
   .main-shell {
     margin-left: 0;
-  }
-
-  .menu-toggle {
-    display: grid;
   }
 
   .dashboard-grid,
