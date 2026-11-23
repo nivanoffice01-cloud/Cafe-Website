@@ -112,6 +112,56 @@ export function HomePage() {
   }, [onSceneReady])
 
   useEffect(() => {
+    const mobile = window.matchMedia('(max-width: 700px)')
+    let frame = 0
+    const smoothstep = (value: number, from: number, to: number) => {
+      const amount = Math.min(1, Math.max(0, (value - from) / (to - from)))
+      return amount * amount * (3 - 2 * amount)
+    }
+    const updateMobileFilm = () => {
+      frame = 0
+      if (!mobile.matches) return
+      const journey = document.getElementById('cinematic-journey')
+      const section = journey?.parentElement
+      if (!journey || !section) return
+      const span = Math.max(1, section.offsetHeight - window.innerHeight)
+      const progress = Math.min(1, Math.max(0, (window.scrollY - section.offsetTop) / span))
+      const firstCut = .76 * (1 - smoothstep(Math.abs(progress - .4), 0, .032))
+      const secondCut = .76 * (1 - smoothstep(Math.abs(progress - .7), 0, .032))
+      const openingDarkness = 1 - smoothstep(progress, .01, .18)
+      journey.style.setProperty('--film-curtain', String(Math.max(firstCut, secondCut, openingDarkness)))
+      journey.style.setProperty('--film-opening-opacity', String(1 - smoothstep(progress, .08, .24)))
+      journey.style.setProperty('--film-roof-opacity', String(smoothstep(progress, .18, .26) * (1 - smoothstep(progress, .34, .4))))
+      journey.style.setProperty('--film-interior-opacity', String(smoothstep(progress, .45, .52) * (1 - smoothstep(progress, .63, .69))))
+      journey.style.setProperty('--film-table-opacity', String(smoothstep(progress, .74, .81) * (1 - smoothstep(progress, .84, .9))))
+      journey.style.setProperty('--film-seat-opacity', String(smoothstep(progress, .88, .96)))
+      journey.style.setProperty('--film-progress', String(progress))
+      journey.style.setProperty('--film-mobile-exterior-opacity', String(1 - smoothstep(progress, .37, .43)))
+      journey.style.setProperty('--film-mobile-interior-opacity', String(smoothstep(progress, .37, .43) * (1 - smoothstep(progress, .67, .73))))
+      journey.style.setProperty('--film-mobile-table-opacity', String(smoothstep(progress, .67, .73)))
+      journey.style.setProperty('--film-mobile-shift', `${Math.round(progress * -14)}px`)
+      journey.style.setProperty('--film-mobile-scale', String(1 + Math.min(progress, .4) * .05))
+      const seatButton = journey.querySelector<HTMLElement>('.film-seat-invite')
+      const enterButton = journey.querySelector<HTMLElement>('.film-opening button')
+      if (seatButton) seatButton.style.pointerEvents = progress > .82 ? 'auto' : 'none'
+      if (enterButton) enterButton.style.pointerEvents = progress < .2 ? 'auto' : 'none'
+    }
+    const queueMobileFilmUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateMobileFilm)
+    }
+    updateMobileFilm()
+    window.addEventListener('scroll', queueMobileFilmUpdate, { passive: true })
+    window.addEventListener('resize', queueMobileFilmUpdate)
+    mobile.addEventListener('change', queueMobileFilmUpdate)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', queueMobileFilmUpdate)
+      window.removeEventListener('resize', queueMobileFilmUpdate)
+      mobile.removeEventListener('change', queueMobileFilmUpdate)
+    }
+  }, [])
+
+  useEffect(() => {
     if (!mobileMenuOpen) return
     const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setMobileMenuOpen(false) }
     window.addEventListener('keydown', closeOnEscape)
