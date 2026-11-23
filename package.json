@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:netlify": "npm run build && node scripts/prepare-netlify.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@netlify/blobs": "^11.1.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "three": "^0.187.0"

@@ -70,11 +70,13 @@ service recovery.
 
 ## Public deployment checklist
 
-Before exposing the CRM outside the Mac:
+The Netlify client-demo deployment uses HTTPS, HttpOnly session cookies,
+server-enforced roles and Netlify Blobs persistence. It is suitable for review
+and controlled demonstrations. Before entering real customer or payment data at
+scale:
 
-- Put it behind HTTPS and a production reverse proxy.
-- Move sessions to durable server-side storage.
-- Store credentials in a managed secret service.
+- Replace seeded passwords and create named staff accounts.
+- Store provider credentials in Netlify environment variables.
 - Add rate limiting, CSRF protection and account lockout.
 - Encrypt backups and verify restore drills.
 - Confirm Indian privacy, consent and retention requirements with counsel.

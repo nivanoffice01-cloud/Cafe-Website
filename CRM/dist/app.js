@@ -62,6 +62,7 @@ let data = {
 let loading = true;
 let dataError = '';
 let authState = 'checking';
+const isCloudHosted = !['localhost', '127.0.0.1', ''].includes(window.location.hostname);
 
 async function api(path, options = {}) {
   const response = await fetch(path, {
@@ -339,7 +340,7 @@ function shell() {
         <div class="page-wrap">
           <div class="demo-banner">
             ${icon('sparkles')}
-            <span><strong>Private operating workspace.</strong> Orders, stock and guest data stay on this Mac; website requests arrive here as pending.</span>
+            <span><strong>Private operating workspace.</strong> ${isCloudHosted ? 'Orders, stock and guest data use the secured Netlify data layer' : 'Orders, stock and guest data stay on this Mac'}; website requests arrive here as pending.</span>
             ${user.role === 'Owner' ? '<button data-action="reset-demo">Rebuild sample data</button>' : ''}
           </div>
           <div id="page-content">${renderPage()}</div>
@@ -833,7 +834,7 @@ function renderSettings() {
       <div class="form-section"><h3>Account security</h3><p>Sessions expire after 12 hours and passwords are stored with PBKDF2 hashing.</p><div class="security-callout">${icon('shield')}<div><strong>Signed in as ${escapeHtml(data.user?.email || '')}</strong><span>${escapeHtml(data.user?.role || '')} permissions are enforced by the local API.</span></div></div><button class="btn" data-action="change-password">${icon('lock')} Change password</button> <button class="btn" data-action="logout">Sign out</button></div>`,
     data: `
       <div class="form-section"><h3>Import and export</h3><p>Use UTF-8 CSV from the cafe POS. Name and phone are required; common column names are detected automatically.</p><div class="button-row"><button class="btn" data-action="import-customers">${icon('download')} Import customer CSV</button><button class="btn" data-action="download-customers">${icon('download')} Export customers</button><button class="btn" data-action="export-report">${icon('chart')} Export report</button></div></div>
-      <div class="form-section"><h3>Automatic backups</h3><p>A daily SQLite backup is retained locally. Manual backups and restores require Owner access.</p><div class="switch-row"><div class="switch-copy"><strong>Daily backups</strong><span>Stored inside the project backups folder.</span></div><button id="setting-backup-enabled" class="switch ${settings.backup_enabled ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle daily backups"></button></div><div class="field" style="max-width:220px"><label>Retention (days)</label><input id="setting-backup-retention" type="number" min="1" max="365" value="${Number(settings.backup_retention_days || 30)}" /></div>${isOwner ? `<div class="button-row"><button class="btn btn-primary" data-action="create-backup">${icon('database')} Create backup now</button></div>` : ''}</div>
+      <div class="form-section"><h3>Automatic backups</h3><p>${isCloudHosted ? 'Versioned JSON backups are retained in Netlify Blobs.' : 'A daily SQLite backup is retained locally.'} Manual backups and restores require Owner access.</p><div class="switch-row"><div class="switch-copy"><strong>Daily backups</strong><span>${isCloudHosted ? 'Stored in the secured production data layer.' : 'Stored inside the project backups folder.'}</span></div><button id="setting-backup-enabled" class="switch ${settings.backup_enabled ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle daily backups"></button></div><div class="field" style="max-width:220px"><label>Retention (days)</label><input id="setting-backup-retention" type="number" min="1" max="365" value="${Number(settings.backup_retention_days || 30)}" /></div>${isOwner ? `<div class="button-row"><button class="btn btn-primary" data-action="create-backup">${icon('database')} Create backup now</button></div>` : ''}</div>
       <div class="form-section"><h3>Available backups</h3>${data.backups.length ? `<div class="backup-list">${data.backups.slice(0, 8).map((backup) => `<div class="backup-row"><div>${icon('database')}<span><strong>${escapeHtml(backup.name)}</strong><small>${new Intl.NumberFormat('en-IN').format(Math.ceil(backup.size / 1024))} KB · ${relativeTime(backup.createdAt)} ago</small></span></div><div class="button-row"><button class="btn btn-small" data-action="download-backup" data-name="${escapeHtml(backup.name)}">Download</button>${isOwner ? `<button class="btn btn-small" data-action="restore-backup" data-name="${escapeHtml(backup.name)}">Restore</button>` : ''}</div></div>`).join('')}</div>` : '<div class="empty-state compact"><p>No backups are available yet.</p></div>'}</div>`,
   }[tab];
   return `
@@ -1139,7 +1140,7 @@ document.getElementById('app').addEventListener('click', async (event) => {
     else if (action === 'toggle-user') { target.disabled = true; await api(`/api/users/${target.dataset.id}/toggle`, { method: 'POST', body: '{}' }); await syncAndRender(); showToast('Staff access updated.'); }
     else if (action === 'change-password') openPasswordForm();
     else if (action === 'logout') { await api('/api/auth/logout', { method: 'POST', body: '{}' }); authState = 'anonymous'; data = { customers: [], reservations: [], feedback: [], tasks: [], rewards: [], activities: [], monthlyMetrics: [], settings: {} }; closeModal(); renderApp(); }
-    else if (action === 'create-backup') { target.disabled = true; await api('/api/backups', { method: 'POST', body: '{}' }); await syncAndRender(); showToast('Local backup created.'); }
+    else if (action === 'create-backup') { target.disabled = true; await api('/api/backups', { method: 'POST', body: '{}' }); await syncAndRender(); showToast(isCloudHosted ? 'Cloud backup created.' : 'Local backup created.'); }
     else if (action === 'download-backup') downloadFrom(`/api/backups/${encodeURIComponent(target.dataset.name)}`);
     else if (action === 'restore-backup') { if (!window.confirm(`Restore ${target.dataset.name}? Current data will be backed up first.`)) return; target.disabled = true; await api('/api/backups/restore', { method: 'POST', body: JSON.stringify({ name: target.dataset.name }) }); await syncAndRender(); showToast('Backup restored successfully.'); }
     else if (action === 'export-feedback') { const rows = [['Name','Rating','Source','Status','Message'], ...data.feedback.map((item) => [item.name,item.rating,item.source,item.status,item.text])]; const csv = rows.map((row) => row.map((cell) => `"${String(cell).replaceAll('"','""')}"`).join(',')).join('\n'); const url = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); downloadFrom(url); setTimeout(() => URL.revokeObjectURL(url), 1000); }
