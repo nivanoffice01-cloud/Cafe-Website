@@ -1,5 +1,5 @@
 import { Component, Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
-import type { ReactNode } from 'react'
+import type { PointerEvent as ReactPointerEvent, ReactNode } from 'react'
 import { Reveal } from '../components/Reveal'
 import { FullMenuDialog } from '../components/FullMenuDialog'
 import { GalleryDialog } from '../components/GalleryDialog'
@@ -23,7 +23,7 @@ const featuredDishes = [
   { category: 'Pizza & Pide', name: 'Margarita' },
   { category: 'Burger & sandwich', name: 'Veg Cheese Burger' },
   { category: 'Pasta', name: 'Pesto cream Pasta' },
-  { category: 'Mocktail & Coolers', name: 'Virgin mojito', editorialLine: 'A cool pause between courses.' },
+  { category: 'Shakes', name: 'Oreo Shake', editorialLine: 'Oreo biscuit, milk, vanilla and honey.' },
   { category: 'Desserts', name: 'Chocolate Cheesecake', editorialLine: 'The evening’s final note.' },
 ].map((reference) => ({
   ...reference,
@@ -36,6 +36,14 @@ const lifestyleMoments = [
   { title: 'Golden hour', note: 'The rooftop changes as the last light settles in.', src: '/images/gallery/cafe-18.jpeg', alt: 'Rooftop tables surrounded by greenery at Mangosteen Café' },
   { title: 'Dinner after dark', note: 'Warm light, open air and an unhurried final course.', src: '/images/gallery/cafe-19.jpg', alt: 'Warm pendant lights above the evening dining room at Mangosteen Café' },
 ]
+
+type Atmosphere = 'morning' | 'golden' | 'night'
+
+const atmospheres: Record<Atmosphere, { label: string; note: string; image: string; alt: string }> = {
+  morning: { label: 'Slow Morning', note: 'Coffee, soft daylight and room to pause.', image: '/images/gallery/cafe-14.png', alt: 'Mangosteen rooftop seating in soft daylight' },
+  golden: { label: 'Golden Hour', note: 'The café in its warmest light.', image: '/images/highres/mangosteen_original_1_8k.jpg', alt: 'Mangosteen interior glowing beneath woven pendant lights' },
+  night: { label: 'After Dark', note: 'Pendant light, open air and an unhurried evening.', image: '/images/experience/mangosteen-arrival-enhanced.jpg', alt: 'Mangosteen Café illuminated after dark' },
+}
 
 function LeafMark() {
   return <svg className="lux-leaf" viewBox="0 0 38 38" aria-hidden="true"><path d="M29.8 7.8C19.1 7.5 10.2 10.4 8.1 18.1c-1.5 5.4 2.5 9.7 7.3 8.4 8-2.2 10.8-11.2 14.4-18.7Z" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M10.1 28.8c4.1-6.4 8.9-10.6 15.7-14.8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
@@ -84,6 +92,10 @@ export function HomePage() {
   const [showBrandReveal, setShowBrandReveal] = useState(true)
   const [hasEntered, setHasEntered] = useState(false)
   const [mapReady, setMapReady] = useState(false)
+  const [atmosphere, setAtmosphere] = useState<Atmosphere>(() => {
+    const hour = new Date().getHours()
+    return hour >= 7 && hour < 15 ? 'morning' : hour >= 15 && hour < 19 ? 'golden' : 'night'
+  })
   const [canRenderScene, setCanRenderScene] = useState(() => window.matchMedia('(min-width: 701px)').matches)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
   const closeGallery = useCallback(() => setGalleryOpen(false), [])
@@ -108,6 +120,16 @@ export function HomePage() {
     document.documentElement.classList.add('scene-fallback')
     onSceneReady()
   }, [onSceneReady])
+  const moveHeroDepth = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'touch') return
+    const rect = event.currentTarget.getBoundingClientRect()
+    event.currentTarget.style.setProperty('--pointer-x', String((event.clientX - rect.left) / rect.width - .5))
+    event.currentTarget.style.setProperty('--pointer-y', String((event.clientY - rect.top) / rect.height - .5))
+  }
+  const resetHeroDepth = (event: ReactPointerEvent<HTMLDivElement>) => {
+    event.currentTarget.style.setProperty('--pointer-x', '0')
+    event.currentTarget.style.setProperty('--pointer-y', '0')
+  }
 
   useEffect(() => {
     const revealTimer = window.setTimeout(() => setShowBrandReveal(false), 1450)
@@ -210,7 +232,7 @@ export function HomePage() {
 
       <main id="main-content">
         <section className="film-journey" id="top" aria-labelledby="film-title">
-          <div className="film-sticky" id="cinematic-journey">
+          <div className="film-sticky" id="cinematic-journey" data-atmosphere={atmosphere} onPointerMove={moveHeroDepth} onPointerLeave={resetHeroDepth}>
             <img className="film-fallback-photo" src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="" aria-hidden="true" fetchPriority="high"/>
             {canRenderScene && <SceneErrorBoundary onError={onSceneError}><Suspense fallback={null}><CinematicScene menuOpen={menuOpen} onOpenMenu={() => { setMenuSelection(null); setMenuOpen(true) }} onReady={onSceneReady} /></Suspense></SceneErrorBoundary>}
             <div className="film-mobile-scene" aria-hidden="true">
@@ -219,15 +241,19 @@ export function HomePage() {
               <img className="film-mobile-interior" src="/images/mobile/mangosteen-interior-mobile.jpg" alt="" loading="lazy" />
               <img className="film-mobile-table" src="/images/mobile/mangosteen-table-mobile.jpg" alt="" loading="lazy" />
             </div>
+            <img key={atmosphere} className="film-atmosphere-photo" src={atmospheres[atmosphere].image} srcSet={responsivePhotoSrcSet(atmospheres[atmosphere].image)} sizes="100vw" alt={atmospheres[atmosphere].alt} fetchPriority="high" />
+            <div className="film-giant-word" aria-hidden="true">MANGOSTEEN</div>
+            <div className="film-botanical-depth" aria-hidden="true"><img src="/images/gallery/cafe-06.png" alt="" /></div>
             <img className="film-food-reveal" alt="" aria-hidden="true" decoding="async" />
             <div className="film-curtain" aria-hidden="true"/>
             <span className="film-first-light" aria-hidden="true"/>
             <div className="film-opening">
-              <p>ROOFTOP DINING · INDORE</p>
-              <h1 id="film-title">MANGOSTEEN</h1>
-              <span className="film-opening-line">Warm light. Open air. Time well spent.</span>
-              <button type="button" onClick={() => window.scrollBy({ top: window.innerHeight * (window.innerWidth <= 700 ? .72 : 1.15), behavior: 'smooth' })}>ENTER THE EVENING <span aria-hidden="true">↓</span></button>
+              <p>A ROOFTOP ESCAPE · INDORE</p>
+              <h1 id="film-title">Above the city.<br/><em>Beyond the ordinary.</em></h1>
+              <span className="film-opening-line">Good food. Golden evenings. Moments worth staying for.</span>
+              <div className="film-opening-actions"><button type="button" onClick={openMenu}>Explore the Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve a Table</button></div>
             </div>
+            <div className="film-atmosphere" aria-label="Choose the café atmosphere"><span>{atmospheres[atmosphere].note}</span><div>{(Object.keys(atmospheres) as Atmosphere[]).map((mode) => <button key={mode} type="button" aria-pressed={atmosphere === mode} className={atmosphere === mode ? 'is-active' : ''} onClick={() => setAtmosphere(mode)}>{atmospheres[mode].label}</button>)}</div></div>
             <nav className="film-shortcuts" aria-label="Quick actions"><a href="#signatures">Skip intro</a><button type="button" onClick={openMenu}>Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve</button></nav>
             <div className="film-rooftop-copy" aria-hidden="true"><span>01 / ARRIVAL</span><p>The evening begins<br/><em>at Mangosteen.</em></p></div>
             <div className="film-interior-copy" aria-hidden="true"><span>02 / INSIDE</span><p>Come a little<br/><em>closer.</em></p></div>
@@ -243,8 +269,8 @@ export function HomePage() {
             <figcaption>AN ILLUSTRATIVE DISH PORTRAIT <span>{String(featuredIndex + 1).padStart(2, '0')} / {String(featuredDishes.length).padStart(2, '0')}</span></figcaption>
           </figure>
           <div className="lux-signatures-panel">
-            <p className="lux-overline">A FEW FAVOURITES</p>
-            <h2 id="signatures-title">For the table.<br/><em>For the moment.</em></h2>
+            <p className="lux-overline">SIGNATURES FROM THE MENU</p>
+            <h2 id="signatures-title">Food that brings<br/><em>you back.</em></h2>
             <p className="lux-signatures-intro">A few favourites, from the first sip to the last bite. Choose what calls to you.</p>
             <div className="lux-signature-tabs" aria-label="Featured menu dishes">
               {featuredDishes.map((dish, index) => <button key={dish.name} type="button" className={featuredIndex === index ? 'is-active' : ''} aria-pressed={featuredIndex === index} onClick={() => setFeaturedIndex(index)}><span>{String(index + 1).padStart(2, '0')}</span>{dish.name}<i aria-hidden="true">↗</i></button>)}
@@ -254,18 +280,24 @@ export function HomePage() {
               <p>{featuredDishes[featuredIndex].editorialLine ?? featuredDishes[featuredIndex].description}</p>
               <div><strong>₹{featuredDishes[featuredIndex].price}</strong><button className="lux-signature-cta" type="button" onClick={openFeaturedDish}>Explore in the menu <Arrow/></button></div>
             </div>
+            <div className="lux-ingredient-notes" aria-label="Selected dish ingredients">{featuredDishes[featuredIndex].description?.split(',').slice(0, 4).map((ingredient) => <span key={ingredient}>{ingredient.trim()}</span>)}</div>
             <p className="lux-signature-note">Dish photography is illustrative; Mangosteen's plating may differ. Prices are indicative.</p>
           </div>
         </section>
 
         <section className="lux-editorial" id="story" aria-labelledby="story-title">
           <div className="lux-editorial-copy"><Reveal>
-            <p className="lux-overline">MANGOSTEEN</p>
-            <h2 id="story-title">A place above<br/><em>the city.</em></h2>
+            <p className="lux-overline">THE MANGOSTEEN EXPERIENCE</p>
+            <h2 id="story-title">More than a café,<br/><em>it's an evening experience.</em></h2>
             <p>A table. A little warmth. An evening that stays longer than expected.</p>
             <div className="lux-editorial-facts"><div><span>THE SETTING</span><strong>Open air · warm light</strong></div><div><span>THE MENU</span><strong>Indian · Italian · Asian</strong></div><div><span>FOR TWO</span><strong>{cafe.priceRange}</strong></div></div>
           </Reveal></div>
-          <figure className="lux-editorial-image"><Photo src="/images/experience/mangosteen-interior-enhanced.jpg" alt="Mangosteen Café seating under woven pendant lights in the evening"/><figcaption>Inside Mangosteen <span>02 / 04</span></figcaption></figure>
+          <div className="lux-experience-collage" aria-label="Scenes from Mangosteen Café">
+            <figure className="lux-collage-main"><Photo src="/images/experience/mangosteen-interior-enhanced.jpg" alt="Mangosteen Café seating under woven pendant lights in the evening"/><figcaption>Inside Mangosteen · after dark</figcaption></figure>
+            <figure className="lux-collage-secondary"><Photo src="/images/gallery/cafe-06.png" alt="Rattan seating on the planted rooftop in daylight"/><figcaption>Slow afternoon light</figcaption></figure>
+            <figure className="lux-collage-detail"><Photo src="/images/experience/mangosteen-table-dish.jpg" alt="A prepared Mangosteen table with a plated dish"/><figcaption>The table, ready</figcaption></figure>
+            <span className="lux-collage-script">A little world above the city.</span>
+          </div>
         </section>
 
         <section className="lux-moments" aria-labelledby="moments-title">
@@ -290,7 +322,7 @@ export function HomePage() {
 
         <section className="lux-visit" id="visit" aria-labelledby="visit-title">
           <Photo src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="The Mangosteen Café exterior and illuminated sign at night" className="lux-visit-image"/><div className="lux-visit-shade"/>
-          <div className="lux-visit-copy"><Reveal><p className="lux-overline">OLYMPUS · BICHOLI MARDANA</p><h2 id="visit-title">Your evening<br/><em>awaits.</em></h2><p>{cafe.address}</p><div className="lux-hours"><span>HOURS</span><strong>{cafe.hours}</strong></div><div className="lux-visit-actions"><button className="lux-button lux-button-gold" type="button" onClick={() => setReservationOpen(true)}>Reserve a table <Arrow/></button><a className="lux-order-link" href={cafe.directionsUrl} target="_blank" rel="noreferrer">Get directions <Arrow/></a></div></Reveal></div>
+          <div className="lux-visit-copy"><Reveal><p className="lux-overline">OLYMPUS · BICHOLI MARDANA</p><h2 id="visit-title">Your evening<br/><em>awaits.</em></h2><p>{cafe.address}</p><div className="lux-hours"><span>HOURS</span><strong>{cafe.hours}</strong></div><div className="lux-visit-actions"><button className="lux-button lux-button-gold" type="button" onClick={() => setReservationOpen(true)}>Reserve a table <Arrow/></button><button className="lux-order-link" type="button" onClick={openMenu}>Explore the menu</button><a className="lux-order-link" href={cafe.directionsUrl} target="_blank" rel="noreferrer">Get directions <Arrow/></a></div></Reveal></div>
           <div className="lux-visit-map" aria-label="Mangosteen Café location preview">
             <div className="lux-visit-map-heading"><span>FIND MANGOSTEEN</span><span>INDORE · INDIA</span></div>
             <div className={`lux-visit-map-frame${mapReady ? ' is-ready' : ''}`}>
