@@ -211,7 +211,7 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       // The cuts conceal changes between different real photographs.
       const firstCut = .76 * (1 - THREE.MathUtils.smoothstep(Math.abs(progress - .4), 0, .032))
       const secondCut = .76 * (1 - THREE.MathUtils.smoothstep(Math.abs(progress - .7), 0, .032))
-      const openingDarkness = 1 - THREE.MathUtils.smoothstep(progress, .01, .18)
+      const openingDarkness = .28 * (1 - THREE.MathUtils.smoothstep(progress, .01, .18))
       const push = seatStarted ? THREE.MathUtils.clamp((time - seatStarted) / 900, 0, 1) : 0
       const reveal = foodRevealStarted ? THREE.MathUtils.clamp((time - foodRevealStarted) / 950, 0, 1) : 0
       const seatCut = seatStarted ? THREE.MathUtils.smoothstep(push, .4, .95) * (1 - THREE.MathUtils.smoothstep(reveal, .14, .55)) * .94 : 0

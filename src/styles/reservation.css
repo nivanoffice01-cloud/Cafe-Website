@@ -45,6 +45,14 @@
 .reservation-zone-switch button { position: relative; padding: 0 0 .7rem; border: 0; color: #9f9f91; background: transparent; font-size: .83rem; cursor: pointer; }
 .reservation-zone-switch button.is-selected { color: #f0e7d7; }
 .reservation-zone-switch button.is-selected::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; background: #d6b783; content: ''; }
+.reservation-zone-preview { position: relative; display: grid; min-height: 8.5rem; grid-template-columns: minmax(9rem, 36%) 1fr; margin: 0 0 1rem; overflow: hidden; border: 1px solid rgba(215,196,163,.22); background: #171d18; }
+.reservation-zone-preview img { width: 100%; height: 100%; min-height: 8.5rem; object-fit: cover; filter: saturate(.76) contrast(1.04); }
+.reservation-zone-preview figcaption { display: flex; min-width: 0; flex-direction: column; justify-content: center; padding: 1.1rem 1.25rem; }
+.reservation-zone-preview figcaption span { color: #e9deca; font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-size: 1.45rem; }
+.reservation-zone-preview figcaption p { margin: .45rem 0 0; color: #aeb0a4; font-size: .72rem; line-height: 1.55; }
+.reservation-plan-label { display: flex; justify-content: space-between; gap: 1rem; margin: 0 0 .65rem; }
+.reservation-plan-label span { color: #d5bd94; font-size: .66rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.reservation-plan-label small { max-width: 22rem; color: #989b90; font-size: .66rem; text-align: right; }
 .reservation-map-swipe { display: none; }
 .reservation-map-scroll { overflow-x: auto; border: 1px solid rgba(215, 196, 163, .24); scrollbar-width: thin; scrollbar-color: #6f6959 transparent; }
 .reservation-seat-map { position: relative; display: grid; width: 100%; min-width: 680px; min-height: 30rem; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(7.2rem, 1fr)); align-items: center; justify-items: center; column-gap: .75rem; row-gap: 1rem; padding: 3.7rem 1.7rem 3rem; background: repeating-linear-gradient(0deg, transparent 0, transparent 45px, rgba(236, 224, 197, .035) 46px), repeating-linear-gradient(90deg, transparent 0, transparent 45px, rgba(236, 224, 197, .035) 46px), #171d18; }
@@ -161,6 +169,11 @@
   .reservation-map-heading p { font-size: .83rem; }
   .reservation-zone-switch { overflow-x: auto; white-space: nowrap; }
   .reservation-zone-switch button { min-height: 2.75rem; flex: 0 0 auto; }
+  .reservation-zone-preview { grid-template-columns: 42% 1fr; }
+  .reservation-zone-preview figcaption { padding: .9rem; }
+  .reservation-zone-preview figcaption span { font-size: 1.22rem; }
+  .reservation-plan-label { align-items: flex-start; flex-direction: column; gap: .3rem; }
+  .reservation-plan-label small { text-align: left; }
   .reservation-seat-map { gap: 1.2rem .4rem; }
   .reservation-cluster { min-width: 0; }
   .reservation-cluster-name { font-size: .72rem; }

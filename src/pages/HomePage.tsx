@@ -30,6 +30,13 @@ const featuredDishes = [
   ...fullMenu.find((category) => category.name === reference.category)!.items.find((item) => item.name === reference.name)!,
 }))
 
+const lifestyleMoments = [
+  { title: 'Slow afternoons', note: 'A rooftop table, daylight and room to linger.', src: '/images/gallery/cafe-06.png', alt: 'Rattan chairs and a timber table on Mangosteen Café’s planted rooftop' },
+  { title: 'Gather together', note: 'Long tables and an easy rhythm for shared meals.', src: '/images/gallery/cafe-07.jpg', alt: 'The light-filled interior dining room at Mangosteen Café' },
+  { title: 'Golden hour', note: 'The rooftop changes as the last light settles in.', src: '/images/gallery/cafe-18.jpeg', alt: 'Rooftop tables surrounded by greenery at Mangosteen Café' },
+  { title: 'Dinner after dark', note: 'Warm light, open air and an unhurried final course.', src: '/images/gallery/cafe-19.jpg', alt: 'Warm pendant lights above the evening dining room at Mangosteen Café' },
+]
+
 function LeafMark() {
   return <svg className="lux-leaf" viewBox="0 0 38 38" aria-hidden="true"><path d="M29.8 7.8C19.1 7.5 10.2 10.4 8.1 18.1c-1.5 5.4 2.5 9.7 7.3 8.4 8-2.2 10.8-11.2 14.4-18.7Z" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M10.1 28.8c4.1-6.4 8.9-10.6 15.7-14.8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
 }
@@ -74,7 +81,7 @@ export function HomePage() {
   const [reservationOpen, setReservationOpen] = useState(false)
   const [galleryIndex, setGalleryIndex] = useState(0)
   const [sceneReady, setSceneReady] = useState(false)
-  const [showSceneLoader, setShowSceneLoader] = useState(true)
+  const [showBrandReveal, setShowBrandReveal] = useState(true)
   const [hasEntered, setHasEntered] = useState(false)
   const [mapReady, setMapReady] = useState(false)
   const [canRenderScene, setCanRenderScene] = useState(() => window.matchMedia('(min-width: 701px)').matches)
@@ -96,12 +103,16 @@ export function HomePage() {
   const openGallery = (index = 0) => { setGalleryIndex(index); setGalleryOpen(true) }
   const onSceneReady = useCallback(() => {
     setSceneReady(true)
-    window.setTimeout(() => setShowSceneLoader(false), 500)
   }, [])
   const onSceneError = useCallback(() => {
     document.documentElement.classList.add('scene-fallback')
     onSceneReady()
   }, [onSceneReady])
+
+  useEffect(() => {
+    const revealTimer = window.setTimeout(() => setShowBrandReveal(false), 1450)
+    return () => window.clearTimeout(revealTimer)
+  }, [])
 
   useEffect(() => {
     const media = window.matchMedia('(min-width: 701px)')
@@ -128,7 +139,7 @@ export function HomePage() {
       const progress = Math.min(1, Math.max(0, (window.scrollY - section.offsetTop) / span))
       const firstCut = .76 * (1 - smoothstep(Math.abs(progress - .4), 0, .032))
       const secondCut = .76 * (1 - smoothstep(Math.abs(progress - .7), 0, .032))
-      const openingDarkness = 1 - smoothstep(progress, .01, .18)
+      const openingDarkness = .28 * (1 - smoothstep(progress, .01, .18))
       journey.style.setProperty('--film-curtain', String(Math.max(firstCut, secondCut, openingDarkness)))
       journey.style.setProperty('--film-opening-opacity', String(1 - smoothstep(progress, .08, .24)))
       journey.style.setProperty('--film-roof-opacity', String(smoothstep(progress, .18, .26) * (1 - smoothstep(progress, .34, .4))))
@@ -180,7 +191,7 @@ export function HomePage() {
   }, [])
 
   return <>
-    {showSceneLoader && <div className={`scene-loading${sceneReady ? ' is-ready' : ''}`} role="status" aria-live="polite"><LeafMark/><span className="scene-loading-brand">MANGOSTEEN <small>CAFE · INDORE</small></span><span className="scene-loading-copy">Preparing your table</span><span className="scene-loading-rule" aria-hidden="true"><i/></span></div>}
+    {showBrandReveal && <div className="brand-reveal" aria-hidden="true"><LeafMark/><span className="brand-reveal-name">MANGOSTEEN</span><span className="brand-reveal-place">CAFE · INDORE</span></div>}
     <a className="skip-link" href="#main-content">Skip to content</a>
 
     <div className="lux-shell">
@@ -212,8 +223,9 @@ export function HomePage() {
             <div className="film-curtain" aria-hidden="true"/>
             <span className="film-first-light" aria-hidden="true"/>
             <div className="film-opening">
-              <p>CAFÉ · INDORE</p>
+              <p>ROOFTOP DINING · INDORE</p>
               <h1 id="film-title">MANGOSTEEN</h1>
+              <span className="film-opening-line">Warm light. Open air. Time well spent.</span>
               <button type="button" onClick={() => window.scrollBy({ top: window.innerHeight * (window.innerWidth <= 700 ? .72 : 1.15), behavior: 'smooth' })}>ENTER THE EVENING <span aria-hidden="true">↓</span></button>
             </div>
             <nav className="film-shortcuts" aria-label="Quick actions"><a href="#signatures">Skip intro</a><button type="button" onClick={openMenu}>Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve</button></nav>
@@ -256,6 +268,13 @@ export function HomePage() {
           <figure className="lux-editorial-image"><Photo src="/images/experience/mangosteen-interior-enhanced.jpg" alt="Mangosteen Café seating under woven pendant lights in the evening"/><figcaption>Inside Mangosteen <span>02 / 04</span></figcaption></figure>
         </section>
 
+        <section className="lux-moments" aria-labelledby="moments-title">
+          <div className="lux-moments-intro"><Reveal><p className="lux-overline">THE HOURS BETWEEN</p><h2 id="moments-title">Come for a meal.<br/><em>Stay for the feeling.</em></h2><p>Different tables, different light, the same easy pace. Mangosteen moves from bright afternoons to evenings under warm lamps.</p></Reveal></div>
+          <div className="lux-moments-grid">
+            {lifestyleMoments.map((moment, index) => <figure className={`lux-moment lux-moment-${index + 1}`} key={moment.title}><Photo src={moment.src} alt={moment.alt} sizes="(max-width: 700px) 92vw, 44vw"/><figcaption><span>{String(index + 1).padStart(2, '0')}</span><div><strong>{moment.title}</strong><p>{moment.note}</p></div></figcaption></figure>)}
+          </div>
+        </section>
+
         <section className="lux-gallery" id="gallery" aria-labelledby="gallery-title">
           <div className="lux-gallery-heading"><Reveal><p className="lux-overline">IN ITS OWN LIGHT</p><h2 id="gallery-title">A place with<br/><em>its own tempo.</em></h2></Reveal><button className="lux-text-link" type="button" onClick={() => openGallery(0)}>View the photographs <Arrow/></button></div>
           <div className="lux-gallery-editorial">
@@ -265,13 +284,13 @@ export function HomePage() {
         </section>
 
         <section className="lux-review" aria-labelledby="review-title">
-          <div className="lux-review-visual"><Photo src="/images/experience/mangosteen-table-enhanced.jpg" alt="Warmly lit dining area and wooden table at Mangosteen Café"/><span>AN EVENING AT MANGOSTEEN</span></div>
-          <div className="lux-review-copy"><Reveal><p className="lux-overline">GOOGLE RATING</p><div className="lux-review-score"><div className="lux-rating-value"><strong>{cafe.rating}</strong><span>/ 5</span></div><div className="lux-review-meta"><span aria-label={`Rated ${cafe.rating} out of 5`}>★★★★★</span><small><b>{cafe.reviewCount}</b> reviews on Google</small></div></div><h2 id="review-title">What guests say.</h2><blockquote><p>“Amazing taste and very aesthetic ambiance. Loved the whole experience.”</p><cite>Guest review on Google</cite></blockquote><p>{reviewSummary}</p><a className="lux-text-link" href="https://www.google.com/search?q=Mangosteen+Cafe+Indore+reviews" target="_blank" rel="noreferrer">Read guest reviews <Arrow/></a></Reveal></div>
+          <div className="lux-review-visual"><Photo src="/images/gallery/cafe-16.jpg" alt="The planted rooftop dining area at Mangosteen Café after dark"/><span>THE ROOFTOP · AFTER DARK</span></div>
+          <div className="lux-review-copy"><Reveal><p className="lux-overline">CURRENT PUBLIC RATING</p><div className="lux-review-score"><div className="lux-rating-value"><strong>{cafe.rating}</strong><span>/ 5</span></div><div className="lux-review-meta"><span aria-label={`Rated ${cafe.rating} out of 5`}>★★★★★</span><small><b>{cafe.reviewCount}</b> {cafe.ratingSource}</small></div></div><h2 id="review-title">In their own words.</h2><p className="lux-review-context">{reviewSummary}</p><div className="lux-review-topics" aria-label="Public review categories"><span>Ambience</span><span>Food</span><span>Service</span></div><a className="lux-text-link" href={cafe.reviewsUrl} target="_blank" rel="noreferrer">Read verified public reviews <Arrow/></a><small className="lux-rating-updated">Public listing checked 24 November 2026. Ratings can change.</small></Reveal></div>
         </section>
 
         <section className="lux-visit" id="visit" aria-labelledby="visit-title">
           <Photo src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="The Mangosteen Café exterior and illuminated sign at night" className="lux-visit-image"/><div className="lux-visit-shade"/>
-          <div className="lux-visit-copy"><Reveal><p className="lux-overline">OLYMPUS · BICHOLI MARDANA</p><h2 id="visit-title">Stay for<br/><em>the evening.</em></h2><p>{cafe.address}</p><div className="lux-hours"><span>HOURS</span><strong>{cafe.hours}</strong></div><div className="lux-visit-actions"><button className="lux-button lux-button-gold" type="button" onClick={() => setReservationOpen(true)}>Reserve a table <Arrow/></button><a className="lux-order-link" href={cafe.directionsUrl} target="_blank" rel="noreferrer">Get directions <Arrow/></a></div></Reveal></div>
+          <div className="lux-visit-copy"><Reveal><p className="lux-overline">OLYMPUS · BICHOLI MARDANA</p><h2 id="visit-title">Your evening<br/><em>awaits.</em></h2><p>{cafe.address}</p><div className="lux-hours"><span>HOURS</span><strong>{cafe.hours}</strong></div><div className="lux-visit-actions"><button className="lux-button lux-button-gold" type="button" onClick={() => setReservationOpen(true)}>Reserve a table <Arrow/></button><a className="lux-order-link" href={cafe.directionsUrl} target="_blank" rel="noreferrer">Get directions <Arrow/></a></div></Reveal></div>
           <div className="lux-visit-map" aria-label="Mangosteen Café location preview">
             <div className="lux-visit-map-heading"><span>FIND MANGOSTEEN</span><span>INDORE · INDIA</span></div>
             <div className={`lux-visit-map-frame${mapReady ? ' is-ready' : ''}`}>

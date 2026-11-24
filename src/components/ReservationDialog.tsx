@@ -218,6 +218,11 @@ export function ReservationDialog({ onClose }: Props) {
         <div className="reservation-map-column">
           <div className="reservation-map-heading"><div className="reservation-step"><span>02</span><strong>Select your seats</strong></div><p className={seatsComplete ? 'is-complete' : ''} aria-live="polite">{seatsComplete ? 'Seats selected ✓' : `${selectedSeats.length} of ${guests} selected`}</p></div>
           <div className="reservation-zone-switch" role="group" aria-label="Seating area"><button type="button" className={zone === 'rooftop' ? 'is-selected' : ''} aria-pressed={zone === 'rooftop'} onClick={() => changeZone('rooftop')}>The rooftop</button><button type="button" className={zone === 'inside' ? 'is-selected' : ''} aria-pressed={zone === 'inside'} onClick={() => changeZone('inside')}>Inside Mangosteen</button></div>
+          <figure className="reservation-zone-preview">
+            <img key={plan.image} src={plan.image} alt={plan.imageAlt} loading="lazy" decoding="async" />
+            <figcaption><span>{plan.name}</span><p>{plan.description}</p></figcaption>
+          </figure>
+          <div className="reservation-plan-label"><span>Illustrated seating guide</span><small>Choose a preferred group; the café confirms the final table.</small></div>
           <p className="reservation-map-swipe">Tap seats in one group to choose your place</p>
           <div className="reservation-map-scroll"><div className="reservation-seat-map" aria-label={`${plan.name} schematic seating map`}>
             <div className="reservation-map-edge">{plan.orientation}</div>
@@ -228,7 +233,7 @@ export function ReservationDialog({ onClose }: Props) {
             </div>)}
             <div className="reservation-map-entry">{plan.entry}</div>
           </div></div>
-          <div className="reservation-map-footer"><div className="reservation-legend"><span><i className="reservation-legend-available"/> Selectable</span><span><i className="reservation-legend-selected"/> Your choice</span><span><i className="reservation-legend-small"/> Too small</span></div><p>Select {guests} {guests === 1 ? 'seat' : 'seats'} in one seating group. Choosing another group starts a new selection.</p></div>
+          <div className="reservation-map-footer"><div className="reservation-legend"><span><i className="reservation-legend-available"/> Preferred</span><span><i className="reservation-legend-selected"/> Your choice</span><span><i className="reservation-legend-small"/> Too small</span></div><p>This guide describes seating style, not live availability. Select {guests} {guests === 1 ? 'seat' : 'seats'} in one group.</p></div>
         </div>
 
         <aside className="reservation-summary">
