@@ -1,5 +1,5 @@
-import { Component, Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
-import type { PointerEvent as ReactPointerEvent, ReactNode } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import type { PointerEvent as ReactPointerEvent } from 'react'
 import { Reveal } from '../components/Reveal'
 import { FullMenuDialog } from '../components/FullMenuDialog'
 import { GalleryDialog } from '../components/GalleryDialog'
@@ -9,15 +9,6 @@ import { fullMenu } from '../data/fullMenu'
 import { menuPhotoFor } from '../data/menuPhotos'
 import { galleryPhotos } from '../data/gallery'
 import { responsivePhotoSrcSet } from '../data/responsivePhoto'
-
-const CinematicScene = lazy(() => import('../components/CinematicScene').then((module) => ({ default: module.CinematicScene })))
-
-class SceneErrorBoundary extends Component<{ children: ReactNode; onError: () => void }, { failed: boolean }> {
-  state = { failed: false }
-  static getDerivedStateFromError() { return { failed: true } }
-  componentDidCatch() { this.props.onError() }
-  render() { return this.state.failed ? null : this.props.children }
-}
 
 const featuredDishes = [
   { category: 'Pizza & Pide', name: 'Margarita' },
@@ -88,38 +79,24 @@ export function HomePage() {
   const [galleryOpen, setGalleryOpen] = useState(false)
   const [reservationOpen, setReservationOpen] = useState(false)
   const [galleryIndex, setGalleryIndex] = useState(0)
-  const [sceneReady, setSceneReady] = useState(false)
-  const [showBrandReveal, setShowBrandReveal] = useState(true)
   const [hasEntered, setHasEntered] = useState(false)
   const [mapReady, setMapReady] = useState(false)
   const [atmosphere, setAtmosphere] = useState<Atmosphere>(() => {
     const hour = new Date().getHours()
     return hour >= 7 && hour < 15 ? 'morning' : hour >= 15 && hour < 19 ? 'golden' : 'night'
   })
-  const [canRenderScene, setCanRenderScene] = useState(() => window.matchMedia('(min-width: 701px)').matches)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
   const closeGallery = useCallback(() => setGalleryOpen(false), [])
   const openMenu = useCallback(() => {
     setMenuSelection(null)
     setMenuOpen(true)
   }, [])
-  const takeSeat = useCallback(() => {
-    if (!canRenderScene || !sceneReady || document.documentElement.classList.contains('scene-fallback') || window.matchMedia('(prefers-reduced-motion: reduce)').matches) openMenu()
-    else window.dispatchEvent(new Event('mangosteen:take-seat'))
-  }, [canRenderScene, openMenu, sceneReady])
   const openFeaturedDish = () => {
     const { category, name } = featuredDishes[featuredIndex]
     setMenuSelection({ category, name })
     setMenuOpen(true)
   }
   const openGallery = (index = 0) => { setGalleryIndex(index); setGalleryOpen(true) }
-  const onSceneReady = useCallback(() => {
-    setSceneReady(true)
-  }, [])
-  const onSceneError = useCallback(() => {
-    document.documentElement.classList.add('scene-fallback')
-    onSceneReady()
-  }, [onSceneReady])
   const moveHeroDepth = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.pointerType === 'touch') return
     const rect = event.currentTarget.getBoundingClientRect()
@@ -130,69 +107,6 @@ export function HomePage() {
     event.currentTarget.style.setProperty('--pointer-x', '0')
     event.currentTarget.style.setProperty('--pointer-y', '0')
   }
-
-  useEffect(() => {
-    const revealTimer = window.setTimeout(() => setShowBrandReveal(false), 1450)
-    return () => window.clearTimeout(revealTimer)
-  }, [])
-
-  useEffect(() => {
-    const media = window.matchMedia('(min-width: 701px)')
-    const update = () => setCanRenderScene(media.matches)
-    media.addEventListener('change', update)
-    if (!media.matches) onSceneReady()
-    return () => media.removeEventListener('change', update)
-  }, [onSceneReady])
-
-  useEffect(() => {
-    const mobile = window.matchMedia('(max-width: 700px)')
-    let frame = 0
-    const smoothstep = (value: number, from: number, to: number) => {
-      const amount = Math.min(1, Math.max(0, (value - from) / (to - from)))
-      return amount * amount * (3 - 2 * amount)
-    }
-    const updateMobileFilm = () => {
-      frame = 0
-      if (!mobile.matches) return
-      const journey = document.getElementById('cinematic-journey')
-      const section = journey?.parentElement
-      if (!journey || !section) return
-      const span = Math.max(1, section.offsetHeight - window.innerHeight)
-      const progress = Math.min(1, Math.max(0, (window.scrollY - section.offsetTop) / span))
-      const firstCut = .76 * (1 - smoothstep(Math.abs(progress - .4), 0, .032))
-      const secondCut = .76 * (1 - smoothstep(Math.abs(progress - .7), 0, .032))
-      const openingDarkness = .28 * (1 - smoothstep(progress, .01, .18))
-      journey.style.setProperty('--film-curtain', String(Math.max(firstCut, secondCut, openingDarkness)))
-      journey.style.setProperty('--film-opening-opacity', String(1 - smoothstep(progress, .08, .24)))
-      journey.style.setProperty('--film-roof-opacity', String(smoothstep(progress, .18, .26) * (1 - smoothstep(progress, .34, .4))))
-      journey.style.setProperty('--film-interior-opacity', String(smoothstep(progress, .45, .52) * (1 - smoothstep(progress, .63, .69))))
-      journey.style.setProperty('--film-table-opacity', String(smoothstep(progress, .74, .81) * (1 - smoothstep(progress, .84, .9))))
-      journey.style.setProperty('--film-seat-opacity', String(smoothstep(progress, .88, .96)))
-      journey.style.setProperty('--film-progress', String(progress))
-      journey.style.setProperty('--film-mobile-exterior-opacity', String(1 - smoothstep(progress, .37, .43)))
-      journey.style.setProperty('--film-mobile-interior-opacity', String(smoothstep(progress, .37, .43) * (1 - smoothstep(progress, .67, .73))))
-      journey.style.setProperty('--film-mobile-table-opacity', String(smoothstep(progress, .67, .73)))
-      journey.style.setProperty('--film-mobile-shift', `${Math.round(progress * -14)}px`)
-      journey.style.setProperty('--film-mobile-scale', String(1 + Math.min(progress, .4) * .05))
-      const seatButton = journey.querySelector<HTMLElement>('.film-seat-invite')
-      const enterButton = journey.querySelector<HTMLElement>('.film-opening button')
-      if (seatButton) seatButton.style.pointerEvents = progress > .82 ? 'auto' : 'none'
-      if (enterButton) enterButton.style.pointerEvents = progress < .2 ? 'auto' : 'none'
-    }
-    const queueMobileFilmUpdate = () => {
-      if (!frame) frame = window.requestAnimationFrame(updateMobileFilm)
-    }
-    updateMobileFilm()
-    window.addEventListener('scroll', queueMobileFilmUpdate, { passive: true })
-    window.addEventListener('resize', queueMobileFilmUpdate)
-    mobile.addEventListener('change', queueMobileFilmUpdate)
-    return () => {
-      window.cancelAnimationFrame(frame)
-      window.removeEventListener('scroll', queueMobileFilmUpdate)
-      window.removeEventListener('resize', queueMobileFilmUpdate)
-      mobile.removeEventListener('change', queueMobileFilmUpdate)
-    }
-  }, [])
 
   useEffect(() => {
     if (!mobileMenuOpen) return
@@ -213,7 +127,6 @@ export function HomePage() {
   }, [])
 
   return <>
-    {showBrandReveal && <div className="brand-reveal" aria-hidden="true"><LeafMark/><span className="brand-reveal-name">MANGOSTEEN</span><span className="brand-reveal-place">CAFE · INDORE</span></div>}
     <a className="skip-link" href="#main-content">Skip to content</a>
 
     <div className="lux-shell">
@@ -233,20 +146,20 @@ export function HomePage() {
       <main id="main-content">
         <section className="film-journey" id="top" aria-labelledby="film-title">
           <div className="film-sticky" id="cinematic-journey" data-atmosphere={atmosphere} onPointerMove={moveHeroDepth} onPointerLeave={resetHeroDepth}>
-            <img className="film-fallback-photo" src="/images/experience/mangosteen-arrival-enhanced.jpg" alt="" aria-hidden="true" fetchPriority="high"/>
-            {canRenderScene && <SceneErrorBoundary onError={onSceneError}><Suspense fallback={null}><CinematicScene menuOpen={menuOpen} onOpenMenu={() => { setMenuSelection(null); setMenuOpen(true) }} onReady={onSceneReady} /></Suspense></SceneErrorBoundary>}
-            <div className="film-mobile-scene" aria-hidden="true">
-              <img className="film-mobile-exterior-backdrop" src="/images/mobile/mangosteen-arrival-mobile.jpg" alt="" fetchPriority="high" />
-              <img className="film-mobile-exterior" src="/images/mobile/mangosteen-arrival-mobile.jpg" alt="" fetchPriority="high" />
-              <img className="film-mobile-interior" src="/images/mobile/mangosteen-interior-mobile.jpg" alt="" loading="lazy" />
-              <img className="film-mobile-table" src="/images/mobile/mangosteen-table-mobile.jpg" alt="" loading="lazy" />
+            <nav className="hero-nav" aria-label="Hero navigation">
+              <a className="hero-nav-brand" href="#top" aria-label="Mangosteen Cafe home"><LeafMark/><span>MANGOSTEEN<small>CAFE · INDORE</small></span></a>
+              <div className="hero-nav-links"><a href="#story">The experience</a><button type="button" onClick={openMenu}>Menu</button><a href="#gallery">Gallery</a><a href="#visit">Visit</a></div>
+              <button className="hero-nav-reserve" type="button" onClick={() => setReservationOpen(true)}>Reserve a Table</button>
+            </nav>
+            <div className="hero-architecture">
+              <img key={`background-${atmosphere}`} src={atmospheres[atmosphere].image} srcSet={responsivePhotoSrcSet(atmospheres[atmosphere].image)} sizes="100vw" alt={atmospheres[atmosphere].alt} fetchPriority="high" />
             </div>
-            <img key={atmosphere} className="film-atmosphere-photo" src={atmospheres[atmosphere].image} srcSet={responsivePhotoSrcSet(atmospheres[atmosphere].image)} sizes="100vw" alt={atmospheres[atmosphere].alt} fetchPriority="high" />
+            <div className="hero-ambient-light" aria-hidden="true"/>
+            <div className="hero-midground" aria-hidden="true"><img key={`midground-${atmosphere}`} src={atmospheres[atmosphere].image} srcSet={responsivePhotoSrcSet(atmospheres[atmosphere].image)} sizes="100vw" alt="" /></div>
             <div className="film-giant-word" aria-hidden="true">MANGOSTEEN</div>
-            <div className="film-botanical-depth" aria-hidden="true"><img src="/images/gallery/cafe-06.png" alt="" /></div>
-            <img className="film-food-reveal" alt="" aria-hidden="true" decoding="async" />
-            <div className="film-curtain" aria-hidden="true"/>
-            <span className="film-first-light" aria-hidden="true"/>
+            <img className="hero-botanical hero-botanical-upper" src="/images/hero/botanical-upper-left.png" alt="" aria-hidden="true"/>
+            <img className="hero-botanical hero-botanical-lower-left" src="/images/hero/botanical-lower-left.png" alt="" aria-hidden="true"/>
+            <img className="hero-botanical hero-botanical-lower-right" src="/images/hero/botanical-lower-right.png" alt="" aria-hidden="true"/>
             <div className="film-opening">
               <p>A ROOFTOP ESCAPE · INDORE</p>
               <h1 id="film-title">Above the city.<br/><em>Beyond the ordinary.</em></h1>
@@ -254,12 +167,6 @@ export function HomePage() {
               <div className="film-opening-actions"><button type="button" onClick={openMenu}>Explore the Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve a Table</button></div>
             </div>
             <div className="film-atmosphere" aria-label="Choose the café atmosphere"><span>{atmospheres[atmosphere].note}</span><div>{(Object.keys(atmospheres) as Atmosphere[]).map((mode) => <button key={mode} type="button" aria-pressed={atmosphere === mode} className={atmosphere === mode ? 'is-active' : ''} onClick={() => setAtmosphere(mode)}>{atmospheres[mode].label}</button>)}</div></div>
-            <nav className="film-shortcuts" aria-label="Quick actions"><a href="#signatures">Skip intro</a><button type="button" onClick={openMenu}>Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve</button></nav>
-            <div className="film-rooftop-copy" aria-hidden="true"><span>01 / ARRIVAL</span><p>The evening begins<br/><em>at Mangosteen.</em></p></div>
-            <div className="film-interior-copy" aria-hidden="true"><span>02 / INSIDE</span><p>Come a little<br/><em>closer.</em></p></div>
-            <div className="film-table-copy" aria-hidden="true"><span>03 / YOUR TABLE</span><p>A place is waiting.</p></div>
-            <button className="film-seat-invite" type="button" onClick={takeSeat}><span>Take your seat</span><small>DISCOVER THE MENU</small></button>
-            <div className="film-progress" aria-hidden="true"><span>THE EVENING</span><i/><span>SCROLL TO ENTER</span></div>
           </div>
         </section>
 
