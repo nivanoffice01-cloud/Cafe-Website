@@ -57,7 +57,7 @@ let data = {
   customers: [], reservations: [], feedback: [], tasks: [],
   rewards: [], activities: [], monthlyMetrics: [], settings: {}, users: [],
   communications: [], pointLedger: [], backups: [], integrations: {}, user: null,
-  menuItems: [], orders: [], inventory: [], expenses: [], vendors: [], staff: [], payments: [],
+  menuItems: [], publicMenuItems: [], tables: [], orders: [], inventory: [], expenses: [], vendors: [], staff: [], payments: [], serviceRequests: [],
 };
 let loading = true;
 let dataError = '';
@@ -556,9 +556,11 @@ function orderItemsMarkup(order) {
 function renderOrders() {
   const operations = calculateOperations();
   const orders = (data.orders || []).filter((order) => order.items.length);
+  const serviceRequests = (data.serviceRequests || []).filter((request) => request.status === 'Open');
   const actions = `<button class="btn" data-page="kitchen">${icon('clock')} Kitchen display</button><button class="btn btn-primary" data-action="new-order">${icon('plus')} New table order</button>`;
   return `
     ${pageHeader('Point of sale', 'Orders & tables', 'Build a table order, send it to the kitchen, and follow every preparation stage.', actions)}
+    ${serviceRequests.length ? `<section class="panel service-request-panel"><div class="panel-header"><div class="panel-title"><h2>Table service requests</h2><p>Requests submitted from table QR menus</p></div><span class="status pending">${serviceRequests.length} waiting</span></div><div class="panel-body bill-list">${serviceRequests.map((request) => `<div class="bill-row"><div><strong>${escapeHtml(request.tableLabel)} · ${request.type === 'bill' ? 'Bill requested' : 'Waiter requested'}</strong><span>${request.paymentPreference ? escapeHtml(request.paymentPreference) : relativeTime(request.createdAt) + ' ago'}</span></div><div><button class="btn btn-small btn-primary" data-action="acknowledge-service" data-id="${request.id}">${icon('check')} Acknowledge</button></div></div>`).join('')}</div></section>` : ''}
     <section class="ops-stat-grid">
       <article class="ops-stat"><span>Open tables</span><strong>${operations.activeOrders.length}</strong><small>Live service</small></article>
       <article class="ops-stat"><span>Kitchen queue</span><strong>${operations.kitchenOrders.length}</strong><small>Preparing or ready</small></article>
@@ -571,7 +573,8 @@ function renderOrders() {
         <div class="order-total"><span>Total</span><strong>${inr(order.total)}</strong></div>
         <div class="order-meta"><span>${relativeTime(order.createdAt)} ago</span>${order.paymentMethod ? `<span>${escapeHtml(order.paymentMethod)}</span>` : ''}</div>
         ${order.status === 'Draft' ? `<button class="btn btn-primary btn-block" data-action="send-order" data-id="${order.id}">${icon('send')} Send to kitchen</button>` : ''}
-        ${order.status === 'Ready' ? `<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
+        ${order.status === 'Ready' ? `<button class="btn btn-block" data-action="mark-served" data-id="${order.id}">${icon('check')} Mark served</button><button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
+        ${order.status === 'Served' ? `<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
       </article>`).join('') || '<div class="empty-state"><div><h3>No orders yet</h3><p>Create the first table order to begin service.</p></div></div>'}
     </div>`;
 }
@@ -602,9 +605,11 @@ function renderKitchen() {
 function renderBilling() {
   const operations = calculateOperations();
   const unpaid = operations.unpaidOrders.filter((order) => order.status !== 'Draft');
+  const billRequests = (data.serviceRequests || []).filter((request) => request.type === 'bill' && request.status === 'Open');
   const total = Math.max(1, operations.todaySales);
   return `
     ${pageHeader('Cashier workspace', 'Billing & day closing', 'Settle table bills and reconcile cash, UPI, and card totals before closing.', `<button class="btn btn-primary" data-action="new-order">${icon('plus')} New order</button>`)}
+    ${billRequests.length ? `<section class="panel service-request-panel"><div class="panel-header"><div class="panel-title"><h2>Bill requests</h2><p>Guests waiting at their tables</p></div><span class="status pending">${billRequests.length} waiting</span></div><div class="panel-body bill-list">${billRequests.map((request) => `<div class="bill-row"><div><strong>${escapeHtml(request.tableLabel)}</strong><span>${escapeHtml(request.paymentPreference || 'Payment preference not selected')}</span></div><button class="btn btn-small btn-primary" data-action="acknowledge-service" data-id="${request.id}">${icon('check')} Acknowledge</button></div>`).join('')}</div></section>` : ''}
     <section class="payment-summary">
       <article><span>Today’s collection</span><strong>${inr(operations.todaySales)}</strong><small>${(data.payments || []).filter((item) => (item.createdAt || '').slice(0, 10) === localDateKey()).length} settled bills</small></article>
       ${['Cash', 'UPI', 'Card'].map((method) => `<article><span>${method}</span><strong>${inr(operations.paymentTotals[method])}</strong><div class="payment-bar"><i style="width:${Math.min(100, operations.paymentTotals[method] / total * 100)}%"></i></div></article>`).join('')}
@@ -883,24 +888,31 @@ function renderSettings() {
   const settings = data.settings || {};
   const tab = state.settingsTab;
   const isOwner = data.user?.role === 'Owner';
-  const saveTabs = ['profile', 'loyalty', 'data'];
+  const saveTabs = ['profile', 'loyalty', 'integrations', 'data'];
   const headerAction = saveTabs.includes(tab) ? `<button class="btn btn-primary" data-action="save-settings">${icon('check')} Save changes</button>` : '';
   const nav = [
-    ['profile', 'building', 'Cafe profile'], ['team', 'users', 'Team & permissions'],
+    ['profile', 'building', 'Cafe profile'], ['menu', 'coffee', 'Website & QR menu'], ['tables', 'grid', 'Tables & QR codes'], ['team', 'users', 'Team & permissions'],
     ['loyalty', 'gift', 'Loyalty rules'], ['integrations', 'link', 'Communication'],
     ['security', 'shield', 'Privacy & security'], ['data', 'database', 'Data & backups'],
   ];
   const integration = data.integrations || {};
+  const managedMenu = data.publicMenuItems || [];
   const content = {
     profile: `
       <div class="form-section"><h3>Cafe profile</h3><p>These details appear in guest messages, loyalty cards and booking confirmations.</p><div class="form-grid"><div class="field"><label>Business name</label><input id="setting-business-name" value="${escapeHtml(settings.business_name || '')}" /></div><div class="field"><label>Primary phone</label><input id="setting-primary-phone" value="${escapeHtml(settings.primary_phone || '')}" /></div><div class="field full"><label>Address</label><input id="setting-address" value="${escapeHtml(settings.address || '')}" /></div><div class="field"><label>Timezone</label><select id="setting-timezone"><option>${escapeHtml(settings.timezone || 'Asia/Kolkata (IST)')}</option></select></div><div class="field"><label>Currency</label><select id="setting-currency"><option>${escapeHtml(settings.currency || 'Indian Rupee (₹)')}</option></select></div></div></div>
       <div class="form-section"><h3>Guest experience defaults</h3><p>Operational rules applied to new activity.</p><div class="switch-row"><div class="switch-copy"><strong>Automatically award loyalty points</strong><span>Award points using the configured earning rate.</span></div><button id="setting-automatic-points" class="switch ${settings.automatic_points ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle automatic points"></button></div><div class="switch-row"><div class="switch-copy"><strong>Reservation reminders</strong><span>Prepare reminder messages for confirmed bookings.</span></div><button id="setting-reservation-reminders" class="switch ${settings.reservation_reminders ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle reservation reminders"></button></div><div class="switch-row"><div class="switch-copy"><strong>Marketing requires explicit opt-in</strong><span>Block marketing messages without recorded permission.</span></div><button id="setting-marketing-consent" class="switch ${settings.marketing_requires_consent ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle marketing consent"></button></div></div>`,
+    menu: `
+      <div class="form-section"><div class="section-heading-row"><div><h3>Website & QR menu</h3><p>Prices and availability update on both guest menus within seconds.</p></div>${statusPill(`${managedMenu.filter((item) => item.active).length} available`)}</div><div class="field"><label>Find a menu item</label><input id="menu-management-search" placeholder="Search dish or category" /></div></div>
+      <div class="table-wrap menu-management"><table class="data-table"><thead><tr><th>Dish</th><th>Category</th><th>Price</th><th>Availability</th><th></th></tr></thead><tbody>${managedMenu.map((item) => `<tr data-menu-row data-name="${escapeHtml(`${item.name} ${item.category}`.toLowerCase())}"><td><strong>${escapeHtml(item.name)}</strong><span class="table-subcopy">${escapeHtml(item.description || '')}</span></td><td>${escapeHtml(item.category)}</td><td>${inr(item.price)}</td><td>${statusPill(item.active ? 'Available' : 'Unavailable')}</td><td><div class="button-row"><button class="btn btn-small" data-action="edit-public-menu-item" data-id="${escapeHtml(item.id)}">Edit</button>${isOwner ? `<button class="btn btn-small" data-action="toggle-public-menu-item" data-id="${escapeHtml(item.id)}">${item.active ? 'Mark unavailable' : 'Make available'}</button>` : ''}</div></td></tr>`).join('')}</tbody></table></div>`,
+    tables: `
+      <div class="form-section"><div class="section-heading-row"><div><h3>Dining tables & QR codes</h3><p>Manage the five table links. Download each protected QR for printing.</p></div>${statusPill(`${(data.tables || []).filter((table) => table.active).length} active`)}</div><div class="table-card-grid">${(data.tables || []).map((table) => `<article class="managed-table-card"><div><span class="eyebrow">Table ${escapeHtml(table.id)}</span><h3>${escapeHtml(table.label)}</h3><p>${escapeHtml(table.zoneName)} · ${table.capacity} seats</p></div>${statusPill(table.active ? 'Active' : 'Disabled')}<div class="button-row"><a class="btn btn-small" href="./assets/table-qrs/table-${String(table.id).padStart(2, '0')}-order-qr.png" download>${icon('download')} Download QR</a>${isOwner ? `<button class="btn btn-small" data-action="edit-managed-table" data-id="${escapeHtml(table.id)}">Edit table</button>` : ''}</div></article>`).join('')}</div></div>`,
     team: `
       <div class="form-section"><div class="section-heading-row"><div><h3>Team access</h3><p>Server-enforced roles: Owner, Manager, Cashier, Kitchen and Host.</p></div>${isOwner ? `<button class="btn btn-primary" data-action="invite-staff">${icon('userPlus')} Add login account</button>` : ''}</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Staff member</th><th>Role</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>${data.users.map((member) => `<tr><td><div class="customer-cell"><span class="avatar" style="--avatar:#173f35">${initials(member.name)}</span><div><strong>${escapeHtml(member.name)}</strong><span>${escapeHtml(member.email)}</span></div></div></td><td>${escapeHtml(member.role)}</td><td>${member.lastLoginAt ? relativeTime(member.lastLoginAt) + ' ago' : 'Never'}</td><td>${statusPill(member.active ? 'Active' : 'Disabled')}</td><td>${isOwner && member.id !== data.user.id ? `<button class="btn btn-small" data-action="toggle-user" data-id="${member.id}">${member.active ? 'Disable' : 'Enable'}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></div>`,
     loyalty: `
       <div class="form-section"><h3>Loyalty earning and tiers</h3><p>Thresholds are based on recorded lifetime spend.</p><div class="form-grid"><div class="field"><label>Points per ₹1</label><input id="setting-points-rate" type="number" min="0" step="0.01" value="${Number(settings.points_per_rupee ?? 0.1)}" /></div><div class="field"><label>Silver threshold</label><input id="setting-tier-silver" type="number" min="0" value="${Number(settings.tier_silver || 8000)}" /></div><div class="field"><label>Gold threshold</label><input id="setting-tier-gold" type="number" min="0" value="${Number(settings.tier_gold || 18000)}" /></div><div class="field"><label>Platinum threshold</label><input id="setting-tier-platinum" type="number" min="0" value="${Number(settings.tier_platinum || 35000)}" /></div></div></div><div class="form-section"><h3>Points controls</h3><p>Every manual change is recorded in the local audit ledger.</p><button class="btn" data-action="adjust-points">${icon('edit')} Adjust customer points</button></div>`,
     integrations: `
-      <div class="form-section"><h3>Communication channels</h3><p>Without credentials, messages are safely recorded in the local demo outbox. Add environment credentials to switch a channel to live mode.</p><div class="switch-row"><div class="switch-copy"><strong>WhatsApp Business</strong><span>${escapeHtml(integration.whatsapp?.provider || 'Local outbox')}</span></div>${statusPill(integration.whatsapp?.mode || 'Demo')}</div><div class="switch-row"><div class="switch-copy"><strong>Email</strong><span>${escapeHtml(integration.email?.provider || 'Local outbox')}</span></div>${statusPill(integration.email?.mode || 'Demo')}</div><div class="switch-row"><div class="switch-copy"><strong>POS customer import</strong><span>${escapeHtml(integration.pos?.provider || 'CSV import')}</span></div>${statusPill(integration.pos?.mode || 'Ready')}</div></div><div class="form-section"><div class="section-heading-row"><div><h3>Recent outbox</h3><p>Consent-aware communication audit trail.</p></div><button class="btn" data-action="compose-message">${icon('send')} New message</button></div>${data.communications.length ? `<div class="table-wrap"><table class="data-table"><thead><tr><th>Channel</th><th>Recipient</th><th>Purpose</th><th>Provider</th><th>Status</th></tr></thead><tbody>${data.communications.slice(0, 10).map((item) => `<tr><td>${escapeHtml(item.channel)}</td><td>${escapeHtml(item.recipient)}</td><td>${escapeHtml(item.purpose)}</td><td>${escapeHtml(item.provider)}</td><td>${statusPill(item.status)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty-state compact"><p>No messages have been sent or queued yet.</p></div>'}</div>`,
+      <div class="form-section"><h3>Scheduled operations alerts</h3><p>Vercel prepares these messages every day at 10:30 PM IST. They remain in the demo outbox until WhatsApp credentials are connected.</p><div class="form-grid"><div class="field"><label>Alert recipient</label><input id="setting-alert-recipient" value="${escapeHtml(settings.operations_alert_recipient || '')}" placeholder="+91 mobile number" /></div><div class="field"><label>Daily run time</label><input id="setting-report-time" value="${escapeHtml(settings.daily_report_time || '22:30')}" readonly /></div></div><div class="switch-row"><div class="switch-copy"><strong>Daily sales summary</strong><span>Orders, settled bills and total sales.</span></div><button id="setting-daily-sales-alert" class="switch ${settings.daily_sales_report_enabled ? 'on' : ''}" data-action="toggle-switch"></button></div><div class="switch-row"><div class="switch-copy"><strong>Low-stock alert</strong><span>Only queued when one or more ingredients reach reorder level.</span></div><button id="setting-low-stock-alert" class="switch ${settings.low_stock_alert_enabled ? 'on' : ''}" data-action="toggle-switch"></button></div>${isOwner ? `<button class="btn" data-action="run-daily-alerts">${icon('send')} Run now</button>` : ''}</div>
+      <div class="form-section"><h3>Communication channels</h3><p>Without credentials, messages are safely recorded in the demo outbox.</p><div class="switch-row"><div class="switch-copy"><strong>WhatsApp Business</strong><span>${escapeHtml(integration.whatsapp?.provider || 'Local outbox')}</span></div>${statusPill(integration.whatsapp?.mode || 'Demo')}</div><div class="switch-row"><div class="switch-copy"><strong>Email</strong><span>${escapeHtml(integration.email?.provider || 'Local outbox')}</span></div>${statusPill(integration.email?.mode || 'Demo')}</div></div><div class="form-section"><div class="section-heading-row"><div><h3>Recent outbox</h3><p>Transactional and guest messages.</p></div><button class="btn" data-action="compose-message">${icon('send')} New message</button></div>${data.communications.length ? `<div class="table-wrap"><table class="data-table"><thead><tr><th>Channel</th><th>Recipient</th><th>Purpose</th><th>Provider</th><th>Status</th></tr></thead><tbody>${data.communications.slice(0, 10).map((item) => `<tr><td>${escapeHtml(item.channel)}</td><td>${escapeHtml(item.recipient)}</td><td>${escapeHtml(item.purpose)}</td><td>${escapeHtml(item.provider)}</td><td>${statusPill(item.status)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty-state compact"><p>No messages have been queued yet.</p></div>'}</div>`,
     security: `
       <div class="form-section"><h3>Account security</h3><p>Sessions expire after 12 hours and passwords are stored with PBKDF2 hashing.</p><div class="security-callout">${icon('shield')}<div><strong>Signed in as ${escapeHtml(data.user?.email || '')}</strong><span>${escapeHtml(data.user?.role || '')} permissions are enforced by the local API.</span></div></div><button class="btn" data-action="change-password">${icon('lock')} Change password</button> <button class="btn" data-action="logout">Sign out</button></div>`,
     data: `
@@ -1043,6 +1055,22 @@ function openOrderForm() {
   openModal('Create table order', 'Choose the table and add menu quantities. The order remains editable until sent to the kitchen.', `<form id="order-form"><div class="field"><label>Table / service reference</label><input name="table" required placeholder="Table 5" maxlength="40" /></div><div class="menu-scroll">${menu}</div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="order-form">${icon('check')} Create order</button>`);
 }
 
+function openPublicMenuItemForm(id) {
+  const item = (data.publicMenuItems || []).find((entry) => entry.id === id);
+  if (!item) return;
+  openModal('Edit menu item', `${escapeHtml(item.category)} · updates the website and table QR menu.`, `
+    <form id="public-menu-item-form"><input type="hidden" name="id" value="${escapeHtml(item.id)}" /><div class="form-grid"><div class="field full"><label>Dish</label><input value="${escapeHtml(item.name)}" readonly /></div><div class="field"><label>Price (₹)</label><input name="price" type="number" min="0" max="10000" step="1" value="${Number(item.price)}" required /></div><div class="field"><label>Availability</label><select name="active"><option value="true" ${item.active ? 'selected' : ''}>Available</option><option value="false" ${!item.active ? 'selected' : ''}>Unavailable</option></select></div></div></form>`,
+    `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="public-menu-item-form">Save menu item</button>`);
+}
+
+function openManagedTableForm(id) {
+  const table = (data.tables || []).find((entry) => String(entry.id) === String(id));
+  if (!table) return;
+  openModal('Edit dining table', 'The printed QR stays valid; only the table details and availability change.', `
+    <form id="managed-table-form"><input type="hidden" name="id" value="${escapeHtml(table.id)}" /><div class="form-grid"><div class="field"><label>Table label</label><input name="label" value="${escapeHtml(table.label)}" required maxlength="40" /></div><div class="field"><label>Seats</label><input name="capacity" type="number" min="1" max="30" value="${Number(table.capacity)}" required /></div><div class="field"><label>Zone</label><input name="zoneName" value="${escapeHtml(table.zoneName)}" maxlength="60" required /></div><div class="field"><label>Status</label><select name="active"><option value="true" ${table.active ? 'selected' : ''}>Active</option><option value="false" ${!table.active ? 'selected' : ''}>Disabled</option></select></div></div></form>`,
+    `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="managed-table-form">Save table</button>`);
+}
+
 function openPaymentForm(orderId) {
   const order = data.orders.find((item) => String(item.id) === String(orderId));
   if (!order) return;
@@ -1155,6 +1183,8 @@ document.getElementById('app').addEventListener('click', async (event) => {
     else if (action === 'send-order') { target.disabled = true; await api(`/api/orders/${target.dataset.id}/send`, { method: 'POST', body: '{}' }); await syncAndRender(); showToast('Order sent to the kitchen and recipe stock deducted.'); }
     else if (action === 'kitchen-start') { target.disabled = true; await api(`/api/orders/${target.dataset.id}/status`, { method: 'POST', body: JSON.stringify({ status: 'Preparing' }) }); await syncAndRender(); showToast('Kitchen started preparing this order.'); }
     else if (action === 'kitchen-ready') { target.disabled = true; await api(`/api/orders/${target.dataset.id}/status`, { method: 'POST', body: JSON.stringify({ status: 'Ready' }) }); await syncAndRender(); showToast('Order is ready for service.'); }
+    else if (action === 'mark-served') { target.disabled = true; await api(`/api/orders/${target.dataset.id}/status`, { method: 'POST', body: JSON.stringify({ status: 'Served' }) }); await syncAndRender(); showToast('Order marked served.'); }
+    else if (action === 'acknowledge-service') { target.disabled = true; await api(`/api/service-requests/${target.dataset.id}/acknowledge`, { method: 'POST', body: '{}' }); await syncAndRender(); showToast('The guest can now see that a team member is coming.'); }
     else if (action === 'take-payment') openPaymentForm(target.dataset.id);
     else if (action === 'adjust-stock') openInventoryAdjustment(target.dataset.id);
     else if (action === 'add-expense') openExpenseForm();
@@ -1175,6 +1205,23 @@ document.getElementById('app').addEventListener('click', async (event) => {
     else if (action === 'export-report') { downloadFrom('/api/export/report.csv'); showToast('Report CSV download started.'); }
     else if (action === 'download-customers') { downloadFrom('/api/export/customers.csv'); showToast('Customer export started.'); }
     else if (action === 'settings-tab') { state.settingsTab = target.dataset.tab; refreshPage(); }
+    else if (action === 'edit-public-menu-item') openPublicMenuItemForm(target.dataset.id);
+    else if (action === 'toggle-public-menu-item') {
+      const item = (data.publicMenuItems || []).find((entry) => entry.id === target.dataset.id);
+      if (!item) return;
+      target.disabled = true;
+      await api(`/api/public-menu-items/${encodeURIComponent(item.id)}`, { method: 'POST', body: JSON.stringify({ price: item.price, active: !item.active }) });
+      await syncAndRender();
+      state.settingsTab = 'menu'; refreshPage();
+      showToast(`${item.name} is now ${!item.active ? 'available' : 'unavailable'} on guest menus.`);
+    }
+    else if (action === 'edit-managed-table') openManagedTableForm(target.dataset.id);
+    else if (action === 'run-daily-alerts') {
+      target.disabled = true;
+      const result = await api('/api/notifications/run-daily', { method: 'POST', body: '{}' });
+      await syncAndRender(); state.settingsTab = 'integrations'; refreshPage();
+      showToast(`${result.queued} operations alert${result.queued === 1 ? '' : 's'} queued.`);
+    }
     else if (action === 'save-settings') {
       target.disabled = true;
       const values = {
@@ -1192,6 +1239,10 @@ document.getElementById('app').addEventListener('click', async (event) => {
         tier_platinum: Number(document.getElementById('setting-tier-platinum')?.value),
         backup_enabled: document.getElementById('setting-backup-enabled')?.classList.contains('on'),
         backup_retention_days: Number(document.getElementById('setting-backup-retention')?.value),
+        operations_alert_recipient: document.getElementById('setting-alert-recipient')?.value.trim(),
+        daily_report_time: document.getElementById('setting-report-time')?.value,
+        daily_sales_report_enabled: document.getElementById('setting-daily-sales-alert')?.classList.contains('on'),
+        low_stock_alert_enabled: document.getElementById('setting-low-stock-alert')?.classList.contains('on'),
       };
       Object.keys(values).forEach((key) => { if (values[key] === undefined || Number.isNaN(values[key])) delete values[key]; });
       await api('/api/settings', { method: 'POST', body: JSON.stringify(values) });
@@ -1224,6 +1275,10 @@ document.getElementById('app').addEventListener('click', async (event) => {
 
 document.getElementById('app').addEventListener('input', (event) => {
   if (event.target.id === 'customer-search') filterCustomers();
+  if (event.target.id === 'menu-management-search') {
+    const query = event.target.value.trim().toLowerCase();
+    document.querySelectorAll('[data-menu-row]').forEach((row) => { row.hidden = !row.dataset.name.includes(query); });
+  }
 });
 
 document.getElementById('app').addEventListener('change', (event) => {
@@ -1307,6 +1362,14 @@ document.getElementById('modal-root').addEventListener('submit', async (event) =
       state.page = 'orders';
       await syncAndRender();
       showToast('Draft order created. Review it, then send it to the kitchen.');
+    } else if (form.id === 'public-menu-item-form') {
+      await api(`/api/public-menu-items/${encodeURIComponent(values.id)}`, { method: 'POST', body: JSON.stringify({ price: Number(values.price), active: values.active === 'true' }) });
+      closeModal(); await syncAndRender(); state.page = 'settings'; state.settingsTab = 'menu'; refreshPage();
+      showToast('Menu price and availability updated on all guest menus.');
+    } else if (form.id === 'managed-table-form') {
+      await api(`/api/tables/${encodeURIComponent(values.id)}`, { method: 'POST', body: JSON.stringify({ label: values.label, zoneName: values.zoneName, capacity: Number(values.capacity), active: values.active === 'true' }) });
+      closeModal(); await syncAndRender(); state.page = 'settings'; state.settingsTab = 'tables'; refreshPage();
+      showToast('Table settings updated.');
     } else if (form.id === 'payment-form') {
       await api(`/api/orders/${values.orderId}/pay`, { method: 'POST', body: JSON.stringify({ method: values.method }) });
       closeModal();
@@ -1413,3 +1476,8 @@ document.addEventListener('keydown', (event) => {
 
 renderApp();
 boot();
+setInterval(async () => {
+  if (authState !== 'authenticated' || !['orders', 'kitchen', 'billing'].includes(state.page)) return;
+  if (document.getElementById('modal-root')?.children.length) return;
+  try { await loadData({ quiet: true }); refreshPage(); } catch (_) { /* next refresh retries */ }
+}, 8000);

@@ -97,7 +97,7 @@ class CRMServerTests(unittest.TestCase):
         key = "qr-order-idempotency-test"
         body = {
             "table": "4", "guestName": "Demo Guest", "phone": "9876543210",
-            "paymentMethod": "demo-upi", "notes": "Less spicy", "website": "",
+            "tableAccessKey": "mg-t04-c3b8701d6f9254ae", "notes": "Less spicy", "website": "",
             "items": [
                 {"category": "Pizza & Pide", "name": "Margarita", "quantity": 2, "unitPrice": 499},
                 {"category": "Mocktail & Coolers", "name": "Virgin mojito", "quantity": 1, "unitPrice": 250},
@@ -110,18 +110,101 @@ class CRMServerTests(unittest.TestCase):
         self.assertEqual(first["id"], second["id"])
         self.assertEqual(first["total"], 1310)
         with crm.connect() as connection:
-            order = connection.execute("SELECT table_name, status, payment_method FROM orders WHERE id=?", (first["id"],)).fetchone()
+            order = connection.execute("SELECT table_name, status, payment_method, public_token FROM orders WHERE id=?", (first["id"],)).fetchone()
             self.assertEqual(order["status"], "Kitchen")
-            self.assertEqual(order["payment_method"], "Demo UPI")
-            self.assertIn("QR 4 · Table 4", order["table_name"])
+            self.assertIsNone(order["payment_method"])
+            self.assertEqual(order["public_token"], first["publicToken"])
+            self.assertIn("QR 4 · Table 04", order["table_name"])
 
     def test_public_demo_order_rejects_unknown_table_qr(self):
         status, payload, _ = self.request("/api/public/orders", headers={"Idempotency-Key": "unknown-table-order"}, body={
-            "table": "T-999", "guestName": "Demo Guest", "paymentMethod": "demo-card", "website": "",
+            "table": "T-999", "tableAccessKey": "invalid", "guestName": "Demo Guest", "website": "",
             "items": [{"category": "Pizza & Pide", "name": "Margarita", "quantity": 1, "unitPrice": 499}],
         })
-        self.assertEqual(status, 400)
-        self.assertIn("recognized table QR", payload["error"])
+        self.assertEqual(status, 403)
+        self.assertIn("Scan the QR", payload["error"])
+
+    def test_owner_menu_change_reaches_public_menu_and_blocks_unavailable_order(self):
+        cookie, csrf = self.login()
+        item_path = "Pizza%20%26%20Pide%3A10"
+        status, _, _ = self.request(
+            f"/api/public-menu-items/{item_path}", cookie=cookie, headers={"X-CSRF-Token": csrf},
+            body={"price": 525, "active": False},
+        )
+        self.assertEqual(status, 200)
+        menu_status, menu, _ = self.request("/api/public/menu")
+        self.assertEqual(menu_status, 200)
+        margarita = next(item for category in menu["categories"] if category["name"] == "Pizza & Pide"
+                         for item in category["items"] if item["name"] == "Margarita")
+        self.assertEqual(margarita["price"], 525)
+        self.assertFalse(margarita["available"])
+        order_status, payload, _ = self.request("/api/public/orders", headers={"Idempotency-Key": "unavailable-menu-order"}, body={
+            "table": "4", "tableAccessKey": "mg-t04-c3b8701d6f9254ae", "guestName": "Menu Guest", "website": "",
+            "items": [{"category": "Pizza & Pide", "name": "Margarita", "quantity": 1, "unitPrice": 1}],
+        })
+        self.assertEqual(order_status, 400)
+        self.assertIn("unavailable", payload["error"])
+        self.request(f"/api/public-menu-items/{item_path}", cookie=cookie, headers={"X-CSRF-Token": csrf}, body={"price": 499, "active": True})
+
+    def test_owner_can_manage_tables_and_queue_daily_alerts(self):
+        cookie, csrf = self.login()
+        table_status, _, _ = self.request("/api/tables/5", cookie=cookie, headers={"X-CSRF-Token": csrf}, body={
+            "label": "Garden Table 05", "zoneName": "Garden", "capacity": 6, "active": True,
+        })
+        self.assertEqual(table_status, 200)
+        table_session_status, session, _ = self.request("/api/public/table?table=5&key=mg-t05-197e4a63b8d025cf")
+        self.assertEqual(table_session_status, 200)
+        self.assertEqual(session["table"]["label"], "Garden Table 05")
+        alert_status, alert, _ = self.request("/api/notifications/run-daily", cookie=cookie, headers={"X-CSRF-Token": csrf}, body={})
+        self.assertEqual(alert_status, 200)
+        self.assertGreaterEqual(alert["queued"], 1)
+        with crm.connect() as connection:
+            self.assertGreater(connection.execute("SELECT COUNT(*) FROM communications WHERE provider='Scheduled local outbox'").fetchone()[0], 0)
+
+    def test_qr_table_services_tracking_bill_and_feedback_flow(self):
+        status, table, _ = self.request("/api/public/table?table=4&key=mg-t04-c3b8701d6f9254ae")
+        self.assertEqual(status, 200)
+        self.assertEqual(table["table"]["label"], "Table 04")
+        self.assertTrue(table["wifi"]["password"])
+
+        order_status, order, _ = self.request(
+            "/api/public/orders",
+            headers={"Idempotency-Key": "priority-one-flow-order"},
+            body={
+                "table": "4", "tableAccessKey": "mg-t04-c3b8701d6f9254ae",
+                "guestName": "Priority Guest", "phone": "", "notes": "", "website": "",
+                "items": [{"category": "Pizza & Pide", "name": "Margarita", "quantity": 1, "unitPrice": 499}],
+            },
+        )
+        self.assertEqual(order_status, 201)
+        token = order["publicToken"]
+        tracking_status, tracking, _ = self.request(f"/api/public/orders/{token}")
+        self.assertEqual(tracking_status, 200)
+        self.assertEqual(tracking["status"], "Kitchen")
+
+        waiter_status, waiter, _ = self.request("/api/public/service-requests", body={
+            "type": "waiter", "table": "4", "tableAccessKey": "mg-t04-c3b8701d6f9254ae",
+        })
+        self.assertEqual(waiter_status, 201)
+        cookie, csrf = self.login()
+        ack_status, _, _ = self.request(
+            f"/api/service-requests/{waiter['id']}/acknowledge", body={},
+            headers={"X-CSRF-Token": csrf}, cookie=cookie,
+        )
+        self.assertEqual(ack_status, 200)
+        waiter_tracking_status, waiter_tracking, _ = self.request(f"/api/public/service-requests/{waiter['token']}")
+        self.assertEqual(waiter_tracking_status, 200)
+        self.assertEqual(waiter_tracking["status"], "Acknowledged")
+
+        bill_status, _, _ = self.request("/api/public/service-requests", body={
+            "type": "bill", "orderToken": token, "paymentPreference": "Cash at table",
+        })
+        self.assertEqual(bill_status, 201)
+        feedback_status, feedback, _ = self.request("/api/public/feedback", body={
+            "orderToken": token, "rating": 5, "tags": ["Tasty food"], "message": "Lovely evening",
+        })
+        self.assertEqual(feedback_status, 201)
+        self.assertIn("google", feedback["googleReviewUrl"])
 
     def test_trusted_proxy_uses_forwarded_client_for_rate_limits(self):
         previous = os.environ.get("MANGOSTEEN_TRUSTED_PROXIES")

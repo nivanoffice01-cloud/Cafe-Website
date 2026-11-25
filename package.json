@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "generate:qr": "node scripts/generate-menu-qr.mjs",
+    "sync:menu": "node scripts/export-menu-catalog.mjs",
     "build": "tsc -b && vite build",
-    "build:vercel": "npm run build && node scripts/prepare-deploy.mjs",
+    "build:vercel": "npm run sync:menu && npm run generate:qr && npm run build && node scripts/prepare-deploy.mjs",
     "preview": "vite preview",
     "test": "python3 -m unittest discover -s CRM/tests -v",
     "check": "npm run build && node --check CRM/dist/app.js && npm test"

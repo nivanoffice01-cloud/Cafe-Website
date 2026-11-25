@@ -1,17 +1,18 @@
 import { get, put } from '@vercel/blob'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
 import { fullMenu } from './full-menu.mjs'
+import { orderTables, publicTable } from './table-config.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
 const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
-const orderTables = [
-  { id: '4', label: 'Table 4', capacity: 4, columns: 2, column: 2, row: 2, zone: 'inside', zoneName: 'Cafe floor' },
-]
-const PUBLIC_MENU = new Map(fullMenu.flatMap((category) => category.items.map((item) => [`${category.name}|${item.name}`, { ...item, category: category.name }])))
-const PUBLIC_TABLES = new Map(orderTables.map((table) => [table.id, table]))
+const GOOGLE_REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJB_gCKYDjYjkRZrVPCUTqeLw'
+const catalogItems = () => fullMenu.flatMap((category) => category.items.map((item, index) => ({
+  id: `${category.name}:${index + 1}`, category: category.name, name: item.name, description: item.description || '', price: item.price, active: true,
+})))
+const managedTables = () => orderTables.map((table) => ({ ...table, active: true }))
 
 const blobPath = (key) => `${STORE_PREFIX}/${String(key).replaceAll(':', '/')}`
 const store = () => ({
@@ -188,9 +189,31 @@ function createSeedState() {
       const date = new Date(); date.setMonth(date.getMonth() - (11 - index))
       return { month: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`, returningVisits: 45 + index * 6, revenue: 165000 + index * 10800 }
     }),
-    settings: { business_name: 'Mangosteen Cafe', primary_phone: '+91 98765 43210', address: 'Indore, Madhya Pradesh', timezone: 'Asia/Kolkata (IST)', currency: 'Indian Rupee (₹)', points_per_rupee: 0.1, automatic_points: true, reservation_reminders: true, marketing_requires_consent: true, backup_enabled: true, backup_retention_days: 30, tier_silver: 8000, tier_gold: 18000, tier_platinum: 35000, feedback_url: '/feedback' },
-    communications: [], pointLedger: [], backups: [], publicSubmissions: {},
+    settings: { business_name: 'Mangosteen Cafe', primary_phone: '+91 98765 43210', address: 'Indore, Madhya Pradesh', timezone: 'Asia/Kolkata (IST)', currency: 'Indian Rupee (₹)', points_per_rupee: 0.1, automatic_points: true, reservation_reminders: true, marketing_requires_consent: true, backup_enabled: true, backup_retention_days: 30, tier_silver: 8000, tier_gold: 18000, tier_platinum: 35000, feedback_url: '/feedback', guest_wifi_name: 'Mangosteen Guest', guest_wifi_password: 'Mangosteen@2026', guest_wifi_demo: true, operations_alert_recipient: '+91 98765 43210', daily_sales_report_enabled: true, low_stock_alert_enabled: true, daily_report_time: '22:30' },
+    communications: [], pointLedger: [], backups: [], publicSubmissions: {}, serviceRequests: [],
+    publicMenuItems: catalogItems(), tables: managedTables(), scheduledRuns: {},
   }
+}
+
+function normalizeState(state) {
+  state.publicSubmissions ||= {}
+  state.serviceRequests ||= []
+  state.feedback ||= []
+  state.activities ||= []
+  state.settings ||= {}
+  state.settings.guest_wifi_name ||= 'Mangosteen Guest'
+  state.settings.guest_wifi_password ||= 'Mangosteen@2026'
+  if (state.settings.guest_wifi_demo === undefined) state.settings.guest_wifi_demo = true
+  state.settings.operations_alert_recipient ||= '+91 98765 43210'
+  if (state.settings.daily_sales_report_enabled === undefined) state.settings.daily_sales_report_enabled = true
+  if (state.settings.low_stock_alert_enabled === undefined) state.settings.low_stock_alert_enabled = true
+  state.settings.daily_report_time ||= '22:30'
+  const existingMenu = new Map((state.publicMenuItems || []).map((item) => [`${item.category}|${item.name}`, item]))
+  state.publicMenuItems = catalogItems().map((item) => ({ ...item, ...(existingMenu.get(`${item.category}|${item.name}`) || {}) }))
+  const existingTables = new Map((state.tables || []).map((table) => [String(table.id), table]))
+  state.tables = managedTables().map((table) => ({ ...table, ...(existingTables.get(String(table.id)) || {}) }))
+  state.scheduledRuns ||= {}
+  return state
 }
 
 async function loadState() {
@@ -200,7 +223,7 @@ async function loadState() {
     state = createSeedState()
     await target.setJSON(STORE_KEY, state)
   }
-  return state
+  return normalizeState(state)
 }
 
 async function saveState(state) {
@@ -277,6 +300,9 @@ function bootstrap(state, user) {
     vendors: ['Owner', 'Manager'].includes(role) ? state.vendors : [],
     staff: ['Owner', 'Manager'].includes(role) ? state.staff : [],
     payments: role === 'Kitchen' ? [] : state.payments,
+    serviceRequests: state.serviceRequests.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 50),
+    publicMenuItems: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.publicMenuItems : [],
+    tables: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.tables.map(publicTable) : [],
     user: publicUser(user),
   }
   return base
@@ -315,6 +341,50 @@ function sendOrder(state, orderId) {
   addActivity(state, 'reservation', 'Order sent to kitchen', `Order #${order.id}`)
 }
 
+function publicMenuPayload(state) {
+  const groups = new Map()
+  state.publicMenuItems.forEach((item) => {
+    if (!groups.has(item.category)) groups.set(item.category, [])
+    groups.get(item.category).push({
+      id: item.id, name: item.name, description: item.description || '',
+      price: item.price, available: Boolean(item.active),
+    })
+  })
+  return { categories: [...groups].map(([name, items]) => ({ name, items })), updatedAt: now() }
+}
+
+function queueDailyOperationsNotifications(state, { force = false } = {}) {
+  const runDate = indiaDate()
+  if (!force && state.scheduledRuns[runDate]) return { queued: 0, skipped: true, date: runDate }
+  const recipient = String(state.settings.operations_alert_recipient || '').trim()
+  if (!recipient) throw new Error('Add an operations alert recipient in Settings first')
+  const todayPayments = state.payments.filter((item) => String(item.createdAt || '').slice(0, 10) === runDate)
+  const todaySales = todayPayments.reduce((sum, item) => sum + safeNumber(item.amount), 0)
+  const todayOrders = state.orders.filter((item) => String(item.createdAt || '').slice(0, 10) === runDate).length
+  const lowStock = state.inventory.filter((item) => item.low || safeNumber(item.quantity) <= safeNumber(item.reorderLevel))
+  const queued = []
+  const addMessage = (message, subject) => {
+    const communication = {
+      id: nextId(state.communications), customerId: null, channel: 'WhatsApp', recipient,
+      subject, message, purpose: 'Transactional', status: 'Queued', provider: 'Vercel scheduled outbox',
+      createdAt: now(), sentAt: null, error: '',
+    }
+    state.communications.unshift(communication)
+    queued.push(communication)
+  }
+  if (state.settings.daily_sales_report_enabled) addMessage(
+    `Mangosteen daily summary · ${runDate}: ${todayOrders} orders, ${todayPayments.length} settled bills, sales ₹${todaySales.toLocaleString('en-IN')}.`,
+    'Daily sales summary',
+  )
+  if (state.settings.low_stock_alert_enabled && lowStock.length) addMessage(
+    `Mangosteen low-stock alert: ${lowStock.map((item) => `${item.name} (${item.quantity} ${item.unit})`).join(', ')}.`,
+    'Low-stock alert',
+  )
+  state.scheduledRuns[runDate] = { ranAt: now(), queued: queued.length }
+  addActivity(state, 'notification', 'Daily operations alerts prepared', `${queued.length} message${queued.length === 1 ? '' : 's'} queued`)
+  return { queued: queued.length, skipped: false, date: runDate }
+}
+
 async function handlePublicReservation(request, state, body) {
   if (String(body.website || '').trim()) return json({ accepted: true, status: 'Pending' }, 201)
   const key = request.headers.get('idempotency-key') || body.requestKey
@@ -340,6 +410,37 @@ async function handlePublicReservation(request, state, body) {
   return json(receipt, 201)
 }
 
+function validatedPublicTable(state, tableCode, accessKey) {
+  const table = state.tables.find((item) => String(item.id) === String(tableCode || '').trim().toUpperCase())
+  if (!table || !table.active || table.accessKey !== String(accessKey || '').trim()) throw Object.assign(new Error('Scan the QR fixed to your table to use ordering and table services.'), { status: 403 })
+  return table
+}
+
+function publicOrderPayload(order) {
+  return {
+    id: order.id,
+    reference: order.reference || `QR-${String(order.id).padStart(6, '0')}`,
+    status: order.status,
+    total: order.total,
+    subtotal: order.subtotal,
+    serviceCharge: order.serviceCharge || 0,
+    tableLabel: order.tableLabel,
+    guestName: order.guestName,
+    paymentPreference: order.paymentPreference || '',
+    billRequestedAt: order.billRequestedAt || null,
+    createdAt: order.createdAt,
+    readyAt: order.readyAt || null,
+    servedAt: order.servedAt || null,
+    paidAt: order.paidAt || null,
+    estimatedMinutes: order.estimatedMinutes || 20,
+    items: order.items.map((item) => ({ name: item.name, quantity: item.quantity, lineTotal: item.lineTotal })),
+  }
+}
+
+function publicOrderByToken(state, token) {
+  return state.orders.find((item) => item.publicToken && item.publicToken === String(token || ''))
+}
+
 async function handlePublicOrder(request, state, body) {
   if (String(body.website || '').trim()) return json({ accepted: true, status: 'Kitchen' }, 201)
   const rawKey = request.headers.get('idempotency-key') || body.requestKey
@@ -349,21 +450,16 @@ async function handlePublicOrder(request, state, body) {
   if (state.publicSubmissions[key]) return json(state.publicSubmissions[key])
 
   const tableCode = String(body.table || '').trim().toUpperCase()
-  const table = PUBLIC_TABLES.get(tableCode)
+  const table = validatedPublicTable(state, tableCode, body.tableAccessKey)
   const guestName = String(body.guestName || '').trim().slice(0, 60)
   const phone = String(body.phone || '').trim().slice(0, 20)
   const notes = String(body.notes || '').trim().slice(0, 300)
-  if (!table) throw new Error('This order did not come from a recognized table QR')
   if (guestName.length < 2) throw new Error('Please enter the guest name for this order')
   if (phone && !/^[+0-9 ()-]{7,20}$/.test(phone)) throw new Error('Please enter a valid mobile number or leave it blank')
   if (!Array.isArray(body.items) || !body.items.length || body.items.length > 24) throw new Error('Add between 1 and 24 menu items')
-  const requestedPayment = String(body.paymentMethod || '')
-  const paymentLabel = requestedPayment === 'demo-card' ? 'Demo card' : requestedPayment === 'demo-upi' ? 'Demo UPI' : ''
-  if (!paymentLabel) throw new Error('Choose one of the demo payment methods')
-
   let itemCount = 0
   const items = body.items.map((requested) => {
-    const menu = PUBLIC_MENU.get(`${String(requested.category || '')}|${String(requested.name || '')}`)
+    const menu = state.publicMenuItems.find((item) => item.category === String(requested.category || '') && item.name === String(requested.name || '') && item.active)
     const quantity = Math.floor(safeNumber(requested.quantity))
     if (!menu || quantity < 1 || quantity > 10) throw new Error('One selected menu item is invalid or unavailable')
     itemCount += quantity
@@ -374,17 +470,74 @@ async function handlePublicOrder(request, state, body) {
   const serviceCharge = Math.round(subtotal * 0.05)
   const total = subtotal + serviceCharge
   const createdAt = now()
+  const publicToken = randomUUID()
   const order = {
     id: nextId(state.orders), table: `QR ${table.id} · ${table.label} · ${guestName}`.slice(0, 40), tableCode: table.id, tableLabel: table.label, status: 'Kitchen',
-    subtotal, serviceCharge, total, paymentMethod: paymentLabel, paymentDemo: true, notes,
-    guestName, phone, createdAt, sentAt: createdAt, readyAt: null, paidAt: null, items,
+    subtotal, serviceCharge, total, paymentMethod: null, paymentPreference: '', paymentDemo: true, notes,
+    guestName, phone, publicToken, estimatedMinutes: Math.min(35, 12 + Math.ceil(itemCount / 2) * 3), createdAt, sentAt: createdAt, readyAt: null, servedAt: null, paidAt: null, billRequestedAt: null, items,
   }
   state.orders.unshift(order)
-  const receipt = { id: order.id, reference: `QR-${String(order.id).padStart(6, '0')}`, status: 'Kitchen', total, paymentLabel }
+  order.reference = `QR-${String(order.id).padStart(6, '0')}`
+  const receipt = { ...publicOrderPayload(order), publicToken }
   state.publicSubmissions[key] = receipt
-  addActivity(state, 'order', 'QR demo order received', `${order.table} · ${receipt.reference} · ${paymentLabel}`)
+  addActivity(state, 'order', 'QR table order received', `${order.table} · ${receipt.reference}`)
   await saveState(state)
   return json(receipt, 201)
+}
+
+async function handlePublicServiceRequest(state, body) {
+  state.serviceRequests ||= []
+  const type = String(body.type || '').toLowerCase()
+  if (!['waiter', 'bill'].includes(type)) throw new Error('Choose a valid table service')
+  let table
+  let order = null
+  if (type === 'bill') {
+    order = publicOrderByToken(state, body.orderToken)
+    if (!order) throw Object.assign(new Error('This order link is no longer valid.'), { status: 404 })
+    table = state.tables.find((item) => String(item.id) === String(order.tableCode))
+    if (!table || !table.active) throw Object.assign(new Error('This table is currently unavailable.'), { status: 403 })
+  } else {
+    table = validatedPublicTable(state, body.table, body.tableAccessKey)
+  }
+  const paymentPreference = type === 'bill' ? String(body.paymentPreference || '') : ''
+  if (type === 'bill' && !['Online payment (demo)', 'Cash at table', 'Pay at counter'].includes(paymentPreference)) throw new Error('Choose how you would like to settle the bill')
+  const existing = state.serviceRequests.find((item) => item.type === type && item.tableCode === table.id && item.status === 'Open')
+  if (existing) return json({ token: existing.publicToken, status: existing.status, acknowledgedAt: existing.acknowledgedAt || null })
+  const createdAt = now()
+  const serviceRequest = {
+    id: nextId(state.serviceRequests), publicToken: randomUUID(), type, tableCode: table.id, tableLabel: table.label,
+    orderId: order?.id || null, paymentPreference, status: 'Open', createdAt, acknowledgedAt: null,
+  }
+  state.serviceRequests.unshift(serviceRequest)
+  if (order && type === 'bill') {
+    order.billRequestedAt = createdAt
+    order.paymentPreference = paymentPreference
+  }
+  addActivity(state, 'service', type === 'waiter' ? 'Waiter requested' : 'Bill requested', `${table.label}${paymentPreference ? ` · ${paymentPreference}` : ''}`)
+  await saveState(state)
+  return json({ token: serviceRequest.publicToken, status: serviceRequest.status, acknowledgedAt: null }, 201)
+}
+
+async function handlePublicFeedback(state, body) {
+  const order = publicOrderByToken(state, body.orderToken)
+  if (!order) throw Object.assign(new Error('This order link is no longer valid.'), { status: 404 })
+  const rating = Math.floor(safeNumber(body.rating))
+  if (rating < 1 || rating > 5) throw new Error('Choose a rating from 1 to 5')
+  const tags = Array.isArray(body.tags) ? body.tags.map((tag) => String(tag).trim()).filter(Boolean).slice(0, 5) : []
+  const message = String(body.message || '').trim().slice(0, 500)
+  const key = `feedback:${order.publicToken}`
+  if (state.publicSubmissions[key]) return json(state.publicSubmissions[key])
+  const feedback = {
+    id: nextId(state.feedback), customerId: null, name: order.guestName || 'Table guest', rating,
+    text: [tags.join(' · '), message].filter(Boolean).join(' — ') || `${rating}-star table feedback`,
+    status: rating >= 4 ? 'Resolved' : 'Unresolved', source: 'Table QR', avatar: '#537878', createdAt: now(),
+  }
+  state.feedback.unshift(feedback)
+  addActivity(state, 'feedback', `${rating}-star QR feedback received`, `${order.tableLabel} · ${feedback.text}`.slice(0, 140))
+  const result = { submitted: true, googleReviewUrl: GOOGLE_REVIEW_URL }
+  state.publicSubmissions[key] = result
+  await saveState(state)
+  return json(result, 201)
 }
 
 async function handleRequest(request) {
@@ -396,8 +549,36 @@ async function handleRequest(request) {
     const body = await readBody(request)
 
     if (request.method === 'GET' && path === '/health') return json({ status: 'ok', storage: 'Vercel Blob' })
+    if (request.method === 'GET' && path === '/public/menu') return json(publicMenuPayload(state))
+    if (request.method === 'GET' && path === '/cron/daily-operations') {
+      if (process.env.CRON_SECRET && request.headers.get('authorization') !== `Bearer ${process.env.CRON_SECRET}`) return json({ error: 'Cron authorization failed' }, 401)
+      const result = queueDailyOperationsNotifications(state)
+      await saveState(state)
+      return json(result)
+    }
+    if (request.method === 'GET' && path === '/public/table') {
+      const table = validatedPublicTable(state, url.searchParams.get('table'), url.searchParams.get('key'))
+      return json({
+        table: publicTable(table),
+        wifi: { name: state.settings.guest_wifi_name, password: state.settings.guest_wifi_password, demo: Boolean(state.settings.guest_wifi_demo) },
+      })
+    }
+    let publicMatch = path.match(/^\/public\/orders\/([A-Za-z0-9_-]+)$/)
+    if (request.method === 'GET' && publicMatch) {
+      const order = publicOrderByToken(state, publicMatch[1])
+      if (!order) return json({ error: 'Order not found' }, 404)
+      return json(publicOrderPayload(order))
+    }
+    publicMatch = path.match(/^\/public\/service-requests\/([A-Za-z0-9_-]+)$/)
+    if (request.method === 'GET' && publicMatch) {
+      const item = state.serviceRequests.find((requestItem) => requestItem.publicToken === publicMatch[1])
+      if (!item) return json({ error: 'Service request not found' }, 404)
+      return json({ status: item.status, acknowledgedAt: item.acknowledgedAt || null })
+    }
     if (request.method === 'POST' && path === '/public/reservations') return handlePublicReservation(request, state, body)
     if (request.method === 'POST' && path === '/public/orders') return handlePublicOrder(request, state, body)
+    if (request.method === 'POST' && path === '/public/service-requests') return handlePublicServiceRequest(state, body)
+    if (request.method === 'POST' && path === '/public/feedback') return handlePublicFeedback(state, body)
 
     if (request.method === 'POST' && path === '/auth/login') {
       const user = state.users.find((item) => item.email === String(body.email || '').trim().toLowerCase() && item.active)
@@ -430,6 +611,17 @@ async function handleRequest(request) {
       return json({ changed: true })
     }
 
+    const serviceMatch = path.match(/^\/service-requests\/(\d+)\/acknowledge$/)
+    if (request.method === 'POST' && serviceMatch) {
+      requireUser(request, state, 'Cashier')
+      const item = state.serviceRequests.find((requestItem) => requestItem.id === Number(serviceMatch[1]))
+      if (!item) return json({ error: 'Service request not found' }, 404)
+      item.status = 'Acknowledged'
+      item.acknowledgedAt = now()
+      await saveState(state)
+      return json({ acknowledged: true })
+    }
+
     const user = requireUser(request, state)
     if (request.method === 'GET' && path === '/bootstrap') return json(bootstrap(state, user))
 
@@ -451,6 +643,42 @@ async function handleRequest(request) {
 
     if (request.method !== 'POST') return json({ error: 'API route not found' }, 404)
 
+    let match = path.match(/^\/public-menu-items\/(.+)$/)
+    if (match) {
+      requireRoles(request, state, ['Owner'])
+      const item = state.publicMenuItems.find((entry) => entry.id === decodeURIComponent(match[1]))
+      if (!item) return json({ error: 'Menu item not found' }, 404)
+      const price = safeNumber(body.price, item.price)
+      if (price < 0 || price > 10000) throw new Error('Enter a valid menu price')
+      item.price = price
+      if (body.active !== undefined) item.active = Boolean(body.active)
+      item.updatedAt = now()
+      await saveState(state)
+      return json({ updated: true, item })
+    }
+
+    match = path.match(/^\/tables\/([^/]+)$/)
+    if (match) {
+      requireRoles(request, state, ['Owner'])
+      const table = state.tables.find((entry) => String(entry.id) === decodeURIComponent(match[1]))
+      if (!table) return json({ error: 'Table not found' }, 404)
+      const capacity = Math.floor(safeNumber(body.capacity, table.capacity))
+      if (capacity < 1 || capacity > 30) throw new Error('Capacity must be between 1 and 30')
+      table.label = String(body.label || table.label).trim().slice(0, 40)
+      table.zoneName = String(body.zoneName || table.zoneName).trim().slice(0, 60)
+      table.capacity = capacity
+      if (body.active !== undefined) table.active = Boolean(body.active)
+      await saveState(state)
+      return json({ updated: true, table: publicTable(table) })
+    }
+
+    if (path === '/notifications/run-daily') {
+      requireRoles(request, state, ['Owner'])
+      const result = queueDailyOperationsNotifications(state, { force: true })
+      await saveState(state)
+      return json(result)
+    }
+
     if (path === '/orders') {
       requireRoles(request, state, ['Owner', 'Manager', 'Cashier'])
       const items = (Array.isArray(body.items) ? body.items : []).map((requested) => {
@@ -466,7 +694,7 @@ async function handleRequest(request) {
       return json({ id: order.id, total }, 201)
     }
 
-    let match = path.match(/^\/orders\/(\d+)\/send$/)
+    match = path.match(/^\/orders\/(\d+)\/send$/)
     if (match) {
       requireRoles(request, state, ['Owner', 'Manager', 'Cashier'])
       sendOrder(state, Number(match[1]))
@@ -475,12 +703,13 @@ async function handleRequest(request) {
     }
     match = path.match(/^\/orders\/(\d+)\/status$/)
     if (match) {
-      requireRoles(request, state, ['Owner', 'Manager', 'Kitchen'])
+      requireRoles(request, state, ['Owner', 'Manager', 'Kitchen', 'Cashier'])
       const order = state.orders.find((item) => item.id === Number(match[1]))
       const status = String(body.status || '')
-      if (!order || !['Kitchen', 'Preparing', 'Ready'].includes(status) || order.status === 'Paid') throw new Error('Order or kitchen status is invalid')
+      if (!order || !['Kitchen', 'Preparing', 'Ready', 'Served'].includes(status) || order.status === 'Paid') throw new Error('Order or kitchen status is invalid')
       order.status = status
       if (status === 'Ready') order.readyAt = now()
+      if (status === 'Served') order.servedAt = now()
       await saveState(state)
       return json({ updated: true, status })
     }

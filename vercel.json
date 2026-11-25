@@ -3,6 +3,12 @@
   "framework": null,
   "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist",
+  "crons": [
+    {
+      "path": "/api/cron/daily-operations",
+      "schedule": "0 17 * * *"
+    }
+  ],
   "redirects": [
     {
       "source": "/crm",

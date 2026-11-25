@@ -50,7 +50,11 @@ export type OrderTable = SeatCluster & { zone: SeatingZone; zoneName: string }
 // QR ordering is intentionally separate from the reservation floor-plan model.
 // Only codes physically printed and placed by the cafe belong in this list.
 export const orderTables: OrderTable[] = [
-  { id: '4', label: 'Table 4', capacity: 4, columns: 2, column: 2, row: 2, zone: 'inside', zoneName: 'Cafe floor' },
+  { id: '1', label: 'Table 01', capacity: 2, columns: 2, column: 1, row: 1, zone: 'inside', zoneName: 'Cafe floor' },
+  { id: '2', label: 'Table 02', capacity: 2, columns: 2, column: 2, row: 1, zone: 'inside', zoneName: 'Cafe floor' },
+  { id: '3', label: 'Table 03', capacity: 4, columns: 2, column: 3, row: 1, zone: 'inside', zoneName: 'Cafe floor' },
+  { id: '4', label: 'Table 04', capacity: 4, columns: 2, column: 1, row: 2, zone: 'inside', zoneName: 'Cafe floor' },
+  { id: '5', label: 'Table 05', capacity: 4, columns: 2, column: 2, row: 2, zone: 'inside', zoneName: 'Cafe floor' },
 ]
 
 export const orderTableFor = (code: string | null | undefined) => {

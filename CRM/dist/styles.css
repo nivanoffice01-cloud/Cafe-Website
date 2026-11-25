@@ -1955,6 +1955,54 @@ svg {
   font-size: 10px;
 }
 
+.table-subcopy {
+  display: block;
+  max-width: 420px;
+  margin-top: 4px;
+  color: var(--ink-3);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.menu-management {
+  max-height: 620px;
+  overflow: auto;
+}
+
+.menu-management thead {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  background: var(--surface, #fff);
+}
+
+.table-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.managed-table-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: start;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fffdf9;
+}
+
+.managed-table-card h3,
+.managed-table-card p { margin: 4px 0 0; }
+.managed-table-card p { color: var(--ink-3); font-size: 10px; }
+.managed-table-card .button-row { grid-column: 1 / -1; }
+
+@media (max-width: 800px) {
+  .table-card-grid { grid-template-columns: 1fr; }
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

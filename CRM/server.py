@@ -31,7 +31,7 @@ from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import quote, urlparse
+from urllib.parse import parse_qs, quote, unquote, urlparse
 from urllib.request import Request, urlopen
 from typing import Iterator
 
@@ -67,8 +67,13 @@ PUBLIC_SEATING = {
     },
 }
 ORDER_TABLES = {
-    "4": "Table 4",
+    "1": {"label": "Table 01", "capacity": 2, "zoneName": "Cafe floor", "accessKey": "mg-t01-7f4c91a8e2b6350d"},
+    "2": {"label": "Table 02", "capacity": 2, "zoneName": "Cafe floor", "accessKey": "mg-t02-82d1b6f5039ac74e"},
+    "3": {"label": "Table 03", "capacity": 4, "zoneName": "Cafe floor", "accessKey": "mg-t03-65a9e1c7482fd30b"},
+    "4": {"label": "Table 04", "capacity": 4, "zoneName": "Cafe floor", "accessKey": "mg-t04-c3b8701d6f9254ae"},
+    "5": {"label": "Table 05", "capacity": 4, "zoneName": "Cafe floor", "accessKey": "mg-t05-197e4a63b8d025cf"},
 }
+GOOGLE_REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJB_gCKYDjYjkRZrVPCUTqeLw"
 
 
 SCHEMA = """
@@ -246,6 +251,17 @@ CREATE TABLE IF NOT EXISTS menu_items (
   created_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS public_menu_items (
+  id TEXT PRIMARY KEY,
+  category TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  price REAL NOT NULL CHECK (price >= 0),
+  active INTEGER NOT NULL DEFAULT 1,
+  updated_at TEXT NOT NULL,
+  UNIQUE(category, name)
+);
+
 CREATE TABLE IF NOT EXISTS inventory_items (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL UNIQUE,
@@ -276,7 +292,32 @@ CREATE TABLE IF NOT EXISTS orders (
   sent_at TEXT,
   ready_at TEXT,
   paid_at TEXT,
+  public_token TEXT,
+  table_code TEXT,
+  table_label TEXT,
+  guest_name TEXT,
+  phone TEXT,
+  notes TEXT,
+  service_charge REAL NOT NULL DEFAULT 0,
+  payment_preference TEXT,
+  bill_requested_at TEXT,
+  served_at TEXT,
+  estimated_minutes INTEGER NOT NULL DEFAULT 20,
   FOREIGN KEY(created_by) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS service_requests (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  public_token TEXT NOT NULL UNIQUE,
+  request_type TEXT NOT NULL CHECK (request_type IN ('waiter', 'bill')),
+  table_code TEXT NOT NULL,
+  table_label TEXT NOT NULL,
+  order_id INTEGER,
+  payment_preference TEXT NOT NULL DEFAULT '',
+  status TEXT NOT NULL DEFAULT 'Open',
+  created_at TEXT NOT NULL,
+  acknowledged_at TEXT,
+  FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS order_items (
@@ -425,6 +466,84 @@ def safe_json(value: str, default=None):
 def setting_value(connection: sqlite3.Connection, key: str, default=None):
     row = connection.execute("SELECT value FROM settings WHERE key=?", (key,)).fetchone()
     return safe_json(row["value"], default) if row else default
+
+
+def configured_tables(connection: sqlite3.Connection) -> dict[str, dict]:
+    stored = setting_value(connection, "managed_tables", {}) or {}
+    result = {}
+    for table_id, default in ORDER_TABLES.items():
+        custom = stored.get(table_id, {}) if isinstance(stored, dict) else {}
+        result[table_id] = {**default, **custom, "id": table_id,
+                            "active": bool(custom.get("active", True))}
+    return result
+
+
+def validate_order_table(connection: sqlite3.Connection, table_code: str, access_key: str) -> dict:
+    table = configured_tables(connection).get(table_code)
+    if not table or not table["active"] or not hmac.compare_digest(table["accessKey"], access_key):
+        raise PermissionError("Scan the QR fixed to your table to use ordering and table services.")
+    return table
+
+
+def public_menu_payload(connection: sqlite3.Connection) -> dict:
+    categories: dict[str, list[dict]] = {}
+    for row in connection.execute("SELECT * FROM public_menu_items ORDER BY rowid"):
+        categories.setdefault(row["category"], []).append({
+            "id": row["id"], "name": row["name"], "description": row["description"],
+            "price": row["price"], "available": bool(row["active"]),
+        })
+    return {"categories": [{"name": name, "items": items} for name, items in categories.items()],
+            "updatedAt": now_iso()}
+
+
+def queue_daily_operations_notifications(connection: sqlite3.Connection, force: bool = False) -> dict:
+    run_date = date.today().isoformat()
+    runs = setting_value(connection, "scheduled_runs", {}) or {}
+    if not force and run_date in runs:
+        return {"queued": 0, "skipped": True, "date": run_date}
+    recipient = str(setting_value(connection, "operations_alert_recipient", "")).strip()
+    if not recipient:
+        raise ValueError("Add an operations alert recipient in Settings first")
+    sales_row = connection.execute(
+        "SELECT COUNT(*) AS bills, COALESCE(SUM(amount), 0) AS sales FROM payments WHERE substr(created_at,1,10)=?",
+        (run_date,),
+    ).fetchone()
+    order_count = connection.execute("SELECT COUNT(*) FROM orders WHERE substr(created_at,1,10)=?", (run_date,)).fetchone()[0]
+    low_stock = rows(connection, "SELECT * FROM inventory_items WHERE quantity<=reorder_level ORDER BY name")
+    messages = []
+    if setting_value(connection, "daily_sales_report_enabled", True):
+        messages.append(("Daily sales summary", f'Mangosteen daily summary · {run_date}: {order_count} orders, {sales_row["bills"]} settled bills, sales ₹{sales_row["sales"]:,.0f}.'))
+    if setting_value(connection, "low_stock_alert_enabled", True) and low_stock:
+        stock_text = ", ".join(f'{item["name"]} ({item["quantity"]:g} {item["unit"]})' for item in low_stock)
+        messages.append(("Low-stock alert", f"Mangosteen low-stock alert: {stock_text}."))
+    timestamp = now_iso()
+    connection.executemany(
+        """INSERT INTO communications
+           (channel, recipient, subject, message, purpose, status, provider, created_at)
+           VALUES ('WhatsApp', ?, ?, ?, 'Transactional', 'Queued', 'Scheduled local outbox', ?)""",
+        [(recipient, subject, message, timestamp) for subject, message in messages],
+    )
+    runs[run_date] = {"ranAt": timestamp, "queued": len(messages)}
+    connection.execute("INSERT INTO settings (key,value) VALUES ('scheduled_runs',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", (json.dumps(runs),))
+    connection.execute("INSERT INTO activities (kind,title,details,created_at) VALUES ('notification','Daily operations alerts prepared',?,?)", (f'{len(messages)} messages queued', timestamp))
+    return {"queued": len(messages), "skipped": False, "date": run_date}
+
+
+def seed_public_menu(connection: sqlite3.Connection) -> None:
+    catalog_path = ROOT.parent / "shared" / "menu-catalog.json"
+    if not catalog_path.exists():
+        return
+    catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    timestamp = now_iso()
+    for category in catalog:
+        for index, item in enumerate(category.get("items", []), 1):
+            item_id = f'{category["name"]}:{index}'
+            connection.execute(
+                """INSERT OR IGNORE INTO public_menu_items
+                   (id, category, name, description, price, active, updated_at)
+                   VALUES (?, ?, ?, ?, ?, 1, ?)""",
+                (item_id, category["name"], item["name"], item.get("description", ""), item["price"], timestamp),
+            )
 
 
 @contextmanager
@@ -683,6 +802,28 @@ def seed_operation_users(connection: sqlite3.Connection) -> None:
     connection.commit()
 
 
+def migrate_qr_table_service(connection: sqlite3.Connection) -> None:
+    columns = {row["name"] for row in connection.execute("PRAGMA table_info(orders)")}
+    additions = {
+        "public_token": "TEXT",
+        "table_code": "TEXT",
+        "table_label": "TEXT",
+        "guest_name": "TEXT",
+        "phone": "TEXT",
+        "notes": "TEXT",
+        "service_charge": "REAL NOT NULL DEFAULT 0",
+        "payment_preference": "TEXT",
+        "bill_requested_at": "TEXT",
+        "served_at": "TEXT",
+        "estimated_minutes": "INTEGER NOT NULL DEFAULT 20",
+    }
+    for name, definition in additions.items():
+        if name not in columns:
+            connection.execute(f"ALTER TABLE orders ADD COLUMN {name} {definition}")
+    connection.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_orders_public_token ON orders(public_token)")
+    connection.commit()
+
+
 def seed_operations(connection: sqlite3.Connection) -> None:
     if connection.execute("SELECT COUNT(*) FROM menu_items").fetchone()[0]:
         return
@@ -850,10 +991,12 @@ def init_database() -> None:
     with connect() as connection:
         connection.executescript(SCHEMA)
         migrate_user_roles(connection)
+        migrate_qr_table_service(connection)
         seed_database(connection)
         seed_owner(connection)
         seed_operation_users(connection)
         seed_operations(connection)
+        seed_public_menu(connection)
         additions = {
             "backup_enabled": True,
             "backup_retention_days": 30,
@@ -861,6 +1004,14 @@ def init_database() -> None:
             "tier_gold": 18000,
             "tier_platinum": 35000,
             "feedback_url": "http://127.0.0.1:4173/feedback",
+            "guest_wifi_name": "Mangosteen Guest",
+            "guest_wifi_password": "Mangosteen@2026",
+            "guest_wifi_demo": True,
+            "managed_tables": {},
+            "operations_alert_recipient": "+91 98765 43210",
+            "daily_sales_report_enabled": True,
+            "low_stock_alert_enabled": True,
+            "daily_report_time": "22:30",
         }
         connection.executemany(
             "INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)",
@@ -930,6 +1081,21 @@ def rows(connection: sqlite3.Connection, query: str, parameters=()) -> list[dict
     return [dict(row) for row in connection.execute(query, parameters).fetchall()]
 
 
+def public_order_payload(connection: sqlite3.Connection, order: sqlite3.Row | dict) -> dict:
+    record = dict(order)
+    items = [{"name": row["item_name"], "quantity": row["quantity"],
+              "lineTotal": row["quantity"] * row["unit_price"]}
+             for row in connection.execute("SELECT * FROM order_items WHERE order_id=? ORDER BY id", (record["id"],))]
+    return {
+        "id": record["id"], "reference": f'QR-{record["id"]:06d}', "status": record["status"],
+        "total": record["total"], "subtotal": record["subtotal"], "serviceCharge": record.get("service_charge", 0),
+        "tableLabel": record.get("table_label") or record["table_name"], "guestName": record.get("guest_name") or "Guest",
+        "paymentPreference": record.get("payment_preference") or "", "billRequestedAt": record.get("bill_requested_at"),
+        "createdAt": record["created_at"], "readyAt": record.get("ready_at"), "servedAt": record.get("served_at"),
+        "paidAt": record.get("paid_at"), "estimatedMinutes": record.get("estimated_minutes") or 20, "items": items,
+    }
+
+
 def normalize_customer(row: dict) -> dict:
     return {
         "id": row["id"], "name": row["name"], "phone": row["phone"],
@@ -986,14 +1152,20 @@ def operations_payload(connection: sqlite3.Connection, current_user: dict | None
     payments = [{"id": row["id"], "orderId": row["order_id"], "method": row["method"],
                  "amount": row["amount"], "createdAt": row["created_at"]}
                 for row in rows(connection, "SELECT * FROM payments ORDER BY id DESC LIMIT 200")]
+    service_requests = [{"id": row["id"], "type": row["request_type"], "tableCode": row["table_code"],
+                         "tableLabel": row["table_label"], "orderId": row["order_id"],
+                         "paymentPreference": row["payment_preference"], "status": row["status"],
+                         "createdAt": row["created_at"], "acknowledgedAt": row["acknowledged_at"]}
+                        for row in rows(connection, "SELECT * FROM service_requests ORDER BY id DESC LIMIT 50")]
     if role == "Kitchen":
         return {"menuItems": menu_items, "orders": orders, "inventory": [], "expenses": [],
-                "vendors": [], "staff": [], "payments": []}
+                "vendors": [], "staff": [], "payments": [], "serviceRequests": service_requests}
     if role in {"Cashier", "Host"}:
         return {"menuItems": menu_items, "orders": orders, "inventory": [], "expenses": [],
-                "vendors": [], "staff": [], "payments": payments}
+                "vendors": [], "staff": [], "payments": payments, "serviceRequests": service_requests}
     return {"menuItems": menu_items, "orders": orders, "inventory": inventory,
-            "expenses": expenses, "vendors": vendors, "staff": staff, "payments": payments}
+            "expenses": expenses, "vendors": vendors, "staff": staff, "payments": payments,
+            "serviceRequests": service_requests}
 
 
 def send_order_to_kitchen(connection: sqlite3.Connection, order_id: int, user_id: int) -> None:
@@ -1092,6 +1264,12 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
                     for row in rows(connection, "SELECT * FROM point_ledger ORDER BY id DESC LIMIT 25")]
     role_level = ROLE_LEVEL.get((current_user or {}).get("role", "Host"), 1)
     operations = operations_payload(connection, current_user)
+    public_menu_items = [{"id": row["id"], "category": row["category"], "name": row["name"],
+                          "description": row["description"], "price": row["price"],
+                          "active": bool(row["active"]), "updatedAt": row["updated_at"]}
+                         for row in rows(connection, "SELECT * FROM public_menu_items ORDER BY rowid")]
+    tables = [{key: value for key, value in table.items() if key != "accessKey"}
+              for table in configured_tables(connection).values()]
     if (current_user or {}).get("role") == "Kitchen":
         customers, reservations, campaigns, feedback, tasks, rewards, activities, metrics = [], [], [], [], [], [], [], []
     return {"customers": customers, "reservations": reservations, "campaigns": campaigns,
@@ -1102,6 +1280,8 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
             "pointLedger": point_ledger if role_level >= ROLE_LEVEL["Manager"] else [],
             "backups": list_backups() if role_level >= ROLE_LEVEL["Owner"] else [],
             "integrations": integration_status() if role_level >= ROLE_LEVEL["Manager"] else {},
+            "publicMenuItems": public_menu_items if role_level >= ROLE_LEVEL["Manager"] else [],
+            "tables": tables if role_level >= ROLE_LEVEL["Manager"] else [],
             **operations,
             "user": current_user}
 
@@ -1358,9 +1538,48 @@ class CRMHandler(SimpleHTTPRequestHandler):
         self.send_json({"error": "API route not found"}, HTTPStatus.NOT_FOUND)
 
     def do_GET(self):
-        path = urlparse(self.path).path
+        parsed = urlparse(self.path)
+        path = parsed.path
+        query = parse_qs(parsed.query)
         if path == "/api/health":
             self.send_json({"status": "ok", "database": DB_PATH.name})
+            return
+        if path == "/api/public/menu":
+            with connect() as connection:
+                self.send_json(public_menu_payload(connection))
+            return
+        if path == "/api/public/table":
+            table_code = str(query.get("table", [""])[0]).strip().upper()
+            access_key = str(query.get("key", [""])[0]).strip()
+            with connect() as connection:
+                try:
+                    table = validate_order_table(connection, table_code, access_key)
+                except PermissionError as error:
+                    self.send_json({"error": str(error)}, HTTPStatus.FORBIDDEN)
+                    return
+                wifi_name = setting_value(connection, "guest_wifi_name", "Mangosteen Guest")
+                wifi_password = setting_value(connection, "guest_wifi_password", "Mangosteen@2026")
+                wifi_demo = bool(setting_value(connection, "guest_wifi_demo", True))
+            self.send_json({"table": {"id": table_code, "label": table["label"], "capacity": table["capacity"], "zoneName": table["zoneName"]},
+                            "wifi": {"name": wifi_name, "password": wifi_password, "demo": wifi_demo}})
+            return
+        order_match = re.fullmatch(r"/api/public/orders/([A-Za-z0-9_-]+)", path)
+        if order_match:
+            with connect() as connection:
+                order = connection.execute("SELECT * FROM orders WHERE public_token=?", (order_match.group(1),)).fetchone()
+                if not order:
+                    self.send_json({"error": "Order not found"}, HTTPStatus.NOT_FOUND)
+                    return
+                self.send_json(public_order_payload(connection, order))
+            return
+        service_match = re.fullmatch(r"/api/public/service-requests/([A-Za-z0-9_-]+)", path)
+        if service_match:
+            with connect() as connection:
+                item = connection.execute("SELECT status, acknowledged_at FROM service_requests WHERE public_token=?", (service_match.group(1),)).fetchone()
+                if not item:
+                    self.send_json({"error": "Service request not found"}, HTTPStatus.NOT_FOUND)
+                    return
+                self.send_json({"status": item["status"], "acknowledgedAt": item["acknowledged_at"]})
             return
         if path == "/api/auth/session":
             user = self.current_user()
@@ -1512,40 +1731,42 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         "SELECT order_id FROM public_order_submissions WHERE request_key=?", (request_key,)
                     ).fetchone()
                     if previous:
-                        order = connection.execute("SELECT id, total, payment_method FROM orders WHERE id=?", (previous["order_id"],)).fetchone()
-                        self.send_json({"id": order["id"], "reference": f"QR-{order['id']:06d}", "status": "Kitchen", "total": order["total"], "paymentLabel": order["payment_method"]})
+                        order = connection.execute("SELECT * FROM orders WHERE id=?", (previous["order_id"],)).fetchone()
+                        payload = public_order_payload(connection, order)
+                        payload["publicToken"] = order["public_token"]
+                        self.send_json(payload)
                         return
                     if not self.allow_public_request():
                         self.send_json({"error": "Too many order attempts. Please try again later."}, HTTPStatus.TOO_MANY_REQUESTS)
                         return
 
                     table_code = str(body.get("table", "")).strip().upper()
-                    table_label = ORDER_TABLES.get(table_code)
+                    access_key = str(body.get("tableAccessKey", "")).strip()
                     guest_name = str(body.get("guestName", "")).strip()[:60]
                     phone = str(body.get("phone", "")).strip()[:20]
+                    notes = str(body.get("notes", "")).strip()[:300]
                     requested_items = body.get("items", [])
-                    payment_key = str(body.get("paymentMethod", ""))
-                    payment_label = "Demo card" if payment_key == "demo-card" else "Demo UPI" if payment_key == "demo-upi" else ""
-                    if not table_label:
-                        raise ValueError("This order did not come from a recognized table QR")
+                    table = validate_order_table(connection, table_code, access_key)
                     if len(guest_name) < 2:
                         raise ValueError("Please enter the guest name for this order")
                     if phone and not re.fullmatch(r"[+0-9 ()-]{7,20}", phone):
                         raise ValueError("Please enter a valid mobile number or leave it blank")
                     if not isinstance(requested_items, list) or not 1 <= len(requested_items) <= 24:
                         raise ValueError("Add between 1 and 24 menu items")
-                    if not payment_label:
-                        raise ValueError("Choose one of the demo payment methods")
-
                     normalized_items = []
                     item_count = 0
                     subtotal = 0.0
                     for requested in requested_items:
                         name = str(requested.get("name", "")).strip()[:100]
+                        category = str(requested.get("category", "")).strip()[:100]
                         quantity = int(requested.get("quantity", 0))
-                        unit_price = float(requested.get("unitPrice", 0))
-                        if not name or quantity < 1 or quantity > 10 or unit_price < 1 or unit_price > 5000:
+                        menu_item = connection.execute(
+                            "SELECT * FROM public_menu_items WHERE category=? AND name=? AND active=1",
+                            (category, name),
+                        ).fetchone()
+                        if not menu_item or quantity < 1 or quantity > 10:
                             raise ValueError("One selected menu item is invalid or unavailable")
+                        unit_price = float(menu_item["price"])
                         item_count += quantity
                         subtotal += unit_price * quantity
                         normalized_items.append((name, quantity, unit_price))
@@ -1554,11 +1775,17 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     service_charge = round(subtotal * 0.05)
                     total = subtotal + service_charge
                     timestamp = now_iso()
-                    display_table = f"QR {table_code} · {table_label} · {guest_name}"[:40]
+                    public_token = secrets.token_urlsafe(24)
+                    estimated_minutes = min(35, 12 + ((item_count + 1) // 2) * 3)
+                    display_table = f"QR {table_code} · {table['label']} · {guest_name}"[:40]
                     cursor = connection.execute(
-                        """INSERT INTO orders (table_name, status, subtotal, total, payment_method, created_at, sent_at)
-                           VALUES (?, 'Kitchen', ?, ?, ?, ?, ?)""",
-                        (display_table, subtotal, total, payment_label, timestamp, timestamp),
+                        """INSERT INTO orders
+                           (table_name, status, subtotal, total, payment_method, created_at, sent_at,
+                            public_token, table_code, table_label, guest_name, phone, notes,
+                            service_charge, estimated_minutes)
+                           VALUES (?, 'Kitchen', ?, ?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                        (display_table, subtotal, total, timestamp, timestamp, public_token, table_code,
+                         table["label"], guest_name, phone, notes, service_charge, estimated_minutes),
                     )
                     order_id = cursor.lastrowid
                     connection.executemany(
@@ -1572,10 +1799,88 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     )
                     connection.execute(
                         "INSERT INTO activities (kind, title, details, created_at) VALUES ('order', ?, ?, ?)",
-                        ("QR demo order received", f"{display_table} · QR-{order_id:06d} · {payment_label}", timestamp),
+                        ("QR table order received", f"{display_table} · QR-{order_id:06d}", timestamp),
                     )
                     connection.commit()
-                self.send_json({"id": order_id, "reference": f"QR-{order_id:06d}", "status": "Kitchen", "total": total, "paymentLabel": payment_label}, HTTPStatus.CREATED)
+                    order = connection.execute("SELECT * FROM orders WHERE id=?", (order_id,)).fetchone()
+                    payload = public_order_payload(connection, order)
+                    payload["publicToken"] = public_token
+                self.send_json(payload, HTTPStatus.CREATED)
+                return
+
+            if path == "/api/public/service-requests":
+                request_type = str(body.get("type", "")).strip().lower()
+                if request_type not in {"waiter", "bill"}:
+                    raise ValueError("Choose a valid table service")
+                with connect() as connection:
+                    order = None
+                    if request_type == "bill":
+                        order_token = str(body.get("orderToken", "")).strip()
+                        order = connection.execute("SELECT * FROM orders WHERE public_token=?", (order_token,)).fetchone()
+                        if not order:
+                            self.send_json({"error": "This order link is no longer valid."}, HTTPStatus.NOT_FOUND)
+                            return
+                        table_code = order["table_code"]
+                        table = configured_tables(connection).get(table_code)
+                        if not table or not table["active"]:
+                            raise PermissionError("This table is currently unavailable.")
+                        payment_preference = str(body.get("paymentPreference", "")).strip()
+                        if payment_preference not in {"Online payment (demo)", "Cash at table", "Pay at counter"}:
+                            raise ValueError("Choose how you would like to settle the bill")
+                    else:
+                        table_code = str(body.get("table", "")).strip().upper()
+                        access_key = str(body.get("tableAccessKey", "")).strip()
+                        table = validate_order_table(connection, table_code, access_key)
+                        payment_preference = ""
+                    existing = connection.execute(
+                        "SELECT * FROM service_requests WHERE request_type=? AND table_code=? AND status='Open' ORDER BY id DESC LIMIT 1",
+                        (request_type, table_code),
+                    ).fetchone()
+                    if existing:
+                        self.send_json({"token": existing["public_token"], "status": existing["status"], "acknowledgedAt": existing["acknowledged_at"]})
+                        return
+                    token = secrets.token_urlsafe(24)
+                    timestamp = now_iso()
+                    cursor = connection.execute(
+                        """INSERT INTO service_requests
+                           (public_token, request_type, table_code, table_label, order_id, payment_preference, created_at)
+                           VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                        (token, request_type, table_code, table["label"], order["id"] if order else None, payment_preference, timestamp),
+                    )
+                    if order:
+                        connection.execute("UPDATE orders SET bill_requested_at=?, payment_preference=? WHERE id=?", (timestamp, payment_preference, order["id"]))
+                    connection.execute(
+                        "INSERT INTO activities (kind, title, details, created_at) VALUES ('service', ?, ?, ?)",
+                        ("Waiter requested" if request_type == "waiter" else "Bill requested", f'{table["label"]} · {payment_preference}'.strip(" ·"), timestamp),
+                    )
+                    connection.commit()
+                self.send_json({"token": token, "status": "Open", "acknowledgedAt": None, "id": cursor.lastrowid}, HTTPStatus.CREATED)
+                return
+
+            if path == "/api/public/feedback":
+                order_token = str(body.get("orderToken", "")).strip()
+                rating = int(body.get("rating", 0))
+                if rating < 1 or rating > 5:
+                    raise ValueError("Choose a rating from 1 to 5")
+                tags = [str(tag).strip() for tag in body.get("tags", []) if str(tag).strip()][:5] if isinstance(body.get("tags", []), list) else []
+                message = str(body.get("message", "")).strip()[:500]
+                with connect() as connection:
+                    order = connection.execute("SELECT * FROM orders WHERE public_token=?", (order_token,)).fetchone()
+                    if not order:
+                        self.send_json({"error": "This order link is no longer valid."}, HTTPStatus.NOT_FOUND)
+                        return
+                    feedback_message = " — ".join(part for part in (" · ".join(tags), message) if part) or f"{rating}-star table feedback"
+                    connection.execute(
+                        """INSERT INTO feedback (name, rating, message, status, source, avatar, created_at)
+                           VALUES (?, ?, ?, ?, 'Table QR', '#537878', ?)""",
+                        (order["guest_name"] or "Table guest", rating, feedback_message, "Resolved" if rating >= 4 else "Unresolved", now_iso()),
+                    )
+                    connection.execute(
+                        "INSERT INTO activities (kind, title, details, created_at) VALUES ('feedback', ?, ?, ?)",
+                        (f"{rating}-star QR feedback received", f'{order["table_label"]} · {feedback_message}'[:140], now_iso()),
+                    )
+                    connection.commit()
+                self.send_json({"submitted": True, "googleReviewUrl": GOOGLE_REVIEW_URL}, HTTPStatus.CREATED)
                 return
 
             if path == "/api/auth/login":
@@ -1632,6 +1937,47 @@ class CRMHandler(SimpleHTTPRequestHandler):
                 return
 
             with connect() as connection:
+                menu_match = re.fullmatch(r"/api/public-menu-items/(.+)", path)
+                if menu_match:
+                    self.require_user("Owner")
+                    item_id = unquote(menu_match.group(1))
+                    item = connection.execute("SELECT * FROM public_menu_items WHERE id=?", (item_id,)).fetchone()
+                    if not item:
+                        self.send_json({"error": "Menu item not found"}, HTTPStatus.NOT_FOUND)
+                        return
+                    price = float(body.get("price", item["price"]))
+                    if price < 0 or price > 10000:
+                        raise ValueError("Enter a valid menu price")
+                    active = int(bool(body.get("active", bool(item["active"]))))
+                    connection.execute("UPDATE public_menu_items SET price=?,active=?,updated_at=? WHERE id=?", (price, active, now_iso(), item_id))
+                    connection.commit()
+                    self.send_json({"updated": True})
+                    return
+                table_match = re.fullmatch(r"/api/tables/([^/]+)", path)
+                if table_match:
+                    self.require_user("Owner")
+                    table_id = table_match.group(1)
+                    table = configured_tables(connection).get(table_id)
+                    if not table:
+                        self.send_json({"error": "Table not found"}, HTTPStatus.NOT_FOUND)
+                        return
+                    capacity = int(body.get("capacity", table["capacity"]))
+                    if capacity < 1 or capacity > 30:
+                        raise ValueError("Capacity must be between 1 and 30")
+                    managed = setting_value(connection, "managed_tables", {}) or {}
+                    managed[table_id] = {"label": str(body.get("label", table["label"])).strip()[:40],
+                                         "zoneName": str(body.get("zoneName", table["zoneName"])).strip()[:60],
+                                         "capacity": capacity, "active": bool(body.get("active", table["active"]))}
+                    connection.execute("INSERT INTO settings (key,value) VALUES ('managed_tables',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", (json.dumps(managed),))
+                    connection.commit()
+                    self.send_json({"updated": True})
+                    return
+                if path == "/api/notifications/run-daily":
+                    self.require_user("Owner")
+                    result = queue_daily_operations_notifications(connection, force=True)
+                    connection.commit()
+                    self.send_json(result)
+                    return
                 if path == "/api/auth/change-password":
                     current_password = str(body.get("currentPassword", ""))
                     new_password = str(body.get("newPassword", ""))
@@ -1647,6 +1993,21 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     connection.execute("DELETE FROM sessions WHERE user_id=? AND token_hash<>?", (user["id"], current_hash))
                     connection.commit()
                     self.send_json({"changed": True})
+                    return
+
+                service_match = re.fullmatch(r"/api/service-requests/(\d+)/acknowledge", path)
+                if service_match:
+                    self.require_user("Cashier")
+                    timestamp = now_iso()
+                    cursor = connection.execute(
+                        "UPDATE service_requests SET status='Acknowledged', acknowledged_at=? WHERE id=?",
+                        (timestamp, int(service_match.group(1))),
+                    )
+                    if not cursor.rowcount:
+                        self.send_json({"error": "Service request not found"}, HTTPStatus.NOT_FOUND)
+                        return
+                    connection.commit()
+                    self.send_json({"acknowledged": True})
                     return
 
                 if path == "/api/orders":
@@ -1697,18 +2058,19 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
 
                 if path.startswith("/api/orders/") and path.endswith("/status"):
-                    self.require_roles("Owner", "Manager", "Kitchen")
+                    self.require_roles("Owner", "Manager", "Kitchen", "Cashier")
                     order_id = int(path.split("/")[3])
                     requested = str(body.get("status", "")).title()
-                    if requested not in {"Kitchen", "Preparing", "Ready"}:
-                        raise ValueError("Kitchen status must be Kitchen, Preparing or Ready")
+                    if requested not in {"Kitchen", "Preparing", "Ready", "Served"}:
+                        raise ValueError("Order status must be Kitchen, Preparing, Ready or Served")
                     record = connection.execute("SELECT id, status FROM orders WHERE id=?", (order_id,)).fetchone()
                     if not record or record["status"] == "Paid":
                         raise ValueError("Order is unavailable or already paid")
                     ready_at = now_iso() if requested == "Ready" else None
+                    served_at = now_iso() if requested == "Served" else None
                     connection.execute(
-                        "UPDATE orders SET status=?, ready_at=COALESCE(?, ready_at) WHERE id=?",
-                        (requested, ready_at, order_id),
+                        "UPDATE orders SET status=?, ready_at=COALESCE(?, ready_at), served_at=COALESCE(?, served_at) WHERE id=?",
+                        (requested, ready_at, served_at, order_id),
                     )
                     connection.commit()
                     self.send_json({"updated": True, "status": requested})
@@ -2086,7 +2448,10 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     allowed = {"business_name", "primary_phone", "address", "timezone", "currency",
                                "points_per_rupee", "automatic_points", "reservation_reminders",
                                "marketing_requires_consent", "backup_enabled", "backup_retention_days",
-                               "tier_silver", "tier_gold", "tier_platinum", "feedback_url"}
+                               "tier_silver", "tier_gold", "tier_platinum", "feedback_url",
+                               "guest_wifi_name", "guest_wifi_password", "guest_wifi_demo"}
+                    allowed.update({"operations_alert_recipient", "daily_sales_report_enabled",
+                                    "low_stock_alert_enabled", "daily_report_time"})
                     for key, value in body.items():
                         if key in allowed:
                             connection.execute(
@@ -2098,9 +2463,9 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
                 if path == "/api/reset":
                     self.require_user("Owner")
-                    for table in ("public_order_submissions", "public_submissions", "communications", "point_ledger", "payments",
+                    for table in ("service_requests", "public_order_submissions", "public_submissions", "communications", "point_ledger", "payments",
                                   "inventory_movements", "order_items", "attendance", "expenses",
-                                  "recipes", "orders", "staff", "vendors", "inventory_items", "menu_items",
+                                  "recipes", "orders", "staff", "vendors", "inventory_items", "menu_items", "public_menu_items",
                                   "reservations", "feedback", "tasks", "campaigns", "rewards",
                                   "activities", "monthly_metrics", "customers", "settings"):
                         connection.execute(f"DELETE FROM {table}")

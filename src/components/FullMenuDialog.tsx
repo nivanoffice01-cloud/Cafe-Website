@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { fullMenu, fullMenuCount, type MenuItem } from '../data/fullMenu'
+import { fullMenu, type MenuCategory, type MenuItem } from '../data/fullMenu'
 import { menuPhotoFor } from '../data/menuPhotos'
 import { responsivePhotoSrcSet } from '../data/responsivePhoto'
+import { fallbackPublicMenu, getPublicMenu } from '../lib/menu'
 
 type Props = { onClose: () => void; initialSelection?: { category: string; name: string } | null }
 type SelectedDish = MenuItem & { category: string }
@@ -22,6 +23,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
     ? (() => { const category = fullMenu.find((entry) => entry.name === initialSelection.category); const item = category?.items.find((entry) => entry.name === initialSelection.name); return item ? { category: category!.name, ...item } : defaultDish })()
     : defaultDish
   const [selectedCategory, setSelectedCategory] = useState(initialDish.category)
+  const [menuCatalog, setMenuCatalog] = useState<MenuCategory[]>(fallbackPublicMenu)
   const [query, setQuery] = useState('')
   const [selectedDish, setSelectedDish] = useState<SelectedDish>(initialDish)
   const [expandedPhoto, setExpandedPhoto] = useState<string | null>(null)
@@ -53,20 +55,24 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
     }
   }, [onClose])
 
+  useEffect(() => {
+    getPublicMenu().then((result) => setMenuCatalog(result.categories)).catch(() => undefined)
+  }, [])
+
   const filteredCategories = useMemo(() => {
     const normalized = query.trim().toLowerCase()
-    if (!normalized) return fullMenu.filter((category) => category.name === selectedCategory)
-    return fullMenu.map((category) => ({
+    if (!normalized) return menuCatalog.filter((category) => category.name === selectedCategory)
+    return menuCatalog.map((category) => ({
       ...category,
       items: category.items.filter((item) => `${item.name} ${item.description ?? ''} ${category.name}`.toLowerCase().includes(normalized)),
     })).filter((category) => category.items.length > 0)
-  }, [query, selectedCategory])
+  }, [menuCatalog, query, selectedCategory])
 
   const chooseCategory = (name: string) => {
     setSelectedCategory(name)
     setQuery('')
     setExpandedPhoto(null)
-    const category = fullMenu.find((entry) => entry.name === name)
+    const category = menuCatalog.find((entry) => entry.name === name)
     const first = category?.items[0]
     if (first) setSelectedDish({ category: name, ...first })
     searchRef.current?.blur()
@@ -76,7 +82,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
     setExpandedPhoto(null)
     const normalized = value.trim().toLowerCase()
     if (!normalized) return
-    for (const category of fullMenu) {
+    for (const category of menuCatalog) {
       const match = category.items.find((item) => `${item.name} ${item.description ?? ''} ${category.name}`.toLowerCase().includes(normalized))
       if (match) {
         setSelectedDish({ category: category.name, ...match })
@@ -95,7 +101,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
           <div className="menu-dialog-heading">
             <p className="section-index">AN EVENING AT MANGOSTEEN</p>
             <h2 id="full-menu-heading">The evening <em>menu.</em></h2>
-            <p>{fullMenuCount} dishes · 13 chapters</p>
+            <p>{menuCatalog.reduce((sum, category) => sum + category.items.length, 0)} dishes · {menuCatalog.length} chapters</p>
           </div>
           <button ref={closeRef} type="button" className="menu-close" onClick={onClose} aria-label="Close menu"><span>Close</span><i aria-hidden="true">×</i></button>
         </header>
@@ -105,7 +111,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
             <div className="menu-toolbar">
               <p className="menu-category-label">Explore the categories</p>
               <div className="menu-category-nav" aria-label="Menu categories">
-                {fullMenu.map((category, index) => (
+                {menuCatalog.map((category, index) => (
                   <button
                     key={category.name}
                     type="button"
@@ -137,12 +143,12 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
                       const content = <>
                         {photo && <img className="menu-dish-thumb" src={photo.src} alt="" loading="lazy" decoding="async" />}
                         <span className="menu-dish-copy"><strong>{item.name}</strong>{item.description && <small>{item.description}</small>}</span>
-                        <span className="menu-dish-price">₹{item.price}</span>
+                        <span className="menu-dish-price">{item.available === false ? 'Unavailable' : `₹${item.price}`}</span>
                       </>
                       return <div key={`${category.name}-${item.name}`}>
                         <button
                           type="button"
-                          className={`menu-dish-row menu-dish-row-desktop${selectedDish.name === item.name && selectedDish.category === category.name ? ' is-active' : ''}`}
+                          className={`menu-dish-row menu-dish-row-desktop${selectedDish.name === item.name && selectedDish.category === category.name ? ' is-active' : ''}${item.available === false ? ' is-unavailable' : ''}`}
                           onClick={() => { setSelectedCategory(category.name); setSelectedDish({ category: category.name, ...item }) }}
                           aria-label={`View ${item.name} details, ₹${item.price}`}
                         >{content}</button>
@@ -161,7 +167,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
                   </div>
                 </section>
               )) : <p className="menu-no-results">Nothing found for “{query}”. Try another dish.</p>}
-              <p className="menu-price-note">Indicative prices from a public listing, updated October 2026. Please confirm current prices with the cafe.</p>
+              <p className="menu-price-note">Live prices and availability are managed by Mangosteen Café.</p>
             </div>
           </div>
 
