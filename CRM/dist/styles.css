@@ -3331,6 +3331,30 @@ body {
   gap: 10px;
 }
 
+.floor-ready-row {
+  align-items: flex-start;
+}
+
+.floor-ready-row > .floor-ready-copy {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.floor-ready-row .floor-ready-items {
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.floor-served-button {
+  min-width: 122px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
 .closing-list .closing-total {
   margin-top: 5px;
   padding-top: 18px;
@@ -3642,6 +3666,15 @@ body {
 
   .payment-methods {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .floor-ready-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .floor-served-button {
+    width: 100%;
   }
 
   .payment-methods span {
