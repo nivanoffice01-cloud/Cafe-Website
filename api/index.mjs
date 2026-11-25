@@ -440,6 +440,8 @@ function publicOrderPayload(order) {
     serviceCharge: order.serviceCharge || 0,
     tableLabel: order.tableLabel,
     guestName: order.guestName,
+    paymentMethod: order.paymentMethod || '',
+    prepaid: Boolean(order.paymentMethod && order.paidAt),
     paymentPreference: order.paymentPreference || '',
     billRequestedAt: order.billRequestedAt || null,
     createdAt: order.createdAt,
@@ -468,8 +470,12 @@ async function handlePublicOrder(request, state, body) {
   const guestName = String(body.guestName || '').trim().slice(0, 60)
   const phone = String(body.phone || '').trim().slice(0, 20)
   const notes = String(body.notes || '').trim().slice(0, 300)
+  const payment = body.payment || {}
+  const paymentMethod = String(payment.method || '').toUpperCase() === 'UPI' ? 'UPI' : String(payment.method || '').replace(/^./, (value) => value.toUpperCase())
+  const paymentReference = String(payment.reference || '').trim()
   if (guestName.length < 2) throw new Error('Please enter the guest name for this order')
   if (phone && !/^[+0-9 ()-]{7,20}$/.test(phone)) throw new Error('Please enter a valid mobile number or leave it blank')
+  if (payment.status !== 'Paid' || payment.mode !== 'Demo' || !['UPI', 'Card'].includes(paymentMethod) || !/^DEMO-[A-Za-z0-9._:-]{6,80}$/.test(paymentReference)) throw new Error('Complete the online payment before sending this order to the kitchen')
   if (!Array.isArray(body.items) || !body.items.length || body.items.length > 24) throw new Error('Add between 1 and 24 menu items')
   let itemCount = 0
   const items = body.items.map((requested) => {
@@ -487,14 +493,15 @@ async function handlePublicOrder(request, state, body) {
   const publicToken = randomUUID()
   const order = {
     id: nextId(state.orders), table: `QR ${table.id} · ${table.label} · ${guestName}`.slice(0, 40), tableCode: table.id, tableLabel: table.label, status: 'Kitchen',
-    subtotal, serviceCharge, total, paymentMethod: null, paymentPreference: '', paymentDemo: true, notes,
-    guestName, phone, publicToken, estimatedMinutes: Math.min(35, 12 + Math.ceil(itemCount / 2) * 3), createdAt, sentAt: createdAt, readyAt: null, servedAt: null, paidAt: null, billRequestedAt: null, items,
+    subtotal, serviceCharge, total, paymentMethod, paymentPreference: `Prepaid online (${paymentMethod})`, paymentDemo: true, paymentReference, notes,
+    guestName, phone, publicToken, estimatedMinutes: Math.min(35, 12 + Math.ceil(itemCount / 2) * 3), createdAt, sentAt: createdAt, readyAt: null, servedAt: null, paidAt: createdAt, billRequestedAt: null, items,
   }
   state.orders.unshift(order)
+  state.payments.unshift({ id: nextId(state.payments), orderId: order.id, method: paymentMethod, amount: total, createdAt, reference: paymentReference, mode: 'Demo' })
   order.reference = `QR-${String(order.id).padStart(6, '0')}`
   const receipt = { ...publicOrderPayload(order), publicToken }
   state.publicSubmissions[key] = receipt
-  addActivity(state, 'order', 'QR table order received', `${order.table} · ${receipt.reference}`)
+  addActivity(state, 'order', 'Prepaid QR order received', `${order.table} · ${receipt.reference} · ${paymentMethod}`)
   await saveState(state)
   return json(receipt, 201)
 }
@@ -508,6 +515,7 @@ async function handlePublicServiceRequest(state, body) {
   if (type === 'bill') {
     order = publicOrderByToken(state, body.orderToken)
     if (!order) throw Object.assign(new Error('This order link is no longer valid.'), { status: 404 })
+    if (order.paymentMethod && order.paidAt) throw new Error('This order is already prepaid')
     table = state.tables.find((item) => String(item.id) === String(order.tableCode))
     if (!table || !table.active) throw Object.assign(new Error('This table is currently unavailable.'), { status: 403 })
   } else {
@@ -734,7 +742,7 @@ async function handleRequest(request) {
       requireRoles(request, state, ['Owner', 'Manager', 'Cashier'])
       const order = state.orders.find((item) => item.id === Number(match[1]))
       const method = String(body.method || '').toUpperCase() === 'UPI' ? 'UPI' : String(body.method || '').replace(/^./, (value) => value.toUpperCase())
-      if (!order || order.status === 'Paid' || !['Cash', 'UPI', 'Card'].includes(method)) throw new Error('Order or payment method is invalid')
+      if (!order || order.status === 'Paid' || order.paidAt || !['Cash', 'UPI', 'Card'].includes(method)) throw new Error('Order or payment method is invalid')
       order.status = 'Paid'; order.paymentMethod = method; order.paidAt = now()
       state.payments.unshift({ id: nextId(state.payments), orderId: order.id, method, amount: order.total, createdAt: order.paidAt })
       await saveState(state)

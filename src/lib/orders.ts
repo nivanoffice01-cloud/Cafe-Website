@@ -13,6 +13,12 @@ export type GuestOrder = {
   phone: string
   notes: string
   items: GuestOrderItem[]
+  payment: {
+    status: 'Paid'
+    method: 'UPI' | 'Card'
+    reference: string
+    mode: 'Demo'
+  }
   website: string
 }
 
@@ -28,6 +34,8 @@ export type GuestOrderReceipt = {
   serviceCharge: number
   tableLabel: string
   guestName: string
+  paymentMethod: string
+  prepaid: boolean
   paymentPreference: string
   billRequestedAt: string | null
   createdAt: string

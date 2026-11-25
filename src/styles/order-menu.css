@@ -242,6 +242,9 @@
 .guest-card h2 { margin: .2rem 0 1rem; font-family: 'Cormorant Garamond',Georgia,serif; font-size: 2rem; }
 .guest-card-heading { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
 .guest-card-heading > strong { color: #684a2e; font-size: 1.15rem; }
+.guest-order-amount { display: grid; justify-items: end; gap: .35rem; }
+.guest-order-amount > strong { color: #684a2e; font-size: 1.15rem; }
+.guest-order-amount > span { padding: .3rem .5rem; border-radius: 999px; color: #fff; background: #326348; font-size: .52rem; font-weight: 800; letter-spacing: .06em; }
 .guest-order-line, .guest-total-line { display: flex; justify-content: space-between; gap: 1rem; padding: .72rem 0; border-bottom: 1px solid #e2d9cc; color: #5e625a; font-size: .7rem; }
 .guest-total-line { border: 0; }
 .service-card { display: grid; align-content: start; }

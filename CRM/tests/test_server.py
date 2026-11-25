@@ -102,6 +102,7 @@ class CRMServerTests(unittest.TestCase):
                 {"category": "Pizza & Pide", "name": "Margarita", "quantity": 2, "unitPrice": 499},
                 {"category": "Mocktail & Coolers", "name": "Virgin mojito", "quantity": 1, "unitPrice": 250},
             ],
+            "payment": {"status": "Paid", "method": "UPI", "reference": "DEMO-ORDER-001", "mode": "Demo"},
         }
         first_status, first, _ = self.request("/api/public/orders", headers={"Idempotency-Key": key}, body=body)
         second_status, second, _ = self.request("/api/public/orders", headers={"Idempotency-Key": key}, body=body)
@@ -110,16 +111,30 @@ class CRMServerTests(unittest.TestCase):
         self.assertEqual(first["id"], second["id"])
         self.assertEqual(first["total"], 1310)
         with crm.connect() as connection:
-            order = connection.execute("SELECT table_name, status, payment_method, public_token FROM orders WHERE id=?", (first["id"],)).fetchone()
+            order = connection.execute("SELECT table_name, status, payment_method, paid_at, public_token FROM orders WHERE id=?", (first["id"],)).fetchone()
             self.assertEqual(order["status"], "Kitchen")
-            self.assertIsNone(order["payment_method"])
+            self.assertEqual(order["payment_method"], "UPI")
+            self.assertIsNotNone(order["paid_at"])
             self.assertEqual(order["public_token"], first["publicToken"])
             self.assertIn("QR 4 · Table 04", order["table_name"])
+            payment_count = connection.execute("SELECT COUNT(*) FROM payments WHERE order_id=?", (first["id"],)).fetchone()[0]
+            self.assertEqual(payment_count, 1)
+        self.assertTrue(first["prepaid"])
+        self.assertEqual(first["paymentMethod"], "UPI")
+
+    def test_qr_order_requires_payment_before_kitchen(self):
+        status, payload, _ = self.request("/api/public/orders", headers={"Idempotency-Key": "unpaid-order-test"}, body={
+            "table": "4", "tableAccessKey": "mg-t04-c3b8701d6f9254ae", "guestName": "Unpaid Guest", "website": "",
+            "items": [{"category": "Pizza & Pide", "name": "Margarita", "quantity": 1, "unitPrice": 499}],
+        })
+        self.assertEqual(status, 400)
+        self.assertIn("payment", payload["error"])
 
     def test_public_demo_order_rejects_unknown_table_qr(self):
         status, payload, _ = self.request("/api/public/orders", headers={"Idempotency-Key": "unknown-table-order"}, body={
             "table": "T-999", "tableAccessKey": "invalid", "guestName": "Demo Guest", "website": "",
             "items": [{"category": "Pizza & Pide", "name": "Margarita", "quantity": 1, "unitPrice": 499}],
+            "payment": {"status": "Paid", "method": "UPI", "reference": "DEMO-UNKNOWN-001", "mode": "Demo"},
         })
         self.assertEqual(status, 403)
         self.assertIn("Scan the QR", payload["error"])
@@ -141,6 +156,7 @@ class CRMServerTests(unittest.TestCase):
         order_status, payload, _ = self.request("/api/public/orders", headers={"Idempotency-Key": "unavailable-menu-order"}, body={
             "table": "4", "tableAccessKey": "mg-t04-c3b8701d6f9254ae", "guestName": "Menu Guest", "website": "",
             "items": [{"category": "Pizza & Pide", "name": "Margarita", "quantity": 1, "unitPrice": 1}],
+            "payment": {"status": "Paid", "method": "Card", "reference": "DEMO-MENU-001", "mode": "Demo"},
         })
         self.assertEqual(order_status, 400)
         self.assertIn("unavailable", payload["error"])
@@ -174,6 +190,7 @@ class CRMServerTests(unittest.TestCase):
                 "table": "4", "tableAccessKey": "mg-t04-c3b8701d6f9254ae",
                 "guestName": "Priority Guest", "phone": "", "notes": "", "website": "",
                 "items": [{"category": "Pizza & Pide", "name": "Margarita", "quantity": 1, "unitPrice": 499}],
+                "payment": {"status": "Paid", "method": "UPI", "reference": "DEMO-FLOW-001", "mode": "Demo"},
             },
         )
         self.assertEqual(order_status, 201)
@@ -196,10 +213,11 @@ class CRMServerTests(unittest.TestCase):
         self.assertEqual(waiter_tracking_status, 200)
         self.assertEqual(waiter_tracking["status"], "Acknowledged")
 
-        bill_status, _, _ = self.request("/api/public/service-requests", body={
+        bill_status, bill_payload, _ = self.request("/api/public/service-requests", body={
             "type": "bill", "orderToken": token, "paymentPreference": "Cash at table",
         })
-        self.assertEqual(bill_status, 201)
+        self.assertEqual(bill_status, 400)
+        self.assertIn("prepaid", bill_payload["error"])
         feedback_status, feedback, _ = self.request("/api/public/feedback", body={
             "orderToken": token, "rating": 5, "tags": ["Tasty food"], "message": "Lovely evening",
         })

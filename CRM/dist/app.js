@@ -195,7 +195,7 @@ function calculateOperations() {
   const paymentTotals = { Cash: 0, UPI: 0, Card: 0 };
   todayPayments.forEach((item) => { paymentTotals[item.method] = (paymentTotals[item.method] || 0) + Number(item.amount || 0); });
   const itemSales = {};
-  orders.filter((order) => order.status === 'Paid').forEach((order) => order.items.forEach((item) => {
+  orders.filter((order) => order.paidAt).forEach((order) => order.items.forEach((item) => {
     itemSales[item.name] = (itemSales[item.name] || 0) + Number(item.quantity || 0);
   }));
   const topItem = Object.entries(itemSales).sort((a, b) => b[1] - a[1])[0] || ['No paid orders yet', 0];
@@ -208,8 +208,8 @@ function calculateOperations() {
   return {
     activeOrders: orders.filter((item) => !['Paid', 'Cancelled'].includes(item.status)),
     kitchenOrders: orders.filter((item) => ['Kitchen', 'Preparing', 'Ready'].includes(item.status)),
-    unpaidOrders: orders.filter((item) => item.status !== 'Paid'),
-    paidOrders: orders.filter((item) => item.status === 'Paid'),
+    unpaidOrders: orders.filter((item) => !item.paidAt),
+    paidOrders: orders.filter((item) => Boolean(item.paidAt)),
     todaySales, monthSales, todayExpenseTotal, monthExpenseTotal, todayPaymentCount: todayPayments.length,
     todayProfit: todaySales - todayExpenseTotal,
     monthProfit: monthSales - monthExpenseTotal,
@@ -346,6 +346,10 @@ function todayLabel() {
 
 function statusPill(value) {
   return `<span class="status ${value.toLowerCase().replaceAll(' ', '-')}">${escapeHtml(value)}</span>`;
+}
+
+function prepaidPill(order) {
+  return order.paidAt && order.paymentMethod ? '<span class="status prepaid">Prepaid</span>' : '';
 }
 
 function stars(count, total = 5) {
@@ -574,13 +578,13 @@ function renderOrders() {
     </section>
     <div class="orders-grid">
       ${orders.map((order) => `<article class="order-card ${order.status.toLowerCase()}">
-        <div class="order-card-head"><div><span class="eyebrow">Order #${String(order.id).padStart(3, '0')}</span><h3>${escapeHtml(order.table)}</h3></div>${statusPill(order.status)}</div>
+        <div class="order-card-head"><div><span class="eyebrow">Order #${String(order.id).padStart(3, '0')}</span><h3>${escapeHtml(order.table)}</h3></div><div class="status-group">${prepaidPill(order)}${statusPill(order.status)}</div></div>
         ${orderItemsMarkup(order)}
         <div class="order-total"><span>Total</span><strong>${inr(order.total)}</strong></div>
         <div class="order-meta"><span>${relativeTime(order.createdAt)} ago</span>${order.paymentMethod ? `<span>${escapeHtml(order.paymentMethod)}</span>` : ''}</div>
         ${order.status === 'Draft' ? `<button class="btn btn-primary btn-block" data-action="send-order" data-id="${order.id}">${icon('send')} Send to kitchen</button>` : ''}
-        ${order.status === 'Ready' ? `${data.user?.role === 'Cashier' ? '' : `<button class="btn btn-block" data-action="mark-served" data-id="${order.id}">${icon('check')} Mark served</button>`}<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
-        ${order.status === 'Served' ? `<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
+        ${order.status === 'Ready' ? `${data.user?.role === 'Cashier' ? '' : `<button class="btn btn-block" data-action="mark-served" data-id="${order.id}">${icon('check')} Mark served</button>`}${order.paidAt ? '' : `<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>`}` : ''}
+        ${order.status === 'Served' && !order.paidAt ? `<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
       </article>`).join('') || '<div class="empty-state"><div><h3>No orders yet</h3><p>Create the first table order to begin service.</p></div></div>'}
     </div>`;
 }
@@ -598,7 +602,7 @@ function renderKitchen() {
       ${columns.map(([status, title, subtitle]) => `<section class="kds-column ${status.toLowerCase()}">
         <div class="kds-column-head"><div><h2>${title}</h2><p>${subtitle}</p></div><span>${orders.filter((item) => item.status === status).length}</span></div>
         <div class="kds-stack">${orders.filter((item) => item.status === status).map((order) => `<article class="kds-card">
-          <div class="kds-ticket-head"><div><span>Order #${String(order.id).padStart(3, '0')}</span><strong>${escapeHtml(order.table)}</strong></div><div class="kds-timer">${icon('clock')} ${relativeTime(order.sentAt || order.createdAt)}</div></div>
+          <div class="kds-ticket-head"><div><span>Order #${String(order.id).padStart(3, '0')}</span><strong>${escapeHtml(order.table)}</strong></div><div class="kds-ticket-meta">${prepaidPill(order)}<div class="kds-timer">${icon('clock')} ${relativeTime(order.sentAt || order.createdAt)}</div></div></div>
           <ul>${order.items.map((item) => `<li><strong>${item.quantity}×</strong> ${escapeHtml(item.name)}</li>`).join('')}</ul>
           ${status === 'Kitchen' ? `<button class="btn btn-primary btn-block" data-action="kitchen-start" data-id="${order.id}">Start preparing</button>` : ''}
           ${status === 'Preparing' ? `<button class="btn btn-primary btn-block" data-action="kitchen-ready" data-id="${order.id}">${icon('check')} Mark ready</button>` : ''}
@@ -620,7 +624,7 @@ function renderFloor() {
     </section>
     <div class="ops-grid two">
       <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Ready orders</h2><p>Deliver these orders, then confirm service</p></div><span class="status active">${readyOrders.length} ready</span></div><div class="panel-body bill-list">
-        ${readyOrders.map((order) => `<div class="bill-row"><div><strong>${escapeHtml(order.table)} · Order #${String(order.id).padStart(3, '0')}</strong><span>${order.items.map((item) => `${item.quantity}× ${escapeHtml(item.name)}`).join(', ')}</span></div><button class="btn btn-small btn-primary" data-action="mark-served" data-id="${order.id}">${icon('check')} Mark served</button></div>`).join('') || '<div class="empty-state compact"><p>No orders are waiting at the kitchen pass.</p></div>'}
+        ${readyOrders.map((order) => `<div class="bill-row"><div><strong>${escapeHtml(order.table)} · Order #${String(order.id).padStart(3, '0')} ${order.paidAt ? '· PREPAID' : ''}</strong><span>${order.items.map((item) => `${item.quantity}× ${escapeHtml(item.name)}`).join(', ')}</span></div><button class="btn btn-small btn-primary" data-action="mark-served" data-id="${order.id}">${icon('check')} Mark served</button></div>`).join('') || '<div class="empty-state compact"><p>No orders are waiting at the kitchen pass.</p></div>'}
       </div></article>
       <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Guest requests</h2><p>Requests sent from table QR menus</p></div><span class="status pending">${requests.length} waiting</span></div><div class="panel-body bill-list">
         ${requests.map((request) => `<div class="bill-row"><div><strong>${escapeHtml(request.tableLabel)} · ${request.type === 'bill' ? 'Bill requested' : 'Waiter requested'}</strong><span>${request.type === 'bill' ? escapeHtml(request.paymentPreference || 'Payment preference not selected') : `${relativeTime(request.createdAt)} ago`}</span></div><button class="btn btn-small btn-primary" data-action="acknowledge-service" data-id="${request.id}">${icon('check')} Acknowledge</button></div>`).join('') || '<div class="empty-state compact"><p>No guest requests are waiting.</p></div>'}

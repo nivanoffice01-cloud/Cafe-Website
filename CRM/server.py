@@ -1092,6 +1092,7 @@ def public_order_payload(connection: sqlite3.Connection, order: sqlite3.Row | di
         "id": record["id"], "reference": f'QR-{record["id"]:06d}', "status": record["status"],
         "total": record["total"], "subtotal": record["subtotal"], "serviceCharge": record.get("service_charge", 0),
         "tableLabel": record.get("table_label") or record["table_name"], "guestName": record.get("guest_name") or "Guest",
+        "paymentMethod": record.get("payment_method") or "", "prepaid": bool(record.get("payment_method") and record.get("paid_at")),
         "paymentPreference": record.get("payment_preference") or "", "billRequestedAt": record.get("bill_requested_at"),
         "createdAt": record["created_at"], "readyAt": record.get("ready_at"), "servedAt": record.get("served_at"),
         "paidAt": record.get("paid_at"), "estimatedMinutes": record.get("estimated_minutes") or 20, "items": items,
@@ -1751,12 +1752,20 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     guest_name = str(body.get("guestName", "")).strip()[:60]
                     phone = str(body.get("phone", "")).strip()[:20]
                     notes = str(body.get("notes", "")).strip()[:300]
+                    payment = body.get("payment") if isinstance(body.get("payment"), dict) else {}
+                    payment_method = str(payment.get("method", "")).strip().upper()
+                    payment_reference = str(payment.get("reference", "")).strip()
                     requested_items = body.get("items", [])
                     table = validate_order_table(connection, table_code, access_key)
                     if len(guest_name) < 2:
                         raise ValueError("Please enter the guest name for this order")
                     if phone and not re.fullmatch(r"[+0-9 ()-]{7,20}", phone):
                         raise ValueError("Please enter a valid mobile number or leave it blank")
+                    if (payment.get("status") != "Paid" or payment.get("mode") != "Demo" or
+                            payment_method not in {"UPI", "CARD"} or
+                            not re.fullmatch(r"DEMO-[A-Za-z0-9._:-]{6,80}", payment_reference)):
+                        raise ValueError("Complete the online payment before sending this order to the kitchen")
+                    payment_method = "Card" if payment_method == "CARD" else "UPI"
                     if not isinstance(requested_items, list) or not 1 <= len(requested_items) <= 24:
                         raise ValueError("Add between 1 and 24 menu items")
                     normalized_items = []
@@ -1786,11 +1795,11 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     display_table = f"QR {table_code} · {table['label']} · {guest_name}"[:40]
                     cursor = connection.execute(
                         """INSERT INTO orders
-                           (table_name, status, subtotal, total, payment_method, created_at, sent_at,
+                           (table_name, status, subtotal, total, payment_method, paid_at, payment_preference, created_at, sent_at,
                             public_token, table_code, table_label, guest_name, phone, notes,
                             service_charge, estimated_minutes)
-                           VALUES (?, 'Kitchen', ?, ?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                        (display_table, subtotal, total, timestamp, timestamp, public_token, table_code,
+                           VALUES (?, 'Kitchen', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                        (display_table, subtotal, total, payment_method, timestamp, f"Prepaid online ({payment_method})", timestamp, timestamp, public_token, table_code,
                          table["label"], guest_name, phone, notes, service_charge, estimated_minutes),
                     )
                     order_id = cursor.lastrowid
@@ -1804,8 +1813,12 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         (request_key, order_id, timestamp),
                     )
                     connection.execute(
+                        "INSERT INTO payments (order_id, method, amount, created_at) VALUES (?, ?, ?, ?)",
+                        (order_id, payment_method, total, timestamp),
+                    )
+                    connection.execute(
                         "INSERT INTO activities (kind, title, details, created_at) VALUES ('order', ?, ?, ?)",
-                        ("QR table order received", f"{display_table} · QR-{order_id:06d}", timestamp),
+                        ("Prepaid QR order received", f"{display_table} · QR-{order_id:06d} · {payment_method}", timestamp),
                     )
                     connection.commit()
                     order = connection.execute("SELECT * FROM orders WHERE id=?", (order_id,)).fetchone()
@@ -1826,6 +1839,8 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         if not order:
                             self.send_json({"error": "This order link is no longer valid."}, HTTPStatus.NOT_FOUND)
                             return
+                        if order["payment_method"] and order["paid_at"]:
+                            raise ValueError("This order is already prepaid")
                         table_code = order["table_code"]
                         table = configured_tables(connection).get(table_code)
                         if not table or not table["active"]:
@@ -2098,7 +2113,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     order = connection.execute("SELECT * FROM orders WHERE id=?", (order_id,)).fetchone()
                     if not order:
                         raise ValueError("Order not found")
-                    if order["status"] == "Paid":
+                    if order["status"] == "Paid" or order["paid_at"]:
                         raise ValueError("Order is already paid")
                     timestamp = now_iso()
                     connection.execute(
