@@ -1,0 +1,108 @@
+{
+  "checks": [
+    "Arch path genuinely changes with scroll and returns exactly on reverse; photograph is not scaled",
+    "Complete desktop journey recorded",
+    "Dining table buttons, keyboard, independent rotation and pointer inertia work",
+    "Glass brush persistently erases real canvas pixels; accessible reveal and reset work",
+    "Marketing exit, native back/forward, and direct QR bypass work without a stuck curtain",
+    "Mobile navigation focus/scroll lock, touch table rotation and touch glass wiping pass",
+    "12 responsive viewports, desktop/mobile section captures, and reduced-motion fallback verified"
+  ],
+  "errors": [],
+  "badResponses": [],
+  "viewports": [
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 568
+    },
+    {
+      "width": 360,
+      "scrollWidth": 360,
+      "height": 800
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844
+    },
+    {
+      "width": 430,
+      "scrollWidth": 430,
+      "height": 932
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 1024
+    },
+    {
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900
+    },
+    {
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1440
+    },
+    {
+      "width": 3440,
+      "scrollWidth": 3440,
+      "height": 1440
+    },
+    {
+      "width": 3840,
+      "scrollWidth": 3840,
+      "height": 2160
+    },
+    {
+      "width": 812,
+      "scrollWidth": 812,
+      "height": 375
+    }
+  ],
+  "performance": {
+    "desktop": {
+      "shifts": 0.0037369820132994685,
+      "lcp": 512,
+      "initialTransferBytes": 746211,
+      "fullJourneyTransferBytes": 2458389,
+      "environment": "Headless desktop Chrome on local Mac; cold HTTP cache; no network throttling",
+      "frameStats": {
+        "samples": 1382,
+        "medianMs": 16.69999999999891,
+        "p95Ms": 16.799999999999272,
+        "framesOver25ms": 0,
+        "framesOver50ms": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0
+    },
+    "mobile": {
+      "shifts": 0,
+      "initialTransferBytes": 704765,
+      "fullJourneyTransferBytes": 1802371,
+      "environment": "390x844 Chrome touch emulation on local Mac, not physical phone hardware; cold HTTP cache",
+      "frameStats": {
+        "samples": 1531,
+        "medianMs": 16.69999999999891,
+        "p95Ms": 16.799999999999272,
+        "framesOver25ms": 0,
+        "framesOver50ms": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0
+    }
+  }
+}

@@ -1,0 +1,9 @@
+REMAINING PHOTOGRAPHIC ASSET REQUIREMENTS
+
+1. Genuine dish-specific overhead portraits: Margarita, Pesto cream Pasta, Veg Cheese Burger, Virgin mojito and Chocolate Cheesecake. At least 2000x2000 per plate, camera perpendicular to table; entire plate rim, calibrated colour, consistent warm studio lighting. Transparent lossless WebP/PNG cutouts plus camera originals. Existing stock menu portraits remain explicitly labelled illustrative until replaced; they are not represented as Mangosteen servings.
+2. Isolated basil: 800x1000 transparent PNG/WebP, both top and oblique views matching the pizza photograph, soft directional lighting. No synthetic leaves/topping animation substituted.
+3. Coffee: verified menu-specific cup photograph, 2000x2400, and a matching cup/background separation. No genuine coffee asset is present; no coffee steam demonstration is fabricated.
+4. Mocktail: actual cafe glass, 1800x2800, transparent cutout and individual citrus/mint layers, matching perspective. No fake detachable garnish currently supplied.
+5. Larger source-quality exterior: existing 8K file is an upscaled photo with limited fine detail. Current hero uses an optimized derivative of the genuine source, not the AI-restored exterior. A sharper original would materially improve full-width viewing.
+
+No new cafe architecture, food, facilities, telephone number, social account or availability was invented. Existing verified address/hours/Maps/Zomato data is reused. No confirmed phone/email/Instagram fields exist in the cafe data, so these are omitted.

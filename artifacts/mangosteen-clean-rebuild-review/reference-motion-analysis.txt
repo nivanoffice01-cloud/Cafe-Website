@@ -1,0 +1,24 @@
+VELVET HOUR — OBSERVED RECORDING SPECIFICATION
+Source: supplied Screen Recording 2026-11-25 at 5.30.16 PM.mov, 38.658 seconds.
+The recording contains manual scrolling and a brief switch to the rejected local page; timestamps are observations, not measured easing/duration constants.
+
+00–02s: Central tall arch within deep-green field expands into a wide photographic viewport. Brand/type stays independently placed as the visible mask boundary opens. Implement normalized SVG path geometry with CSS sticky scene and reversible GSAP scroll progress; do not zoom the image.
+02–05s: Intro photograph gives way to generous dark negative space and staggered editorial image placements. Implement independent clipped images and restrained per-line text reveals.
+06–11s: Three sparse editorial labels followed by large architectural photographs. Images pass vertically through the viewport; no proof of connected 3D camera space. Use genuine separated cafe spaces and deliberate captions.
+12–14s: Large centered culinary heading, small vertical chef image, then circular plates arranged asymmetrically. Use genuine overhead cafe photograph as the main floating composition; no matching chef footage exists.
+15–16s: Browser briefly switches to the older local Mangosteen table prototype. This is NOT Velvet Hour behaviour and is excluded as an implementation reference.
+17–20s: Returns to Velvet Hour circular culinary rows, with a final dessert circle and generous vertical spacing. Independently translate/rotate photographic masks, never switch a slideshow.
+21–23s: Lifestyle/drinks collage with vertical photos and compact tags. Use actual rooftop and quiet-corner cafe imagery; no unverified wine service, staff or celebrations.
+24–25s: Large warm ivory circle grows from below into the closing invitation. CTA and editorial type occupy its centre. Implement circle clip on a separate background layer plus text masks.
+26–31s: Menu page visible with category navigation and circular dish photography. Existing Mangosteen digital menu is protected and is not restyled.
+32–33s: Closing section menu hover produces an image strip; booking click leaves the site.
+34–38s: External OpenTable page loads. This is not an in-site reservation interface. Mangosteen opens its existing reservation dialog instead.
+
+PALAZZO — LIVE CHROME OBSERVATIONS
+Desktop opening: oversized wooden round table cropped on the right, separate dish plates, active dish details on the left. Actual pointer dragging moves the table and changes the selected dish. Source text names eight courses; Mangosteen uses five existing menu entries without inventing a tasting menu.
+Scrolling exposes oversized editorial typography, dish rows and a window-wiping invitation. Those behaviours are implemented with original code and real cafe imagery.
+No proprietary code or reference food assets are used in the application. Reference captures remain in review artifacts only.
+
+IMPLEMENTATION TIMING (ORIGINAL CHOICES, NOT CLAIMED MEASUREMENTS)
+Entrance 1.05s, 140ms line stagger; power3.out. Scroll mask scrub 650ms damping. Menu exit 360ms power3.inOut. Dish settling 900ms power3.out, preceding text exits in 130ms and enters in 450ms. Reduced-motion uses static compositions, immediate controls and native route navigation.
+Native vertical scrolling throughout. Desktop table uses angular dragging; mobile uses horizontal intent with vertical scrolling preserved.
