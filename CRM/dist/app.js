@@ -596,7 +596,7 @@ function renderKitchen() {
           <ul>${order.items.map((item) => `<li><strong>${item.quantity}×</strong> ${escapeHtml(item.name)}</li>`).join('')}</ul>
           ${status === 'Kitchen' ? `<button class="btn btn-primary btn-block" data-action="kitchen-start" data-id="${order.id}">Start preparing</button>` : ''}
           ${status === 'Preparing' ? `<button class="btn btn-primary btn-block" data-action="kitchen-ready" data-id="${order.id}">${icon('check')} Mark ready</button>` : ''}
-          ${status === 'Ready' ? `<div class="ready-callout">${icon('checkCircle')} Ready for service</div>` : ''}
+          ${status === 'Ready' ? `<div class="ready-callout">${icon('checkCircle')} Ready for service</div><button class="btn btn-primary btn-block" data-action="mark-served" data-id="${order.id}">${icon('check')} Mark served</button>` : ''}
         </article>`).join('') || '<div class="kds-empty">No tickets</div>'}</div>
       </section>`).join('')}
     </div>`;
