@@ -12,11 +12,5 @@ dist
 .vercel
 .env*
 
-# Local cinematic masters are processed into public delivery frames.
-cinematic-source/**/*.mov
-cinematic-source/**/*.mp4
-cinematic-source/**/*.mxf
-cinematic-source/**/*.mkv
-
-# Local browser recordings and QA screenshots.
-artifacts/cinematic-qa/
+# Recoverable local archive of rejected frontend experiments.
+archives/rejected-frontends/

@@ -6,10 +6,6 @@
   "scripts": {
     "dev": "vite",
     "generate:qr": "node scripts/generate-menu-qr.mjs",
-    "cinematic:process": "node scripts/process-cinematic-sequence.mjs",
-    "cinematic:verify": "node scripts/verify-cinematic-continuity.mjs",
-    "cinematic:render-photo": "node scripts/render-photographic-cinematics.mjs",
-    "cinematic:qa": "node scripts/capture-cinematic-qa.mjs",
     "build": "tsc -b && vite build",
     "build:vercel": "npm run build && node scripts/prepare-deploy.mjs",
     "preview": "vite preview",
