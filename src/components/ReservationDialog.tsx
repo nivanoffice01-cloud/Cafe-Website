@@ -3,7 +3,7 @@ import type { CSSProperties, FormEvent } from 'react'
 import { seatsFor, seatingPlans, type SeatingZone } from '../data/seating'
 import { submitWebsiteReservation } from '../lib/crm'
 
-type Props = { onClose: () => void }
+type Props = { onClose: () => void; initialSelection?: { date: string; time: string; guests: number } }
 
 const arrivalTimes = ['5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM']
 const localRetentionMs = 30 * 24 * 60 * 60 * 1000
@@ -28,15 +28,15 @@ function toTwentyFourHour(value: string) {
   return `${String(hour).padStart(2, '0')}:${minute}`
 }
 
-export function ReservationDialog({ onClose }: Props) {
+export function ReservationDialog({ onClose, initialSelection }: Props) {
   const [today] = useState(() => new Date())
   const dates = useMemo(() => Array.from({ length: 14 }, (_, index) => {
     const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + index)
     return { value: localDateValue(date), weekday: new Intl.DateTimeFormat('en-IN', { weekday: 'short' }).format(date), day: date.getDate(), month: new Intl.DateTimeFormat('en-IN', { month: 'short' }).format(date) }
   }), [today])
-  const [date, setDate] = useState(dates[0].value)
-  const [time, setTime] = useState(arrivalTimes[2])
-  const [guests, setGuests] = useState(2)
+  const [date, setDate] = useState(initialSelection && dates.some(d => d.value === initialSelection.date) ? initialSelection.date : dates[0].value)
+  const [time, setTime] = useState(initialSelection && arrivalTimes.includes(initialSelection.time) ? initialSelection.time : arrivalTimes[2])
+  const [guests, setGuests] = useState(initialSelection && Number.isInteger(initialSelection.guests) && initialSelection.guests >= 1 && initialSelection.guests <= 6 ? initialSelection.guests : 2)
   const [zone, setZone] = useState<SeatingZone>('rooftop')
   const [selectedSeats, setSelectedSeats] = useState<string[]>([])
   const [stage, setStage] = useState<'seats' | 'details'>('seats')
