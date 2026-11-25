@@ -9,10 +9,10 @@ export default function ArchitecturalExperiencePage(){
   const fail=useCallback(()=>setFailed(true),[])
   useEffect(()=>{const onScroll=()=>{const node=root.current!;setProgress(Math.max(0,Math.min(1,-node.getBoundingClientRect().top/(node.offsetHeight-innerHeight))))};addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();return()=>{removeEventListener('scroll',onScroll);removeEventListener('resize',onScroll);cancelAnimationFrame(animation.current)}},[])
   const enter=(instant=false)=>{cancelAnimationFrame(animation.current);const end=root.current!.offsetTop+root.current!.offsetHeight-innerHeight
-    if(instant||matchMedia('(prefers-reduced-motion: reduce)').matches){scrollTo(0,end);return}
-    const start=scrollY,time=performance.now();const step=(now:number)=>{const t=Math.min(1,(now-time)/9500);scrollTo(0,start+(end-start)*(t*t*(3-2*t)));if(t<1)animation.current=requestAnimationFrame(step)};animation.current=requestAnimationFrame(step)
+    if(instant||matchMedia('(prefers-reduced-motion: reduce)').matches){scrollTo({top:end,behavior:'instant'});return}
+    const start=scrollY,time=performance.now();const step=(now:number)=>{const t=Math.min(1,(now-time)/9500);scrollTo({top:start+(end-start)*(t*t*(3-2*t)),behavior:'instant'});if(t<1)animation.current=requestAnimationFrame(step)};animation.current=requestAnimationFrame(step)
   }
-  useEffect(()=>{const stop=()=>cancelAnimationFrame(animation.current);addEventListener('wheel',stop,{passive:true});addEventListener('touchstart',stop,{passive:true});addEventListener('keydown',stop);return()=>{removeEventListener('wheel',stop);removeEventListener('touchstart',stop);removeEventListener('keydown',stop)}},[])
+  useEffect(()=>{const stop=()=>cancelAnimationFrame(animation.current);addEventListener('wheel',stop,{passive:true});addEventListener('touchstart',stop,{passive:true});addEventListener('pointerdown',stop,{passive:true});addEventListener('keydown',stop);return()=>{removeEventListener('wheel',stop);removeEventListener('touchstart',stop);removeEventListener('pointerdown',stop);removeEventListener('keydown',stop)}},[])
   return <>
     <main className="arc-journey" ref={root}>
       <div className="arc-stage">

@@ -1,6 +1,6 @@
 import * as T from 'three'
 
-// Deterministic material studies, authored locally; no external texture licences.
+// Local weave studies supplement licensed CC0 scanned wood and stone maps.
 function surface(kind: 'wood' | 'stone' | 'weave') {
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = 512
   const c = canvas.getContext('2d')!
@@ -17,20 +17,25 @@ function surface(kind: 'wood' | 'stone' | 'weave') {
   const map = new T.CanvasTexture(canvas); map.colorSpace=T.SRGBColorSpace;map.wrapS=map.wrapT=T.RepeatWrapping;map.anisotropy=4
   return map
 }
-export function createMaterials() {
+export function createMaterials(onReady:()=>void = ()=>{}) {
   const wood=surface('wood'),stone=surface('stone'),weave=surface('weave')
+  const linen=weave.clone();linen.repeat.set(14,20);linen.needsUpdate=true
+  const loader=new T.TextureLoader()
+  const load=(name:string,color=false)=>{const t=loader.load(`/materials/architectural/${name}.jpg`,onReady,undefined,onReady);t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=8;if(color)t.colorSpace=T.SRGBColorSpace;return t}
+  const woodColor=load('wood-color',true),woodNormal=load('wood-normal'),woodRoughness=load('wood-roughness')
+  const stoneColor=load('stone-color',true),stoneNormal=load('stone-normal'),stoneRoughness=load('stone-roughness')
   return {
-    wood:new T.MeshStandardMaterial({map:wood,color:'#9c744f',roughness:.55,bumpMap:wood,bumpScale:.025}),
-    darkWood:new T.MeshStandardMaterial({map:wood,color:'#473224',roughness:.7,bumpMap:wood,bumpScale:.02}),
-    stone:new T.MeshStandardMaterial({map:stone,roughness:.84,bumpMap:stone,bumpScale:.018}),
+    wood:new T.MeshStandardMaterial({map:woodColor,color:'#b79870',roughnessMap:woodRoughness,normalMap:woodNormal,normalScale:new T.Vector2(.35,.35),roughness:.8}),
+    darkWood:new T.MeshStandardMaterial({map:woodColor,color:'#664731',roughnessMap:woodRoughness,normalMap:woodNormal,normalScale:new T.Vector2(.45,.45),roughness:.9}),
+    stone:new T.MeshStandardMaterial({map:stoneColor,color:'#a9a799',roughnessMap:stoneRoughness,normalMap:stoneNormal,normalScale:new T.Vector2(.35,.35),roughness:.85}),
     metal:new T.MeshStandardMaterial({color:'#30332e',metalness:.65,roughness:.42}),
-    ceiling:new T.MeshStandardMaterial({color:'#969b95',metalness:.78,roughness:.44}),
+    ceiling:new T.MeshStandardMaterial({color:'#969b95',metalness:.7,roughness:.48,bumpMap:weave,bumpScale:.008}),
     cane:new T.MeshStandardMaterial({map:weave,color:'#c4aa7d',roughness:.85,bumpMap:weave,bumpScale:.015,side:T.DoubleSide}),
-    fabric:new T.MeshStandardMaterial({map:stone,color:'#d5bd8e',roughness:.95,side:T.DoubleSide}),
-    wall:new T.MeshStandardMaterial({color:'#b6b4a0',roughness:.95}),
-    leaf:new T.MeshStandardMaterial({color:'#355b2a',roughness:.68,side:T.DoubleSide}),
-    leafLight:new T.MeshStandardMaterial({color:'#69803b',roughness:.68,side:T.DoubleSide}),
-    planter:new T.MeshStandardMaterial({color:'#333a32',roughness:.9}),
+    fabric:new T.MeshStandardMaterial({color:'#b5a17a',bumpMap:linen,bumpScale:.002,roughness:.95,side:T.DoubleSide}),
+    wall:new T.MeshStandardMaterial({color:'#646454',roughness:.95}),
+    leaf:new T.MeshStandardMaterial({color:'#28491d',roughness:.48,bumpMap:wood,bumpScale:.012,side:T.DoubleSide}),
+    leafLight:new T.MeshStandardMaterial({color:'#3a5426',roughness:.68,side:T.DoubleSide}),
+    planter:new T.MeshStandardMaterial({color:'#252923',roughness:.8,bumpMap:stone,bumpScale:.012}),
     glow:new T.MeshStandardMaterial({color:'#ffe0a3',emissive:'#ffc471',emissiveIntensity:2}),
     glass:new T.MeshPhysicalMaterial({color:'#a9b7ad',metalness:.05,roughness:.13,transparent:true,opacity:.14,depthWrite:false}),
     ceramic:new T.MeshStandardMaterial({color:'#e4d7be',roughness:.3}),
