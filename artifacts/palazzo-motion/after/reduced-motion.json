@@ -1,0 +1,34 @@
+{
+  "triggers": [
+    {
+      "opacity": "1",
+      "filter": "none",
+      "clip": "none"
+    },
+    {
+      "opacity": "1",
+      "filter": "none",
+      "clip": "none"
+    },
+    {
+      "opacity": "1",
+      "filter": "none",
+      "clip": "none"
+    },
+    {
+      "opacity": "1",
+      "filter": "none",
+      "clip": "none"
+    },
+    {
+      "opacity": "1",
+      "filter": "none",
+      "clip": "none"
+    }
+  ],
+  "dish": "Pesto cream\nPasta.",
+  "live": {
+    "opacity": "1",
+    "clip": "none"
+  }
+}

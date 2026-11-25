@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "Two inline photographic reveals in the statement",
+    "Dish preview tracks the cursor instead of staying attached to the row",
+    "All five verified dishes select the matching preview",
+    "Preview clears on leave and scrolling",
+    "Menu introduction stays fixed during list exploration",
+    "Statement remains responsive at 320, 390 and 768px"
+  ],
+  "errors": []
+}

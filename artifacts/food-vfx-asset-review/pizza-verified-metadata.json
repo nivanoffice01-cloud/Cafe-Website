@@ -1,0 +1,120 @@
+{
+  "uid": "ce6ebbf1-94f4-4f5c-b3c8-71fa9acf0e7f",
+  "title": "Pizza Pack",
+  "assetFormats": [
+    {
+      "assetFormatType": {
+        "code": "fbx",
+        "extensions": [
+          "fbx"
+        ],
+        "icon": "cube",
+        "name": "FBX",
+        "groupName": "3D Exchange Formats"
+      },
+      "containsPack": false
+    },
+    {
+      "assetFormatType": {
+        "code": "obj",
+        "extensions": [
+          "obj"
+        ],
+        "icon": "cube",
+        "name": "OBJ",
+        "groupName": "3D Exchange Formats"
+      },
+      "containsPack": false
+    },
+    {
+      "assetFormatType": {
+        "code": "additional-files",
+        "extensions": [
+          "zip"
+        ],
+        "icon": "file",
+        "name": "Additional files",
+        "groupName": "Other Formats"
+      },
+      "containsPack": false
+    },
+    {
+      "assetFormatType": {
+        "code": "unreal-engine",
+        "extensions": [
+          "uasset",
+          "uproject",
+          "uplugin"
+        ],
+        "icon": "unreal-engine",
+        "name": "Unreal Engine",
+        "groupName": "Game Engine Formats"
+      },
+      "containsPack": false
+    },
+    {
+      "assetFormatType": {
+        "code": "blender",
+        "extensions": [
+          "blend"
+        ],
+        "icon": "blender",
+        "name": "Blender",
+        "groupName": "3D DCC Formats"
+      },
+      "containsPack": false
+    }
+  ],
+  "licenses": [
+    {
+      "isCc": false,
+      "isCc0": false,
+      "group": "standard",
+      "listingLicenseId": "130f07ff-75d4-4984-aeec-1cc15f41137c",
+      "name": "Personal",
+      "offerId": "5b1d5004ed1147d38c31e446038c1b77",
+      "priceTier": {
+        "currencyCode": "INR",
+        "price": 3247.42,
+        "priceTierId": "45da1a2f292a46c78dab0c98c5181e9a_USD_3499_1701881394547",
+        "discountedPrice": 2273.19,
+        "discountType": "PERCENTAGE",
+        "discountSettings": {
+          "discountPercentage": 30.0
+        },
+        "discountStartDate": "2026-11-19T15:00:00Z",
+        "discountEndDate": "2026-12-02T04:59:00Z",
+        "lowestPriorPrice": 3247.42,
+        "effectiveDiscountPercentage": 30
+      },
+      "slug": "personal",
+      "uid": "eec3bdd5-ba7a-45a8-b15d-67462b9630f6"
+    },
+    {
+      "isCc": false,
+      "isCc0": false,
+      "group": "standard",
+      "listingLicenseId": "3151b895-d9c6-423a-a8c1-83ea313d3988",
+      "name": "Professional",
+      "offerId": "1c634c3c1e8845f7b1fd6afb223b19fb",
+      "priceTier": {
+        "currencyCode": "INR",
+        "price": 6495.77,
+        "priceTierId": "45da1a2f292a46c78dab0c98c5181e9a_USD_6999_1701881409414",
+        "discountedPrice": 4547.03,
+        "discountType": "PERCENTAGE",
+        "discountSettings": {
+          "discountPercentage": 30.0
+        },
+        "discountStartDate": "2026-11-19T15:00:00Z",
+        "discountEndDate": "2026-12-02T04:59:00Z",
+        "lowestPriorPrice": 6495.77,
+        "effectiveDiscountPercentage": 30
+      },
+      "slug": "professional",
+      "uid": "eec3bdd5-ba7a-45a8-b15d-67462b9630f9"
+    }
+  ],
+  "isAiForbidden": true,
+  "isAiGenerated": false
+}

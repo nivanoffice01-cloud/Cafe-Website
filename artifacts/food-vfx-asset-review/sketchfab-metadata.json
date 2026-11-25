@@ -1,0 +1,56 @@
+{
+  "name": "Pizza Photogrammetry",
+  "license": {
+    "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+    "label": "CC Attribution",
+    "fullName": "Creative Commons Attribution",
+    "requirements": "Author must be credited. Commercial use is allowed.",
+    "url": "http://creativecommons.org/licenses/by/4.0/",
+    "slug": "by"
+  },
+  "faceCount": 178101,
+  "thumbnails": {
+    "images": [
+      {
+        "uid": "0ab542f3f3ab4e5db3dd7e07e90b3994",
+        "width": 64,
+        "height": 36,
+        "size": 811,
+        "url": "https://media.sketchfab.com/models/7639f6843cf54925a9a5037385ddfeae/thumbnails/a162b44e7269428aafe6e13e39d99cd9/52b549c465d948cf9fc3d63421bf4400.jpeg"
+      },
+      {
+        "uid": "3341cc3ebc084e8c8623e27d790feb52",
+        "width": 256,
+        "height": 144,
+        "size": 4794,
+        "url": "https://media.sketchfab.com/models/7639f6843cf54925a9a5037385ddfeae/thumbnails/a162b44e7269428aafe6e13e39d99cd9/ff5b70dffd594a73b44dcb4e0cbbf108.jpeg"
+      },
+      {
+        "uid": "8d1617f8bc124ed3b04b2021d8e6a895",
+        "width": 720,
+        "height": 405,
+        "size": 25627,
+        "url": "https://media.sketchfab.com/models/7639f6843cf54925a9a5037385ddfeae/thumbnails/a162b44e7269428aafe6e13e39d99cd9/9f10c027e38b4ca1b26771c3ae8d2051.jpeg"
+      },
+      {
+        "uid": "fdf1f7c6e9234da0832197aa491bcc3d",
+        "width": 1024,
+        "height": 576,
+        "size": 46520,
+        "url": "https://media.sketchfab.com/models/7639f6843cf54925a9a5037385ddfeae/thumbnails/a162b44e7269428aafe6e13e39d99cd9/2806233cc0fe4027a0d50c89d2ace4f4.jpeg"
+      },
+      {
+        "uid": "21fb95b796d54e4cbabead5893a892a1",
+        "width": 1920,
+        "height": 1080,
+        "size": 220601,
+        "url": "https://media.sketchfab.com/models/7639f6843cf54925a9a5037385ddfeae/thumbnails/a162b44e7269428aafe6e13e39d99cd9/938277ca75f04efa8079251df8fb4b0c.jpeg"
+      }
+    ]
+  },
+  "user": {
+    "username": "alexpremiumgame",
+    "displayName": "alexpremiumgame",
+    "profileUrl": "https://sketchfab.com/alexpremiumgame"
+  }
+}

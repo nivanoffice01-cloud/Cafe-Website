@@ -1,0 +1,212 @@
+{
+  "before_free_bytes": 1111646208,
+  "started": "2026-11-25T15:33:49+0530",
+  "protected_before": {
+    "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/CRM/data/mangosteen_crm.sqlite3": "93250b442c4007bc8660f9e0b1025a999fdd573365ae3bfbf25fbf286ba5e2f9",
+    "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/assets/food-vfx/pizza/pizza-study-unapproved.blend": "cb348ffbb4f4030f90598ab1855d3f2bd459ba7e6b512520a6ab32e5fd22b15d"
+  },
+  "actions": [
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Claude/Cache",
+      "purpose_and_recovery": "Chromium downloaded HTTP response cache; recreated by Claude",
+      "files": 7875,
+      "allocated_kib": 834464,
+      "status": "removed_verified_regenerable_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Claude/Code Cache",
+      "purpose_and_recovery": "V8 compiled JS/WASM cache; recompiled from downloaded application code",
+      "files": 6042,
+      "allocated_kib": 244380,
+      "status": "removed_verified_regenerable_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Canva/Cache",
+      "purpose_and_recovery": "Chromium downloaded HTTP response cache; recreated by Canva",
+      "files": 5988,
+      "allocated_kib": 342008,
+      "status": "removed_verified_regenerable_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Canva/Code Cache",
+      "purpose_and_recovery": "V8 compiled JS/WASM cache; recompiled from downloaded application code",
+      "files": 2762,
+      "allocated_kib": 202572,
+      "status": "removed_verified_regenerable_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex",
+      "purpose_and_recovery": "Compiler SDK stat cache; rebuilt from installed SDK",
+      "files": 1,
+      "allocated_kib": 1580,
+      "status": "removed_verified_regenerable_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Developer/Xcode/DerivedData/SDKExplicitPrecompiledModules",
+      "purpose_and_recovery": "Compiler precompiled modules; rebuilt from installed SDK",
+      "files": 233,
+      "allocated_kib": 193544,
+      "status": "removed_verified_regenerable_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Developer/Xcode/DerivedData/ModuleCache.noindex",
+      "purpose_and_recovery": "Compiler precompiled modules; rebuilt from installed SDK",
+      "files": 242,
+      "allocated_kib": 19996,
+      "status": "removed_verified_regenerable_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Developer/Xcode/DerivedData/ProtectedVideo-ewymnfzhycplgscxkxtyqgwcozxo/ModuleCache.noindex",
+      "purpose_and_recovery": "Compiler precompiled modules; rebuilt from installed SDK",
+      "files": 2297,
+      "allocated_kib": 717456,
+      "status": "removed_verified_regenerable_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/.trash",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "status": "skipped",
+      "reason": "Not a regular archive"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/anilkumarum.compile-ts-0.2.0",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "anilkumarum.compile-ts",
+      "allocated_kib": 148,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/anthropic.claude-code-2.1.330-darwin-arm64",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "status": "skipped",
+      "reason": "No installed matching extension; recoverability left uncertain"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/bradlc.vscode-tailwindcss-0.16.0",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "bradlc.vscode-tailwindcss",
+      "allocated_kib": 1724,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/dbaeumer.vscode-eslint-3.0.34",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "dbaeumer.vscode-eslint",
+      "allocated_kib": 264,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/esbenp.prettier-vscode-12.4.0",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "esbenp.prettier-vscode",
+      "allocated_kib": 3560,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/github.copilot-chat-0.48.1",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "status": "skipped",
+      "reason": "No installed matching extension; recoverability left uncertain"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/github.remotehub-0.66.0",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "status": "skipped",
+      "reason": "No installed matching extension; recoverability left uncertain"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/kilocode.kilo-code-7.8.32-darwin-arm64",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "kilocode.kilo-code",
+      "allocated_kib": 130284,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/martinortiz.codex-stats-1.0.4",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "status": "skipped",
+      "reason": "No installed matching extension; recoverability left uncertain"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/ms-vscode.azure-repos-0.40.0",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "ms-vscode.azure-repos",
+      "allocated_kib": 564,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/ms-vscode.remote-repositories-0.44.0",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "ms-vscode.remote-repositories",
+      "allocated_kib": 1092,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/naumovs.color-highlight-2.8.0",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "naumovs.color-highlight",
+      "allocated_kib": 448,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/openai.chatgpt-26.1120.50957-darwin-arm64",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "openai.chatgpt",
+      "allocated_kib": 343480,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/openai.chatgpt-26.5818.61809-darwin-arm64",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "openai.chatgpt",
+      "allocated_kib": 211784,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/openai.codex-audio-26.1120.41243",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "openai.codex-audio",
+      "allocated_kib": 1860,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/openai.codex-audio-26.1120.50957",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "openai.codex-audio",
+      "allocated_kib": 1860,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/pranaygp.vscode-css-peek-4.5.1",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "pranaygp.vscode-css-peek",
+      "allocated_kib": 1328,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/ritwickdey.liveserver-5.7.10",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "status": "skipped",
+      "reason": "No installed matching extension; recoverability left uncertain"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/tomoki1207.pdf-1.2.2",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "tomoki1207.pdf",
+      "allocated_kib": 3144,
+      "status": "removed_verified_installer_cache"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Application Support/Code/CachedExtensionVSIXs/usernamehw.errorlens-3.30.0",
+      "purpose_and_recovery": "Cached VS Code Marketplace installation archive; installed extension tree remains intact",
+      "extension": "usernamehw.errorlens",
+      "allocated_kib": 64,
+      "status": "removed_verified_installer_cache"
+    }
+  ],
+  "after_free_bytes": 4474605568,
+  "protected_after": {
+    "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/CRM/data/mangosteen_crm.sqlite3": "93250b442c4007bc8660f9e0b1025a999fdd573365ae3bfbf25fbf286ba5e2f9",
+    "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/assets/food-vfx/pizza/pizza-study-unapproved.blend": "cb348ffbb4f4030f90598ab1855d3f2bd459ba7e6b512520a6ab32e5fd22b15d"
+  }
+}

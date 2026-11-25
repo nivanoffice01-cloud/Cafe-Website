@@ -1,0 +1,62 @@
+{
+  "viewportChecks": [
+    {
+      "width": 320,
+      "document": 320,
+      "brokenImages": [],
+      "height": 568
+    },
+    {
+      "width": 360,
+      "document": 360,
+      "brokenImages": [],
+      "height": 800
+    },
+    {
+      "width": 390,
+      "document": 390,
+      "brokenImages": [],
+      "height": 844
+    },
+    {
+      "width": 768,
+      "document": 768,
+      "brokenImages": [],
+      "height": 1024
+    },
+    {
+      "width": 1024,
+      "document": 1024,
+      "brokenImages": [],
+      "height": 768
+    },
+    {
+      "width": 1440,
+      "document": 1440,
+      "brokenImages": [],
+      "height": 1000
+    },
+    {
+      "width": 1920,
+      "document": 1920,
+      "brokenImages": [],
+      "height": 1080
+    }
+  ],
+  "interactions": [
+    "Forward and reverse table selection",
+    "Pointer drag turns table and updates selected dish",
+    "Dish detail switch",
+    "Glass canvas genuinely erases pixels; accessible clear/restore control",
+    "Perspective card tilt",
+    "Reservation prefill and Escape close; no request submitted",
+    "Mobile navigation focus containment, Escape, focus and scrolling restoration",
+    "Mobile horizontal touch gesture rotates the table",
+    "Reduced-motion static fallback",
+    "Approved menu search, favourites, selection and Table 4 ordering context preserved; no order submitted",
+    "131 dishes and 13 categories retained",
+    "Existing homepage reservation defaults retained"
+  ],
+  "errors": [],
+  "brokenResponses": []
+}
