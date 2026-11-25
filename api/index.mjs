@@ -597,10 +597,10 @@ async function handleRequest(request) {
       if (!item) return json({ error: 'Service request not found' }, 404)
       return json({ status: item.status, acknowledgedAt: item.acknowledgedAt || null })
     }
-    if (request.method === 'POST' && path === '/public/reservations') return handlePublicReservation(request, state, body)
-    if (request.method === 'POST' && path === '/public/orders') return handlePublicOrder(request, state, body)
-    if (request.method === 'POST' && path === '/public/service-requests') return handlePublicServiceRequest(state, body)
-    if (request.method === 'POST' && path === '/public/feedback') return handlePublicFeedback(state, body)
+    if (request.method === 'POST' && path === '/public/reservations') return await handlePublicReservation(request, state, body)
+    if (request.method === 'POST' && path === '/public/orders') return await handlePublicOrder(request, state, body)
+    if (request.method === 'POST' && path === '/public/service-requests') return await handlePublicServiceRequest(state, body)
+    if (request.method === 'POST' && path === '/public/feedback') return await handlePublicFeedback(state, body)
 
     if (request.method === 'POST' && path === '/auth/login') {
       const user = state.users.find((item) => item.email === String(body.email || '').trim().toLowerCase() && item.active)
