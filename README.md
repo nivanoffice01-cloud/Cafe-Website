@@ -1,8 +1,10 @@
 # Mangosteen Cafe
 
-A React, TypeScript and Vite application with a clean temporary marketing
-homepage and the approved digital menu. All rejected marketing experiments are
-archived; no animation engine is installed. The menu and cafe facts remain
+A React, TypeScript and Vite application with an isolated cinematic marketing
+homepage and the approved digital menu. Rejected marketing experiments remain
+archived. The new marketing route uses scoped GSAP/ScrollTrigger timelines,
+photographic masks, an interactive dining table and a canvas glass reveal.
+The menu and cafe facts remain
 existing frontend data. Reservation requests
 are sent to the separate SQLite-backed CRM in `CRM/` and enter its reservation
 queue as **Pending** for staff confirmation.
@@ -44,14 +46,16 @@ npm run check
 This builds the website and runs the CRM integration tests against an isolated
 temporary database.
 
-## Clean frontend foundation
+## Marketing architecture and recovery
 
 Active branch: `mangosteen-clean-rebuild`.
 Legacy backup: `mangosteen-legacy-frontend-backup` at `a89e67c`.
+Clean foundation: `checkpoint/clean-foundation-080966f` at `080966f`.
+First implementation milestone: `8767a96`.
 
 ```text
 src/app/                       Minimal route selection; no transition wrapper
-src/features/marketing/        Isolated holding page and empty future boundaries
+src/features/marketing/        Scoped marketing page, motion hooks and interactions
 src/pages/MenuExperiencePage.tsx  Protected approved digital menu
 src/components/ReservationDialog.tsx  Protected reservation interface
 src/data/                      Existing menu, seating and business information
@@ -63,23 +67,28 @@ public/images/                 Retained genuine photos, labelled derivatives and
 public/media/                  Retained supplied cafe film
 assets/food-vfx/                Preserved Blender source/studio; not loaded by the website
 artifacts/mangosteen-clean-rebuild/  Inventory, contact sheets and regression evidence
+artifacts/mangosteen-clean-rebuild-review/  New homepage motion recordings and verification
 ```
 
-`/` contains only the existing logo, Explore Menu and Reserve a Table actions.
+`/` contains the new photographic arch entrance, editorial compositions, rotating
+dining table, architectural gallery, glass reveal and closing reservation invitation.
 `/menu`, `/menu/*` and `/m` retain their existing behaviour. Removed
 `/experience`, `/reference-experience` and `/claude-vfx-lab` registrations now
-fall back to the holding page. The previous food VFX and cinematic experiences
+fall back to the homepage. The previous food VFX and cinematic experiences
 are not part of the active application.
 
 Legacy source, shaders, generated layers, models and materials also remain in
 `archives/rejected-frontends/complete-reset-2026-11-25/` locally. The earlier
 cinematic archive is untouched. Previous branches and history are preserved.
 
-Run `node scripts/verify-clean-rebuild.mjs after` with Vite running to check
+Run `node scripts/verify-marketing-business.mjs after` with Vite running to check
 protected browser workflows using a disposable CRM database. It never submits
 test orders or reservations to production. The pre-existing phone-field pattern
 warning is explicitly reported rather than silently changed by the reset.
 `npm run build:vercel` checks the build and CRM client packaging without deployment.
+Run `node scripts/review-marketing-motion.mjs` with a production preview on
+`http://127.0.0.1:4174` for desktop/mobile motion recordings and measurements.
+Open `artifacts/mangosteen-clean-rebuild-review/index.html` for the consolidated review.
 
 See `artifacts/mangosteen-clean-rebuild/asset-inventory.html` for labelled photo
 contact sheets. Stock food photographs and AI imagery are separated from the
@@ -89,7 +98,14 @@ originals remain unchanged.
 
 Cafe photos are from the public [Mangosteen Cafe Zomato gallery](https://www.zomato.com/indore/mangosteen-cafe-by-pass-road-north/photos). Menu names and indicative prices come from the [public 131-item listing](https://indiarestros.com/r/mangosteen-cafe-bhichaulimardana-2hgmr68h2t/menu), updated October 16, 2026; the cafe should confirm current prices before publication. Cafe facts are static values in `src/data/cafe.ts`.
 
-The site also includes a real-photo gallery dialog, cafe overview and visit links, structured metadata, and a branded scene loading screen. The seat selector in `src/components/ReservationDialog.tsx` uses editable schematic positions in `src/data/seating.ts`. It collects guest contact details, sends the selected area and seats to the CRM, and returns a reference number. This is still a request—not live inventory or automatic confirmation. If the CRM is unavailable, the website clearly reports that the request was not sent and stores a local fallback copy. The owner must still supply a surveyed floor plan before exact seat availability can be promised. Future selective GLB assets are documented in `public/assets/3d/README.md`; currently there are no authored café or food models in the repository.
+The site also includes a real-photo gallery dialog, cafe overview and visit links,
+and structured metadata. The seat selector in `src/components/ReservationDialog.tsx`
+uses editable schematic positions in `src/data/seating.ts`. It collects guest contact
+details, sends the selected area and seats to the CRM, and returns a reference number.
+This remains a request, not live inventory or automatic confirmation. If the CRM is
+unavailable, the website reports that the request was not sent and stores a local
+fallback copy. A surveyed floor plan is still required before exact seat availability
+can be promised. Preserved experimental models are not loaded by the new homepage.
 
 ## QR table ordering demo
 

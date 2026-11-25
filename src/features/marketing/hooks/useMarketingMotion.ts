@@ -19,15 +19,15 @@ export function useMarketingMotion(root: RefObject<HTMLDivElement | null>) {
     if (!root.current) return
     const media = gsap.matchMedia()
     const context = gsap.context(() => {
-      media.add({ desktop: motion.desktop, mobile: '(max-width: 899px)', reduced: motion.reduced }, match => {
-        const { mobile, reduced } = match.conditions!
+      media.add({ desktop: motion.desktop, mobile: '(max-width: 899px)', compact: '(max-height: 600px)', reduced: motion.reduced }, match => {
+        const { mobile, reduced, compact } = match.conditions!
         const scope = root.current!
         const q = gsap.utils.selector(scope)
         const clip = scope.querySelector('#mg-arch-path')!
         const outline = scope.querySelector('#mg-arch-outline')!
         const setMask = (p: number) => { const d = archPath(p, mobile); clip.setAttribute('d', d); outline.setAttribute('d', d) }
         setMask(0)
-        if (reduced) return
+        if (reduced || compact) return
         const entrance = gsap.timeline({ defaults: { ease: motion.reveal } })
         entrance.from(q('.mg-header'), { y: -16, opacity: 0, duration: .65 })
           .from(q('.mg-hero-line > span'), { yPercent: 105, duration: motion.enter, stagger: .14 }, .12)
