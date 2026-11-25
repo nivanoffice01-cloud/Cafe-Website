@@ -35,3 +35,22 @@
 @media(max-width:360px){.ref-header{padding-inline:14px;gap:8px}.ref-wordmark{font-size:26px}.ref-header>.ref-pill{padding-inline:12px;font-size:12px}.ref-hero h1{font-size:40px}.ref-hero-copy{padding-inline:16px}.ref-photo-disclosure{font-size:8px}.ref-table{top:435px}.ref-article-title h2{font-size:30px}.ref-card-brand{font-size:28px}.ref-card-invitation{font-size:21px}.ref-book-form{padding:20px 14px}.ref-option-row{gap:5px}.ref-option-row button{padding-inline:10px}.ref-hero-actions{gap:6px 16px}}
 @media(max-height:600px) and (min-width:701px){.ref-hero{min-height:680px}.ref-hero-copy{top:25%}}
 @media(prefers-reduced-motion:reduce){.ref-experience *,.ref-mobile-nav *{animation:none!important;transition:none!important;scroll-behavior:auto!important}.ref-story-line,.ref-reveal{filter:none!important;opacity:1!important;transform:none!important}}
+/* Motion-only enhancements: the established composition and content stay intact. */
+.ref-header{--ref-nav-shade:0;background:linear-gradient(rgba(16,19,19,calc(.66 + var(--ref-nav-shade)*.34)),rgba(16,19,19,var(--ref-nav-shade)))}
+.ref-dish-motion{min-height:calc(clamp(54px,5.28vw,88px)*1.96 + 98px)}
+.ref-dish-motion h1{animation:none}
+.ref-hero-copy .ref-course-label{font-variant-numeric:tabular-nums}
+.ref-table-area:focus-visible{outline:1px solid var(--ref-gold);outline-offset:-6px}
+.ref-table-area[data-dragging=true]{cursor:grabbing}
+.ref-plate img{transform:rotate(calc(-1 * var(--ref-rotation,0deg)));transition:filter .45s ease,scale .55s ease}
+.ref-plate-position.is-selected img{filter:brightness(.96) saturate(.95);scale:1.008}
+.ref-header nav a,.ref-footer-grid a,.ref-mobile-nav nav a{position:relative}
+.ref-header nav a:after,.ref-footer-grid a:after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .3s ease}
+.ref-header nav a:hover:after,.ref-header nav a:focus-visible:after,.ref-footer-grid a:hover:after{transform:scaleX(1);transform-origin:left}
+.ref-mobile-nav{animation:none}.ref-reservation-motion{position:relative;z-index:120}
+.ref-experience .ref-pill:active{transform:translateY(0) scale(.97)}
+@media(max-width:1100px) and (min-width:701px){.ref-dish-motion{min-height:216px}}
+@media(max-width:700px){.ref-dish-motion{min-height:159px}}
+@media(prefers-reduced-motion:reduce){.ref-plate img{scale:1!important}.ref-dish-motion{clip-path:none!important;transform:none!important;opacity:1!important}}
+
+.ref-header nav a[aria-current=location]:after{transform:scaleX(1);transform-origin:left}.ref-mobile-nav nav a[aria-current=location]{color:var(--ref-gold)}

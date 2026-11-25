@@ -37,7 +37,7 @@ for(const [name,width,height] of [['desktop',1440,1000],['mobile',390,844]]) {
   await page.mouse.move(box.x+box.width*.2,box.y+box.height*.6)
   await page.mouse.down();await page.mouse.move(box.x+box.width*.8,box.y+box.height*.5,{steps:40});await page.mouse.up()
   await page.screenshot({path:`${directory}/${name}-glass.png`})
-  await page.getByRole('button',{name:'Wipe the glass to look inside'}).click();await page.waitForTimeout(900)
+  await page.getByRole('button',{name:'Reveal café'}).click();await page.waitForTimeout(900)
   await page.screenshot({path:`${directory}/${name}-room-clear.png`})
   const sorted=[...timings].sort((a,b)=>a-b)
   measurements.push({name,width,height,initialTransferredBytes:initialBytes,fullJourneyTransferredBytes:fullBytes,frames:timings.length,medianFrameMs:sorted[Math.floor(sorted.length*.5)],p95FrameMs:sorted[Math.floor(sorted.length*.95)],over50ms:timings.filter(t=>t>50).length,note:'Local Vite development server, headless Chromium on host M4, video recording active; mobile viewport emulation, not physical-device/CWV certification.'})

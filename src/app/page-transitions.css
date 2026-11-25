@@ -1,0 +1,4 @@
+@font-face{font-family:ReferenceSerif;src:url('/reference-experience/fonts/serif-italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+.mangosteen-page-curtain{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;pointer-events:none;visibility:hidden;transform:translateY(100%);background:#10150f;color:#c6a366;contain:strict}
+.mangosteen-page-curtain span{font:italic clamp(38px,6vw,80px)/1 ReferenceSerif,Georgia,serif;letter-spacing:-.04em}
+@media(prefers-reduced-motion:reduce){.mangosteen-page-curtain{display:none!important}}

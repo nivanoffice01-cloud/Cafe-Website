@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react'
+import { PageTransitions } from './PageTransitions'
 
 const HomePage = lazy(() => import('../pages/HomePage').then((module) => ({ default: module.HomePage })))
 const MenuExperiencePage = lazy(() => import('../pages/MenuExperiencePage').then((module) => ({ default: module.MenuExperiencePage })))
@@ -6,7 +7,7 @@ const ArchitecturalExperiencePage = lazy(() => import('../features/architectural
 const ClaudeVfxLabPage = lazy(() => import('../features/claude-vfx-lab/ClaudeVfxLabPage'))
 const ReferenceExperiencePage = lazy(() => import('../features/reference-experience/ReferenceExperiencePage'))
 
-export default function App() {
+function Routes() {
   const pathname = window.location.pathname.replace(/\/$/, '') || '/'
   const fallback = <div style={{ minHeight: '100svh', background: '#0b100c' }} />
   if (pathname === '/reference-experience') return <Suspense fallback={fallback}><ReferenceExperiencePage /></Suspense>
@@ -15,3 +16,5 @@ export default function App() {
   if (pathname === '/m' || pathname === '/menu' || pathname.startsWith('/menu/')) return <Suspense fallback={fallback}><MenuExperiencePage /></Suspense>
   return <Suspense fallback={fallback}><HomePage /></Suspense>
 }
+
+export default function App(){return <PageTransitions><Routes/></PageTransitions>}
