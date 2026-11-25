@@ -1,0 +1,90 @@
+.cinema-experience {
+  position: relative;
+  height: var(--cinema-scroll-vh, 330svh);
+  color: #f2ebdf;
+  background: #080b09;
+  --cinema-progress: 0;
+  --cinema-intro-opacity: 1;
+  --cinema-story-opacity: 0;
+  --cinema-threshold-opacity: 0;
+  --cinema-transition: 0;
+  --cinema-foreground-x: -18px;
+  --cinema-foreground-y: 0px;
+  --cinema-push: 1;
+}
+.cinema-stage { position: sticky; top: 0; height: 100svh; min-height: 34rem; overflow: hidden; isolation: isolate; background: #080b09; }
+.cinema-poster,.cinema-poster img,.cinematic-engine-canvas,.cinematic-frame-sequence,.cinema-transition-plate,.cinema-depth-foreground,.cinema-grade,.cinema-atmosphere { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cinema-poster { z-index: 0; display: block; overflow: hidden; }
+.cinema-poster img { object-fit: cover; object-position: 50% 48%; filter: saturate(.92) brightness(.8) contrast(1.04); transform: scale(var(--cinema-push)); transform-origin: center 48%; }
+.cinematic-engine-canvas { z-index: 1; display: block; max-width: none; pointer-events: none; }
+.cinematic-frame-sequence { z-index: 2; display: block; max-width: none; pointer-events: none; }
+.cinematic-frame-sequence { transition:opacity .18s linear; }
+.cinema-depth-foreground { z-index: 3; left: -3%; width: 106%; background: url('/images/cinematic/arrival-desktop.webp') 50% 48% / cover no-repeat; clip-path: polygon(0 0,100% 0,100% 38%,82% 34%,65% 39%,47% 34%,28% 40%,0 34%); filter: saturate(.96) brightness(.84) drop-shadow(0 1.4rem 1.8rem rgba(0,0,0,.28)); opacity: calc(1 - var(--cinema-transition)); transform: translate3d(var(--cinema-foreground-x),var(--cinema-foreground-y),0) scale(1.045); pointer-events: none; }
+.cinema-transition-plate { z-index: 4; max-width:none; object-fit:cover; object-position:center; filter:saturate(.9) brightness(.7); opacity:var(--cinema-transition); clip-path:circle(calc(var(--cinema-transition) * 90%) at 53% 56%); transform:scale(calc(1.08 - var(--cinema-transition) * .08)); pointer-events:none; }
+.cinema-atmosphere { z-index: 5; overflow:hidden; pointer-events:none; }
+.cinema-atmosphere::before { position:absolute; inset:-20%; background:radial-gradient(circle at 50% 42%,rgba(213,169,112,.16),transparent 25%),linear-gradient(115deg,transparent 35%,rgba(215,177,113,.07) 49%,transparent 61%); opacity:calc(.46 - var(--cinema-progress) * .18); content:''; transform:translateX(calc(var(--cinema-progress) * 5%)); }
+.cinema-atmosphere i { position:absolute; width:.22rem; height:.22rem; border-radius:50%; background:#e7c68f; box-shadow:0 0 1.1rem .2rem rgba(221,174,100,.22); opacity:.32; }
+.cinema-atmosphere i:nth-child(1) { top:27%; left:18%; transform:translate3d(calc(var(--cinema-progress) * 30px),calc(var(--cinema-progress) * -42px),0); }
+.cinema-atmosphere i:nth-child(2) { top:48%; right:21%; width:.14rem; height:.14rem; transform:translate3d(calc(var(--cinema-progress) * -24px),calc(var(--cinema-progress) * -58px),0); }
+.cinema-atmosphere i:nth-child(3) { bottom:24%; left:42%; width:.1rem; height:.1rem; transform:translateY(calc(var(--cinema-progress) * -34px)); }
+.cinema-grade { z-index:6; background:linear-gradient(90deg,rgba(5,10,7,.64) 0%,rgba(5,10,7,.19) 48%,rgba(5,10,7,.14) 75%,rgba(5,10,7,.34)),linear-gradient(180deg,rgba(5,8,6,.27),transparent 32%,rgba(5,8,6,.45) 100%); pointer-events:none; }
+.cinema-grade::after { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E"); opacity:.055; mix-blend-mode:soft-light; content:''; }
+.cinema-intro,.cinema-story,.cinema-threshold { position:absolute; z-index:8; pointer-events:none; text-shadow:0 .2rem 1.4rem rgba(0,0,0,.8); }
+.cinema-intro { top:clamp(8.5rem,20vh,13rem); left:var(--lux-gutter); width:min(48rem,61vw); opacity:var(--cinema-intro-opacity); transform:translateY(calc(var(--cinema-progress) * -2.4rem)); }
+.cinema-intro>p,.cinema-story>span,.cinema-threshold>span { margin:0 0 1rem; color:#d4b57e; font-size:.65rem; font-weight:700; letter-spacing:.28em; }
+.cinema-intro h1 { margin:0 0 1rem; color:#f2ebdf; font-family:var(--lux-serif); font-size:clamp(4rem,10.7vw,11.5rem); font-weight:400; letter-spacing:.055em; line-height:.72; white-space:nowrap; }
+.cinema-intro h2 { max-width:12ch; margin:2rem 0 1rem; color:#f5eee2; font-family:var(--lux-serif); font-size:clamp(2.65rem,4.2vw,4.9rem); font-weight:400; letter-spacing:-.045em; line-height:.9; }
+.cinema-intro h2 em { color:#dfc28f; font-weight:400; }
+.cinema-intro>span { display:block; max-width:31rem; color:#e2ddd3; font-size:clamp(.95rem,1.15vw,1.1rem); line-height:1.65; }
+.cinema-intro>div { display:flex; gap:.75rem; margin-top:1.65rem; pointer-events:auto; }
+.cinema-intro button { min-height:3.3rem; padding:.7rem 1.25rem; border:1px solid rgba(223,194,143,.78); color:#f2e8d6; background:rgba(8,13,9,.52); backdrop-filter:blur(10px); cursor:pointer; font-size:.85rem; font-weight:650; }
+.cinema-intro button:first-child { color:#161b14; background:#c5a572; }
+.cinema-story { bottom:14%; left:var(--lux-gutter); opacity:var(--cinema-story-opacity); transform:translate3d(0,calc((.5 - var(--cinema-progress)) * 3rem),0); }
+.cinema-story p,.cinema-threshold p { margin:0; font-family:var(--lux-serif); font-size:clamp(3rem,6vw,7rem); font-weight:400; letter-spacing:-.055em; line-height:.86; }
+.cinema-story em { color:#dfc28f; font-weight:400; }
+.cinema-threshold { right:var(--lux-gutter); bottom:14%; max-width:42rem; text-align:right; opacity:var(--cinema-threshold-opacity); transform:translateY(calc((1 - var(--cinema-progress)) * 2rem)); }
+.cinema-threshold p { font-size:clamp(2.8rem,4.7vw,5.4rem); }
+.cinema-quick { position:absolute; z-index:10; top:calc(var(--nav-height) + .45rem); right:var(--lux-gutter); display:flex; align-items:center; gap:1.25rem; padding:.35rem .75rem; background:rgba(5,9,6,.48); backdrop-filter:blur(12px); }
+.cinema-quick button,.cinema-quick a { min-height:2.75rem; padding:.5rem 0; border:0; border-bottom:1px solid rgba(228,205,164,.5); color:#f3eadc; background:transparent; cursor:pointer; font-size:.8rem; text-decoration:none; }
+.cinema-progress { position:absolute; z-index:9; right:var(--lux-gutter); bottom:max(1.35rem,env(safe-area-inset-bottom)); left:var(--lux-gutter); display:flex; align-items:center; gap:1rem; color:#ead9ba; font-size:.58rem; font-weight:650; letter-spacing:.18em; pointer-events:none; }
+.cinema-progress i { height:1px; flex:1; background:linear-gradient(90deg,#c5a572 calc(var(--cinema-progress) * 100%),rgba(239,226,202,.25) 0); }
+.cinema-static-fallback { min-height:100svh; background:#080b09 url('/images/experience/mangosteen-arrival-enhanced.jpg') center/cover no-repeat; }
+.cinema-experience.has-sequence .cinematic-engine-canvas,.cinema-experience.has-sequence .cinema-depth-foreground,.cinema-experience.has-sequence .cinema-atmosphere { display:none; }
+.cinema-experience.has-production-sequences .cinema-transition-plate { display:none; }
+.lux-header:not(.is-entered) { opacity:1; visibility:visible; pointer-events:auto; }
+.lux-header:not(.is-entered) .lux-nav-book { opacity:1; pointer-events:auto; }
+
+@media (max-width:700px) {
+  .cinema-experience { height:var(--cinema-scroll-vh, 290svh); }
+  .cinema-stage { min-height:32rem; }
+  .cinematic-engine-canvas { display:none; }
+  .cinema-poster img { object-position:54% center; filter:saturate(.91) brightness(.7); }
+  .cinema-depth-foreground { left:-10%; width:120%; background-image:url('/images/cinematic/arrival-mobile.webp'); background-position:54% center; clip-path:polygon(0 0,100% 0,100% 34%,76% 39%,48% 34%,24% 41%,0 36%); }
+  .cinema-transition-plate { object-position:52% center; }
+  .cinema-grade { background:linear-gradient(180deg,rgba(4,8,5,.2),rgba(4,8,5,.18) 35%,rgba(4,8,5,.78) 100%),linear-gradient(90deg,rgba(4,8,5,.42),transparent 76%); }
+  .cinema-intro { top:auto; right:1.2rem; bottom:16%; left:1.2rem; width:auto; }
+  .cinema-intro>p { margin-bottom:.7rem; font-size:.58rem; }
+  .cinema-intro h1 { margin-bottom:1.1rem; font-size:clamp(2.45rem,12vw,3.6rem); letter-spacing:.035em; line-height:.85; }
+  .cinema-intro h2 { margin:.6rem 0 .85rem; font-size:clamp(2.45rem,11vw,3.65rem); }
+  .cinema-intro>span { max-width:21rem; font-size:.91rem; line-height:1.55; }
+  .cinema-intro>div { gap:.55rem; margin-top:1.2rem; }
+  .cinema-intro button { min-height:2.9rem; flex:1; padding:.65rem .7rem; font-size:.7rem; }
+  .cinema-story { right:1.2rem; bottom:19%; left:1.2rem; }
+  .cinema-story p { font-size:clamp(3rem,14vw,4.8rem); }
+  .cinema-threshold { right:1.2rem; bottom:19%; left:1.2rem; }
+  .cinema-threshold p { font-size:clamp(2.45rem,10vw,3.7rem); }
+  .cinema-quick { top:calc(4.6rem + env(safe-area-inset-top)); right:.65rem; gap:.8rem; padding:.25rem .55rem; }
+  .cinema-quick button,.cinema-quick a { font-size:.76rem; }
+  .cinema-progress { right:1rem; bottom:max(1rem,env(safe-area-inset-bottom)); left:1rem; font-size:.52rem; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .cinema-experience { height:100svh; }
+  .cinema-depth-foreground,.cinema-transition-plate,.cinema-story,.cinema-threshold,.cinema-atmosphere { display:none; }
+  .cinema-intro { opacity:1; transform:none; }
+  .cinema-progress { display:none; }
+  .cinema-poster img { transform:none; }
+}
+.scene-fallback .cinema-experience { height:100svh; }
+.scene-fallback .cinematic-engine-canvas,.scene-fallback .cinema-depth-foreground,.scene-fallback .cinema-transition-plate,.scene-fallback .cinema-story,.scene-fallback .cinema-threshold { display:none; }
+.scene-fallback .cinema-intro { opacity:1; transform:none; }

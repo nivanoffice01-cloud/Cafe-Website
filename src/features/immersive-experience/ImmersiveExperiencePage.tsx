@@ -81,8 +81,8 @@ export default function ImmersiveExperiencePage() {
           <SpatialEntrance progress={progress} onReady={onCanvasReady}/>
           <div className="mie-grain"/>
           <div className={`mie-arrival-copy${progress > .34 ? ' is-leaving' : ''}`}>
-            <p>A LITTLE WORLD ABOVE THE CITY</p><h1>Don’t just visit.<br/><em>Step inside.</em></h1><span>Arrive at Mangosteen through a spatial portrait built from genuine café photography.</span>
-            <div><button onClick={completeEntrance}>Enter Mangosteen <b>→</b></button><a href="/menu">Explore the menu</a><button className="mie-quiet-action" onClick={() => setReservationOpen(true)}>Reserve a table</button></div>
+            <p>A LITTLE WORLD ABOVE THE CITY</p><h1>Don’t just visit.<br/><em>Step inside.</em></h1><span>A little world above the city.</span>
+            <div><button onClick={completeEntrance}>View café photographs <b>→</b></button><a href="/menu">Explore the menu</a><button className="mie-quiet-action" onClick={() => setReservationOpen(true)}>Reserve a table</button></div>
           </div>
           <div className={`mie-welcome-copy${progress > .72 ? ' is-visible' : ''}`}><p>YOU’RE INSIDE</p><h2>Welcome to our<br/><em>little world.</em></h2><span>Find a corner, discover the atmosphere and make yourself at home.</span><button onClick={completeEntrance}>Begin exploring ↓</button></div>
           <button className="mie-skip-entrance" onClick={completeEntrance}>Skip entrance</button>

@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import type { PointerEvent as ReactPointerEvent } from 'react'
+import { Component, Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import { Reveal } from '../components/Reveal'
-import { FullMenuDialog } from '../components/FullMenuDialog'
 import { GalleryDialog } from '../components/GalleryDialog'
 import { ReservationDialog } from '../components/ReservationDialog'
 import { cafe, reviewSummary } from '../data/cafe'
@@ -10,12 +9,16 @@ import { menuPhotoFor } from '../data/menuPhotos'
 import { galleryPhotos } from '../data/gallery'
 import { responsivePhotoSrcSet } from '../data/responsivePhoto'
 
-type Atmosphere = 'morning' | 'golden' | 'night'
+const CinematicExperience = lazy(() => import('../components/cinematic/CinematicExperience').then((module) => ({ default: module.CinematicExperience })))
 
-const atmospheres: Record<Atmosphere, { label: string; image: string; alt: string; note: string }> = {
-  morning: { label: 'Slow Morning', image: '/images/gallery/cafe-14.png', alt: 'Mangosteen rooftop tables in clear morning light', note: 'Open air and an easy beginning.' },
-  golden: { label: 'Golden Hour', image: '/images/highres/mangosteen_original_1_8k.jpg', alt: 'Mangosteen interior beneath warm woven pendant lights', note: 'The café in its warmest light.' },
-  night: { label: 'After Dark', image: '/images/experience/mangosteen-arrival-enhanced.jpg', alt: 'The illuminated Mangosteen café exterior after dark', note: 'Warm lights above the city.' },
+class SceneErrorBoundary extends Component<{ children: ReactNode; onError: () => void }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() { return { failed: true } }
+  componentDidCatch(error: Error) {
+    console.error('[Mangosteen cinematic boundary]', error)
+    this.props.onError()
+  }
+  render() { return this.state.failed ? <section className="cinema-static-fallback" id="top" aria-label="Mangosteen cinematic experience unavailable"/> : this.props.children }
 }
 
 const featuredDishes = [
@@ -66,47 +69,60 @@ function CafeFilm() {
 
 export function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [menuSelection, setMenuSelection] = useState<{ category: string; name: string } | null>(null)
   const [featuredIndex, setFeaturedIndex] = useState(0)
   const [galleryOpen, setGalleryOpen] = useState(false)
   const [reservationOpen, setReservationOpen] = useState(false)
   const [galleryIndex, setGalleryIndex] = useState(0)
   const [hasEntered, setHasEntered] = useState(false)
   const [mapReady, setMapReady] = useState(false)
-  const [atmosphere, setAtmosphere] = useState<Atmosphere>(() => {
-    const hour = new Date().getHours()
-    return hour >= 7 && hour < 15 ? 'morning' : hour >= 15 && hour < 19 ? 'golden' : 'night'
-  })
-  const closeMenu = useCallback(() => setMenuOpen(false), [])
+  const menuToggleRef = useRef<HTMLButtonElement>(null)
+  const mobileNavRef = useRef<HTMLElement>(null)
   const closeGallery = useCallback(() => setGalleryOpen(false), [])
   const openMenu = useCallback(() => {
-    setMenuSelection(null)
-    setMenuOpen(true)
+    window.location.assign('/menu')
   }, [])
   const openFeaturedDish = () => {
     const { category, name } = featuredDishes[featuredIndex]
-    setMenuSelection({ category, name })
-    setMenuOpen(true)
+    window.location.assign(`/menu?category=${encodeURIComponent(category)}&dish=${encodeURIComponent(name)}`)
   }
   const openGallery = (index = 0) => { setGalleryIndex(index); setGalleryOpen(true) }
-  const moveHeroDepth = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === 'touch') return
-    const rect = event.currentTarget.getBoundingClientRect()
-    event.currentTarget.style.setProperty('--hero-x', String((event.clientX - rect.left) / rect.width - .5))
-    event.currentTarget.style.setProperty('--hero-y', String((event.clientY - rect.top) / rect.height - .5))
-  }
-  const resetHeroDepth = (event: ReactPointerEvent<HTMLDivElement>) => {
-    event.currentTarget.style.setProperty('--hero-x', '0')
-    event.currentTarget.style.setProperty('--hero-y', '0')
-  }
+  const onSceneReady = useCallback(() => document.documentElement.classList.add('cinema-ready'), [])
+  const onSceneError = useCallback(() => {
+    document.documentElement.classList.add('scene-fallback')
+    onSceneReady()
+  }, [onSceneReady])
 
   useEffect(() => {
     if (!mobileMenuOpen) return
-    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setMobileMenuOpen(false) }
-    window.addEventListener('keydown', closeOnEscape)
-    return () => window.removeEventListener('keydown', closeOnEscape)
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const focusable = mobileNavRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')
+    focusable?.[0]?.focus()
+    const handleNavigationKeys = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileMenuOpen(false)
+        menuToggleRef.current?.focus()
+        return
+      }
+      if (event.key !== 'Tab' || !focusable?.length) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+    }
+    window.addEventListener('keydown', handleNavigationKeys)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleNavigationKeys)
+    }
   }, [mobileMenuOpen])
+
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 701px)')
+    const closeAtDesktop = () => { if (desktop.matches) setMobileMenuOpen(false) }
+    desktop.addEventListener('change', closeAtDesktop)
+    return () => desktop.removeEventListener('change', closeAtDesktop)
+  }, [])
 
   useEffect(() => {
     const updateNavigation = () => {
@@ -125,8 +141,8 @@ export function HomePage() {
     <div className="lux-shell">
       <header className={`lux-header${hasEntered ? ' is-entered' : ''}`}>
         <a className="lux-brand" href="#top" aria-label="Mangosteen Cafe home" onClick={() => setMobileMenuOpen(false)}><LeafMark/><span>MANGOSTEEN<small>CAFE · INDORE</small></span></a>
-        <button className="lux-menu-toggle" type="button" aria-label={mobileMenuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}><span/><span/></button>
-        <nav className={mobileMenuOpen ? 'lux-nav is-open' : 'lux-nav'} aria-label="Main navigation">
+        <button ref={menuToggleRef} className="lux-menu-toggle" type="button" aria-label={mobileMenuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={mobileMenuOpen} aria-controls="primary-navigation" onClick={() => setMobileMenuOpen((open) => !open)}><span/><span/></button>
+        <nav ref={mobileNavRef} id="primary-navigation" className={mobileMenuOpen ? 'lux-nav is-open' : 'lux-nav'} aria-label="Main navigation">
           <a href="#top" onClick={() => setMobileMenuOpen(false)}>Experience</a>
           <button type="button" onClick={() => { setMobileMenuOpen(false); openMenu() }}>Menu</button>
           <a href="#story" onClick={() => setMobileMenuOpen(false)}>Our place</a>
@@ -137,25 +153,7 @@ export function HomePage() {
       </header>
 
       <main id="main-content">
-        <section className="film-journey" id="top" aria-labelledby="film-title">
-          <div className="film-sticky hybrid-hero" id="cinematic-journey" data-atmosphere={atmosphere} onPointerMove={moveHeroDepth} onPointerLeave={resetHeroDepth}>
-            <div className="hybrid-hero-background">
-              <img key={`hero-background-${atmosphere}`} src={atmospheres[atmosphere].image} srcSet={responsivePhotoSrcSet(atmospheres[atmosphere].image)} sizes="100vw" alt={atmospheres[atmosphere].alt} fetchPriority="high" />
-            </div>
-            <div className="hybrid-hero-midground" aria-hidden="true">
-              <img key={`hero-midground-${atmosphere}`} src={atmospheres[atmosphere].image} srcSet={responsivePhotoSrcSet(atmospheres[atmosphere].image)} sizes="100vw" alt="" />
-            </div>
-            <div className="hybrid-hero-readability" aria-hidden="true"/>
-            <div className="film-opening">
-              <p>A ROOFTOP ESCAPE · INDORE</p>
-              <h1 id="film-title">Above the city.<br/><em>Beyond the ordinary.</em></h1>
-              <span className="hybrid-hero-copy">Good food. Golden evenings. Moments worth staying for.</span>
-              <div className="hybrid-hero-actions"><button type="button" onClick={openMenu}>Explore the Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve a Table</button></div>
-            </div>
-            <div className="hybrid-atmosphere" aria-label="Choose the café atmosphere"><span>{atmospheres[atmosphere].note}</span><div>{(Object.keys(atmospheres) as Atmosphere[]).map((mode) => <button key={mode} type="button" aria-pressed={atmosphere === mode} className={atmosphere === mode ? 'is-active' : ''} onClick={() => setAtmosphere(mode)}>{atmospheres[mode].label}</button>)}</div></div>
-            <a className="hybrid-hero-scroll" href="#signatures"><span>Discover</span><i aria-hidden="true"/></a>
-          </div>
-        </section>
+        <SceneErrorBoundary onError={onSceneError}><Suspense fallback={<section className="cinema-static-fallback" id="top"/>}><CinematicExperience onMenu={openMenu} onReserve={() => setReservationOpen(true)} onReady={onSceneReady} onFailure={onSceneError}/></Suspense></SceneErrorBoundary>
 
         <section className="lux-signatures" id="signatures" aria-labelledby="signatures-title">
           <figure className="lux-signatures-image">
@@ -219,7 +217,6 @@ export function HomePage() {
       <footer className="lux-footer"><a className="lux-brand" href="#top"><LeafMark/><span>MANGOSTEEN<small>CAFE · INDORE</small></span></a><span>Made for long evenings.</span><button type="button" onClick={() => openGallery(0)}>Cafe photo gallery</button><a href="#top" className="lux-back-top">Back to top ↑</a></footer>
       <div className="lux-mobile-quick"><a href="/menu">Menu</a><button type="button" onClick={() => setReservationOpen(true)}>Reserve</button></div>
     </div>
-    {menuOpen && <FullMenuDialog onClose={closeMenu} initialSelection={menuSelection}/>}
     {galleryOpen && <GalleryDialog initialIndex={galleryIndex} onClose={closeGallery}/>}
     {reservationOpen && <ReservationDialog onClose={() => setReservationOpen(false)}/>}
   </>

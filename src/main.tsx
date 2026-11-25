@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './app/App'
 import './styles/global.css'
 import './styles/luxury.css'
+import './styles/cinematic.css'
 import './styles/reservation.css'
 import './styles/order-menu.css'
 

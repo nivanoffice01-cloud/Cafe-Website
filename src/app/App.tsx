@@ -1,7 +1,13 @@
-import { HomePage } from '../pages/HomePage'
-import { OrderMenuPage } from '../pages/OrderMenuPage'
+import { Suspense, lazy } from 'react'
+
+const HomePage = lazy(() => import('../pages/HomePage').then((module) => ({ default: module.HomePage })))
+const MenuExperiencePage = lazy(() => import('../pages/MenuExperiencePage').then((module) => ({ default: module.MenuExperiencePage })))
+const ImmersiveExperiencePage = lazy(() => import('../features/immersive-experience/ImmersiveExperiencePage'))
 
 export default function App() {
-  if (['/menu', '/m'].includes(window.location.pathname.replace(/\/$/, '') || '/')) return <OrderMenuPage />
-  return <HomePage />
+  const pathname = window.location.pathname.replace(/\/$/, '') || '/'
+  const fallback = <div style={{ minHeight: '100svh', background: '#0b100c' }} />
+  if (pathname === '/experience') return <Suspense fallback={fallback}><ImmersiveExperiencePage /></Suspense>
+  if (pathname === '/m' || pathname === '/menu' || pathname.startsWith('/menu/')) return <Suspense fallback={fallback}><MenuExperiencePage /></Suspense>
+  return <Suspense fallback={fallback}><HomePage /></Suspense>
 }

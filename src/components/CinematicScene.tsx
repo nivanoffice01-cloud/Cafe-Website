@@ -106,6 +106,7 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
     const journey = document.getElementById('cinematic-journey')
     const seatButton = journey?.querySelector<HTMLElement>('.film-seat-invite')
     const enterButton = journey?.querySelector<HTMLElement>('.film-opening button')
+    const galleryControls = journey?.querySelector<HTMLElement>('.film-gallery-controls')
     const foodImage = journey?.querySelector<HTMLImageElement>('.film-food-reveal')
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const seatFrom = new THREE.Vector3()
@@ -211,7 +212,9 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       // The cuts conceal changes between different real photographs.
       const firstCut = .76 * (1 - THREE.MathUtils.smoothstep(Math.abs(progress - .4), 0, .032))
       const secondCut = .76 * (1 - THREE.MathUtils.smoothstep(Math.abs(progress - .7), 0, .032))
-      const openingDarkness = 1 - THREE.MathUtils.smoothstep(progress, .01, .18)
+      // The opening is photographic, not a black loading state. Retain just enough
+      // darkness for the ivory wordmark to remain legible.
+      const openingDarkness = .2 * (1 - THREE.MathUtils.smoothstep(progress, .01, .18))
       const push = seatStarted ? THREE.MathUtils.clamp((time - seatStarted) / 900, 0, 1) : 0
       const reveal = foodRevealStarted ? THREE.MathUtils.clamp((time - foodRevealStarted) / 950, 0, 1) : 0
       const seatCut = seatStarted ? THREE.MathUtils.smoothstep(push, .4, .95) * (1 - THREE.MathUtils.smoothstep(reveal, .14, .55)) * .94 : 0
@@ -231,6 +234,7 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       journey?.style.setProperty('--film-mobile-scale', String(1 + Math.min(progress, .4) * .05))
       if (seatButton) seatButton.style.pointerEvents = reducedMotion || (progress > .82 && !seatStarted) ? 'auto' : 'none'
       if (enterButton) enterButton.style.pointerEvents = progress < .2 ? 'auto' : 'none'
+      if (galleryControls) galleryControls.style.pointerEvents = progress < .2 ? 'auto' : 'none'
       exterior.material.opacity = textures[0] ? 1 : 0
       interior.material.opacity = textures[1] ? THREE.MathUtils.smoothstep(progress, .385, .415) : 0
       table.material.opacity = textures[2] ? THREE.MathUtils.smoothstep(progress, .685, .715) : 0

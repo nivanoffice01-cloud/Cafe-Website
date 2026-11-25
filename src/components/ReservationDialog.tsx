@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import type { FormEvent } from 'react'
+import type { CSSProperties, FormEvent } from 'react'
 import { seatsFor, seatingPlans, type SeatingZone } from '../data/seating'
 import { submitWebsiteReservation } from '../lib/crm'
 
@@ -40,6 +40,7 @@ export function ReservationDialog({ onClose }: Props) {
   const [zone, setZone] = useState<SeatingZone>('rooftop')
   const [selectedSeats, setSelectedSeats] = useState<string[]>([])
   const [stage, setStage] = useState<'seats' | 'details'>('seats')
+  const [mobileStep, setMobileStep] = useState(1)
   const [saved, setSaved] = useState(false)
   const [notice, setNotice] = useState('')
   const [name, setName] = useState('')
@@ -59,6 +60,7 @@ export function ReservationDialog({ onClose }: Props) {
   const chosenCluster = plan.clusters.find((cluster) => selectedSeats.some((seat) => seat.startsWith(`${cluster.id}-`)))
   const dateLabel = new Intl.DateTimeFormat('en-IN', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(`${date}T12:00:00`))
   const seatsComplete = selectedSeats.length === guests && Boolean(chosenCluster)
+  const reservationStep = stage === 'details' ? (name.trim() && phone.trim().length >= 7 ? 5 : 4) : mobileStep
 
   useEffect(() => {
     backdropRef.current?.scrollTo({ top: 0, behavior: 'instant' })
@@ -201,10 +203,11 @@ export function ReservationDialog({ onClose }: Props) {
   }
 
   return <div ref={backdropRef} className="reservation-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
-    <section className="reservation-dialog" role="dialog" aria-modal="true" aria-labelledby="reservation-title">
+    <section className={`reservation-dialog mobile-step-${mobileStep}`} role="dialog" aria-modal="true" aria-labelledby="reservation-title">
       <header className="reservation-header">
         <div><p className="reservation-eyebrow">MANGOSTEEN · INDORE</p><h2 id="reservation-title">{stage === 'seats' ? <>Choose your <em>place.</em></> : <>Make it <em>yours.</em></>}</h2><p>{stage === 'seats' ? 'Plan your evening and select seats together.' : 'Add your details to send a reservation request.'}</p></div>
         <button ref={closeRef} type="button" className="reservation-close" onClick={onClose} aria-label="Close reservation">Close <span aria-hidden="true">×</span></button>
+        <div className="reservation-mobile-progress" aria-label={`Reservation step ${reservationStep} of 5`}><span>STEP {reservationStep} OF 5</span><i style={{ '--reservation-progress': reservationStep } as CSSProperties}/></div>
       </header>
 
       {stage === 'seats' ? <div className="reservation-content">
@@ -213,16 +216,12 @@ export function ReservationDialog({ onClose }: Props) {
           <div className="reservation-field"><div className="reservation-field-heading"><span className="reservation-label">YOUR EVENING</span><div className="reservation-date-controls"><button type="button" onClick={() => moveDates(-1)} aria-label="Earlier dates">←</button><button type="button" onClick={() => moveDates(1)} aria-label="Later dates">→</button></div></div><div ref={datesRef} className="reservation-dates" role="group" aria-label="Preferred date">{dates.map((item) => <button key={item.value} type="button" className={date === item.value ? 'is-selected' : ''} aria-pressed={date === item.value} onClick={() => { setDate(item.value); markDirty() }}><small>{item.weekday}</small><strong>{item.day}</strong><small>{item.month}</small></button>)}</div></div>
           <div className="reservation-field"><span className="reservation-label">PREFERRED ARRIVAL</span><div className="reservation-times" role="group" aria-label="Preferred arrival time">{arrivalTimes.map((item) => <button key={item} type="button" className={time === item ? 'is-selected' : ''} aria-pressed={time === item} onClick={() => { setTime(item); markDirty() }}>{item}</button>)}</div></div>
           <div className="reservation-field reservation-party"><div><span className="reservation-label">YOUR PARTY</span><small>Up to 6 guests</small></div><div className="reservation-counter"><button type="button" onClick={() => changeGuests(guests - 1)} disabled={guests === 1} aria-label="Remove a guest">−</button><output aria-live="polite">{guests}</output><button type="button" onClick={() => changeGuests(guests + 1)} disabled={guests === 6} aria-label="Add a guest">+</button></div></div>
+          <button className="reservation-mobile-continue" type="button" onClick={() => setMobileStep(2)}>Continue to seating <span aria-hidden="true">→</span></button>
         </div>
 
         <div className="reservation-map-column">
           <div className="reservation-map-heading"><div className="reservation-step"><span>02</span><strong>Select your seats</strong></div><p className={seatsComplete ? 'is-complete' : ''} aria-live="polite">{seatsComplete ? 'Seats selected ✓' : `${selectedSeats.length} of ${guests} selected`}</p></div>
           <div className="reservation-zone-switch" role="group" aria-label="Seating area"><button type="button" className={zone === 'rooftop' ? 'is-selected' : ''} aria-pressed={zone === 'rooftop'} onClick={() => changeZone('rooftop')}>The rooftop</button><button type="button" className={zone === 'inside' ? 'is-selected' : ''} aria-pressed={zone === 'inside'} onClick={() => changeZone('inside')}>Inside Mangosteen</button></div>
-          <figure className="reservation-zone-preview">
-            <img key={plan.image} src={plan.image} alt={plan.imageAlt} loading="lazy" decoding="async" />
-            <figcaption><span>{plan.name}</span><p>{plan.description}</p></figcaption>
-          </figure>
-          <div className="reservation-plan-label"><span>Illustrated seating guide</span><small>Choose a preferred group; the café confirms the final table.</small></div>
           <p className="reservation-map-swipe">Tap seats in one group to choose your place</p>
           <div className="reservation-map-scroll"><div className="reservation-seat-map" aria-label={`${plan.name} schematic seating map`}>
             <div className="reservation-map-edge">{plan.orientation}</div>
@@ -233,7 +232,8 @@ export function ReservationDialog({ onClose }: Props) {
             </div>)}
             <div className="reservation-map-entry">{plan.entry}</div>
           </div></div>
-          <div className="reservation-map-footer"><div className="reservation-legend"><span><i className="reservation-legend-available"/> Preferred</span><span><i className="reservation-legend-selected"/> Your choice</span><span><i className="reservation-legend-small"/> Too small</span></div><p>This guide describes seating style, not live availability. Select {guests} {guests === 1 ? 'seat' : 'seats'} in one group.</p></div>
+          <div className="reservation-map-footer"><div className="reservation-legend"><span><i className="reservation-legend-available"/> Selectable</span><span><i className="reservation-legend-selected"/> Your choice</span><span><i className="reservation-legend-small"/> Too small</span></div><p>Select {guests} {guests === 1 ? 'seat' : 'seats'} in one seating group. Choosing another group starts a new selection.</p></div>
+          <div className="reservation-mobile-actions"><button type="button" onClick={() => setMobileStep(1)}>← Visit details</button><button className="reservation-mobile-continue" type="button" disabled={!seatsComplete} onClick={() => setMobileStep(3)}>Review choice <span aria-hidden="true">→</span></button></div>
         </div>
 
         <aside className="reservation-summary">
@@ -246,11 +246,11 @@ export function ReservationDialog({ onClose }: Props) {
             <div><dt>Area</dt><dd>{plan.name}</dd></div>
             <div><dt>Seats</dt><dd>{selectedSeats.length ? `${chosenCluster?.label} · ${selectedSeats.join(', ')}` : 'Choose on the map'}</dd></div>
           </dl>
-          <div className="reservation-stage-action"><p>Seats are a preference. The café will confirm availability after you send your request.</p><button className="reservation-save" type="button" disabled={!seatsComplete} onClick={() => setStage('details')}>Continue to your details <span aria-hidden="true">→</span></button><small>{seatsComplete ? 'Next: contact details · no payment needed' : `Choose ${guests} ${guests === 1 ? 'seat' : 'seats'} in one group to continue`}</small></div>
+          <div className="reservation-stage-action"><p>Seats are a preference. The café will confirm availability after you send your request.</p><button className="reservation-save" type="button" disabled={!seatsComplete} onClick={() => setStage('details')}>Continue to your details <span aria-hidden="true">→</span></button><button className="reservation-mobile-back" type="button" onClick={() => setMobileStep(2)}>← Change seating</button><small>{seatsComplete ? 'Next: contact details · no payment needed' : `Choose ${guests} ${guests === 1 ? 'seat' : 'seats'} in one group to continue`}</small></div>
         </aside>
       </div> : <div className="reservation-details">
-        <aside className="reservation-details-recap"><button ref={backRef} type="button" className="reservation-back" onClick={() => setStage('seats')}>← Change seats or arrival</button><p className="reservation-eyebrow">YOUR EVENING</p><h3>{dateLabel}</h3><dl><div><dt>Arrival</dt><dd>{time}</dd></div><div><dt>Guests</dt><dd>{guests}</dd></div><div><dt>Area</dt><dd>{plan.name}</dd></div><div><dt>Selected seats</dt><dd>{chosenCluster?.label} · {selectedSeats.join(', ')}</dd></div></dl><p>Your request is sent to the café for confirmation. Selecting seats here does not guarantee availability.</p></aside>
-        <div className="reservation-details-form"><div className="reservation-step"><span>03</span><strong>Send your request</strong></div><h3>Your details</h3><p>We’ll use these details to follow up about your table.</p><form className="reservation-contact" onSubmit={sendReservation}>
+        <aside className="reservation-details-recap"><button ref={backRef} type="button" className="reservation-back" onClick={() => { setStage('seats'); setMobileStep(3) }}>← Change seats or arrival</button><p className="reservation-eyebrow">STEP 05 · REVIEW</p><h3>{dateLabel}</h3><dl><div><dt>Arrival</dt><dd>{time}</dd></div><div><dt>Guests</dt><dd>{guests}</dd></div><div><dt>Area</dt><dd>{plan.name}</dd></div><div><dt>Selected seats</dt><dd>{chosenCluster?.label} · {selectedSeats.join(', ')}</dd></div></dl><p>Your request is sent to the café for confirmation. Selecting seats here does not guarantee availability.</p></aside>
+        <div className="reservation-details-form"><div className="reservation-step"><span>04</span><strong>Your details</strong></div><h3>Make it yours</h3><p>We’ll use these details to follow up about your table.</p><form className="reservation-contact" onSubmit={sendReservation}>
             <label><span>Your name *</span><input required autoComplete="name" maxLength={80} value={name} onChange={(event) => { setName(event.target.value); markDirty() }} placeholder="Guest name"/></label>
             <label><span>Mobile number *</span><input required autoComplete="tel" inputMode="tel" minLength={7} maxLength={24} pattern="[+0-9 ()-]{7,24}" title="Use digits and common phone punctuation only" value={phone} onChange={(event) => { setPhone(event.target.value); markDirty() }} placeholder="+91"/></label>
             <label><span>Email</span><input type="email" autoComplete="email" maxLength={120} value={email} onChange={(event) => { setEmail(event.target.value); markDirty() }} placeholder="Optional"/></label>

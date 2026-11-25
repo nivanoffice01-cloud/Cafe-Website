@@ -33,7 +33,7 @@
 .mie-nav-toggle { width: 2.75rem; height: 2.75rem; border: 0; background: transparent; display: grid; place-content: center; gap: .35rem; }
 .mie-nav-toggle span { width: 1.25rem; height: 1px; background: var(--mie-ivory); }
 
-.mie-entrance { height: 310svh; min-height: 1700px; background: var(--mie-ink); }
+.mie-entrance { height: 100svh; min-height: 38rem; background: var(--mie-ink); }
 .mie-entrance-sticky { position: sticky; top: 0; height: 100svh; min-height: 38rem; overflow: hidden; isolation: isolate; }
 .mie-spatial-canvas { position: absolute; inset: 0; z-index: -4; background: #0a100b; }
 .mie-spatial-canvas canvas, .mie-spatial-canvas img { width: 100%; height: 100%; object-fit: cover; }
@@ -58,6 +58,8 @@
 .mie-progress > span { display: block; height: 1px; background: var(--mie-gold); transform-origin: left; }
 .mie-progress small { display: block; margin-top: .7rem; color: rgb(242 235 223 / 65%); font-size: .55rem; letter-spacing: .18em; }
 .mie-loading { position: absolute; inset: auto 50% 2rem auto; transform: translateX(50%); font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; }
+.mie-entrance .mie-welcome-copy, .mie-entrance .mie-progress, .mie-entrance .mie-skip-entrance { display: none; }
+.mie-entrance .mie-arrival-copy.is-leaving { opacity: 1; transform: translateY(-43%); pointer-events: auto; }
 
 .mie-explorer { min-height: 100svh; padding: clamp(7rem, 10vw, 10rem) var(--mie-pad); background: var(--mie-paper); color: var(--mie-green); scroll-margin-top: 5rem; }
 .mie-section-heading { max-width: 52rem; }
@@ -183,10 +185,10 @@
   .mangosteen-immersive { --mie-pad: 1rem; }
   .mie-header { height: 4.6rem; background: linear-gradient(180deg, rgb(5 9 6 / 90%), transparent); }
   .mie-brand { font-size: .62rem; }.mie-brand svg { width: 1.65rem; }.mie-reserve { display: none; }
-  .mie-entrance { height: 260svh; min-height: 1350px; }.mie-entrance-sticky { min-height: 34rem; }
+  .mie-entrance { height: 100svh; min-height: 34rem; }.mie-entrance-sticky { min-height: 34rem; }
   .mie-entrance-sticky::after { background: linear-gradient(0deg, rgb(5 9 6 / 85%) 0%, transparent 72%), linear-gradient(90deg, rgb(5 9 6 / 32%), transparent); }
   .mie-arrival-copy, .mie-welcome-copy { left: 1rem; top: auto; bottom: 6rem; width: calc(100% - 2rem); transform: none; }
-  .mie-arrival-copy.is-leaving { transform: translateY(-2rem); }
+  .mie-entrance .mie-arrival-copy.is-leaving { transform: none; }
   .mie-welcome-copy { left: 50%; bottom: 5rem; transform: translate(-50%, 2rem); }
   .mie-welcome-copy.is-visible { transform: translate(-50%, 0); }
   .mie-arrival-copy h1, .mie-welcome-copy h2 { font-size: clamp(3.25rem, 15vw, 5.3rem); }
