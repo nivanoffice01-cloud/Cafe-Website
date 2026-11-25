@@ -92,6 +92,8 @@ async function loadData({ quiet = false } = {}) {
   try {
     data = await api('/api/bootstrap');
     authState = 'authenticated';
+    const allowedPages = rolePages[data.user?.role] || rolePages.Host;
+    if (!allowedPages.includes(state.page)) state.page = allowedPages[0] || 'dashboard';
   } catch (error) {
     dataError = error.message;
   } finally {
@@ -233,6 +235,7 @@ const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: 'grid' },
   { id: 'orders', label: 'Orders & POS', icon: 'coffee' },
   { id: 'kitchen', label: 'Kitchen display', icon: 'clock' },
+  { id: 'floor', label: 'Floor service', icon: 'users' },
   { id: 'billing', label: 'Billing & closing', icon: 'wallet' },
   { id: 'stock', label: 'Inventory', icon: 'database' },
   { id: 'expenses', label: 'Expenses', icon: 'rupee' },
@@ -251,6 +254,7 @@ const rolePages = {
   Manager: navItems.map((item) => item.id),
   Cashier: ['dashboard', 'orders', 'billing', 'customers', 'reservations'],
   Kitchen: ['kitchen'],
+  'Floor Staff': ['floor'],
   Host: ['dashboard', 'customers', 'reservations', 'feedback', 'reports'],
 };
 
@@ -258,6 +262,7 @@ const pageSearchAliases = {
   dashboard: 'home overview summary',
   orders: 'order orders pos table takeaway menu',
   kitchen: 'kitchen display tickets cooking',
+  floor: 'floor service waiter table handoff served requests bill',
   billing: 'billing bill payment payments closing cash',
   stock: 'inventory stock ingredients supplies',
   expenses: 'expense expenses costs spending',
@@ -427,6 +432,7 @@ function renderPage() {
     dashboard: renderDashboard,
     orders: renderOrders,
     kitchen: renderKitchen,
+    floor: renderFloor,
     billing: renderBilling,
     stock: renderStock,
     expenses: renderExpenses,
@@ -573,7 +579,7 @@ function renderOrders() {
         <div class="order-total"><span>Total</span><strong>${inr(order.total)}</strong></div>
         <div class="order-meta"><span>${relativeTime(order.createdAt)} ago</span>${order.paymentMethod ? `<span>${escapeHtml(order.paymentMethod)}</span>` : ''}</div>
         ${order.status === 'Draft' ? `<button class="btn btn-primary btn-block" data-action="send-order" data-id="${order.id}">${icon('send')} Send to kitchen</button>` : ''}
-        ${order.status === 'Ready' ? `<button class="btn btn-block" data-action="mark-served" data-id="${order.id}">${icon('check')} Mark served</button><button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
+        ${order.status === 'Ready' ? `${data.user?.role === 'Cashier' ? '' : `<button class="btn btn-block" data-action="mark-served" data-id="${order.id}">${icon('check')} Mark served</button>`}<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
         ${order.status === 'Served' ? `<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
       </article>`).join('') || '<div class="empty-state"><div><h3>No orders yet</h3><p>Create the first table order to begin service.</p></div></div>'}
     </div>`;
@@ -596,9 +602,29 @@ function renderKitchen() {
           <ul>${order.items.map((item) => `<li><strong>${item.quantity}×</strong> ${escapeHtml(item.name)}</li>`).join('')}</ul>
           ${status === 'Kitchen' ? `<button class="btn btn-primary btn-block" data-action="kitchen-start" data-id="${order.id}">Start preparing</button>` : ''}
           ${status === 'Preparing' ? `<button class="btn btn-primary btn-block" data-action="kitchen-ready" data-id="${order.id}">${icon('check')} Mark ready</button>` : ''}
-          ${status === 'Ready' ? `<div class="ready-callout">${icon('checkCircle')} Ready for service</div><button class="btn btn-primary btn-block" data-action="mark-served" data-id="${order.id}">${icon('check')} Mark served</button>` : ''}
+          ${status === 'Ready' ? `<div class="ready-callout">${icon('checkCircle')} Waiting for floor staff</div>` : ''}
         </article>`).join('') || '<div class="kds-empty">No tickets</div>'}</div>
       </section>`).join('')}
+    </div>`;
+}
+
+function renderFloor() {
+  const readyOrders = (data.orders || []).filter((order) => order.status === 'Ready');
+  const requests = (data.serviceRequests || []).filter((request) => request.status === 'Open');
+  return `
+    ${pageHeader('Floor service', 'Table handoff', 'Serve ready orders and respond to guest requests from one focused queue.', `<button class="btn" data-action="refresh-operations">${icon('refresh')} Refresh queue</button>`)}
+    <section class="ops-stat-grid">
+      <article class="ops-stat"><span>Ready to serve</span><strong>${readyOrders.length}</strong><small>Collect from the kitchen pass</small></article>
+      <article class="ops-stat"><span>Waiter requests</span><strong>${requests.filter((item) => item.type === 'waiter').length}</strong><small>Guests need assistance</small></article>
+      <article class="ops-stat"><span>Bill requests</span><strong>${requests.filter((item) => item.type === 'bill').length}</strong><small>Notify the cashier</small></article>
+    </section>
+    <div class="ops-grid two">
+      <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Ready orders</h2><p>Deliver these orders, then confirm service</p></div><span class="status active">${readyOrders.length} ready</span></div><div class="panel-body bill-list">
+        ${readyOrders.map((order) => `<div class="bill-row"><div><strong>${escapeHtml(order.table)} · Order #${String(order.id).padStart(3, '0')}</strong><span>${order.items.map((item) => `${item.quantity}× ${escapeHtml(item.name)}`).join(', ')}</span></div><button class="btn btn-small btn-primary" data-action="mark-served" data-id="${order.id}">${icon('check')} Mark served</button></div>`).join('') || '<div class="empty-state compact"><p>No orders are waiting at the kitchen pass.</p></div>'}
+      </div></article>
+      <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Guest requests</h2><p>Requests sent from table QR menus</p></div><span class="status pending">${requests.length} waiting</span></div><div class="panel-body bill-list">
+        ${requests.map((request) => `<div class="bill-row"><div><strong>${escapeHtml(request.tableLabel)} · ${request.type === 'bill' ? 'Bill requested' : 'Waiter requested'}</strong><span>${request.type === 'bill' ? escapeHtml(request.paymentPreference || 'Payment preference not selected') : `${relativeTime(request.createdAt)} ago`}</span></div><button class="btn btn-small btn-primary" data-action="acknowledge-service" data-id="${request.id}">${icon('check')} Acknowledge</button></div>`).join('') || '<div class="empty-state compact"><p>No guest requests are waiting.</p></div>'}
+      </div></article>
     </div>`;
 }
 
@@ -907,7 +933,7 @@ function renderSettings() {
     tables: `
       <div class="form-section"><div class="section-heading-row"><div><h3>Dining tables & QR codes</h3><p>Manage the five table links. Download each protected QR for printing.</p></div>${statusPill(`${(data.tables || []).filter((table) => table.active).length} active`)}</div><div class="table-card-grid">${(data.tables || []).map((table) => `<article class="managed-table-card"><div><span class="eyebrow">Table ${escapeHtml(table.id)}</span><h3>${escapeHtml(table.label)}</h3><p>${escapeHtml(table.zoneName)} · ${table.capacity} seats</p></div>${statusPill(table.active ? 'Active' : 'Disabled')}<div class="button-row"><a class="btn btn-small" href="./assets/table-qrs/table-${String(table.id).padStart(2, '0')}-order-qr.png" download>${icon('download')} Download QR</a>${isOwner ? `<button class="btn btn-small" data-action="edit-managed-table" data-id="${escapeHtml(table.id)}">Edit table</button>` : ''}</div></article>`).join('')}</div></div>`,
     team: `
-      <div class="form-section"><div class="section-heading-row"><div><h3>Team access</h3><p>Server-enforced roles: Owner, Manager, Cashier, Kitchen and Host.</p></div>${isOwner ? `<button class="btn btn-primary" data-action="invite-staff">${icon('userPlus')} Add login account</button>` : ''}</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Staff member</th><th>Role</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>${data.users.map((member) => `<tr><td><div class="customer-cell"><span class="avatar" style="--avatar:#173f35">${initials(member.name)}</span><div><strong>${escapeHtml(member.name)}</strong><span>${escapeHtml(member.email)}</span></div></div></td><td>${escapeHtml(member.role)}</td><td>${member.lastLoginAt ? relativeTime(member.lastLoginAt) + ' ago' : 'Never'}</td><td>${statusPill(member.active ? 'Active' : 'Disabled')}</td><td>${isOwner && member.id !== data.user.id ? `<button class="btn btn-small" data-action="toggle-user" data-id="${member.id}">${member.active ? 'Disable' : 'Enable'}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></div>`,
+      <div class="form-section"><div class="section-heading-row"><div><h3>Team access</h3><p>Server-enforced roles: Owner, Manager, Cashier, Kitchen, Floor Staff and Host.</p></div>${isOwner ? `<button class="btn btn-primary" data-action="invite-staff">${icon('userPlus')} Add login account</button>` : ''}</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Staff member</th><th>Role</th><th>Last sign-in</th><th>Status</th><th></th></tr></thead><tbody>${data.users.map((member) => `<tr><td><div class="customer-cell"><span class="avatar" style="--avatar:#173f35">${initials(member.name)}</span><div><strong>${escapeHtml(member.name)}</strong><span>${escapeHtml(member.email)}</span></div></div></td><td>${escapeHtml(member.role)}</td><td>${member.lastLoginAt ? relativeTime(member.lastLoginAt) + ' ago' : 'Never'}</td><td>${statusPill(member.active ? 'Active' : 'Disabled')}</td><td>${isOwner && member.id !== data.user.id ? `<button class="btn btn-small" data-action="toggle-user" data-id="${member.id}">${member.active ? 'Disable' : 'Enable'}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></div>`,
     loyalty: `
       <div class="form-section"><h3>Loyalty earning and tiers</h3><p>Thresholds are based on recorded lifetime spend.</p><div class="form-grid"><div class="field"><label>Points per ₹1</label><input id="setting-points-rate" type="number" min="0" step="0.01" value="${Number(settings.points_per_rupee ?? 0.1)}" /></div><div class="field"><label>Silver threshold</label><input id="setting-tier-silver" type="number" min="0" value="${Number(settings.tier_silver || 8000)}" /></div><div class="field"><label>Gold threshold</label><input id="setting-tier-gold" type="number" min="0" value="${Number(settings.tier_gold || 18000)}" /></div><div class="field"><label>Platinum threshold</label><input id="setting-tier-platinum" type="number" min="0" value="${Number(settings.tier_platinum || 35000)}" /></div></div></div><div class="form-section"><h3>Points controls</h3><p>Every manual change is recorded in the local audit ledger.</p><button class="btn" data-action="adjust-points">${icon('edit')} Adjust customer points</button></div>`,
     integrations: `
@@ -1109,7 +1135,7 @@ function openAttendanceForm(id) {
 }
 
 function openStaffForm() {
-  openModal('Add login account', 'Create a secure account with only the access this teammate needs.', `<form id="staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required /></div><div class="field"><label>Email</label><input name="email" type="email" required /></div><div class="field"><label>Role</label><select name="role"><option>Host</option><option>Cashier</option><option>Kitchen</option><option>Manager</option><option>Owner</option></select></div><div class="field"><label>Temporary password</label><input name="password" type="password" minlength="10" required /></div></div><div class="role-guide"><div><strong>Cashier</strong><span>Orders, billing and guest desk.</span></div><div><strong>Kitchen</strong><span>Kitchen tickets and status only.</span></div><div><strong>Manager</strong><span>All operations except owner-only security.</span></div><div><strong>Owner</strong><span>Full access, accounts and backups.</span></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="staff-form">${icon('userPlus')} Create account</button>`);
+  openModal('Add login account', 'Create a secure account with only the access this teammate needs.', `<form id="staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required /></div><div class="field"><label>Email</label><input name="email" type="email" required /></div><div class="field"><label>Role</label><select name="role"><option>Host</option><option>Cashier</option><option>Kitchen</option><option>Floor Staff</option><option>Manager</option><option>Owner</option></select></div><div class="field"><label>Temporary password</label><input name="password" type="password" minlength="10" required /></div></div><div class="role-guide"><div><strong>Cashier</strong><span>Orders, billing and guest desk.</span></div><div><strong>Kitchen</strong><span>Preparation tickets and ready status.</span></div><div><strong>Floor Staff</strong><span>Ready-order handoff and table requests.</span></div><div><strong>Manager</strong><span>All operations except owner-only security.</span></div><div><strong>Owner</strong><span>Full access, accounts and backups.</span></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="staff-form">${icon('userPlus')} Create account</button>`);
 }
 
 function openPasswordForm() {
@@ -1477,7 +1503,7 @@ document.addEventListener('keydown', (event) => {
 renderApp();
 boot();
 setInterval(async () => {
-  if (authState !== 'authenticated' || !['orders', 'kitchen', 'billing'].includes(state.page)) return;
+  if (authState !== 'authenticated' || !['orders', 'kitchen', 'floor', 'billing'].includes(state.page)) return;
   if (document.getElementById('modal-root')?.children.length) return;
   try { await loadData({ quiet: true }); refreshPage(); } catch (_) { /* next refresh retries */ }
 }, 8000);

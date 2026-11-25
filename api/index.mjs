@@ -7,7 +7,15 @@ const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
-const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
+const ROLE_LEVEL = { Kitchen: 0, 'Floor Staff': 1, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
+const DEMO_ACCOUNTS = [
+  ['Rahul Mehta', 'owner@mangosteen.local', 'Owner'],
+  ['Cafe Manager', 'manager@mangosteen.local', 'Manager'],
+  ['Front Desk', 'cashier@mangosteen.local', 'Cashier'],
+  ['Kitchen Team', 'kitchen@mangosteen.local', 'Kitchen'],
+  ['Floor Team', 'floor@mangosteen.local', 'Floor Staff'],
+  ['Guest Relations', 'host@mangosteen.local', 'Host'],
+]
 const GOOGLE_REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJB_gCKYDjYjkRZrVPCUTqeLw'
 const catalogItems = () => fullMenu.flatMap((category) => category.items.map((item, index) => ({
   id: `${category.name}:${index + 1}`, category: category.name, name: item.name, description: item.description || '', price: item.price, active: true,
@@ -65,12 +73,7 @@ function createSeedState() {
   const month = today.slice(0, 7)
   const createdAt = now()
   const password = passwordHash('Mangosteen@123')
-  const users = [
-    ['Rahul Mehta', 'owner@mangosteen.local', 'Owner'],
-    ['Cafe Manager', 'manager@mangosteen.local', 'Manager'],
-    ['Front Desk', 'cashier@mangosteen.local', 'Cashier'],
-    ['Kitchen Team', 'kitchen@mangosteen.local', 'Kitchen'],
-  ].map(([name, email, role], index) => ({ id: index + 1, name, email, role, passwordHash: password, active: true, createdAt, lastLoginAt: null }))
+  const users = DEMO_ACCOUNTS.map(([name, email, role], index) => ({ id: index + 1, name, email, role, passwordHash: password, active: true, createdAt, lastLoginAt: null }))
   const menuItems = [
     ['Cold Coffee', 'Beverages', 180], ['Cappuccino', 'Beverages', 160],
     ['Masala Chai', 'Beverages', 80], ['Maggi', 'Quick Bites', 140],
@@ -156,7 +159,7 @@ function createSeedState() {
     ['Sunil Yadav', 'Helper', '09:00', '18:00', 10000, 'Leave', null],
   ].map(([name, jobRole, shiftStart, shiftEnd, salary, status, checkIn], index) => ({ id: index + 1, name, jobRole, shiftStart, shiftEnd, salary, userId: null, attendance: { status, checkIn, note: status === 'Leave' ? 'Approved leave' : '' } }))
   return {
-    version: 1, users, sessions: {}, menuItems, inventory, recipes, orders, payments,
+    version: 2, users, sessions: {}, menuItems, inventory, recipes, orders, payments,
     vendors: [
       { id: 1, name: 'Sharma Dairy', supplies: 'Doodh · paneer', phone: '+91 98260 11001', balance: 6800, status: 'Due' },
       { id: 2, name: 'Fresh Bakery', supplies: 'Bread · buns', phone: '+91 98260 11002', balance: 2400, status: 'Due' },
@@ -196,6 +199,16 @@ function createSeedState() {
 }
 
 function normalizeState(state) {
+  if (Number(state.version || 1) < 2) {
+    const demoPassword = passwordHash('Mangosteen@123')
+    const createdAt = now()
+    DEMO_ACCOUNTS.forEach(([name, email, role]) => {
+      const existing = (state.users || []).find((user) => user.email === email)
+      if (existing) Object.assign(existing, { name, role, passwordHash: demoPassword, active: true })
+      else (state.users ||= []).push({ id: nextId(state.users), name, email, role, passwordHash: demoPassword, active: true, createdAt, lastLoginAt: null })
+    })
+    state.version = 2
+  }
   state.publicSubmissions ||= {}
   state.serviceRequests ||= []
   state.feedback ||= []
@@ -279,27 +292,28 @@ function publicUser(user) {
 
 function bootstrap(state, user) {
   const role = user.role
+  const serviceOnly = ['Kitchen', 'Floor Staff'].includes(role)
   const base = {
-    customers: role === 'Kitchen' ? [] : state.customers,
-    reservations: role === 'Kitchen' ? [] : state.reservations,
-    feedback: role === 'Kitchen' ? [] : state.feedback,
-    tasks: role === 'Kitchen' ? [] : state.tasks,
-    rewards: role === 'Kitchen' ? [] : state.rewards,
-    activities: role === 'Kitchen' ? [] : state.activities,
-    monthlyMetrics: role === 'Kitchen' ? [] : state.monthlyMetrics,
-    settings: state.settings,
+    customers: serviceOnly ? [] : state.customers,
+    reservations: serviceOnly ? [] : state.reservations,
+    feedback: serviceOnly ? [] : state.feedback,
+    tasks: serviceOnly ? [] : state.tasks,
+    rewards: serviceOnly ? [] : state.rewards,
+    activities: serviceOnly ? [] : state.activities,
+    monthlyMetrics: serviceOnly ? [] : state.monthlyMetrics,
+    settings: serviceOnly ? {} : state.settings,
     users: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.users.map(publicUser) : [],
     communications: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.communications : [],
     pointLedger: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.pointLedger : [],
     backups: role === 'Owner' ? state.backups : [],
     integrations: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? { email: { mode: 'Demo', provider: 'Vercel outbox' }, whatsapp: { mode: 'Demo', provider: 'Vercel outbox' }, pos: { mode: 'Ready', provider: 'CSV import' } } : {},
-    menuItems: state.menuItems,
+    menuItems: role === 'Floor Staff' ? [] : state.menuItems,
     orders: state.orders.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 100),
     inventory: ['Owner', 'Manager'].includes(role) ? state.inventory : [],
     expenses: ['Owner', 'Manager'].includes(role) ? state.expenses : [],
     vendors: ['Owner', 'Manager'].includes(role) ? state.vendors : [],
     staff: ['Owner', 'Manager'].includes(role) ? state.staff : [],
-    payments: role === 'Kitchen' ? [] : state.payments,
+    payments: serviceOnly ? [] : state.payments,
     serviceRequests: state.serviceRequests.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 50),
     publicMenuItems: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.publicMenuItems : [],
     tables: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.tables.map(publicTable) : [],
@@ -703,10 +717,12 @@ async function handleRequest(request) {
     }
     match = path.match(/^\/orders\/(\d+)\/status$/)
     if (match) {
-      requireRoles(request, state, ['Owner', 'Manager', 'Kitchen', 'Cashier'])
+      const actor = requireRoles(request, state, ['Owner', 'Manager', 'Kitchen', 'Floor Staff'])
       const order = state.orders.find((item) => item.id === Number(match[1]))
       const status = String(body.status || '')
       if (!order || !['Kitchen', 'Preparing', 'Ready', 'Served'].includes(status) || order.status === 'Paid') throw new Error('Order or kitchen status is invalid')
+      if (actor.role === 'Kitchen' && status === 'Served') throw Object.assign(new Error('Floor staff must confirm table delivery'), { status: 403 })
+      if (actor.role === 'Floor Staff' && (status !== 'Served' || order.status !== 'Ready')) throw Object.assign(new Error('Floor staff can only mark ready orders as served'), { status: 403 })
       order.status = status
       if (status === 'Ready') order.readyAt = now()
       if (status === 'Served') order.servedAt = now()

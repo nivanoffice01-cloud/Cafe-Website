@@ -241,6 +241,30 @@ class CRMServerTests(unittest.TestCase):
                                     body={"name": "Forbidden Guest", "phone": "9876543213"})
         self.assertEqual(status, 403)
 
+    def test_floor_staff_has_restricted_handoff_access(self):
+        cookie, csrf = self.login("floor@mangosteen.local")
+        status, payload, _ = self.request("/api/bootstrap", cookie=cookie)
+        self.assertEqual(status, 200)
+        self.assertEqual(payload["user"]["role"], "Floor Staff")
+        self.assertEqual(payload["customers"], [])
+        self.assertEqual(payload["inventory"], [])
+        self.assertEqual(payload["settings"], {})
+        self.assertEqual(payload["menuItems"], [])
+        ready_order = next(order for order in payload["orders"] if order["status"] == "Ready")
+
+        forbidden_status, _, _ = self.request(
+            f"/api/orders/{ready_order['id']}/status", cookie=cookie,
+            headers={"X-CSRF-Token": csrf}, body={"status": "Preparing"},
+        )
+        self.assertEqual(forbidden_status, 403)
+
+        served_status, served, _ = self.request(
+            f"/api/orders/{ready_order['id']}/status", cookie=cookie,
+            headers={"X-CSRF-Token": csrf}, body={"status": "Served"},
+        )
+        self.assertEqual(served_status, 200)
+        self.assertEqual(served["status"], "Served")
+
     def test_session_survives_a_separate_request(self):
         cookie, _ = self.login()
         status, payload, _ = self.request("/api/auth/session", cookie=cookie)

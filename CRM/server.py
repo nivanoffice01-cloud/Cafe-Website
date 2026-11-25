@@ -47,7 +47,7 @@ SESSION_COOKIE = "mangosteen_session"
 SESSION_TTL = timedelta(hours=12)
 PUBLIC_REQUESTS: dict[str, list[datetime]] = {}
 PUBLIC_REQUESTS_LOCK = threading.Lock()
-ROLE_LEVEL = {"Kitchen": 0, "Cashier": 1, "Host": 1, "Manager": 2, "Owner": 3}
+ROLE_LEVEL = {"Kitchen": 0, "Floor Staff": 1, "Cashier": 1, "Host": 1, "Manager": 2, "Owner": 3}
 LOGIN_FAILURE_LIMIT = 5
 LOGIN_LOCKOUT = timedelta(minutes=15)
 
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
-  role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host', 'Cashier', 'Kitchen')),
+  role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host', 'Cashier', 'Kitchen', 'Floor Staff')),
   password_hash TEXT NOT NULL,
   active INTEGER NOT NULL DEFAULT 1,
   created_at TEXT NOT NULL,
@@ -760,7 +760,7 @@ def migrate_user_roles(connection: sqlite3.Connection) -> None:
     record = connection.execute(
         "SELECT sql FROM sqlite_master WHERE type='table' AND name='users'"
     ).fetchone()
-    if not record or "'Cashier'" in (record["sql"] or ""):
+    if not record or "'Floor Staff'" in (record["sql"] or ""):
         return
     connection.commit()
     connection.execute("PRAGMA foreign_keys = OFF")
@@ -770,7 +770,7 @@ def migrate_user_roles(connection: sqlite3.Connection) -> None:
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT NOT NULL,
           email TEXT NOT NULL UNIQUE,
-          role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host', 'Cashier', 'Kitchen')),
+          role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host', 'Cashier', 'Kitchen', 'Floor Staff')),
           password_hash TEXT NOT NULL,
           active INTEGER NOT NULL DEFAULT 1,
           created_at TEXT NOT NULL,
@@ -792,6 +792,8 @@ def seed_operation_users(connection: sqlite3.Connection) -> None:
         ("Rohan Sharma", "manager@mangosteen.local", "Manager"),
         ("Pooja Verma", "cashier@mangosteen.local", "Cashier"),
         ("Kitchen Team", "kitchen@mangosteen.local", "Kitchen"),
+        ("Floor Team", "floor@mangosteen.local", "Floor Staff"),
+        ("Guest Relations", "host@mangosteen.local", "Host"),
     ]
     for name, email, role in demo_users:
         connection.execute(
@@ -1157,6 +1159,9 @@ def operations_payload(connection: sqlite3.Connection, current_user: dict | None
                          "paymentPreference": row["payment_preference"], "status": row["status"],
                          "createdAt": row["created_at"], "acknowledgedAt": row["acknowledged_at"]}
                         for row in rows(connection, "SELECT * FROM service_requests ORDER BY id DESC LIMIT 50")]
+    if role == "Floor Staff":
+        return {"menuItems": [], "orders": orders, "inventory": [], "expenses": [],
+                "vendors": [], "staff": [], "payments": [], "serviceRequests": service_requests}
     if role == "Kitchen":
         return {"menuItems": menu_items, "orders": orders, "inventory": [], "expenses": [],
                 "vendors": [], "staff": [], "payments": [], "serviceRequests": service_requests}
@@ -1270,8 +1275,9 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
                          for row in rows(connection, "SELECT * FROM public_menu_items ORDER BY rowid")]
     tables = [{key: value for key, value in table.items() if key != "accessKey"}
               for table in configured_tables(connection).values()]
-    if (current_user or {}).get("role") == "Kitchen":
+    if (current_user or {}).get("role") in {"Kitchen", "Floor Staff"}:
         customers, reservations, campaigns, feedback, tasks, rewards, activities, metrics = [], [], [], [], [], [], [], []
+        settings = {}
     return {"customers": customers, "reservations": reservations, "campaigns": campaigns,
             "feedback": feedback, "tasks": tasks, "rewards": rewards,
             "activities": activities, "monthlyMetrics": metrics, "settings": settings,
@@ -2058,7 +2064,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
 
                 if path.startswith("/api/orders/") and path.endswith("/status"):
-                    self.require_roles("Owner", "Manager", "Kitchen", "Cashier")
+                    actor = self.require_roles("Owner", "Manager", "Kitchen", "Floor Staff")
                     order_id = int(path.split("/")[3])
                     requested = str(body.get("status", "")).title()
                     if requested not in {"Kitchen", "Preparing", "Ready", "Served"}:
@@ -2066,6 +2072,12 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     record = connection.execute("SELECT id, status FROM orders WHERE id=?", (order_id,)).fetchone()
                     if not record or record["status"] == "Paid":
                         raise ValueError("Order is unavailable or already paid")
+                    if actor["role"] == "Kitchen" and requested == "Served":
+                        self.send_json({"error": "Floor staff must confirm table delivery"}, HTTPStatus.FORBIDDEN)
+                        return
+                    if actor["role"] == "Floor Staff" and (requested != "Served" or record["status"] != "Ready"):
+                        self.send_json({"error": "Floor staff can only mark ready orders as served"}, HTTPStatus.FORBIDDEN)
+                        return
                     ready_at = now_iso() if requested == "Ready" else None
                     served_at = now_iso() if requested == "Served" else None
                     connection.execute(
@@ -2218,7 +2230,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     if not name or "@" not in email:
                         raise ValueError("Name and a valid email are required")
                     if role not in ROLE_LEVEL:
-                        raise ValueError("Role must be Owner, Manager, Host, Cashier or Kitchen")
+                        raise ValueError("Role must be Owner, Manager, Host, Cashier, Kitchen or Floor Staff")
                     if len(password) < 10:
                         raise ValueError("Temporary password must be at least 10 characters")
                     cursor = connection.execute(
