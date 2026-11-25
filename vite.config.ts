@@ -12,8 +12,4 @@ export default defineConfig({
       },
     },
   },
-  build: {
-    // The lazy Three.js scene chunk is ~634 kB minified (~160 kB gzip).
-    chunkSizeWarningLimit: 700,
-  },
 })

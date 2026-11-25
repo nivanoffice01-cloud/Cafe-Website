@@ -1,0 +1,76 @@
+
+> cafe-website@0.1.0 check
+> npm run build && node --check CRM/dist/app.js && npm test
+
+
+> cafe-website@0.1.0 build
+> tsc -b && vite build
+
+vite v6.4.6 building for production...
+transforming...
+✓ 78 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                         2.03 kB │ gzip:   0.96 kB
+dist/assets/ArchitecturalExperiencePage-BuO_mvL4.css    2.51 kB │ gzip:   0.98 kB
+dist/assets/ClaudeVfxLabPage-DJ1fMiP6.css               6.85 kB │ gzip:   2.49 kB
+dist/assets/ReferenceExperiencePage-C_-A2vBf.css       24.44 kB │ gzip:   6.12 kB
+dist/assets/index-lbG3R0wq.css                         72.55 kB │ gzip:  14.69 kB
+dist/assets/HomePage-CX6uty_4.js                        1.25 kB │ gzip:   0.68 kB
+dist/assets/seating-_sE2zsiX.js                         1.47 kB │ gzip:   0.56 kB
+dist/assets/menuPhotos-EusrSMch.js                     12.89 kB │ gzip:   3.80 kB
+dist/assets/ReservationDialog-DrMO-cw4.js              18.06 kB │ gzip:   5.62 kB
+dist/assets/MenuExperiencePage-SwE4UphP.js             24.62 kB │ gzip:   7.50 kB
+dist/assets/ReferenceExperiencePage-DVioF1gM.js        29.99 kB │ gzip:   9.18 kB
+dist/assets/ClaudeVfxLabPage-BR8-4BNL.js               36.92 kB │ gzip:  14.48 kB
+dist/assets/ScrollTrigger-C8vQSDbh.js                  44.07 kB │ gzip:  18.22 kB
+dist/assets/gsap-BcznFCmP.js                           70.98 kB │ gzip:  27.90 kB
+dist/assets/ArchitecturalExperiencePage-CGdPIJhg.js   111.57 kB │ gzip:  34.40 kB
+dist/assets/index-aB4S4k4v.js                         230.95 kB │ gzip:  72.15 kB
+dist/assets/three.module-DwwBHTM7.js                  608.75 kB │ gzip: 151.49 kB
+✓ built in 1.52s
+
+> cafe-website@0.1.0 test
+> python3 -m unittest discover -s CRM/tests -v
+
+test_authenticated_mutations_require_csrf (test_server.CRMServerTests.test_authenticated_mutations_require_csrf) ... ok
+test_kitchen_role_cannot_write_guest_records (test_server.CRMServerTests.test_kitchen_role_cannot_write_guest_records) ... ok
+test_public_demo_order_reaches_kitchen_and_is_idempotent (test_server.CRMServerTests.test_public_demo_order_reaches_kitchen_and_is_idempotent) ... ok
+test_public_demo_order_rejects_unknown_table_qr (test_server.CRMServerTests.test_public_demo_order_rejects_unknown_table_qr) ... ok
+test_public_reservation_is_validated_normalized_and_idempotent (test_server.CRMServerTests.test_public_reservation_is_validated_normalized_and_idempotent) ... ok
+test_public_reservation_rejects_invented_or_duplicate_seats (test_server.CRMServerTests.test_public_reservation_rejects_invented_or_duplicate_seats) ... ok
+test_repeated_failed_logins_are_temporarily_locked (test_server.CRMServerTests.test_repeated_failed_logins_are_temporarily_locked) ... ok
+test_session_survives_a_separate_request (test_server.CRMServerTests.test_session_survives_a_separate_request) ... ok
+test_trusted_proxy_uses_forwarded_client_for_rate_limits (test_server.CRMServerTests.test_trusted_proxy_uses_forwarded_client_for_rate_limits) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.799s
+
+OK
+[17:37:44] "POST /api/auth/login HTTP/1.1" 200 -
+[17:37:44] "POST /api/customers HTTP/1.1" 403 -
+[17:37:44] "POST /api/auth/login HTTP/1.1" 200 -
+[17:37:44] "POST /api/customers HTTP/1.1" 403 -
+[17:37:44] "POST /api/public/orders HTTP/1.1" 201 -
+[17:37:44] "POST /api/public/orders HTTP/1.1" 200 -
+[17:37:44] "POST /api/public/orders HTTP/1.1" 400 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 200 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 400 -
+[17:37:44] "POST /api/auth/login HTTP/1.1" 401 -
+[17:37:44] "POST /api/auth/login HTTP/1.1" 401 -
+[17:37:44] "POST /api/auth/login HTTP/1.1" 401 -
+[17:37:44] "POST /api/auth/login HTTP/1.1" 401 -
+[17:37:44] "POST /api/auth/login HTTP/1.1" 401 -
+[17:37:44] "POST /api/auth/login HTTP/1.1" 429 -
+[17:37:44] "POST /api/auth/login HTTP/1.1" 200 -
+[17:37:44] "GET /api/auth/session HTTP/1.1" 200 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:37:44] "POST /api/public/reservations HTTP/1.1" 201 -

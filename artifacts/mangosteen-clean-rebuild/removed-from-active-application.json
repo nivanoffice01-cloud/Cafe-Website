@@ -1,0 +1,230 @@
+[
+  {
+    "path": "src/features/architectural-experience",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/src/features/architectural-experience",
+    "bytes": 31407,
+    "files": [
+      "src/features/architectural-experience/ArchitecturalExperiencePage.tsx",
+      "src/features/architectural-experience/README.md",
+      "src/features/architectural-experience/interactions/.gitkeep",
+      "src/features/architectural-experience/materials/.gitkeep",
+      "src/features/architectural-experience/materials/library.ts",
+      "src/features/architectural-experience/types/.gitkeep",
+      "src/features/architectural-experience/config/.gitkeep",
+      "src/features/architectural-experience/config/layout.ts",
+      "src/features/architectural-experience/camera/director.ts",
+      "src/features/architectural-experience/camera/.gitkeep",
+      "src/features/architectural-experience/tests/.gitkeep",
+      "src/features/architectural-experience/navigation/.gitkeep",
+      "src/features/architectural-experience/animation/.gitkeep",
+      "src/features/architectural-experience/styles/.gitkeep",
+      "src/features/architectural-experience/styles/experience.css",
+      "src/features/architectural-experience/components/.gitkeep",
+      "src/features/architectural-experience/components/ArchitectureCanvas.tsx",
+      "src/features/architectural-experience/environment/botanicalAssets.ts",
+      "src/features/architectural-experience/environment/.gitkeep",
+      "src/features/architectural-experience/environment/buildEnvironment.ts",
+      "src/features/architectural-experience/lighting/.gitkeep",
+      "src/features/architectural-experience/lighting/setup.ts",
+      "src/features/architectural-experience/geometry/.gitkeep",
+      "src/features/architectural-experience/geometry/primitives.ts"
+    ]
+  },
+  {
+    "path": "src/features/claude-vfx-lab",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/src/features/claude-vfx-lab",
+    "bytes": 55432,
+    "files": [
+      "src/features/claude-vfx-lab/shaders.ts",
+      "src/features/claude-vfx-lab/stage.ts",
+      "src/features/claude-vfx-lab/lab.css",
+      "src/features/claude-vfx-lab/ClaudeVfxLabPage.tsx",
+      "src/features/claude-vfx-lab/layers.json"
+    ]
+  },
+  {
+    "path": "src/features/reference-experience",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/src/features/reference-experience",
+    "bytes": 61774,
+    "files": [
+      "src/features/reference-experience/MenuHoverPreview.tsx",
+      "src/features/reference-experience/reference.css",
+      "src/features/reference-experience/motionConfig.ts",
+      "src/features/reference-experience/motion.ts",
+      "src/features/reference-experience/ReferenceExperiencePage.tsx"
+    ]
+  },
+  {
+    "path": "src/app/PageTransitions.tsx",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/src/app/PageTransitions.tsx",
+    "bytes": 5929,
+    "files": [
+      "src/app/PageTransitions.tsx"
+    ]
+  },
+  {
+    "path": "src/app/page-transitions.css",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/src/app/page-transitions.css",
+    "bytes": 579,
+    "files": [
+      "src/app/page-transitions.css"
+    ]
+  },
+  {
+    "path": "src/pages/HomePage.tsx",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/src/pages/HomePage.tsx",
+    "bytes": 1236,
+    "files": [
+      "src/pages/HomePage.tsx"
+    ]
+  },
+  {
+    "path": "src/styles/holding.css",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/src/styles/holding.css",
+    "bytes": 1971,
+    "files": [
+      "src/styles/holding.css"
+    ]
+  },
+  {
+    "path": "public/basis",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/public/basis",
+    "bytes": 584862,
+    "files": [
+      "public/basis/basis_transcoder.wasm",
+      "public/basis/basis_transcoder.js"
+    ]
+  },
+  {
+    "path": "public/models",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/public/models",
+    "bytes": 36715577,
+    "files": [
+      "public/models/architectural/mangosteen-entrance-study.glb",
+      "public/models/architectural/calathea/calathea_orbifolia_01.gltf",
+      "public/models/architectural/calathea/calathea_orbifolia_01.bin",
+      "public/models/architectural/calathea/textures/calathea_orbifolia_01_nor_gl_1k.jpg",
+      "public/models/architectural/calathea/textures/calathea_orbifolia_01_diff_1k.jpg",
+      "public/models/architectural/calathea/textures/calathea_orbifolia_01_arm_1k.jpg"
+    ]
+  },
+  {
+    "path": "public/materials",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/public/materials",
+    "bytes": 2673699,
+    "files": [
+      "public/materials/architectural/wood-color.jpg",
+      "public/materials/architectural/wood-roughness.jpg",
+      "public/materials/architectural/stone-roughness.jpg",
+      "public/materials/architectural/wood-normal.jpg",
+      "public/materials/architectural/stone-color.jpg",
+      "public/materials/architectural/PROVENANCE.md",
+      "public/materials/architectural/stone-normal.jpg"
+    ]
+  },
+  {
+    "path": "public/claude-vfx",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/public/claude-vfx",
+    "bytes": 3528570,
+    "files": [
+      "public/claude-vfx/slate-normal.webp",
+      "public/claude-vfx/ingredients-height-m.webp",
+      "public/claude-vfx/pizza-masks-m.webp",
+      "public/claude-vfx/pizza-raw-d.webp",
+      "public/claude-vfx/slate-color.webp",
+      "public/claude-vfx/pizza-normal-m.webp",
+      "public/claude-vfx/pizza-baked-m.webp",
+      "public/claude-vfx/ingredients-m.webp",
+      "public/claude-vfx/credits.txt",
+      "public/claude-vfx/ingredients-height-d.webp",
+      "public/claude-vfx/ingredients-d.webp",
+      "public/claude-vfx/pizza-baked-d.webp",
+      "public/claude-vfx/pizza-normal-d.webp",
+      "public/claude-vfx/pizza-raw-m.webp",
+      "public/claude-vfx/pizza-masks-d.webp"
+    ]
+  },
+  {
+    "path": "public/assets/3d",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/public/assets/3d",
+    "bytes": 625,
+    "files": [
+      "public/assets/3d/README.md"
+    ]
+  },
+  {
+    "path": "scripts/package-architecture-review.py",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/scripts/package-architecture-review.py",
+    "bytes": 6127,
+    "files": [
+      "scripts/package-architecture-review.py"
+    ]
+  },
+  {
+    "path": "scripts/render-reference-linen.py",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/scripts/render-reference-linen.py",
+    "bytes": 2334,
+    "files": [
+      "scripts/render-reference-linen.py"
+    ]
+  },
+  {
+    "path": "scripts/review-recording-match.mjs",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/scripts/review-recording-match.mjs",
+    "bytes": 4190,
+    "files": [
+      "scripts/review-recording-match.mjs"
+    ]
+  },
+  {
+    "path": "scripts/review-reference-experience.mjs",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/scripts/review-reference-experience.mjs",
+    "bytes": 8297,
+    "files": [
+      "scripts/review-reference-experience.mjs"
+    ]
+  },
+  {
+    "path": "scripts/review-palazzo-motion.mjs",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/scripts/review-palazzo-motion.mjs",
+    "bytes": 9710,
+    "files": [
+      "scripts/review-palazzo-motion.mjs"
+    ]
+  },
+  {
+    "path": "scripts/record-reference-experience.mjs",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/scripts/record-reference-experience.mjs",
+    "bytes": 3419,
+    "files": [
+      "scripts/record-reference-experience.mjs"
+    ]
+  },
+  {
+    "path": "scripts/review-architecture.mjs",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/scripts/review-architecture.mjs",
+    "bytes": 4965,
+    "files": [
+      "scripts/review-architecture.mjs"
+    ]
+  },
+  {
+    "path": "scripts/fetch-architectural-materials.mjs",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/scripts/fetch-architectural-materials.mjs",
+    "bytes": 1313,
+    "files": [
+      "scripts/fetch-architectural-materials.mjs"
+    ]
+  },
+  {
+    "path": "public/reference-experience",
+    "archive": "archives/rejected-frontends/complete-reset-2026-11-25/public/reference-experience",
+    "bytes": 416826,
+    "files": [
+      "public/reference-experience/linen.jpg",
+      "public/reference-experience/fonts/OFL.txt",
+      "public/reference-experience/fonts/serif.ttf",
+      "public/reference-experience/fonts/serif-italic.ttf"
+    ]
+  }
+]

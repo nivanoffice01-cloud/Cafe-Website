@@ -1,0 +1,40 @@
+{
+  "phase": "before",
+  "checks": [
+    "Search, persistent favourites, selection and real Table 4 demo order submission to isolated CRM",
+    "QR alias and all 131 dishes / 13 categories remain accessible",
+    "Complete mobile seat selection and pending reservation submission to isolated CRM; Escape restores scrolling",
+    "Protected menu has no horizontal overflow at 320/390/768/1440/1920px",
+    "Owner login, dashboard, order queue, submitted reservation and admin settings work in isolated CRM"
+  ],
+  "errors": [],
+  "consoleErrors": [
+    "Pattern attribute value [+0-9 ()-]{7,24} is not a valid regular expression: Uncaught SyntaxError: Invalid regular expression: /[+0-9 ()-]{7,24}/v: Invalid character in character class"
+  ],
+  "badResponses": [],
+  "viewports": [
+    {
+      "width": 320,
+      "scrollWidth": 320
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "width": 1920,
+      "scrollWidth": 1920
+    }
+  ],
+  "knownBaselineIssues": [
+    "Pattern attribute value [+0-9 ()-]{7,24} is not a valid regular expression: Uncaught SyntaxError: Invalid regular expression: /[+0-9 ()-]{7,24}/v: Invalid character in character class"
+  ]
+}

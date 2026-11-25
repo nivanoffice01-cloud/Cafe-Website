@@ -1,0 +1,106 @@
+{
+  "protectedFileCount": 83,
+  "modifiedProtectedFiles": [],
+  "screenshots": [
+    {
+      "screen": "crm-dashboard",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "crm-login",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "crm-orders",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "crm-reservations",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "crm-settings",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "menu-categories",
+      "pixelIdentical": false,
+      "differingPixelPercent": 0.00182,
+      "differenceBounds": [
+        191,
+        30,
+        198,
+        31
+      ]
+    },
+    {
+      "screen": "menu-favourites",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "menu-landing",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "menu-search",
+      "pixelIdentical": false,
+      "differingPixelPercent": 0.00547,
+      "differenceBounds": [
+        16,
+        212,
+        19,
+        221
+      ]
+    },
+    {
+      "screen": "menu-selection",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "menu-table-4",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "reservation-desktop",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "reservation-dialog",
+      "pixelIdentical": true,
+      "differingPixelPercent": 0.0,
+      "differenceBounds": null
+    },
+    {
+      "screen": "reservation-mobile",
+      "pixelIdentical": false,
+      "differingPixelPercent": 0.13185,
+      "differenceBounds": [
+        199,
+        465,
+        374,
+        509
+      ]
+    }
+  ],
+  "diskFreeBytes": 2701225984
+}

@@ -1,0 +1,442 @@
+[
+  {
+    "path": "public/favicon.svg",
+    "group": "06-brand",
+    "dimensions": "",
+    "bytes": 389,
+    "sha256": "8ebdb281e69012a26b09b474637dae18c7c7df20c7b20b5f45b3f5811caa85bd",
+    "provenance": "Existing brand asset."
+  },
+  {
+    "path": "public/images/architectural/brand-lockup.png",
+    "group": "06-brand",
+    "dimensions": "2172 x 724",
+    "bytes": 300439,
+    "sha256": "bf7e3c0b7fce9aeb4003a96ad519ed3d5d310ac25aec8c2b5af0ccfa10a97f71",
+    "provenance": "Existing brand asset."
+  },
+  {
+    "path": "public/images/experience/mangosteen-arrival-enhanced.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "1673 x 940",
+    "bytes": 762334,
+    "sha256": "94b72f471c7d8b35f543769f0951f794311b8ef3acdbaf51a0762fbd06839a93",
+    "provenance": "AI-assisted restoration of supplied cafe imagery (per legacy README); may reinterpret fine architectural details. Protected shared hero retained unchanged, not a camera original."
+  },
+  {
+    "path": "public/images/experience/mangosteen-arrival.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "3840 x 2157",
+    "bytes": 1246956,
+    "sha256": "c8c94a20922260a4546933bbfc92dbf93dd6fc0f7781a2f20c9377286e2706e9",
+    "provenance": "Existing photographic derivative/enhancement. Processing provenance not fully verified. Shared menu/reservation hero retained unchanged."
+  },
+  {
+    "path": "public/images/experience/mangosteen-evening-poster.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "360 x 640",
+    "bytes": 72228,
+    "sha256": "ae927955515c1e1c49f339c52d726aaa214c2e77beac7033b7337c1b5ff77200",
+    "provenance": "Existing photographic derivative/enhancement. Processing provenance not fully verified. Shared menu/reservation hero retained unchanged."
+  },
+  {
+    "path": "public/images/experience/mangosteen-interior-enhanced.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "1448 x 1086",
+    "bytes": 746248,
+    "sha256": "05851917d9def4f0c4b5f4a4c33f4791bdee8422bbe593a7fd70c3c3f2192dbd",
+    "provenance": "AI-assisted restoration of supplied cafe imagery (per legacy README); may reinterpret fine architectural details. Protected shared hero retained unchanged, not a camera original."
+  },
+  {
+    "path": "public/images/experience/mangosteen-table-dish.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "3840 x 2558",
+    "bytes": 1505924,
+    "sha256": "7f7361e908afa85312cd7f16a971be15dcda4efb0121bcffabadcdbeac5e3aec",
+    "provenance": "Existing photographic derivative/enhancement. Processing provenance not fully verified. Shared menu/reservation hero retained unchanged."
+  },
+  {
+    "path": "public/images/experience/mangosteen-table-enhanced.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "1537 x 1023",
+    "bytes": 666325,
+    "sha256": "e6c410101921b484c695dbb911d9a5b3e6a4c9b47a716ea5535d8c1164f711b8",
+    "provenance": "AI-assisted restoration of supplied cafe imagery (per legacy README); may reinterpret fine architectural details. Protected shared hero retained unchanged, not a camera original."
+  },
+  {
+    "path": "public/images/experience/mangosteen-table.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "3840 x 2558",
+    "bytes": 1521985,
+    "sha256": "41b5b1a5d30979656e03c99c026507de7bd2da7043211660234d2bb0be3aec18",
+    "provenance": "Existing photographic derivative/enhancement. Processing provenance not fully verified. Shared menu/reservation hero retained unchanged."
+  },
+  {
+    "path": "public/images/gallery/cafe-06.png",
+    "group": "01-cafe-photographs",
+    "dimensions": "1032 x 1282",
+    "bytes": 121804,
+    "sha256": "c51fc2ceb0b37812c830774eb564aed0764f097a8be192d67e2e6d931d49541a",
+    "provenance": "Existing Mangosteen cafe/food source photograph. Repository README attributes cafe photos to the Mangosteen Zomato gallery; highres files have large dimensions but limited original detail. Not independently authenticated."
+  },
+  {
+    "path": "public/images/gallery/cafe-07.jpg",
+    "group": "01-cafe-photographs",
+    "dimensions": "1545 x 1030",
+    "bytes": 296598,
+    "sha256": "60ca71a6d867338c49c0171539994fc35b29ff0a8ae846e3f7a4fdd5a00f1d8f",
+    "provenance": "Existing Mangosteen cafe/food source photograph. Repository README attributes cafe photos to the Mangosteen Zomato gallery; highres files have large dimensions but limited original detail. Not independently authenticated."
+  },
+  {
+    "path": "public/images/gallery/cafe-14.png",
+    "group": "01-cafe-photographs",
+    "dimensions": "1960 x 1292",
+    "bytes": 322378,
+    "sha256": "39764cb6d1438c9f71101efaa8a887e00d5205c8685429b1d842aa8efb56674b",
+    "provenance": "Existing Mangosteen cafe/food source photograph. Repository README attributes cafe photos to the Mangosteen Zomato gallery; highres files have large dimensions but limited original detail. Not independently authenticated."
+  },
+  {
+    "path": "public/images/gallery/cafe-16.jpg",
+    "group": "01-cafe-photographs",
+    "dimensions": "1453 x 969",
+    "bytes": 206480,
+    "sha256": "c27b00935480dea9113dc090588bb171bfc9deb3978b242570661bac1b1a606c",
+    "provenance": "Existing Mangosteen cafe/food source photograph. Repository README attributes cafe photos to the Mangosteen Zomato gallery; highres files have large dimensions but limited original detail. Not independently authenticated."
+  },
+  {
+    "path": "public/images/gallery/cafe-18.jpeg",
+    "group": "01-cafe-photographs",
+    "dimensions": "1600 x 1066",
+    "bytes": 191863,
+    "sha256": "a31472696940257b1bfe665094ff57d6014e66c8a30d52f5b130806af651a7be",
+    "provenance": "Existing Mangosteen cafe/food source photograph. Repository README attributes cafe photos to the Mangosteen Zomato gallery; highres files have large dimensions but limited original detail. Not independently authenticated."
+  },
+  {
+    "path": "public/images/gallery/cafe-19.jpg",
+    "group": "01-cafe-photographs",
+    "dimensions": "1962 x 1198",
+    "bytes": 169706,
+    "sha256": "294576908ad917d2cbe03661c3b0da7c28f5d4cbf7c527575cbf39228e7fcc41",
+    "provenance": "Existing Mangosteen cafe/food source photograph. Repository README attributes cafe photos to the Mangosteen Zomato gallery; highres files have large dimensions but limited original detail. Not independently authenticated."
+  },
+  {
+    "path": "public/images/highres/mangosteen_original_1_8k.jpg",
+    "group": "01-cafe-photographs",
+    "dimensions": "7680 x 5116",
+    "bytes": 4441382,
+    "sha256": "a82df6f971dd1e3d87a576e10bb02d1497bd3d85f50f45636c3e1d97fa684555",
+    "provenance": "Existing Mangosteen cafe/food source photograph. Repository README attributes cafe photos to the Mangosteen Zomato gallery; highres files have large dimensions but limited original detail. Not independently authenticated."
+  },
+  {
+    "path": "public/images/highres/mangosteen_original_2_8k.jpg",
+    "group": "01-cafe-photographs",
+    "dimensions": "7680 x 5116",
+    "bytes": 4301285,
+    "sha256": "aeb5365523b99f6e2f077df90dad56d5388c5a52d805d5392b1c0456059f7f46",
+    "provenance": "Existing Mangosteen cafe/food source photograph. Repository README attributes cafe photos to the Mangosteen Zomato gallery; highres files have large dimensions but limited original detail. Not independently authenticated."
+  },
+  {
+    "path": "public/images/highres/mangosteen_original_3_8k.jpg",
+    "group": "01-cafe-photographs",
+    "dimensions": "7680 x 5760",
+    "bytes": 4840506,
+    "sha256": "bc40bd914e0669e73df6c22282ca14e75f01944250c2718a4a14545a4ab69a63",
+    "provenance": "Existing Mangosteen cafe/food source photograph. Repository README attributes cafe photos to the Mangosteen Zomato gallery; highres files have large dimensions but limited original detail. Not independently authenticated."
+  },
+  {
+    "path": "public/images/highres/mangosteen_original_4_8k.jpg",
+    "group": "01-cafe-photographs",
+    "dimensions": "7680 x 4314",
+    "bytes": 3528765,
+    "sha256": "fa85ed520cad9e023fe798adf0a75315db4249e1ddd053a4ea0ab5891cd56a95",
+    "provenance": "Existing Mangosteen cafe/food source photograph. Repository README attributes cafe photos to the Mangosteen Zomato gallery; highres files have large dimensions but limited original detail. Not independently authenticated."
+  },
+  {
+    "path": "public/images/mango-dish.jpg",
+    "group": "05-unverified",
+    "dimensions": "1036 x 1268",
+    "bytes": 125344,
+    "sha256": "e65da962b454ad1961b8fe67a2fcb15bc5f72733b8908145f9886fa96e7e37e2",
+    "provenance": "Existing food photograph; source/venue provenance unverified. Retained, not labelled genuine."
+  },
+  {
+    "path": "public/images/menu/chocolate-cheesecake.jpg",
+    "group": "03-stock-food",
+    "dimensions": "1080 x 1620",
+    "bytes": 137430,
+    "sha256": "70b24a39112ce05828629a00cddf6463ba418cb681857704bf9b837e9310d479",
+    "provenance": "Illustrative Pexels food photograph; NOT an actual Mangosteen serving. See public/images/menu/README.md."
+  },
+  {
+    "path": "public/images/menu/margarita-pizza.jpg",
+    "group": "03-stock-food",
+    "dimensions": "1080 x 1617",
+    "bytes": 301085,
+    "sha256": "4345df5176e15fae9bfc50c9e3b139b8399e32da29744fa62ebc9f1e70c1e60c",
+    "provenance": "Illustrative Pexels food photograph; NOT an actual Mangosteen serving. See public/images/menu/README.md."
+  },
+  {
+    "path": "public/images/menu/pesto-pasta.jpg",
+    "group": "03-stock-food",
+    "dimensions": "1080 x 720",
+    "bytes": 84013,
+    "sha256": "b76d71261bbb6a24c36fb2a09b0e01b575bf111d0eb23754e1537a435540defb",
+    "provenance": "Illustrative Pexels food photograph; NOT an actual Mangosteen serving. See public/images/menu/README.md."
+  },
+  {
+    "path": "public/images/menu/veg-cheese-burger.jpg",
+    "group": "03-stock-food",
+    "dimensions": "1080 x 1729",
+    "bytes": 133172,
+    "sha256": "a80425e13e3c742b53a24cb6bb7f666663035d3fc7c9f9841e2d09d2eb1fd3f9",
+    "provenance": "Illustrative Pexels food photograph; NOT an actual Mangosteen serving. See public/images/menu/README.md."
+  },
+  {
+    "path": "public/images/menu/virgin-mojito.jpg",
+    "group": "03-stock-food",
+    "dimensions": "1080 x 720",
+    "bytes": 46953,
+    "sha256": "3ab1f0be42953e8f1fc1f290d37bf75835801770bcea48aa8b080a84f1cb3de1",
+    "provenance": "Illustrative Pexels food photograph; NOT an actual Mangosteen serving. See public/images/menu/README.md."
+  },
+  {
+    "path": "public/images/menu-ai/breakfast.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 100248,
+    "sha256": "26b00d62339ae5015f4cab8b133c11fc69857fd10cb6cebebb8cf67b1a9c1892",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/burgers-sandwiches.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 90090,
+    "sha256": "7ef48f402a964ab0b87757aea4cc4e6b8dc3a773faad773c5a8ea6c0626ded74",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/desserts.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 110246,
+    "sha256": "263ee872982886228f7403230b13d3d675fca7a45756519a03bcc5b23ecffd80",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/iced-tea.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 76808,
+    "sha256": "cdb314b94f36a38c80d6525767ac613ded2a6abd7589eba235f3760f378a5241",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/juice.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 81812,
+    "sha256": "c4425a6e8161127e28ae7a653a98ab0ed4a8441d30148b4a21be7d9751f5369f",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/main-course.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 95606,
+    "sha256": "b6b502dc9d897612d22690fddc54a4b073d9641ea587a437ee9606bca95da48e",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/mocktails.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 85700,
+    "sha256": "296122c6a96128c734d5344b4af75fef8096bf38043af5e33ec6380808249f67",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/pasta.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 99906,
+    "sha256": "92c166b39e77a3260da30e7e3047e0510abe3bd58c49d449507e68cb346b8353",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/pizza-pide.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 110260,
+    "sha256": "27d4b3ac13a888e3bfe9bd3beba64021d894fea1618c45a5d9af6bc8f035cedc",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/salad.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 89750,
+    "sha256": "cc542176b0eb7a5c132c9a5f93ee1b81708b9b3cdb9fe71133e9c22e04207e00",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/shakes.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 76868,
+    "sha256": "29d55eb06697233685e87afdb5073f50884ae1bff54b995bd3c1c1ae65653d69",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/small-plates.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 99064,
+    "sha256": "0cb255859f2330f5cdfa43c5c3e5a41d69a930879cd30845421d7ad2d2c7a4b3",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ai/soup.webp",
+    "group": "04-generated-menu",
+    "dimensions": "960 x 720",
+    "bytes": 75164,
+    "sha256": "c8cf44e321ceb3af6cf4c48844aa13914b1dcf2983f15a9d92fb3fa49b8f45c5",
+    "provenance": "AI-generated category illustration; NOT a genuine cafe or dish photograph."
+  },
+  {
+    "path": "public/images/menu-ui/bougainvillea-botanical-v1.png",
+    "group": "07-interface",
+    "dimensions": "1024 x 1536",
+    "bytes": 1853814,
+    "sha256": "d2c8ac96275c2a6d35ff90a66b163bd90e0ea2dffb5988a85040ca53e0b029f7",
+    "provenance": "Existing decorative/interface asset, not evidence of genuine cafe architecture."
+  },
+  {
+    "path": "public/images/menu-ui/torn-paper-v1.png",
+    "group": "07-interface",
+    "dimensions": "2172 x 724",
+    "bytes": 2282528,
+    "sha256": "86f2431d96506efac869000ee087391ecdcc3900614953482427119b2b743e6d",
+    "provenance": "Existing decorative/interface asset, not evidence of genuine cafe architecture."
+  },
+  {
+    "path": "public/images/mobile/mangosteen-arrival-mobile.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "1100 x 618",
+    "bytes": 328692,
+    "sha256": "07f7f6fbc0e58c567063ad07829451d1af52a28133b4957ffccd67aeb18fb08b",
+    "provenance": "Existing responsive/cropped derivative. Source retained separately; not a distinct original."
+  },
+  {
+    "path": "public/images/mobile/mangosteen-interior-mobile.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "1100 x 825",
+    "bytes": 426445,
+    "sha256": "fb9152f554b0d109dc54a9090451a8bdac5fa281558f1c533abdcb606d2de669",
+    "provenance": "Existing responsive/cropped derivative. Source retained separately; not a distinct original."
+  },
+  {
+    "path": "public/images/mobile/mangosteen-table-mobile.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "1000 x 665",
+    "bytes": 270228,
+    "sha256": "befdb0fbfddaba6f350c3eb3c87cde0e45e7f6a7095ba26283d782cdf2a32e17",
+    "provenance": "Existing responsive/cropped derivative. Source retained separately; not a distinct original."
+  },
+  {
+    "path": "public/images/mobile/mangosteen_original_1_mobile.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "2400 x 1598",
+    "bytes": 824054,
+    "sha256": "8810be98a3fd19e5a7e376ac8cf758a763eaa3696579412d77a345e499108ec4",
+    "provenance": "Existing responsive/cropped derivative. Source retained separately; not a distinct original."
+  },
+  {
+    "path": "public/images/mobile/mangosteen_original_2_mobile.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "2400 x 1598",
+    "bytes": 808815,
+    "sha256": "94499be3dea11e622b1cec0b339c48eba326dcbf9be3aaa4cd8e64ae24885543",
+    "provenance": "Existing responsive/cropped derivative. Source retained separately; not a distinct original."
+  },
+  {
+    "path": "public/images/mobile/mangosteen_original_3_mobile.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "2400 x 1800",
+    "bytes": 955936,
+    "sha256": "abd1c70008339876e813f39ef45ef0369eb0d6c89304d8c04cbbb25537136fdb",
+    "provenance": "Existing responsive/cropped derivative. Source retained separately; not a distinct original."
+  },
+  {
+    "path": "public/images/mobile/mangosteen_original_4_mobile.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "2400 x 1348",
+    "bytes": 676791,
+    "sha256": "e41a38ba4139ae86c6d42f4c4492b684182756bbd475b73854eae2059e23dde2",
+    "provenance": "Existing responsive/cropped derivative. Source retained separately; not a distinct original."
+  },
+  {
+    "path": "public/images/retained/dining-1920.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "1920 x 1280",
+    "bytes": 342362,
+    "sha256": "038247be43f312c9a4b3eb2d35bce214f62ad32c29ffb5c9c8789603607eb1c2",
+    "provenance": "Existing responsive/cropped derivative. Source retained separately; not a distinct original."
+  },
+  {
+    "path": "public/images/retained/dining-detail-960.jpg",
+    "group": "02-cafe-derivatives",
+    "dimensions": "960 x 720",
+    "bytes": 158742,
+    "sha256": "9efa4976fa847198e9bd5576b5cfe864bb0bed09a2a21987ed28f3743e818fc1",
+    "provenance": "Existing responsive/cropped derivative. Source retained separately; not a distinct original."
+  },
+  {
+    "path": "public/media/mangosteen-evening.mp4",
+    "group": "08-video",
+    "dimensions": "",
+    "bytes": 2438430,
+    "sha256": "cd826cf6d19796bff8bab16bb4092284774301a08c0b6daeb48a52cfd1b534d3",
+    "provenance": "Supplied 30-second portrait cafe film per legacy README; retained unchanged. Acquisition rights not independently authenticated."
+  },
+  {
+    "path": "CRM/dist/assets/login-poster-mangosteen.png",
+    "group": "07-interface",
+    "dimensions": "1024 x 1536",
+    "bytes": 1910452,
+    "sha256": "ddee76343db786790c7babe65cd6e3a1e92710c0f81518a067421826676daef3",
+    "provenance": "Existing decorative/interface asset, not evidence of genuine cafe architecture."
+  },
+  {
+    "path": "CRM/dist/assets/mangosteen-brand-lockup.png",
+    "group": "06-brand",
+    "dimensions": "2172 x 724",
+    "bytes": 300439,
+    "sha256": "bf7e3c0b7fce9aeb4003a96ad519ed3d5d310ac25aec8c2b5af0ccfa10a97f71",
+    "provenance": "Existing brand asset."
+  },
+  {
+    "path": "assets/food-vfx/pipeline/import-ready-studio.blend",
+    "group": "09-source",
+    "dimensions": "",
+    "bytes": 1163843,
+    "sha256": "967cff041683f453af43824cfb38e5d8b2f16b7a50b0677f983713ff359731da",
+    "provenance": "Preserved experimental source/model asset; outside active marketing build."
+  },
+  {
+    "path": "assets/food-vfx/pizza/pizza-study-first-lighting.blend",
+    "group": "09-source",
+    "dimensions": "",
+    "bytes": 16069868,
+    "sha256": "316c574159e0ae0905dceb5da00be19aa17bb2c632ac5331b0154b3d72655d4c",
+    "provenance": "Preserved experimental source/model asset; outside active marketing build."
+  },
+  {
+    "path": "assets/food-vfx/pizza/pizza-study-unapproved.blend",
+    "group": "09-source",
+    "dimensions": "",
+    "bytes": 34005734,
+    "sha256": "cb348ffbb4f4030f90598ab1855d3f2bd459ba7e6b512520a6ab32e5fd22b15d",
+    "provenance": "Preserved experimental source/model asset; outside active marketing build."
+  }
+]
