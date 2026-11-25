@@ -54,3 +54,24 @@
 @media(prefers-reduced-motion:reduce){.ref-plate img{scale:1!important}.ref-dish-motion{clip-path:none!important;transform:none!important;opacity:1!important}}
 
 .ref-header nav a[aria-current=location]:after{transform:scaleX(1);transform-origin:left}.ref-mobile-nav nav a[aria-current=location]{color:var(--ref-gold)}
+/* Corrections measured from the user's 17.485-second reference recording. */
+.ref-story,.ref-menu-grid,.ref-photo-copy{max-width:1440px;padding-inline:clamp(20px,5.55vw,80px)}
+.ref-story-row{display:flex;align-items:center;flex-wrap:wrap;gap:12px 24px;min-height:1.3em}
+.ref-story-row .ref-story-line{margin:0}
+.ref-story-image{display:inline-flex;flex:none;vertical-align:middle;overflow:clip;will-change:transform;box-shadow:0 16px 28px #0005}
+.ref-story-image img{width:100%;height:100%;object-fit:cover}
+.ref-story-dish{width:1.12em;height:1.12em;border-radius:50%;border:3px solid #353b30}
+.ref-story-cafe{width:1.6em;height:.94em;border-radius:50%}
+.ref-menu-intro{position:sticky;top:120px;align-self:start}
+.ref-menu-list{position:relative}
+.ref-menu-row{transition:opacity .22s ease}
+.ref-menu-list[data-preview] .ref-menu-row:not(.is-previewed){opacity:.5!important}
+.ref-menu-row.is-previewed h3,.ref-menu-row:hover h3{color:var(--ref-ivory)}
+.ref-menu-follower{position:fixed;left:0;top:0;z-index:35;width:210px;height:210px;pointer-events:none;visibility:hidden;opacity:0;will-change:transform}
+.ref-menu-follower img{position:absolute;left:-50%;top:-50%;width:100%;height:100%;object-fit:cover;border-radius:50%;border:6px solid #d5cbbbaa;box-shadow:0 20px 30px #0009;opacity:0}
+@media(min-width:1101px){.ref-table{--plate:360px}}
+@media(min-width:1900px){.ref-table{left:calc(92% - 700px)}.ref-hero-copy{padding-left:var(--ref-pad)}}
+@media(max-width:1100px){.ref-story-row{gap:8px 16px}.ref-story h2{font-size:clamp(48px,6.5vw,72px)}}
+@media(max-width:800px){.ref-menu-intro{position:static}.ref-menu-follower{display:none}}
+@media(max-width:700px){.ref-story-row{gap:12px;line-height:1.15;margin-bottom:12px}.ref-story-row em{flex-basis:100%}.ref-story-image{font-size:42px}.ref-story h2{font-size:44px}}
+@media(prefers-reduced-motion:reduce){.ref-story-image{transform:none!important;opacity:1!important}.ref-menu-row{transition:none}}

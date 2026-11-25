@@ -7,6 +7,7 @@ import { cafe } from '../../data/cafe'
 import { fullMenu, fullMenuCount } from '../../data/fullMenu'
 import { menuPhotoFor } from '../../data/menuPhotos'
 import './reference.css'
+import { MenuHoverPreview } from './MenuHoverPreview'
 
 const selections = [
   ['Pizza & Pide', 'Margarita'], ['Pasta', 'Pesto cream Pasta'], ['Burger & sandwich', 'Veg Cheese Burger'],
@@ -273,12 +274,12 @@ export default function ReferenceExperiencePage() {
         <div className="ref-drag-controls"><button className="ref-pill" aria-label="Previous dish" onClick={() => setActive(a => (a + dishes.length - 1) % dishes.length)}>←</button><span>Drag the table to turn it</span><button className="ref-pill" aria-label="Next dish" onClick={() => setActive(a => (a + 1) % dishes.length)}>→</button></div>
       </section>
       <section className="ref-story ref-container">
-        <h2><span className="ref-story-line">One table,</span> <em className="ref-story-line">good company,</em><br/><span className="ref-story-line">and an evening</span> <em className="ref-story-line">of your own.</em></h2>
+        <h2><span className="ref-story-row"><span className="ref-story-line">One table,</span><span className="ref-story-image ref-story-dish"><img src={dishes[0].photo.src} alt={dishes[0].photo.alt} loading="lazy"/></span><em className="ref-story-line">good company,</em></span><span className="ref-story-row"><span className="ref-story-line">and an evening</span><span className="ref-story-image ref-story-cafe"><img src={photographs.interior} alt="Mangosteen café dining space" loading="lazy"/></span><em className="ref-story-line">of your own.</em></span></h2>
         <div className="ref-story-footer ref-reveal"><div><p>Mangosteen Café</p><span>A little world above the city · Indore</span></div><a className="ref-pill" href="#ref-room" aria-current={currentSection === 'ref-room' ? 'location' : undefined} onClick={e => navigate(e, 'ref-room')}>See the café</a></div>
       </section>
       <section className="ref-menu-section" id="ref-menu"><div className="ref-container ref-menu-grid">
         <div className="ref-menu-intro"><h2 className="ref-reveal">At the <em>table.</em></h2><p>Pizza, pasta, something sweet. Start with what you love, then find something new.</p><p className="ref-menu-count">{fullMenuCount}<span>dishes · {fullMenu.length} categories</span></p><button role="switch" aria-checked={descriptions} className="ref-switch" onClick={() => setDescriptions(d => !d)}><span/>Dish details</button><a href="/menu" className="ref-pill ref-solid">Explore the full menu</a></div>
-        <div className="ref-menu-list">{dishes.map((d, i) => <a href={`/menu?category=${encodeURIComponent(d.category)}`} className="ref-menu-row ref-reveal" key={d.name}><span className="ref-roman">{['I','II','III','IV','V'][i]}</span><div><h3>{d.name}</h3><p>{descriptions ? d.description || d.category : d.category}</p></div><span className="ref-price">{money(d.price)}</span><img src={d.photo.src} alt="" loading="lazy"/></a>)}<a href="/menu" className="ref-menu-all">All {fullMenuCount} dishes <span>↗</span></a></div>
+        <MenuHoverPreview dishes={dishes} descriptions={descriptions} total={fullMenuCount}/>
       </div></section>
       <section className="ref-cafe-photo"><img className="ref-cafe-background" src={photographs.dining} srcSet={`${photographs.dining} 960w, /reference-experience/dining-1920.jpg 1920w`} sizes="100vw" alt="Warm wooden tables and pendant lights inside Mangosteen Café" loading="lazy"/><img className="ref-photo-inset" src={photographs.interior} alt="Another view of the café's dining space" loading="lazy"/><div className="ref-photo-copy ref-container"><h2 className="ref-reveal">A place to linger.<br/><em>A table to come back to.</em></h2><p>Warm lights, cane chairs and room for a long conversation.</p><a href="#ref-room" aria-current={currentSection === 'ref-room' ? 'location' : undefined} onClick={e => navigate(e, 'ref-room')} className="ref-pill">Step inside</a></div></section>
       <GlassRoom/>

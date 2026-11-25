@@ -23,10 +23,11 @@ export function useEditorialMotion(root: RefObject<HTMLElement | null>) {
         gsap.utils.toArray<HTMLElement>('.ref-story-line').forEach((line,i)=>{
           gsap.fromTo(line,{opacity:.2,filter:'blur(7px)',y:12},{opacity:1,filter:'blur(0px)',y:0,ease:'none',scrollTrigger:{trigger:line,start:`top ${88-i*2}%`,end:'top 55%',scrub:.45}})
         })
+        gsap.utils.toArray<HTMLElement>('.ref-story-image').forEach((image,i)=>gsap.fromTo(image,{scale:.55,opacity:0,rotation:i?8:-12},{scale:1,opacity:1,rotation:0,ease:'none',scrollTrigger:{trigger:image,start:'top 76%',end:'top 48%',scrub:.5}}))
         const reveal = (target:string,from:gsap.TweenVars,trigger=target,stagger=0) => gsap.from(target,{...from,duration:motion.reveal,ease:motion.ease,stagger,scrollTrigger:{trigger,start:'top 89%',toggleActions:'play none none reverse'}})
         reveal('.ref-story-footer',{opacity:0,y:15})
         reveal('.ref-menu-intro h2',{clipPath:'inset(0 0 100% 0)',y:24})
-        gsap.utils.toArray<HTMLElement>('.ref-menu-row').forEach(row=>gsap.from(row,{clipPath:'inset(0 100% 0 0)',x:12,duration:.8,ease:motion.ease,scrollTrigger:{trigger:row,start:'top 92%',toggleActions:'play none none reverse'}}))
+        gsap.utils.toArray<HTMLElement>('.ref-menu-row').forEach(row=>gsap.from(row,{opacity:.15,filter:'blur(5px)',y:8,duration:.7,ease:motion.ease,scrollTrigger:{trigger:row,start:'top 92%',toggleActions:'play none none reverse'}}))
         gsap.from('.ref-cafe-background',{clipPath:'inset(9% 0 9% 0)',scale:1.06,ease:'none',scrollTrigger:{trigger:'.ref-cafe-photo',start:'top 90%',end:'top 10%',scrub:.6}})
         gsap.fromTo('.ref-photo-inset',{yPercent:12,rotation:3},{yPercent:compact?-8:-20,rotation:-4,ease:'none',scrollTrigger:{trigger:'.ref-cafe-photo',start:'top bottom',end:'bottom top',scrub:.8}})
         reveal('.ref-photo-copy h2',{clipPath:'inset(0 0 100% 0)',y:24})
