@@ -75,7 +75,6 @@
 #root .dm-menu .dm-dish-copy > strong { font-size: 16px; font-weight: 600; line-height: 1.35; letter-spacing: -.015em; }
 #root .dm-menu .dm-description { font-size: 13px; line-height: 1.45; }
 #root .dm-menu .dm-sheet-copy h2 { font-size: clamp(29px, 8vw, 38px); }
-#root .dm-menu .dm-bottom-nav button small { font-size: 10px; font-weight: 500; }
 #root .dm-menu .dm-primary { font-weight: 600; letter-spacing: -.01em; }
 #root .dm-menu .dm-brand strong { font-size: clamp(14px, 4.1vw, 20px); letter-spacing: .13em; }
 #root .dm-menu .dm-brand > span { font-family: var(--cafe-font-body); font-size: 8px; letter-spacing: .2em; }
@@ -137,5 +136,4 @@
   #root .dm-menu .dm-dish-copy > strong { font-size: 15px; }
   #root .dm-menu .dm-description { font-size: 12px; }
   #root .dm-menu .dm-brand strong { font-size: 13px; }
-  #root .dm-menu .dm-bottom-nav button small { font-size: 9px; }
 }

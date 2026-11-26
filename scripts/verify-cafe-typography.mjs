@@ -40,7 +40,7 @@ try{
  assert.match(await page.locator('.dm-sheet-copy h2').evaluate(e=>getComputedStyle(e).fontFamily),/Lora/)
  assert.match(await page.locator('dialog .dm-price').innerText(),/₹499/)
  await page.getByRole('button',{name:'Favourite',exact:true}).click();await page.getByRole('button',{name:'Add to My List',exact:true}).click()
- await page.getByRole('navigation',{name:'Menu navigation',exact:true}).getByRole('button',{name:'My List',exact:true}).click()
+ await page.locator('.dm-header-actions').getByRole('button',{name:/^My List,/}).click()
  assert.equal(new URL(page.url()).searchParams.get('table'),'4')
  assert.match(await page.locator('.dm-order-summary').innerText(),/₹524/)
  await page.screenshot({path:'artifacts/typography-refresh/after-my-list-390.png'})

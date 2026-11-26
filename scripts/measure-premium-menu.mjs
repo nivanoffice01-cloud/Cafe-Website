@@ -28,7 +28,8 @@ try {
     const initial = await page.evaluate(() => ({ ...window.__menuMetrics, paints: performance.getEntriesByType('paint').map(e => ({ name: e.name, ms: e.startTime })), navigation: performance.getEntriesByType('navigation').map(e => ({ domContentLoaded: e.domContentLoadedEventEnd, load: e.loadEventEnd })), resources: performance.getEntriesByType('resource').map(e => ({ name: new URL(e.name).pathname, transferSize: e.transferSize, encodedBodySize: e.encodedBodySize, decodedBodySize: e.decodedBodySize })) }))
     const initialTransfer = transfer, initialRequests = requests
     // Real menu interactions and smooth forward/reverse scrolling; sample rAF intervals.
-    await page.locator('.dm-bottom-nav').getByRole('button', { name: 'Categories', exact: true }).tap()
+    await page.getByRole('button', { name: 'Open menu navigation', exact: true }).tap()
+    await page.getByRole('navigation', { name: 'Menu drawer navigation', exact: true }).getByRole('button', { name: 'Categories', exact: true }).tap()
     await page.locator('.dm-category-banner').first().waitFor()
     const animation = await page.evaluate(async () => {
       const intervals = []; let previous = performance.now(); const start = previous

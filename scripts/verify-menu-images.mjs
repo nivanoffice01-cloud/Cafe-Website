@@ -35,7 +35,7 @@ try {
   await page.getByRole('button',{name:'View Margarita',exact:true}).click();await decode('dialog img')
   assert.match(await page.locator('dialog').innerText(),/Illustrative reference image/)
   await page.getByRole('button',{name:'Add to My List',exact:true}).click()
-  await page.getByRole('navigation',{name:'Menu navigation',exact:true}).getByRole('button',{name:'My List',exact:true}).click()
+  await page.locator('.dm-header-actions').getByRole('button',{name:/^My List,/}).click()
   await decode('.dm-list-photo img');assert.equal(new URL(page.url()).searchParams.get('table'),'4')
   report.checks.push('Dish details, selection photo and QR context remain consistent; demo checkout is unchanged')
   assert.deepEqual(report.errors,[])

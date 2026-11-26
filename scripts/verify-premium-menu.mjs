@@ -53,8 +53,24 @@ const shot = async (name, fullPage = true) => {
   await page.waitForTimeout(300)
   await page.screenshot({ path: `${dir}/after/${name}.png`, fullPage, animations: 'disabled' })
 }
-const bottom = () => page.getByRole('navigation', { name: 'Menu navigation', exact: true })
-const clickNav = async label => { await bottom().getByRole('button', { name: label, exact: true }).click(); await page.waitForTimeout(80) }
+const clickNav = async label => {
+  const desktop = page.getByRole('navigation', { name: 'Desktop menu navigation', exact: true })
+  if (await desktop.isVisible()) await desktop.getByRole('button', { name: label, exact: true }).click()
+  else if (label === 'Home') await page.getByRole('button', { name: 'Mangosteen menu home', exact: true }).click()
+  else if (label === 'Favourites') await page.getByRole('button', { name: 'Open favourites', exact: true }).click()
+  else if (label === 'My List') await page.locator('.dm-header-actions').getByRole('button', { name: /^My List,/ }).click()
+  else {
+    const direct = page.getByRole('button', { name: label === 'Search' ? 'Search menu' : 'Change category', exact: true })
+    if (await direct.isVisible()) await direct.click()
+    else {
+      const trigger = page.getByRole('button', { name: 'Open menu navigation', exact: true })
+      if (!await trigger.isVisible()) await page.getByRole('button', { name: 'Mangosteen menu home', exact: true }).click()
+      await trigger.click()
+      await page.getByRole('navigation', { name: 'Menu drawer navigation', exact: true }).getByRole('button', { name: label, exact: true }).click()
+    }
+  }
+  await page.waitForTimeout(80)
+}
 try {
   assert.equal(fullMenuCount, 131); assert.equal(fullMenu.length, 13)
   await goto('/menu'); await shot('mobile-landing'); await shot('mobile-landing-viewport', false)
@@ -154,10 +170,10 @@ try {
     await page.setViewportSize({ width, height })
     for (const path of ['/menu', '/menu/browse', '/menu/category/pizza-and-pide', '/menu/search', '/menu/favourites', '/menu/selection']) {
       await goto(path)
-      const metrics = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth, brokenImages: [...document.images].filter(i => i.complete && !i.naturalWidth).length, navVisible: getComputedStyle(document.querySelector('.dm-bottom-nav')).display !== 'none' }))
+      const metrics = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth, brokenImages: [...document.images].filter(i => i.complete && !i.naturalWidth).length, bottomNavCount: document.querySelectorAll('.dm-bottom-nav').length }))
       assert.ok(metrics.scrollWidth <= width, `${path} overflow at ${width}: ${metrics.scrollWidth}`)
       assert.equal(metrics.brokenImages, 0)
-      assert.equal(metrics.navVisible, width < 900)
+      assert.equal(metrics.bottomNavCount, 0)
       report.viewports.push({ path, height, ...metrics })
     }
     if ([320,768,1440,1920].includes(width)) {
