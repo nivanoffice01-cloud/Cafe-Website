@@ -2,7 +2,7 @@
 
 The existing catalogue contains 131 dishes in 13 categories. No retained photograph has a verified match to an individual catalogue dish. No dietary or bestseller metadata exists; filters and badges for those claims are omitted.
 
-The new menu uses a genuine retained food photograph as its unlabelled hero. Its dish identity is not established. Stock food, AI category portraits and the unverified mango-dish image are not used. Existing shared homepage mappings and source photographs remain untouched.
+The new menu uses a genuine retained food photograph as its unlabelled hero. Its dish identity is not established. Following the request to add images, the existing five matching licensed stock references and 13 AI category illustrations are now used with visible provenance labels. The unverified mango-dish image is not used. Existing shared homepage mappings and source photographs remain untouched.
 
 ## Required captures
 
@@ -14,4 +14,4 @@ Full exact filenames, catalogue names, prices, descriptions and status are liste
 
 ## Registration
 
-Register approved photographs in photography.ts: verifiedCategoryPhotos uses exact category names; verifiedDishPhotos uses category + | + exact dish name. Each entry accepts src, alt and optional srcSet. The same approved category photograph is cropped into its landing circle, category banner and category hero. Dish photos load lazily. Missing or failed photographs display a labelled neutral monogram, never another dish. This is an explicit visual limitation until verified captures are supplied.
+Register approved photographs in photography.ts: verifiedCategoryPhotos uses exact category names; verifiedDishPhotos uses category + | + exact dish name. Each entry accepts src, alt and optional srcSet. The same approved category photograph is cropped into its landing circle, category banner and category hero. Dish photos load lazily. Verified photographs take precedence. Until available, the five exact-name dish references and 13 category illustrations are displayed with Reference photo / AI illustration labels. Other missing dish photographs and failed image loads display a neutral monogram, never an unrelated dish. Responsive WebP derivatives live in /images/menu-display/. Original source images and licence documentation remain in /images/menu/ and /images/menu-ai/. This is an explicit visual limitation until verified captures are supplied.

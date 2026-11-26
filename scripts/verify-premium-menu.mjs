@@ -82,8 +82,8 @@ try {
     if (category.name === 'Shakes') await shot('mobile-shakes')
   }
   await goto('/menu/all'); assert.equal(await page.locator('.dm-dish').count(), 131)
-  assert.equal(await page.locator('img[src*="menu-ai"],img[src*="/images/menu/"]').count(), 0)
-  mark('All 131 exact names, prices and descriptions verified across all 13 category routes; no stock or AI food substitution')
+  assert.equal(await page.locator('.dm-photo:not(.is-pending) .dm-image-label').count(), await page.locator('.dm-photo:not(.is-pending)').count())
+  mark('All 131 exact names, prices and descriptions verified across all 13 category routes; illustrative images clearly labelled')
 
   await goto('/menu?table=4')
   await page.getByRole('heading', { name: 'All Categories', exact: true }).waitFor()

@@ -1851,3 +1851,44 @@
     padding-bottom:32px;
   }
 }
+
+/* Keep image provenance legible without obscuring the food. */
+.dm-menu .dm-photo .dm-image-label {
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  padding: 3px 4px;
+  border-radius: 5px;
+  color: #fff8e9;
+  background: #101810d9;
+  font-size: 8px;
+  line-height: 1.3;
+  letter-spacing: .015em;
+  text-align: center;
+  pointer-events: none;
+}
+.dm-menu .dm-category-circles .dm-photo .dm-image-label {
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  padding: 2px 3px;
+  font-size: 7px;
+}
+.dm-menu .dm-category-banner .dm-photo .dm-image-label,
+.dm-menu .dm-category-hero .dm-photo .dm-image-label {
+  left: auto;
+  right: 12px;
+  bottom: 8px;
+  width: max-content;
+  max-width: calc(100% - 24px);
+}
+.dm-menu .dm-sheet .dm-photo .dm-image-label {
+  left: auto;
+  right: 15px;
+  bottom: 12px;
+  padding: 5px 8px;
+  font-size: 11px;
+}
+@media (min-width: 900px) {
+  .dm-menu .dm-category-circles .dm-photo .dm-image-label { font-size: 9px; }
+}
