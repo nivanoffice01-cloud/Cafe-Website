@@ -1,0 +1,1429 @@
+{
+  "dishCount": 131,
+  "categoryCount": 13,
+  "verifiedDietaryMetadata": false,
+  "verifiedBestsellerMetadata": false,
+  "hero": {
+    "src": "/images/authentic/story-food-960.webp",
+    "status": "Genuine venue food photograph; dish identity unconfirmed. Used only as an unlabelled menu hero."
+  },
+  "excluded": [
+    {
+      "path": "/images/menu/",
+      "reason": "Pexels stock, not genuine Mangosteen servings"
+    },
+    {
+      "path": "/images/menu-ai/",
+      "reason": "Generated illustrative food portraits"
+    },
+    {
+      "path": "/images/mango-dish.jpg",
+      "reason": "Provenance unverified by retained asset inventory"
+    }
+  ],
+  "categories": [
+    {
+      "category": "Shakes",
+      "count": 5,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/shakes.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Juice",
+      "count": 9,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/juice.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Mocktail & Coolers",
+      "count": 7,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/mocktail-and-coolers.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Iced Tea",
+      "count": 2,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/iced-tea.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Salad",
+      "count": 6,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/salad.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Pizza & Pide",
+      "count": 15,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/pizza-and-pide.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Burger & sandwich",
+      "count": 13,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/burger-and-sandwich.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Breakfast",
+      "count": 8,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/breakfast.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Small Plates",
+      "count": 13,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/small-plates.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Pasta",
+      "count": 10,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/pasta.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Desserts",
+      "count": 5,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/desserts.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Main Course",
+      "count": 34,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/main-course.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    },
+    {
+      "category": "Soup",
+      "count": 4,
+      "status": "Genuine category photograph required",
+      "required": "/images/menu-verified/categories/soup.webp",
+      "dimensions": "1200×700; safe centre crop for circular thumbnails"
+    }
+  ],
+  "dishes": [
+    {
+      "category": "Shakes",
+      "dish": "Berries shakes",
+      "price": 360,
+      "description": "Strawberry, blueberry, blackberry, honey and milk",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/shakes-01-berries-shakes.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Shakes",
+      "dish": "Nutella & biscoff",
+      "price": 360,
+      "description": "Nutella, Lotus Biscoff and vanilla ice cream",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/shakes-02-nutella-and-biscoff.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Shakes",
+      "dish": "Fresh Fruit Shake",
+      "price": 300,
+      "description": "Seasonal fruit, milk and vanilla ice cream",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/shakes-03-fresh-fruit-shake.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Shakes",
+      "dish": "Oreo Shake",
+      "price": 300,
+      "description": "Oreo biscuit, milk, vanilla and honey",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/shakes-04-oreo-shake.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Shakes",
+      "dish": "Kit-kat shake",
+      "price": 300,
+      "description": "Kit-Kat, vanilla ice cream and milk",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/shakes-05-kit-kat-shake.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Juice",
+      "dish": "Cheffy favorites",
+      "price": 225,
+      "description": "Carrot, green apple, watermelon and lemon",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/juice-01-cheffy-favorites.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Juice",
+      "dish": "Mangosteen Special",
+      "price": 225,
+      "description": "Spinach, coriander, mint, black salt and lemon",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/juice-02-mangosteen-special.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Juice",
+      "dish": "Weightlessness",
+      "price": 225,
+      "description": "Apple, malta, kiwi and carrot",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/juice-03-weightlessness.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Juice",
+      "dish": "Wake up call",
+      "price": 225,
+      "description": "Beetroot, green apple, ginger, carrot and coconut water",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/juice-04-wake-up-call.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Juice",
+      "dish": "Good Moving",
+      "price": 225,
+      "description": "Orange, apple, watermelon and lemon",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/juice-05-good-moving.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Juice",
+      "dish": "Cooler",
+      "price": 225,
+      "description": "Green apple, cucumber, coriander, kale and coconut water",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/juice-06-cooler.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Juice",
+      "dish": "Abc",
+      "price": 225,
+      "description": "Apple, beetroot and carrot",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/juice-07-abc.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Juice",
+      "dish": "Orange Juice",
+      "price": 225,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/juice-08-orange-juice.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Juice",
+      "dish": "Pineapple Juice",
+      "price": 225,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/juice-09-pineapple-juice.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Mocktail & Coolers",
+      "dish": "Cola gola",
+      "price": 210,
+      "description": "Coca-Cola, chaat masala and lemon juice",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/mocktail-and-coolers-01-cola-gola.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Mocktail & Coolers",
+      "dish": "Cuban Mojito",
+      "price": 300,
+      "description": "Mixed fruit and lemon",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/mocktail-and-coolers-02-cuban-mojito.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Mocktail & Coolers",
+      "dish": "Virgin mojito",
+      "price": 250,
+      "description": "Soda or water",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/mocktail-and-coolers-03-virgin-mojito.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Mocktail & Coolers",
+      "dish": "Tikhi peru",
+      "price": 250,
+      "description": "Pink guava, red chilli and lemon juice",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/mocktail-and-coolers-04-tikhi-peru.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Mocktail & Coolers",
+      "dish": "Kiwi mojito",
+      "price": 250,
+      "description": "Kiwi and soda",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/mocktail-and-coolers-05-kiwi-mojito.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Mocktail & Coolers",
+      "dish": "Watermelon mojito",
+      "price": 250,
+      "description": "Watermelon and soda",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/mocktail-and-coolers-06-watermelon-mojito.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Mocktail & Coolers",
+      "dish": "Malta mojito",
+      "price": 250,
+      "description": "Malta and soda",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/mocktail-and-coolers-07-malta-mojito.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Iced Tea",
+      "dish": "Peach Iced Tea",
+      "price": 249,
+      "description": "Exotic peach infused iced tea",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/iced-tea-01-peach-iced-tea.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Iced Tea",
+      "dish": "Lemon Iced Tea",
+      "price": 229,
+      "description": "Tangy and refreshing iced delight",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/iced-tea-02-lemon-iced-tea.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Salad",
+      "dish": "Burrata & tomato salad",
+      "price": 570,
+      "description": "Grilled zucchini, tomato, basil pesto, balsamic vinegar and fresh basil",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/salad-01-burrata-and-tomato-salad.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Salad",
+      "dish": "Greek salad",
+      "price": 410,
+      "description": "Black olive, cucumber, onion, bell peppers, cherry tomato, oregano, feta and olive oil",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/salad-02-greek-salad.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Salad",
+      "dish": "Beetroot Tabbouleh",
+      "price": 420,
+      "description": "Granny smith apple, beetroot, walnut, bulgur, tomato, mint, lemon and olive oil",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/salad-03-beetroot-tabbouleh.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Salad",
+      "dish": "Classic Caesar",
+      "price": 410,
+      "description": "Lettuce, parmesan, croutons and Caesar dressing",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/salad-04-classic-caesar.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Salad",
+      "dish": "Organic quinoa",
+      "price": 420,
+      "description": "Quinoa, orange, pomegranate, pumpkin seed, cherry tomato, chia, lime and sumac",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/salad-05-organic-quinoa.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Salad",
+      "dish": "Sprout Salad",
+      "price": 270,
+      "description": "Mixed sprouts, tomato, green chilli, cucumber, avocado and coriander",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/salad-06-sprout-salad.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Peri-Peri Paneer",
+      "price": 610,
+      "description": "Mozzarella, malai paneer and peri-peri seasoning",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-01-peri-peri-paneer.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Burrata pizza",
+      "price": 695,
+      "description": "Fresh burrata and basil pesto",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-02-burrata-pizza.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "4 Cheese Pizza",
+      "price": 630,
+      "description": "Mozzarella, mild cheddar, parmesan and feta",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-03-4-cheese-pizza.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Sicilia",
+      "price": 499,
+      "description": "Mushroom, tangy onion, chilli oil and basil",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-04-sicilia.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Pesto pizza",
+      "price": 499,
+      "description": "Basil pesto, zucchini, broccoli, jalapeño and chilli oil",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-05-pesto-pizza.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Creamy Spinach pizza",
+      "price": 499,
+      "description": "Creamy spinach, nutmeg and confit garlic",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-06-creamy-spinach-pizza.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Mediterranean pizza",
+      "price": 595,
+      "description": "Sundried tomato, caper, cherry tomato, olive and peppers",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-07-mediterranean-pizza.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Ortolano",
+      "price": 499,
+      "description": "Mushroom, artichoke, cherry tomato and olive",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-08-ortolano.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Di Bianca",
+      "price": 570,
+      "description": "White mozzarella, pesto, confit garlic and rocket leaves",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-09-di-bianca.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Margarita",
+      "price": 499,
+      "description": "Thin crust, tomato sauce, basil and mozzarella",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-10-margarita.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Chicken pepperoni",
+      "price": 549,
+      "description": "Chicken pepperoni, mozzarella and chilli oil",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-11-chicken-pepperoni.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Chicken Keema",
+      "price": 650,
+      "description": "Chicken keema, tangy onion and mint",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-12-chicken-keema.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Farm Fresh",
+      "price": 499,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-13-farm-fresh.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Smok Chicken Pizza",
+      "price": 549,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-14-smok-chicken-pizza.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pizza & Pide",
+      "dish": "Chicken Makhani Pizza",
+      "price": 549,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pizza-and-pide-15-chicken-makhani-pizza.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Hummus and saute vegetable sandwich",
+      "price": 330,
+      "description": "Jalapeño hummus, garlic sautéed vegetables, parsley and chilli flakes",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-01-hummus-and-saute-vegetable-sandwich.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Bbq Chicken Sendwich",
+      "price": 379,
+      "description": "Panini bread, spicy tartare, sour cream, tomato and iceberg lettuce",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-02-bbq-chicken-sendwich.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Mexican veg burger",
+      "price": 450,
+      "description": "Beans, corn, soya, spinach, guacamole, pico de gallo and yellow cheese",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-03-mexican-veg-burger.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Mangosteen chicken burger",
+      "price": 399,
+      "description": "Herbed chicken and cheese patty, sunny-side egg, spicy tartare and relish",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-04-mangosteen-chicken-burger.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Pulled chicken burger",
+      "price": 520,
+      "description": "Pulled barbecue chicken, mustard mayonnaise, onion ring and cheese",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-05-pulled-chicken-burger.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Add cheese",
+      "price": 70,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-06-add-cheese.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Avocado Open Sendwich",
+      "price": 349,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-07-avocado-open-sendwich.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Veg Cheese Burger",
+      "price": 349,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-08-veg-cheese-burger.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Herb Avocado Bruschetta",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-09-herb-avocado-bruschetta.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Cold Bruschetta",
+      "price": 379,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-10-cold-bruschetta.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Classic Bruschetta",
+      "price": 349,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-11-classic-bruschetta.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Bbq Chicken Burger",
+      "price": 379,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-12-bbq-chicken-burger.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Burger & sandwich",
+      "dish": "Classic Chicken Sendwich",
+      "price": 379,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/burger-and-sandwich-13-classic-chicken-sendwich.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Breakfast",
+      "dish": "Garlic bread",
+      "price": 299,
+      "description": "Toasted baguette with house-mix garlic butter",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/breakfast-01-garlic-bread.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Breakfast",
+      "dish": "Sprout moonglet",
+      "price": 275,
+      "description": "Mixed sprout moonglet, Cobb salad and cheesy mayo",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/breakfast-02-sprout-moonglet.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Breakfast",
+      "dish": "Acai Bowl",
+      "price": 395,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/breakfast-03-acai-bowl.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Breakfast",
+      "dish": "Chia seed pudding",
+      "price": 390,
+      "description": "Coconut milk, chia, cinnamon, maple syrup and berries",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/breakfast-04-chia-seed-pudding.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Breakfast",
+      "dish": "Cheese omelette",
+      "price": 280,
+      "description": "Cheddar cheese, salad and grilled tomato",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/breakfast-05-cheese-omelette.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Breakfast",
+      "dish": "Egg white omelette",
+      "price": 260,
+      "description": "Egg white omelette, salad and grilled tomato",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/breakfast-06-egg-white-omelette.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Breakfast",
+      "dish": "Masala omelette",
+      "price": 250,
+      "description": "Onion, tomato, chilli, coriander, salad and grilled tomato",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/breakfast-07-masala-omelette.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Breakfast",
+      "dish": "Spanish omelette",
+      "price": 270,
+      "description": "Potato, onion, spinach, scallion and cheddar",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/breakfast-08-spanish-omelette.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "French fries salted",
+      "price": 280,
+      "description": "French fries served with spicy mayo",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-01-french-fries-salted.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Peri Peri Fries",
+      "price": 299,
+      "description": "Served with spicy mayo",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-02-peri-peri-fries.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Mangosteen loaded Nachosss",
+      "price": 430,
+      "description": "Corn tortilla, refried beans, pico de gallo, guacamole, salsa and sour cream",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-03-mangosteen-loaded-nachosss.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Arabic Mezze",
+      "price": 449,
+      "description": "Two hummus, baba ganoush, falafel, crudités, pita and olive oil",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-04-arabic-mezze.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Quesadilla",
+      "price": 399,
+      "description": "Refried beans, onion, peppers, guacamole, salsa and cheese",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-05-quesadilla.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Falafel roll",
+      "price": 390,
+      "description": "Chickpea falafel wrap with hummus, pickled vegetables and jalapeño",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-06-falafel-roll.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Chicken karaage",
+      "price": 430,
+      "description": "Japanese fried chicken, cucumber, peri-peri sour cream and togarashi",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-07-chicken-karaage.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Hummus and chicken",
+      "price": 450,
+      "description": "Classic hummus, Arabic chicken tikka and pita bread",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-08-hummus-and-chicken.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Chimichuri chicken skewer",
+      "price": 449,
+      "description": "Argentinian chimichurri and romesco sauce",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-09-chimichuri-chicken-skewer.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Mangosteen Special Fries",
+      "price": 349,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-10-mangosteen-special-fries.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Mangosteen Grilled Chicken",
+      "price": 499,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-11-mangosteen-grilled-chicken.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Classic Nachos",
+      "price": 349,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-12-classic-nachos.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Small Plates",
+      "dish": "Mamngosteen Grilled Chicken",
+      "price": 499,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/small-plates-13-mamngosteen-grilled-chicken.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pasta",
+      "dish": "Aglio olio peperoncino",
+      "price": 450,
+      "description": "Extra virgin olive oil, garlic, parsley and chilli flakes",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pasta-01-aglio-olio-peperoncino.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pasta",
+      "dish": "Arrabiata sauce",
+      "price": 460,
+      "description": "Fresh tomato sauce, chilli flakes, garlic and basil",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pasta-02-arrabiata-sauce.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pasta",
+      "dish": "Alfredo sauce (white)",
+      "price": 490,
+      "description": "House sauce and parmesan cheese",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pasta-03-alfredo-sauce-white.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pasta",
+      "dish": "Pesto cream Pasta",
+      "price": 499,
+      "description": "Basil pesto, garlic, bell pepper, zucchini and parmesan",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pasta-04-pesto-cream-pasta.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pasta",
+      "dish": "Pink sauce",
+      "price": 480,
+      "description": "Tomato, cream, cherry tomato, chilli flakes and basil",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pasta-05-pink-sauce.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pasta",
+      "dish": "Mushroom Ragu",
+      "price": 520,
+      "description": "Button mushroom, leek, celery, chilli flakes and parmesan",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pasta-06-mushroom-ragu.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pasta",
+      "dish": "Persian gnocchi",
+      "price": 449,
+      "description": "Baked Persian-style gnocchi with pesto and parmesan",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pasta-07-persian-gnocchi.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pasta",
+      "dish": "Baked Mac & Cheese",
+      "price": 449,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pasta-08-baked-mac-and-cheese.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pasta",
+      "dish": "Risotto",
+      "price": 449,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pasta-09-risotto.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Pasta",
+      "dish": "Lasagna",
+      "price": 499,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/pasta-10-lasagna.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Desserts",
+      "dish": "Duo chocolate cheese cake",
+      "price": 399,
+      "description": "White and dark chocolate cheesecake with almond praline",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/desserts-01-duo-chocolate-cheese-cake.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Desserts",
+      "dish": "Pizzokie",
+      "price": 430,
+      "description": "White chocolate, cranberry and walnut",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/desserts-02-pizzokie.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Desserts",
+      "dish": "Brownie With Icecream",
+      "price": 275,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/desserts-03-brownie-with-icecream.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Desserts",
+      "dish": "Chocolate Cheesecake",
+      "price": 390,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/desserts-04-chocolate-cheesecake.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Desserts",
+      "dish": "Tres Leches",
+      "price": 395,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/desserts-05-tres-leches.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Thai green curry (Veg)",
+      "price": 530,
+      "description": "Vegetable Thai green coconut curry with jasmine rice",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-01-thai-green-curry-veg.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Phad Thai (Veg)",
+      "price": 510,
+      "description": "Rice noodle, onion, bean sprout, oyster and tamarind sauce, chilli flakes and peanut",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-02-phad-thai-veg.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Saute exotic Paneer",
+      "price": 520,
+      "description": "Pesto-tossed paneer, warm quinoa salad and lemon",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-03-saute-exotic-paneer.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Saute exotic vegetable",
+      "price": 470,
+      "description": "Pesto-tossed vegetables, warm quinoa salad and lemon",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-04-saute-exotic-vegetable.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Burrito Bowl",
+      "price": 520,
+      "description": "Mexican rice, tossed vegetable, refried beans, guacamole, salsa and sour cream",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-05-burrito-bowl.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Grilled Fish",
+      "price": 499,
+      "description": "River sole, spinach, potato, herb-oil lemon butter and lemon wedge",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-06-grilled-fish.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Herb Grilled Chicken",
+      "price": 610,
+      "description": "Herb-grilled chicken breast, cheesy mash, green vegetables and herb jus",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-07-herb-grilled-chicken.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Phad Thai ( Chicken)",
+      "price": 550,
+      "description": "Chicken, rice noodle, onion, bean sprout, oyster and tamarind sauce, chilli and peanut",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-08-phad-thai-chicken.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Thai green curry (Chicken)",
+      "price": 630,
+      "description": "Chicken Thai green coconut curry with jasmine rice",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-09-thai-green-curry-chicken.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Thai green curry (Prawn)",
+      "price": 750,
+      "description": "Prawn Thai green coconut curry with jasmine rice",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-10-thai-green-curry-prawn.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Chicken Ghee Roast ( MANGOSTEEN)",
+      "price": 499,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-11-chicken-ghee-roast-mangosteen.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Water Chestnut",
+      "price": 449,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-12-water-chestnut.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Crispy Lotus Stem",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-13-crispy-lotus-stem.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Andhra Chilli Chicken",
+      "price": 499,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-14-andhra-chilli-chicken.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Chilli Chicken",
+      "price": 499,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-15-chilli-chicken.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Thai Grilled Chicken",
+      "price": 580,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-16-thai-grilled-chicken.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Butter Khichdi",
+      "price": 390,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-17-butter-khichdi.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Veg Hakka Noodles",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-18-veg-hakka-noodles.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Schezwan Noodles",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-19-schezwan-noodles.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Chilli Garlic Noodles",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-20-chilli-garlic-noodles.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Veg Biryani",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-21-veg-biryani.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Veg Fried Rice",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-22-veg-fried-rice.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Chicken Biryani",
+      "price": 499,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-23-chicken-biryani.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Lahsuni Palak",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-24-lahsuni-palak.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Chicken Kadhai",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-25-chicken-kadhai.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Paneer Makhani",
+      "price": 449,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-26-paneer-makhani.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Chicken Makhanwala",
+      "price": 449,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-27-chicken-makhanwala.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Chicken Curry",
+      "price": 449,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-28-chicken-curry.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Butter Pav Bhaji",
+      "price": 449,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-29-butter-pav-bhaji.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Paneer Lababdar.",
+      "price": 449,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-30-paneer-lababdar.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Dal Makhani",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-31-dal-makhani.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Classic Mix Veg",
+      "price": 399,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-32-classic-mix-veg.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Extra Paratha",
+      "price": 39,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-33-extra-paratha.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Main Course",
+      "dish": "Andhra Chilli Paneer",
+      "price": 449,
+      "description": null,
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/main-course-34-andhra-chilli-paneer.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Soup",
+      "dish": "Classic Tomato & Fennel",
+      "price": 270,
+      "description": "Fresh tomato, fennel, star anise and parmesan",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/soup-01-classic-tomato-and-fennel.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Soup",
+      "dish": "Thai coconut soup (Veg)",
+      "price": 310,
+      "description": "Lemongrass, galangal, kaffir lime, chilli, cherry tomato, coconut milk and lime",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/soup-02-thai-coconut-soup-veg.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Soup",
+      "dish": "Mushroom & artichoke soup",
+      "price": 310,
+      "description": "Button mushroom, leek, thyme, cream and truffle oil",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/soup-03-mushroom-and-artichoke-soup.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    },
+    {
+      "category": "Soup",
+      "dish": "Thai coconut soup ( Chicken)",
+      "price": 410,
+      "description": "Chicken, lemongrass, galangal, kaffir lime, chilli, cherry tomato, coconut milk and lime",
+      "existingIllustration": "Not used in redesigned menu",
+      "status": "Genuine matched photograph required",
+      "required": "/images/menu-verified/dishes/soup-04-thai-coconut-soup-chicken.webp",
+      "dimensions": "800×800 minimum; clear view of actual serving"
+    }
+  ]
+}

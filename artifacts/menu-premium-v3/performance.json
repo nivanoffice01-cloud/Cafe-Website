@@ -1,0 +1,1109 @@
+{
+  "environment": "Local production preview, headless Chrome, emulated 390×844 DPR 2 mobile, 4× CPU slowdown, 6 Mbps down / 2 Mbps up / 80 ms latency. Lab measurements, not real-device or field Core Web Vitals. Category/dish photos are currently neutral placeholders, so future photography changes transfer and paint results.",
+  "runs": [
+    {
+      "route": "/menu",
+      "run": 1,
+      "initialTransferBytes": 486914,
+      "initialRequests": 19,
+      "fullInteractionTransferBytes": 488226,
+      "fullInteractionRequests": 21,
+      "initial": {
+        "lcp": 752,
+        "cls": 0.06663768558072782,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 240
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 740
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 325.80000000074506,
+            "load": 326.2000000011176
+          }
+        ],
+        "resources": [
+          {
+            "name": "/css2",
+            "transferSize": 1288,
+            "encodedBodySize": 988,
+            "decodedBodySize": 18954
+          },
+          {
+            "name": "/assets/index-Boe_C49c.css",
+            "transferSize": 10808,
+            "encodedBodySize": 10508,
+            "decodedBodySize": 49581
+          },
+          {
+            "name": "/assets/index-BauVoMvy.js",
+            "transferSize": 70768,
+            "encodedBodySize": 70468,
+            "decodedBodySize": 226098
+          },
+          {
+            "name": "/assets/fonts-6-ax32V9.css",
+            "transferSize": 697,
+            "encodedBodySize": 397,
+            "decodedBodySize": 4209
+          },
+          {
+            "name": "/assets/fonts-B04LgofS.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/MenuExperiencePage-BCJVYs6-.js",
+            "transferSize": 7920,
+            "encodedBodySize": 7620,
+            "decodedBodySize": 23576
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DNIYK8wo.css",
+            "transferSize": 7074,
+            "encodedBodySize": 6774,
+            "decodedBodySize": 31246
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/images/authentic/story-food-960.webp",
+            "transferSize": 111362,
+            "encodedBodySize": 111062,
+            "decodedBodySize": 111062
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtImSqn7B6D.woff2",
+            "transferSize": 39604,
+            "encodedBodySize": 39304,
+            "decodedBodySize": 39304
+          },
+          {
+            "name": "/supplied-frontend/assets/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtImSqn7B6D.woff2",
+            "transferSize": 39604,
+            "encodedBodySize": 39304,
+            "decodedBodySize": 39304
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.665972222222226,
+        "p95FrameMs": 16.700000000000273,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 752,
+        "cls": 0.06663768558072782,
+        "longTasks": [],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 1960
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 1960
+          },
+          {
+            "name": "click",
+            "duration": 56,
+            "interactionId": 1960
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 1967
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 1967
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 1967
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 1974
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 1974
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 1974
+          }
+        ]
+      }
+    },
+    {
+      "route": "/menu",
+      "run": 2,
+      "initialTransferBytes": 486914,
+      "initialRequests": 19,
+      "fullInteractionTransferBytes": 488226,
+      "fullInteractionRequests": 21,
+      "initial": {
+        "lcp": 748,
+        "cls": 0.09419237887153441,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 264
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 736
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 360.09999999962747,
+            "load": 360.19999999925494
+          }
+        ],
+        "resources": [
+          {
+            "name": "/css2",
+            "transferSize": 1288,
+            "encodedBodySize": 988,
+            "decodedBodySize": 18954
+          },
+          {
+            "name": "/assets/index-BauVoMvy.js",
+            "transferSize": 70768,
+            "encodedBodySize": 70468,
+            "decodedBodySize": 226098
+          },
+          {
+            "name": "/assets/index-Boe_C49c.css",
+            "transferSize": 10808,
+            "encodedBodySize": 10508,
+            "decodedBodySize": 49581
+          },
+          {
+            "name": "/assets/MenuExperiencePage-BCJVYs6-.js",
+            "transferSize": 7920,
+            "encodedBodySize": 7620,
+            "decodedBodySize": 23576
+          },
+          {
+            "name": "/assets/fonts-6-ax32V9.css",
+            "transferSize": 697,
+            "encodedBodySize": 397,
+            "decodedBodySize": 4209
+          },
+          {
+            "name": "/assets/fonts-B04LgofS.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DNIYK8wo.css",
+            "transferSize": 7074,
+            "encodedBodySize": 6774,
+            "decodedBodySize": 31246
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/images/authentic/story-food-960.webp",
+            "transferSize": 111362,
+            "encodedBodySize": 111062,
+            "decodedBodySize": 111062
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtImSqn7B6D.woff2",
+            "transferSize": 39604,
+            "encodedBodySize": 39304,
+            "decodedBodySize": 39304
+          },
+          {
+            "name": "/supplied-frontend/assets/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtImSqn7B6D.woff2",
+            "transferSize": 39604,
+            "encodedBodySize": 39304,
+            "decodedBodySize": 39304
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.666666666666668,
+        "p95FrameMs": 16.700000000000273,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 748,
+        "cls": 0.09419237887153441,
+        "longTasks": [],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 797
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 797
+          },
+          {
+            "name": "click",
+            "duration": 56,
+            "interactionId": 797
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 804
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 804
+          },
+          {
+            "name": "click",
+            "duration": 48,
+            "interactionId": 804
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 811
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 811
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 811
+          }
+        ]
+      }
+    },
+    {
+      "route": "/menu",
+      "run": 3,
+      "initialTransferBytes": 486914,
+      "initialRequests": 19,
+      "fullInteractionTransferBytes": 488226,
+      "fullInteractionRequests": 21,
+      "initial": {
+        "lcp": 744,
+        "cls": 0.06663272537468275,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 228
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 696
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 327.59999999962747,
+            "load": 327.7000000011176
+          }
+        ],
+        "resources": [
+          {
+            "name": "/css2",
+            "transferSize": 1288,
+            "encodedBodySize": 988,
+            "decodedBodySize": 18954
+          },
+          {
+            "name": "/assets/index-Boe_C49c.css",
+            "transferSize": 10808,
+            "encodedBodySize": 10508,
+            "decodedBodySize": 49581
+          },
+          {
+            "name": "/assets/index-BauVoMvy.js",
+            "transferSize": 70768,
+            "encodedBodySize": 70468,
+            "decodedBodySize": 226098
+          },
+          {
+            "name": "/assets/fonts-B04LgofS.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/MenuExperiencePage-BCJVYs6-.js",
+            "transferSize": 7920,
+            "encodedBodySize": 7620,
+            "decodedBodySize": 23576
+          },
+          {
+            "name": "/assets/fonts-6-ax32V9.css",
+            "transferSize": 697,
+            "encodedBodySize": 397,
+            "decodedBodySize": 4209
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DNIYK8wo.css",
+            "transferSize": 7074,
+            "encodedBodySize": 6774,
+            "decodedBodySize": 31246
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/images/authentic/story-food-960.webp",
+            "transferSize": 111362,
+            "encodedBodySize": 111062,
+            "decodedBodySize": 111062
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtImSqn7B6D.woff2",
+            "transferSize": 39604,
+            "encodedBodySize": 39304,
+            "decodedBodySize": 39304
+          },
+          {
+            "name": "/supplied-frontend/assets/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtImSqn7B6D.woff2",
+            "transferSize": 39604,
+            "encodedBodySize": 39304,
+            "decodedBodySize": 39304
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.666666666666668,
+        "p95FrameMs": 16.799999999999272,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 744,
+        "cls": 0.06663272537468275,
+        "longTasks": [],
+        "events": [
+          {
+            "name": "click",
+            "duration": 48,
+            "interactionId": 1129
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 1136
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 1136
+          },
+          {
+            "name": "click",
+            "duration": 48,
+            "interactionId": 1136
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 1143
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 1143
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 1143
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 1150
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 1150
+          }
+        ]
+      }
+    },
+    {
+      "route": "/menu?table=4",
+      "run": 1,
+      "initialTransferBytes": 271863,
+      "initialRequests": 15,
+      "fullInteractionTransferBytes": 377400,
+      "fullInteractionRequests": 20,
+      "initial": {
+        "lcp": 700,
+        "cls": 0.0017227199646205566,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 244
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 700
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 332.80000000074506,
+            "load": 332.90000000037253
+          }
+        ],
+        "resources": [
+          {
+            "name": "/css2",
+            "transferSize": 1288,
+            "encodedBodySize": 988,
+            "decodedBodySize": 18954
+          },
+          {
+            "name": "/assets/index-Boe_C49c.css",
+            "transferSize": 10808,
+            "encodedBodySize": 10508,
+            "decodedBodySize": 49581
+          },
+          {
+            "name": "/assets/index-BauVoMvy.js",
+            "transferSize": 70768,
+            "encodedBodySize": 70468,
+            "decodedBodySize": 226098
+          },
+          {
+            "name": "/assets/MenuExperiencePage-BCJVYs6-.js",
+            "transferSize": 7920,
+            "encodedBodySize": 7620,
+            "decodedBodySize": 23576
+          },
+          {
+            "name": "/assets/fonts-B04LgofS.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/fonts-6-ax32V9.css",
+            "transferSize": 697,
+            "encodedBodySize": 397,
+            "decodedBodySize": 4209
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DNIYK8wo.css",
+            "transferSize": 7074,
+            "encodedBodySize": 6774,
+            "decodedBodySize": 31246
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtImSqn7B6D.woff2",
+            "transferSize": 39604,
+            "encodedBodySize": 39304,
+            "decodedBodySize": 39304
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.665277777777774,
+        "p95FrameMs": 16.700000000000728,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 700,
+        "cls": 0.0017227199646205566,
+        "longTasks": [
+          59
+        ],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6752
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6752
+          },
+          {
+            "name": "click",
+            "duration": 32,
+            "interactionId": 6752
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6759
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6759
+          },
+          {
+            "name": "click",
+            "duration": 80,
+            "interactionId": 6759
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6766
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6766
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 6766
+          }
+        ]
+      }
+    },
+    {
+      "route": "/menu?table=4",
+      "run": 2,
+      "initialTransferBytes": 271863,
+      "initialRequests": 15,
+      "fullInteractionTransferBytes": 376894,
+      "fullInteractionRequests": 20,
+      "initial": {
+        "lcp": 876,
+        "cls": 0.0016314986753226224,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 488
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 876
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 507.80000000074506,
+            "load": 508.19999999925494
+          }
+        ],
+        "resources": [
+          {
+            "name": "/css2",
+            "transferSize": 1288,
+            "encodedBodySize": 988,
+            "decodedBodySize": 18954
+          },
+          {
+            "name": "/assets/index-Boe_C49c.css",
+            "transferSize": 10808,
+            "encodedBodySize": 10508,
+            "decodedBodySize": 49581
+          },
+          {
+            "name": "/assets/index-BauVoMvy.js",
+            "transferSize": 70768,
+            "encodedBodySize": 70468,
+            "decodedBodySize": 226098
+          },
+          {
+            "name": "/assets/MenuExperiencePage-BCJVYs6-.js",
+            "transferSize": 7920,
+            "encodedBodySize": 7620,
+            "decodedBodySize": 23576
+          },
+          {
+            "name": "/assets/fonts-B04LgofS.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/fonts-6-ax32V9.css",
+            "transferSize": 697,
+            "encodedBodySize": 397,
+            "decodedBodySize": 4209
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DNIYK8wo.css",
+            "transferSize": 7074,
+            "encodedBodySize": 6774,
+            "decodedBodySize": 31246
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtImSqn7B6D.woff2",
+            "transferSize": 39604,
+            "encodedBodySize": 39304,
+            "decodedBodySize": 39304
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.66597222222222,
+        "p95FrameMs": 16.799999999999727,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 876,
+        "cls": 0.0016314986753226224,
+        "longTasks": [
+          52
+        ],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 4633
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 4633
+          },
+          {
+            "name": "click",
+            "duration": 32,
+            "interactionId": 4633
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 4640
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 4640
+          },
+          {
+            "name": "click",
+            "duration": 80,
+            "interactionId": 4640
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 4647
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 4647
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 4647
+          }
+        ]
+      }
+    },
+    {
+      "route": "/menu?table=4",
+      "run": 3,
+      "initialTransferBytes": 272018,
+      "initialRequests": 15,
+      "fullInteractionTransferBytes": 376797,
+      "fullInteractionRequests": 20,
+      "initial": {
+        "lcp": 696,
+        "cls": 0.0016314986753226224,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 252
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 696
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 332.09999999962747,
+            "load": 332.69999999925494
+          }
+        ],
+        "resources": [
+          {
+            "name": "/css2",
+            "transferSize": 1443,
+            "encodedBodySize": 1143,
+            "decodedBodySize": 21327
+          },
+          {
+            "name": "/assets/index-Boe_C49c.css",
+            "transferSize": 10808,
+            "encodedBodySize": 10508,
+            "decodedBodySize": 49581
+          },
+          {
+            "name": "/assets/index-BauVoMvy.js",
+            "transferSize": 70768,
+            "encodedBodySize": 70468,
+            "decodedBodySize": 226098
+          },
+          {
+            "name": "/assets/MenuExperiencePage-BCJVYs6-.js",
+            "transferSize": 7920,
+            "encodedBodySize": 7620,
+            "decodedBodySize": 23576
+          },
+          {
+            "name": "/assets/fonts-6-ax32V9.css",
+            "transferSize": 697,
+            "encodedBodySize": 397,
+            "decodedBodySize": 4209
+          },
+          {
+            "name": "/assets/fonts-B04LgofS.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DNIYK8wo.css",
+            "transferSize": 7074,
+            "encodedBodySize": 6774,
+            "decodedBodySize": 31246
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtImSqn7B6D.woff2",
+            "transferSize": 39604,
+            "encodedBodySize": 39304,
+            "decodedBodySize": 39304
+          },
+          {
+            "name": "/supplied-frontend/assets/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2",
+            "transferSize": 38076,
+            "encodedBodySize": 37776,
+            "decodedBodySize": 37776
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.66597222222222,
+        "p95FrameMs": 16.799999999999727,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 696,
+        "cls": 0.0016314986753226224,
+        "longTasks": [
+          54
+        ],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 7502
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 7502
+          },
+          {
+            "name": "click",
+            "duration": 32,
+            "interactionId": 7502
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 7509
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 7509
+          },
+          {
+            "name": "click",
+            "duration": 80,
+            "interactionId": 7509
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 7516
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 7516
+          },
+          {
+            "name": "click",
+            "duration": 48,
+            "interactionId": 7516
+          }
+        ]
+      }
+    }
+  ]
+}

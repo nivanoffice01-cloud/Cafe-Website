@@ -1,0 +1,87 @@
+{
+  "method": "Local production preview, headless Chrome, emulated 390×844 DPR 2 mobile, 4× CPU slowdown, 6 Mbps down / 2 Mbps up / 80 ms latency. Lab measurements, not real-device or field Core Web Vitals. Category/dish photos are currently neutral placeholders, so future photography changes transfer and paint results.",
+  "routes": [
+    {
+      "route": "/menu",
+      "runs": 3,
+      "LCPms": [
+        752,
+        748,
+        744
+      ],
+      "CLS": [
+        0.06663768558072782,
+        0.09419237887153441,
+        0.06663272537468275
+      ],
+      "initialTransferBytes": [
+        486914,
+        486914,
+        486914
+      ],
+      "fullInteractionTransferBytes": [
+        488226,
+        488226,
+        488226
+      ],
+      "p95FrameMs": [
+        16.700000000000273,
+        16.700000000000273,
+        16.799999999999272
+      ],
+      "framesOver33ms": [
+        0,
+        0,
+        0
+      ],
+      "longTaskCounts": [
+        0,
+        0,
+        0
+      ],
+      "longestTaskMs": 0,
+      "longestObservedInteractionMs": 56
+    },
+    {
+      "route": "/menu?table=4",
+      "runs": 3,
+      "LCPms": [
+        700,
+        876,
+        696
+      ],
+      "CLS": [
+        0.0017227199646205566,
+        0.0016314986753226224,
+        0.0016314986753226224
+      ],
+      "initialTransferBytes": [
+        271863,
+        271863,
+        272018
+      ],
+      "fullInteractionTransferBytes": [
+        377400,
+        376894,
+        376797
+      ],
+      "p95FrameMs": [
+        16.700000000000728,
+        16.799999999999727,
+        16.799999999999727
+      ],
+      "framesOver33ms": [
+        0,
+        0,
+        0
+      ],
+      "longTaskCounts": [
+        1,
+        1,
+        1
+      ],
+      "longestTaskMs": 59,
+      "longestObservedInteractionMs": 80
+    }
+  ]
+}
