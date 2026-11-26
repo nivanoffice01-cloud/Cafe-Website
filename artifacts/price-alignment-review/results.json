@@ -1,0 +1,26 @@
+{
+  "viewports": [
+    {
+      "width": 320,
+      "alignedPrices": 15
+    },
+    {
+      "width": 390,
+      "alignedPrices": 15
+    },
+    {
+      "width": 768,
+      "alignedPrices": 15
+    },
+    {
+      "width": 1440,
+      "alignedPrices": 15
+    },
+    {
+      "width": 1920,
+      "alignedPrices": 15
+    }
+  ],
+  "digitalMenu": true,
+  "allPriceValuesUnchanged": true
+}

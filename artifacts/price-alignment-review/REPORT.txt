@@ -1,0 +1,7 @@
+PRICE ALIGNMENT FIX
+
+Existing amount spans and their rows use consistent Manrope currency typography, lining/tabular numerals and a shared text baseline. Rupee glyph coverage confirmed in both local font subsets. Chrome reported one custom Manrope font for all four characters of ₹399.
+
+75 symbol/amount baseline checks passed across 320,390,768,1440,1920px viewports. No horizontal overflow. Direct digital-menu prices verified; screenshots included. Production build passed. Prices, menu data and business logic are unchanged.
+
+No deployment performed.
