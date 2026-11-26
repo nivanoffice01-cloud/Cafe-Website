@@ -1,0 +1,80 @@
+{
+  "source": "User-supplied Chrome saved page and assets",
+  "referenceUrl": "https://readdy.cc/preview/f1fd0f49-eb57-4a37-a13b-87d4a8a5b145/16279454/",
+  "images": [
+    {
+      "filename": "search-image",
+      "originalDescription": "Inside Mangosteen Café in Indore",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(1)",
+      "originalDescription": "Plating a mangosteen dessert",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(2)",
+      "originalDescription": "The Mangosteen Burger at Mangosteen Café",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(3)",
+      "originalDescription": "Truffle Mushroom Fettuccine at Mangosteen Café",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(4)",
+      "originalDescription": "Garden Margherita at Mangosteen Café",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(5)",
+      "originalDescription": "Mangosteen Cold Brew at Mangosteen Café",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(6)",
+      "originalDescription": "Mangosteen Panna Cotta at Mangosteen Café",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(7)",
+      "originalDescription": "Basil Citrus Cooler at Mangosteen Café",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(8)",
+      "originalDescription": "A table of Mangosteen dishes",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(9)",
+      "originalDescription": "Pouring a flat white at Mangosteen Café",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(10)",
+      "originalDescription": "Friends sharing a table at Mangosteen Café",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    },
+    {
+      "filename": "search-image(11)",
+      "originalDescription": "Mangosteen Café in Indore",
+      "provenance": "Supplied design imagery; not independently verified as real Mangosteen photographs"
+    }
+  ],
+  "localizedImages": {
+    "https://readdy.ai/api/search-image?query=Botanical%20cafe%20interior%20in%20warm%20afternoon%20light%20with%20dark%20wooden%20columns%2C%20cane%20back%20chairs%2C%20woven%20pendant%20lamps%2C%20hanging%20greenery%20and%20a%20wooden%20table%20with%20coffee%20and%20cake%2C%20premium%20editorial%20interior%20photography%2C%20deep%20green%20and%20ivory%20palette&width=900&height=1040&seq=mg-story-interior&orientation=portrait": "/supplied-frontend/assets/search-image",
+    "https://readdy.ai/api/search-image?query=Close%20up%20of%20hands%20plating%20a%20dessert%20with%20fresh%20mangosteen%20fruit%20and%20mint%20on%20a%20ceramic%20plate%20on%20a%20wooden%20cafe%20table%2C%20warm%20daylight%2C%20editorial%20food%20photography%2C%20shallow%20depth%20of%20field&width=800&height=600&seq=mg-story-plating&orientation=landscape": "/supplied-frontend/assets/search-image(1)",
+    "https://readdy.ai/api/search-image?query=Gourmet%20double%20smash%20burger%20with%20aged%20cheddar%2C%20caramelised%20onion%20and%20butter%20lettuce%20on%20a%20glossy%20brioche%20bun%2C%20centered%20studio%20product%20photography%20on%20a%20plain%20warm%20ivory%20seamless%20background%2C%20soft%20directional%20daylight%2C%20editorial%20premium%20cafe%20menu%20shot&width=900&height=900&seq=mg-dish-burger&orientation=squarish": "/supplied-frontend/assets/search-image(2)",
+    "https://readdy.ai/api/search-image?query=Creamy%20truffle%20mushroom%20fettuccine%20twirled%20in%20a%20wide%20cream%20ceramic%20bowl%20with%20shaved%20parmesan%20and%20thyme%2C%20centered%20studio%20product%20photography%20on%20a%20plain%20warm%20ivory%20seamless%20background%2C%20soft%20directional%20daylight%2C%20editorial%20premium%20cafe%20food%20photography&width=900&height=900&seq=mg-dish-truffle-pasta&orientation=squarish": "/supplied-frontend/assets/search-image(3)",
+    "https://readdy.ai/api/search-image?query=Wood%20fired%20margherita%20pizza%20with%20buffalo%20mozzarella%2C%20fresh%20basil%20and%20olive%20oil%20on%20a%20round%20wooden%20board%2C%20blistered%20charred%20crust%2C%20plain%20warm%20ivory%20background%2C%20overhead%20editorial%20food%20photography%2C%20soft%20daylight&width=900&height=900&seq=mg-dish-margherita&orientation=squarish": "/supplied-frontend/assets/search-image(4)",
+    "https://readdy.ai/api/search-image?query=Iced%20layered%20cold%20brew%20coffee%20in%20a%20tall%20clear%20glass%20with%20coconut%20cream%20swirls%20and%20condensation%20droplets%2C%20centered%20studio%20beverage%20photography%20on%20a%20plain%20warm%20ivory%20seamless%20background%2C%20soft%20daylight%2C%20premium%20editorial%20style&width=900&height=900&seq=mg-dish-cold-brew&orientation=squarish": "/supplied-frontend/assets/search-image(5)",
+    "https://readdy.ai/api/search-image?query=Vanilla%20bean%20panna%20cotta%20in%20a%20small%20glass%20topped%20with%20fresh%20mangosteen%20segments%20and%20a%20mint%20leaf%2C%20centered%20studio%20dessert%20photography%20on%20a%20plain%20warm%20ivory%20seamless%20background%2C%20soft%20daylight%2C%20delicate%20editorial%20style&width=900&height=900&seq=mg-dish-panna-cotta&orientation=squarish": "/supplied-frontend/assets/search-image(6)",
+    "https://readdy.ai/api/search-image?query=Citrus%20and%20basil%20mocktail%20in%20a%20tall%20glass%20with%20crushed%20ice%2C%20lime%20wheel%20and%20fresh%20basil%20sprig%2C%20condensation%20droplets%2C%20plain%20warm%20ivory%20background%2C%20premium%20editorial%20beverage%20photography%2C%20soft%20daylight&width=900&height=900&seq=mg-dish-basil-cooler&orientation=squarish": "/supplied-frontend/assets/search-image(7)",
+    "https://readdy.ai/api/search-image?query=Overhead%20flat%20lay%20of%20a%20wooden%20cafe%20table%20with%20a%20pizza%2C%20pasta%20bowl%2C%20coffee%20cup%20and%20dessert%20plate%20arranged%20together%2C%20warm%20evening%20light%2C%20editorial%20food%20photography%2C%20deep%20green%20and%20ivory%20tones&width=800&height=500&seq=mg-menu-more&orientation=landscape": "/supplied-frontend/assets/search-image(8)",
+    "https://readdy.ai/api/search-image?query=Barista%20hands%20pouring%20milk%20into%20a%20flat%20white%20coffee%20on%20a%20dark%20wooden%20counter%2C%20steam%20rising%2C%20warm%20focused%20light%2C%20softly%20blurred%20deep%20green%20cafe%20interior%20behind%2C%20editorial%20coffee%20photography&width=1300&height=1500&seq=mg-craft-barista&orientation=portrait": "/supplied-frontend/assets/search-image(9)",
+    "https://readdy.ai/api/search-image?query=Wide%20candid%20photograph%20of%20friends%20laughing%20around%20a%20wooden%20table%20with%20pizza%2C%20pasta%20and%20coffee%20inside%20a%20warm%20botanical%20cafe%20with%20hanging%20plants%20and%20woven%20pendant%20lamps%2C%20golden%20evening%20light%2C%20natural%20skin%20tones%2C%20authentic%20editorial%20lifestyle%20photography&width=1920&height=1080&seq=mg-people-wide&orientation=landscape": "/supplied-frontend/assets/search-image(10)",
+    "https://readdy.ai/api/search-image?query=Evening%20exterior%20of%20a%20premium%20cafe%20with%20illuminated%20handwritten%20signage%2C%20dark%20vertical%20wooden%20facade%20panels%2C%20hanging%20greenery%20and%20warm%20architectural%20lighting%2C%20decorative%20arches%20and%20glass%20railings%2C%20editorial%20architecture%20photography&width=900&height=600&seq=mg-loc-exterior&orientation=landscape": "/supplied-frontend/assets/search-image(11)"
+  }
+}

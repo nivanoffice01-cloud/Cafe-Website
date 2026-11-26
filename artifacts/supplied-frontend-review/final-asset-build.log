@@ -1,0 +1,17 @@
+
+> cafe-website@0.1.0 build
+> tsc -b && vite build
+
+vite v6.4.6 building for production...
+transforming...
+✓ 56 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                  2.03 kB │ gzip:  0.96 kB
+dist/assets/index-C77GTV8a.css                  70.25 kB │ gzip: 14.19 kB
+dist/assets/SuppliedFrontendPage-Bl82SIwI.css  236.35 kB │ gzip: 31.84 kB
+dist/assets/fullMenu-BK6u_7oj.js                12.06 kB │ gzip:  3.78 kB
+dist/assets/MenuExperiencePage-B55nWyfm.js      26.85 kB │ gzip:  8.00 kB
+dist/assets/index-BvVXTnRG.js                  226.03 kB │ gzip: 70.44 kB
+dist/assets/SuppliedFrontendPage-C4D6fhRD.js   226.46 kB │ gzip: 76.09 kB
+✓ built in 1.05s

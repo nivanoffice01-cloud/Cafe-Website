@@ -1,0 +1,12 @@
+[
+  {
+    "sourceUrl": "https://readdy.ai/api/search-image?query=Cafe%20team%20in%20linen%20aprons%20smiling%20behind%20a%20wooden%20counter%20with%20an%20espresso%20machine%20and%20plates%20of%20food%2C%20hanging%20green%20planters%20overhead%2C%20warm%20natural%20light%2C%20editorial%20documentary%20photography%2C%20deep%20green%20and%20ivory%20interior&width=900&height=1120&seq=mg-about-team&orientation=portrait",
+    "file": "public/supplied-frontend/assets/mg-about-team.jpg",
+    "provenance": "Existing image linked by the user-supplied frontend; conceptual reference, not actual Mangosteen staff or architecture"
+  },
+  {
+    "sourceUrl": "https://readdy.ai/api/search-image?query=Interior%20of%20a%20premium%20botanical%20cafe%20with%20exposed%20dark%20ceiling%20beams%2C%20woven%20pendant%20lamps%2C%20wooden%20tables%2C%20cane%20back%20chairs%2C%20tropical%20plants%20and%20warm%20amber%20lighting%2C%20architectural%20editorial%20interior%20photography&width=1200&height=800&seq=mg-loc-interior&orientation=landscape",
+    "file": "public/supplied-frontend/assets/mg-loc-interior.jpg",
+    "provenance": "Existing image linked by the user-supplied frontend; conceptual reference, not actual Mangosteen staff or architecture"
+  }
+]

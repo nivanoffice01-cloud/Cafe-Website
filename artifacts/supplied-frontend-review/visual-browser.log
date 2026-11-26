@@ -1,0 +1,8 @@
+PASS Five distinct burger animation states, with exact return to the opening canvas on reverse scroll
+PASS Supplied assets load locally with no Readdy or analytics requests; existing document font links are retained
+PASS Mobile navigation opens without overflow, closes with Escape and restores page scrolling
+PASS The supplied reservation buttons open the existing protected reservation dialog
+PASS No horizontal page overflow at nine viewport sizes from 320 to 2560 pixels
+PASS Story, café and contact pages render the supplied design with verified business connections
+PASS Featured dish links open the correct actual dish in the approved menu
+PASS Reduced motion uses the supplied static fallback without a pinned animation

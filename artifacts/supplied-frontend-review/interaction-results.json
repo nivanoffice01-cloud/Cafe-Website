@@ -1,0 +1,86 @@
+{
+  "checks": [
+    "Five distinct burger animation states, with exact return to the opening canvas on reverse scroll",
+    "Supplied assets load locally with no Readdy or analytics requests; existing document font links are retained",
+    "Mobile navigation opens without overflow, closes with Escape and restores page scrolling",
+    "The supplied reservation buttons open the existing protected reservation dialog",
+    "No horizontal page overflow at nine viewport sizes from 320 to 2560 pixels",
+    "Story, café and contact pages render the supplied design with verified business connections",
+    "Featured dish links open the correct actual dish in the approved menu",
+    "Reduced motion uses the supplied static fallback without a pinned animation"
+  ],
+  "errors": [],
+  "badResponses": [],
+  "viewports": [
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 568
+    },
+    {
+      "width": 360,
+      "scrollWidth": 360,
+      "height": 800
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844
+    },
+    {
+      "width": 430,
+      "scrollWidth": 430,
+      "height": 932
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 1024
+    },
+    {
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900
+    },
+    {
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    },
+    {
+      "width": 2560,
+      "scrollWidth": 2560,
+      "height": 1440
+    }
+  ],
+  "heroFrames": [
+    {
+      "progress": 0,
+      "hash": "853873e614ada0a1a97846a71caa5086623f99223b4e4b3bbe43151bd9ca043c"
+    },
+    {
+      "progress": 0.25,
+      "hash": "2fd5632791680085dd5ac6f749118221535feabbfb88c662db49f0acb9cf87c9"
+    },
+    {
+      "progress": 0.5,
+      "hash": "1d82fa0c57082554c9963d51db1427059528c8ba8c7590cc16087515801b570f"
+    },
+    {
+      "progress": 0.75,
+      "hash": "e177070812d362830dc56ee871a0e485918a1d68891450448b20985a98fb8705"
+    },
+    {
+      "progress": 1,
+      "hash": "b34aac8238782a5ef99783321c58466f51e0eacfbb2b8692a3ffa9d939aec090"
+    }
+  ],
+  "inheritedExternalResources": [
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap"
+  ]
+}
