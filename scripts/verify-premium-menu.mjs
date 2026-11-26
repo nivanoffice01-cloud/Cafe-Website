@@ -61,12 +61,13 @@ try {
   await page.getByRole('button', { name: 'Explore the Menu', exact: true }).click()
   await page.waitForTimeout(650)
   assert.ok(await page.evaluate(() => Math.abs(document.getElementById('browse-categories').getBoundingClientRect().top) < 30))
-  assert.equal(await page.locator('.dm-category-circles>button').count(), 6)
-  await page.getByRole('button', { name: 'View All Categories', exact: true }).click()
+  assert.equal(await page.locator('.dm-category-circles>button').count(), fullMenu.length)
+  assert.equal(await page.locator('.dm-home-dishes').count(), 0)
+  await clickNav('Categories')
   assert.equal(await page.locator('.dm-category-banner').count(), 13)
   assert.deepEqual(await page.locator('.dm-banner-copy strong').allTextContents(), fullMenu.map(c => c.name))
   await shot('mobile-categories'); await shot('mobile-categories-viewport', false)
-  mark('Landing CTA scrolls directly to six categories; all 13 exact category names and order preserved')
+  mark('Landing CTA scrolls to all 13 category shortcuts; featured dish block removed; dedicated category page preserves exact catalogue order')
 
   for (const category of fullMenu) {
     await goto(`/menu/category/${slug(category.name)}`)

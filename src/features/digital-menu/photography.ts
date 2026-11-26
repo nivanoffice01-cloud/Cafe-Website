@@ -1,4 +1,4 @@
-import type { MenuItem } from '../../data/fullMenu'
+import { fullMenu, type MenuItem } from '../../data/fullMenu'
 import { categoryBannerFor, hasDishPhoto, menuPhotoFor } from '../../data/menuPhotos'
 
 export type VerifiedMenuPhoto = { src: string; srcSet?: string; alt: string; kind?: 'genuine' | 'reference' | 'generated'; position?: string }
@@ -32,7 +32,15 @@ export function categoryPhoto(category: string) {
   return illustration ? displayPhoto(illustration.src, `AI-generated illustration for ${category}; not actual Mangosteen food photography`, 'generated') : undefined
 }
 
-export const landingCategories = [
+const priorityCategories = [
   ['Pizza & Pide', 'Pizza'], ['Burger & sandwich', 'Burgers'], ['Pasta', 'Pasta'],
   ['Mocktail & Coolers', 'Mocktails'], ['Shakes', 'Shakes'], ['Desserts', 'Desserts'],
 ] as const
+
+// Preserve the familiar first six shortcuts, then include every remaining
+// category from the authoritative catalogue without maintaining a second list.
+export const landingCategories = [
+  ...priorityCategories.filter(([name]) => fullMenu.some(category => category.name === name)),
+  ...fullMenu.filter(category => !priorityCategories.some(([name]) => name === category.name))
+    .map(category => [category.name, category.name] as const),
+]
