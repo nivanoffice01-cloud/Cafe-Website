@@ -1,0 +1,158 @@
+[
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "card": {
+      "x": 61.125,
+      "y": 221.9375,
+      "width": 243.1875,
+      "height": 338,
+      "top": 221.9375,
+      "right": 304.3125,
+      "bottom": 559.9375,
+      "left": 61.125
+    },
+    "action": {
+      "x": 78.125,
+      "y": 498.9375,
+      "width": 209.1875,
+      "height": 44,
+      "top": 498.9375,
+      "right": 287.3125,
+      "bottom": 542.9375,
+      "left": 78.125
+    },
+    "href": "/menu",
+    "text": "THE COMPLETE MENU\nFind your next\nfavourite.\n\nExplore 131 dishes across 13 categories.\n\nBrowse the menu",
+    "overflow": false,
+    "ctaVisible": true,
+    "errors": []
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "card": {
+      "x": 77.34375,
+      "y": 350.4375,
+      "width": 296.390625,
+      "height": 404.96875,
+      "top": 350.4375,
+      "right": 373.734375,
+      "bottom": 755.40625,
+      "left": 77.34375
+    },
+    "action": {
+      "x": 98.34375,
+      "y": 686.40625,
+      "width": 254.390625,
+      "height": 48,
+      "top": 686.40625,
+      "right": 352.734375,
+      "bottom": 734.40625,
+      "left": 98.34375
+    },
+    "href": "/menu",
+    "text": "THE COMPLETE MENU\nFind your next\nfavourite.\n\nExplore 131 dishes across 13 categories.\n\nBrowse the menu",
+    "overflow": false,
+    "ctaVisible": true,
+    "errors": [],
+    "menuNavigation": "passed"
+  },
+  {
+    "viewport": [
+      768,
+      1024
+    ],
+    "card": {
+      "x": 424,
+      "y": 397.796875,
+      "width": 320,
+      "height": 430.6875,
+      "top": 397.796875,
+      "right": 744,
+      "bottom": 828.484375,
+      "left": 424
+    },
+    "action": {
+      "x": 449,
+      "y": 755.484375,
+      "width": 270,
+      "height": 48,
+      "top": 755.484375,
+      "right": 719,
+      "bottom": 803.484375,
+      "left": 449
+    },
+    "href": "/menu",
+    "text": "THE COMPLETE MENU\nFind your next\nfavourite.\n\nExplore 131 dishes across 13 categories.\n\nBrowse the menu",
+    "overflow": false,
+    "ctaVisible": true,
+    "errors": []
+  },
+  {
+    "viewport": [
+      1440,
+      900
+    ],
+    "card": {
+      "x": 986,
+      "y": 333.90625,
+      "width": 350,
+      "height": 460.1875,
+      "top": 333.90625,
+      "right": 1336,
+      "bottom": 794.09375,
+      "left": 986
+    },
+    "action": {
+      "x": 1011,
+      "y": 721.09375,
+      "width": 300,
+      "height": 48,
+      "top": 721.09375,
+      "right": 1311,
+      "bottom": 769.09375,
+      "left": 1011
+    },
+    "href": "/menu",
+    "text": "THE COMPLETE MENU\nFind your next\nfavourite.\n\nExplore 131 dishes across 13 categories.\n\nBrowse the menu",
+    "overflow": false,
+    "ctaVisible": true,
+    "errors": []
+  },
+  {
+    "viewport": [
+      1920,
+      1080
+    ],
+    "card": {
+      "x": 1226,
+      "y": 425.0625,
+      "width": 350,
+      "height": 462.375,
+      "top": 425.0625,
+      "right": 1576,
+      "bottom": 887.4375,
+      "left": 1226
+    },
+    "action": {
+      "x": 1251,
+      "y": 814.4375,
+      "width": 300,
+      "height": 48,
+      "top": 814.4375,
+      "right": 1551,
+      "bottom": 862.4375,
+      "left": 1251
+    },
+    "href": "/menu",
+    "text": "THE COMPLETE MENU\nFind your next\nfavourite.\n\nExplore 131 dishes across 13 categories.\n\nBrowse the menu",
+    "overflow": false,
+    "ctaVisible": true,
+    "errors": []
+  }
+]
