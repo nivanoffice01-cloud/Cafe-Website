@@ -1,9 +1,9 @@
 # Mangosteen Cafe
 
 A React, TypeScript and Vite application with an isolated cinematic marketing
-homepage and the approved digital menu. Rejected marketing experiments remain
-archived. The new marketing route uses scoped GSAP/ScrollTrigger timelines,
-photographic masks, an interactive dining table and a canvas glass reveal.
+homepage and the approved digital menu. The active homepage restores the supplied
+Mangosteen frontend, including its reversible canvas burger sequence and editorial
+poster compositions. Its styles are scoped; the existing business UI stays separate.
 The menu and cafe facts remain
 existing frontend data. Reservation requests
 are sent to the separate SQLite-backed CRM in `CRM/` and enter its reservation
@@ -48,14 +48,21 @@ temporary database.
 
 ## Marketing architecture and recovery
 
-Active branch: `mangosteen-clean-rebuild`.
+Current branch: `mangosteen-supplied-frontend`.
+Previous cinematic branch: `mangosteen-clean-rebuild`.
 Legacy backup: `mangosteen-legacy-frontend-backup` at `a89e67c`.
 Clean foundation: `checkpoint/clean-foundation-080966f` at `080966f`.
 First implementation milestone: `8767a96`.
 
+The subsequent supplied-design restoration is on `mangosteen-supplied-frontend`.
+Its backup is `checkpoint/before-supplied-frontend-c035d43` at `c035d43`.
+See [the restoration notes](src/features/supplied-frontend/README.md) and
+`artifacts/supplied-frontend-review/` for the current implementation and evidence.
+
 ```text
 src/app/                       Minimal route selection; no transition wrapper
-src/features/marketing/        Scoped marketing page, motion hooks and interactions
+src/features/marketing/        Preserved inactive previous marketing implementation
+src/features/supplied-frontend/  Active supplied design with protected business adapters
 src/pages/MenuExperiencePage.tsx  Protected approved digital menu
 src/components/ReservationDialog.tsx  Protected reservation interface
 src/data/                      Existing menu, seating and business information
@@ -70,8 +77,9 @@ artifacts/mangosteen-clean-rebuild/  Inventory, contact sheets and regression ev
 artifacts/mangosteen-clean-rebuild-review/  New homepage motion recordings and verification
 ```
 
-`/` contains the new photographic arch entrance, editorial compositions, rotating
-dining table, architectural gallery, glass reveal and closing reservation invitation.
+`/` contains the supplied burger animation, editorial story, horizontal menu
+preview, craft composition, ingredient artwork and café visit section. `/about`,
+`/locations` and `/contact` use the supplied supporting page designs.
 `/menu`, `/menu/*` and `/m` retain their existing behaviour. Removed
 `/experience`, `/reference-experience` and `/claude-vfx-lab` registrations now
 fall back to the homepage. The previous food VFX and cinematic experiences
@@ -81,14 +89,15 @@ Legacy source, shaders, generated layers, models and materials also remain in
 `archives/rejected-frontends/complete-reset-2026-11-25/` locally. The earlier
 cinematic archive is untouched. Previous branches and history are preserved.
 
-Run `node scripts/verify-marketing-business.mjs after` with Vite running to check
+Run `node scripts/verify-supplied-frontend-business.mjs after` with Vite running to check
 protected browser workflows using a disposable CRM database. It never submits
 test orders or reservations to production. The pre-existing phone-field pattern
 warning is explicitly reported rather than silently changed by the reset.
 `npm run build:vercel` checks the build and CRM client packaging without deployment.
-Run `node scripts/review-marketing-motion.mjs` with a production preview on
-`http://127.0.0.1:4174` for desktop/mobile motion recordings and measurements.
-Open `artifacts/mangosteen-clean-rebuild-review/index.html` for the consolidated review.
+Run `node scripts/review-supplied-frontend.mjs` with Vite on
+`http://127.0.0.1:5173` for desktop/mobile motion recordings and checks.
+Open `artifacts/supplied-frontend-review/index.html` for the current review.
+The older `mangosteen-clean-rebuild-review` directory preserves the previous version.
 
 See `artifacts/mangosteen-clean-rebuild/asset-inventory.html` for labelled photo
 contact sheets. Stock food photographs and AI imagery are separated from the

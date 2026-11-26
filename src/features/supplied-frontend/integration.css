@@ -1,0 +1,12 @@
+.saved-mangosteen{width:100%;min-width:0;line-height:1.5;font-family:var(--font-body);background:oklch(var(--background-50));color:var(--ink)}
+.saved-mangosteen a:focus-visible,.saved-mangosteen button:focus-visible{outline:2px solid oklch(var(--accent-500));outline-offset:5px}
+/* Scope the saved reset to marketing; the existing business dialogs stay outside. */
+.saved-mangosteen *, .saved-mangosteen *::before, .saved-mangosteen *::after{box-sizing:border-box}
+/* The supplied pill rule follows .hidden and overrides it at mobile widths. */
+@media(max-width:767px){.saved-mangosteen header a.hidden{display:none}.saved-mangosteen header nav{gap:16px}.saved-mangosteen header nav>a{min-width:0}}
+@media(min-width:768px) and (max-width:1023px){.saved-mangosteen header nav>ul,.saved-mangosteen header nav>div>a{display:none}.saved-mangosteen header nav button[aria-label="Toggle menu"],.saved-mangosteen header>div.md\:hidden{display:flex}.saved-mangosteen header>div.md\:hidden{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){.saved-mangosteen [data-m]{opacity:1!important;transform:none!important;clip-path:none!important}.saved-mangosteen .m-letter{transform:none!important}}
+/* Same 750ms opacity choreography as the saved page, without a second router. */
+html[data-mangosteen-transition]::view-transition-old(root){animation:none}
+html[data-mangosteen-transition]::view-transition-new(root){animation:supplied-page-in .75s cubic-bezier(.4,0,.2,1) both}
+@keyframes supplied-page-in{from{opacity:0}to{opacity:1}}

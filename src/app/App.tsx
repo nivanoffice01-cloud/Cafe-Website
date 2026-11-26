@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react'
-const MarketingPage = lazy(() => import('../features/marketing/pages/MarketingPage'))
+const MarketingPage = lazy(() => import('../features/supplied-frontend/SuppliedFrontendPage'))
 const MenuExperiencePage = lazy(() => import('../pages/MenuExperiencePage').then((module) => ({ default: module.MenuExperiencePage })))
 
 function Routes() {
