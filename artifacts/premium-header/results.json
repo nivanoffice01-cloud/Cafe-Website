@@ -1,0 +1,47 @@
+{
+  "results": [
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "headerHeight": 76,
+      "logoLoaded": true
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "headerHeight": 76,
+      "logoLoaded": true
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "headerHeight": 76,
+      "logoLoaded": true
+    },
+    {
+      "width": 1024,
+      "scrollWidth": 1024,
+      "headerHeight": 76,
+      "logoLoaded": true
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "headerHeight": 76,
+      "logoLoaded": true
+    },
+    {
+      "width": 1920,
+      "scrollWidth": 1920,
+      "headerHeight": 76,
+      "logoLoaded": true
+    }
+  ],
+  "errors": [],
+  "checks": [
+    "Original 76px header height preserved",
+    "Logo loaded at all six tested widths; no horizontal overflow",
+    "Mobile menu and Escape work",
+    "Our Story navigation and reservation opening work"
+  ]
+}

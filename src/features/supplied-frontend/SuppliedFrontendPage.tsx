@@ -7,6 +7,7 @@ import './fonts.css'
 import './icons.css'
 import './supplied.css'
 import './integration.css'
+import './header.css'
 
 export default function SuppliedFrontendPage() {
   const scope = useRef<HTMLDivElement>(null)
