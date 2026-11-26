@@ -1,0 +1,368 @@
+[
+  {
+    "name": "story-dining",
+    "original": "public/images/highres/mangosteen_original_1_8k.jpg",
+    "originalDimensions": [
+      7680,
+      5116
+    ],
+    "compositionAspect": [
+      900,
+      1040
+    ],
+    "centering": [
+      0.53,
+      0.5
+    ],
+    "alt": "The long wooden dining table, cane chairs and woven pendant lights at Mangosteen",
+    "files": [
+      {
+        "path": "/images/authentic/story-dining-480.webp",
+        "width": 480,
+        "height": 555,
+        "bytes": 61980
+      },
+      {
+        "path": "/images/authentic/story-dining-960.webp",
+        "width": 960,
+        "height": 1109,
+        "bytes": 135120
+      },
+      {
+        "path": "/images/authentic/story-dining-1440.webp",
+        "width": 1440,
+        "height": 1664,
+        "bytes": 205724
+      },
+      {
+        "path": "/images/authentic/story-dining-1920.webp",
+        "width": 1920,
+        "height": 2219,
+        "bytes": 286078
+      }
+    ],
+    "corrections": "Crop and resize only. No generative edits, altered ingredients, colour changes or architectural modifications."
+  },
+  {
+    "name": "story-food",
+    "original": "public/images/highres/mangosteen_original_2_8k.jpg",
+    "originalDimensions": [
+      7680,
+      5116
+    ],
+    "compositionAspect": [
+      800,
+      600
+    ],
+    "centering": [
+      0.55,
+      0.5
+    ],
+    "alt": "A plated meal photographed on a wooden table at Mangosteen; dish identity not confirmed",
+    "files": [
+      {
+        "path": "/images/authentic/story-food-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 43624
+      },
+      {
+        "path": "/images/authentic/story-food-960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 111062
+      },
+      {
+        "path": "/images/authentic/story-food-1440.webp",
+        "width": 1440,
+        "height": 1080,
+        "bytes": 175906
+      },
+      {
+        "path": "/images/authentic/story-food-1920.webp",
+        "width": 1920,
+        "height": 1440,
+        "bytes": 244260
+      }
+    ],
+    "corrections": "Crop and resize only. No generative edits, altered ingredients, colour changes or architectural modifications."
+  },
+  {
+    "name": "counter",
+    "original": "public/images/gallery/cafe-07.jpg",
+    "originalDimensions": [
+      1545,
+      1030
+    ],
+    "compositionAspect": [
+      1300,
+      1500
+    ],
+    "centering": [
+      0.43,
+      0.5
+    ],
+    "alt": "Mangosteen\u2019s caf\u00e9 counter, woven pendant lamps and wooden seating",
+    "files": [
+      {
+        "path": "/images/authentic/counter-480.webp",
+        "width": 480,
+        "height": 554,
+        "bytes": 73174
+      },
+      {
+        "path": "/images/authentic/counter-960.webp",
+        "width": 960,
+        "height": 1108,
+        "bytes": 215486
+      },
+      {
+        "path": "/images/authentic/counter-1440.webp",
+        "width": 1440,
+        "height": 1662,
+        "bytes": 348308
+      }
+    ],
+    "corrections": "Crop and resize only. No generative edits, altered ingredients, colour changes or architectural modifications."
+  },
+  {
+    "name": "rooftop-evening",
+    "original": "public/images/gallery/cafe-16.jpg",
+    "originalDimensions": [
+      1453,
+      969
+    ],
+    "compositionAspect": [
+      1920,
+      1080
+    ],
+    "centering": [
+      0.5,
+      0.5
+    ],
+    "alt": "Mangosteen\u2019s rooftop in the evening with wooden tables and tropical greenery",
+    "files": [
+      {
+        "path": "/images/authentic/rooftop-evening-480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 37772
+      },
+      {
+        "path": "/images/authentic/rooftop-evening-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 122826
+      },
+      {
+        "path": "/images/authentic/rooftop-evening-1440.webp",
+        "width": 1440,
+        "height": 810,
+        "bytes": 219178
+      }
+    ],
+    "corrections": "Crop and resize only. No generative edits, altered ingredients, colour changes or architectural modifications."
+  },
+  {
+    "name": "facade",
+    "original": "public/images/highres/mangosteen_original_4_8k.jpg",
+    "originalDimensions": [
+      7680,
+      4314
+    ],
+    "compositionAspect": [
+      1200,
+      800
+    ],
+    "centering": [
+      0.5,
+      0.44
+    ],
+    "alt": "The illuminated handwritten Mangosteen sign, wooden fa\u00e7ade and hanging greenery",
+    "files": [
+      {
+        "path": "/images/authentic/facade-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 37962
+      },
+      {
+        "path": "/images/authentic/facade-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 97030
+      },
+      {
+        "path": "/images/authentic/facade-1440.webp",
+        "width": 1440,
+        "height": 960,
+        "bytes": 149970
+      },
+      {
+        "path": "/images/authentic/facade-1920.webp",
+        "width": 1920,
+        "height": 1280,
+        "bytes": 202634
+      }
+    ],
+    "corrections": "Crop and resize only. No generative edits, altered ingredients, colour changes or architectural modifications."
+  },
+  {
+    "name": "visit-interior",
+    "original": "public/images/highres/mangosteen_original_3_8k.jpg",
+    "originalDimensions": [
+      7680,
+      5760
+    ],
+    "compositionAspect": [
+      1200,
+      800
+    ],
+    "centering": [
+      0.5,
+      0.5
+    ],
+    "alt": "Mangosteen\u2019s main dining area, warm pendant lighting and decorative caf\u00e9 counter",
+    "files": [
+      {
+        "path": "/images/authentic/visit-interior-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 43056
+      },
+      {
+        "path": "/images/authentic/visit-interior-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 121838
+      },
+      {
+        "path": "/images/authentic/visit-interior-1440.webp",
+        "width": 1440,
+        "height": 960,
+        "bytes": 195912
+      },
+      {
+        "path": "/images/authentic/visit-interior-1920.webp",
+        "width": 1920,
+        "height": 1280,
+        "bytes": 263690
+      }
+    ],
+    "corrections": "Crop and resize only. No generative edits, altered ingredients, colour changes or architectural modifications."
+  },
+  {
+    "name": "cane-seating",
+    "original": "public/images/gallery/cafe-06.png",
+    "originalDimensions": [
+      1032,
+      1282
+    ],
+    "compositionAspect": [
+      900,
+      1120
+    ],
+    "centering": [
+      0.5,
+      0.5
+    ],
+    "alt": "Cane-back chairs and natural wooden tables beside Mangosteen\u2019s windows",
+    "files": [
+      {
+        "path": "/images/authentic/cane-seating-480.webp",
+        "width": 480,
+        "height": 597,
+        "bytes": 56084
+      },
+      {
+        "path": "/images/authentic/cane-seating-960.webp",
+        "width": 960,
+        "height": 1195,
+        "bytes": 142966
+      }
+    ],
+    "corrections": "Crop and resize only. No generative edits, altered ingredients, colour changes or architectural modifications."
+  },
+  {
+    "name": "menu-interior",
+    "original": "public/images/highres/mangosteen_original_1_8k.jpg",
+    "originalDimensions": [
+      7680,
+      5116
+    ],
+    "compositionAspect": [
+      1080,
+      1620
+    ],
+    "centering": [
+      0.53,
+      0.5
+    ],
+    "alt": "Inside Mangosteen: woven pendant lights, wooden tables, cane chairs and botanical greenery",
+    "files": [
+      {
+        "path": "/images/authentic/menu-interior-480.webp",
+        "width": 480,
+        "height": 720,
+        "bytes": 63180
+      },
+      {
+        "path": "/images/authentic/menu-interior-960.webp",
+        "width": 960,
+        "height": 1440,
+        "bytes": 135212
+      },
+      {
+        "path": "/images/authentic/menu-interior-1440.webp",
+        "width": 1440,
+        "height": 2160,
+        "bytes": 211270
+      },
+      {
+        "path": "/images/authentic/menu-interior-1920.webp",
+        "width": 1920,
+        "height": 2880,
+        "bytes": 285150
+      }
+    ],
+    "corrections": "Crop and resize only. No generative edits, altered ingredients, colour changes or architectural modifications."
+  },
+  {
+    "name": "menu-invitation",
+    "original": "public/images/gallery/cafe-18.jpeg",
+    "originalDimensions": [
+      1600,
+      1066
+    ],
+    "compositionAspect": [
+      800,
+      500
+    ],
+    "centering": [
+      0.5,
+      0.5
+    ],
+    "alt": "Wooden rooftop tables and greenery at Mangosteen Caf\u00e9",
+    "files": [
+      {
+        "path": "/images/authentic/menu-invitation-480.webp",
+        "width": 480,
+        "height": 300,
+        "bytes": 38830
+      },
+      {
+        "path": "/images/authentic/menu-invitation-960.webp",
+        "width": 960,
+        "height": 600,
+        "bytes": 139394
+      },
+      {
+        "path": "/images/authentic/menu-invitation-1440.webp",
+        "width": 1440,
+        "height": 900,
+        "bytes": 272480
+      }
+    ],
+    "corrections": "Crop and resize only; no generative edits."
+  }
+]

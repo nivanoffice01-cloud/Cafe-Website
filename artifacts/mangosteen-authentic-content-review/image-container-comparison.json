@@ -1,0 +1,444 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "story",
+    "image": 0,
+    "before": [
+      372,
+      600
+    ],
+    "after": [
+      372,
+      600
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "story",
+    "image": 1,
+    "before": [
+      240.27685546875,
+      300.22149658203125
+    ],
+    "after": [
+      240.27691650390625,
+      300.22149658203125
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "menu",
+    "image": 0,
+    "before": [
+      348,
+      261
+    ],
+    "after": [
+      348,
+      261
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "menu",
+    "image": 1,
+    "before": [
+      348,
+      261
+    ],
+    "after": [
+      348,
+      261
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "menu",
+    "image": 2,
+    "before": [
+      348,
+      261
+    ],
+    "after": [
+      348,
+      261
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "menu",
+    "image": 3,
+    "before": [
+      348,
+      261
+    ],
+    "after": [
+      348,
+      261
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "menu",
+    "image": 4,
+    "before": [
+      348,
+      261
+    ],
+    "after": [
+      348,
+      261
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "menu",
+    "image": 5,
+    "before": [
+      348,
+      261
+    ],
+    "after": [
+      348,
+      261
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "menu",
+    "image": 6,
+    "before": [
+      348,
+      180
+    ],
+    "after": [
+      348,
+      180
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "craft",
+    "image": 0,
+    "before": [
+      636,
+      660
+    ],
+    "after": [
+      636,
+      660
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "",
+    "image": 0,
+    "before": [
+      751.0360717773438,
+      759.70458984375
+    ],
+    "after": [
+      751.03564453125,
+      759.7041015625
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "",
+    "image": 0,
+    "before": [
+      1328,
+      780
+    ],
+    "after": [
+      1328,
+      780
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "section": "locations",
+    "image": 0,
+    "before": [
+      773.5,
+      515.65625
+    ],
+    "after": [
+      773.5,
+      515.65625
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "story",
+    "image": 0,
+    "before": [
+      354,
+      380
+    ],
+    "after": [
+      354,
+      380
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "story",
+    "image": 1,
+    "before": [
+      354,
+      220
+    ],
+    "after": [
+      354,
+      220
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "menu",
+    "image": 0,
+    "before": [
+      294.390625,
+      220.78125
+    ],
+    "after": [
+      294.390625,
+      220.78125
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "menu",
+    "image": 1,
+    "before": [
+      294.390625,
+      220.78125
+    ],
+    "after": [
+      294.390625,
+      220.78125
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "menu",
+    "image": 2,
+    "before": [
+      294.390625,
+      220.78125
+    ],
+    "after": [
+      294.390625,
+      220.78125
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "menu",
+    "image": 3,
+    "before": [
+      294.390625,
+      220.78125
+    ],
+    "after": [
+      294.390625,
+      220.78125
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "menu",
+    "image": 4,
+    "before": [
+      294.390625,
+      220.78125
+    ],
+    "after": [
+      294.390625,
+      220.78125
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "menu",
+    "image": 5,
+    "before": [
+      294.390625,
+      220.78125
+    ],
+    "after": [
+      294.390625,
+      220.78125
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "menu",
+    "image": 6,
+    "before": [
+      294.390625,
+      180
+    ],
+    "after": [
+      294.390625,
+      180
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "craft",
+    "image": 0,
+    "before": [
+      354,
+      420
+    ],
+    "after": [
+      354,
+      420
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "",
+    "image": 0,
+    "before": [
+      353.826904296875,
+      459.7750244140625
+    ],
+    "after": [
+      353.8267822265625,
+      459.77490234375
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "",
+    "image": 0,
+    "before": [
+      354,
+      658.3125
+    ],
+    "after": [
+      354,
+      658.3125
+    ],
+    "unchanged": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "section": "locations",
+    "image": 0,
+    "before": [
+      352,
+      320
+    ],
+    "after": [
+      352,
+      319.9999694824219
+    ],
+    "unchanged": true
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "categories": 13,
+  "dishes": 131,
+  "withDescriptions": 83,
+  "missingDescriptions": 48,
+  "withGenuineMatchedPhotographs": 0,
+  "requiringGenuinePhotographs": 131,
+  "pricesUnchanged": true,
+  "descriptionsUnchanged": true,
+  "dietaryFieldsAvailable": false,
+  "source": "api/full-menu.mjs, existing publicly listed snapshot; no current owner-approved menu supplied",
+  "freshVerificationLimit": "Original IndiaRestros menu endpoint returned HTTP 403; Zomato menu showed scanned pages without extractable dish records. No unverified replacement prices imported."
+}

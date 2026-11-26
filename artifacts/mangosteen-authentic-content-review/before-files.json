@@ -1,0 +1,18 @@
+{
+  "src/features/supplied-frontend/SuppliedFrontendPage.tsx": "293cab8acc7dd20e47b4f2de4a89ed25f6be91426fe070dbaebc673f5e78c6b6",
+  "src/features/supplied-frontend/SuppliedDesign.tsx": "a4c7e649989cf3e63b6e4a274abaf20c4e5ec7d6f8c1b3c64ad46b9f3e46b10f",
+  "src/features/supplied-frontend/verified-content.ts": "6c19ac655b473b9b8e9f34ccb5f2de37a056161821f2a1c08f55a7f66046218a",
+  "src/features/supplied-frontend/README.md": "b0f725d622f6d378c87fe42e8297dfac633850cd1925f14ebff686bb5eb595ba",
+  "src/features/supplied-frontend/integration.tsx": "afb4a91598baaa9df445f489069e5222bc06c56f9c9d1c6069ff3e6524dae2e4",
+  "src/features/supplied-frontend/supplied.css": "f794004f337474a3b1266441b8513fae932735077c76af84450ab3f91b2ade7d",
+  "src/features/supplied-frontend/fonts.css": "6d0facfb94e801a4f51a5ec77846d6b2866ecd3b061c7bb334c2d72329c8fcad",
+  "src/features/supplied-frontend/icons.css": "6f1f16511bf803a0c471ac7faf3f64d8dc1a141a510762239893e45aafdd1482",
+  "src/features/supplied-frontend/integration.css": "d23ae16e5bf41393adecd24ae3aaf58d1256f8b870922a9fb10a310a20e51028",
+  "src/pages/MenuExperiencePage.tsx": "12a8c3801d9c048acbc5bd2430c0fad8dacb4f7da800f718774d94142552a340",
+  "src/data/cafe.ts": "980ccc13789b8e135a6203c18fbd08e04c97c8937636760dc8b9d47219f0aa70",
+  "src/data/menuPhotos.ts": "eb783d61d4814b9660702eea9c7633259eaf90d778a847c0a4fba878353d54dc",
+  "src/data/seating.ts": "b46c9fb8897f64c599fa556b060f26d6486e7016deab4a1fbe16f175eec2e0ec",
+  "src/components/ReservationDialog.tsx": "fd942581f4c9ea7b36fe59d0a362c99d13fd6958aa4cf96278d61ab0cafa15a3",
+  "api/full-menu.mjs": "c4d8c5f1418d2f3774501915cb76afb635b671229b7c556e70bef9b567b2185d",
+  "index.html": "40918af9babc461611960ba1d22a518becd9c6a57ecb7b42ab0bacb0019ee280"
+}

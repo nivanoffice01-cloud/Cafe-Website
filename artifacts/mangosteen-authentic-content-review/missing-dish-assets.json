@@ -1,0 +1,2229 @@
+[
+  {
+    "category": "Shakes",
+    "name": "Berries shakes",
+    "price": 360,
+    "description": "Strawberry, blueberry, blackberry, honey and milk",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/shakes.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "shakes--berries-shakes.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Shakes",
+    "name": "Nutella & biscoff",
+    "price": 360,
+    "description": "Nutella, Lotus Biscoff and vanilla ice cream",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/shakes.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "shakes--nutella-and-biscoff.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Shakes",
+    "name": "Fresh Fruit Shake",
+    "price": 300,
+    "description": "Seasonal fruit, milk and vanilla ice cream",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/shakes.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "shakes--fresh-fruit-shake.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Shakes",
+    "name": "Oreo Shake",
+    "price": 300,
+    "description": "Oreo biscuit, milk, vanilla and honey",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/shakes.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "shakes--oreo-shake.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Shakes",
+    "name": "Kit-kat shake",
+    "price": 300,
+    "description": "Kit-Kat, vanilla ice cream and milk",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/shakes.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "shakes--kit-kat-shake.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Juice",
+    "name": "Cheffy favorites",
+    "price": 225,
+    "description": "Carrot, green apple, watermelon and lemon",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/juice.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "juice--cheffy-favorites.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Juice",
+    "name": "Mangosteen Special",
+    "price": 225,
+    "description": "Spinach, coriander, mint, black salt and lemon",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/juice.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "juice--mangosteen-special.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Juice",
+    "name": "Weightlessness",
+    "price": 225,
+    "description": "Apple, malta, kiwi and carrot",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/juice.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "juice--weightlessness.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Juice",
+    "name": "Wake up call",
+    "price": 225,
+    "description": "Beetroot, green apple, ginger, carrot and coconut water",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/juice.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "juice--wake-up-call.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Juice",
+    "name": "Good Moving",
+    "price": 225,
+    "description": "Orange, apple, watermelon and lemon",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/juice.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "juice--good-moving.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Juice",
+    "name": "Cooler",
+    "price": 225,
+    "description": "Green apple, cucumber, coriander, kale and coconut water",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/juice.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "juice--cooler.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Juice",
+    "name": "Abc",
+    "price": 225,
+    "description": "Apple, beetroot and carrot",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/juice.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "juice--abc.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Juice",
+    "name": "Orange Juice",
+    "price": 225,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/juice.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "juice--orange-juice.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Juice",
+    "name": "Pineapple Juice",
+    "price": 225,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/juice.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "juice--pineapple-juice.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Cola gola",
+    "price": 210,
+    "description": "Coca-Cola, chaat masala and lemon juice",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/mocktails.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "mocktail-and-coolers--cola-gola.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Cuban Mojito",
+    "price": 300,
+    "description": "Mixed fruit and lemon",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/mocktails.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "mocktail-and-coolers--cuban-mojito.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Virgin mojito",
+    "price": 250,
+    "description": "Soda or water",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu/virgin-mojito.jpg",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-dish",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "mocktail-and-coolers--virgin-mojito.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Tikhi peru",
+    "price": 250,
+    "description": "Pink guava, red chilli and lemon juice",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/mocktails.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "mocktail-and-coolers--tikhi-peru.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Kiwi mojito",
+    "price": 250,
+    "description": "Kiwi and soda",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/mocktails.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "mocktail-and-coolers--kiwi-mojito.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Watermelon mojito",
+    "price": 250,
+    "description": "Watermelon and soda",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/mocktails.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "mocktail-and-coolers--watermelon-mojito.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Malta mojito",
+    "price": 250,
+    "description": "Malta and soda",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/mocktails.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "mocktail-and-coolers--malta-mojito.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Iced Tea",
+    "name": "Peach Iced Tea",
+    "price": 249,
+    "description": "Exotic peach infused iced tea",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/iced-tea.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "iced-tea--peach-iced-tea.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Iced Tea",
+    "name": "Lemon Iced Tea",
+    "price": 229,
+    "description": "Tangy and refreshing iced delight",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/iced-tea.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "iced-tea--lemon-iced-tea.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Salad",
+    "name": "Burrata & tomato salad",
+    "price": 570,
+    "description": "Grilled zucchini, tomato, basil pesto, balsamic vinegar and fresh basil",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/salad.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "salad--burrata-and-tomato-salad.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Salad",
+    "name": "Greek salad",
+    "price": 410,
+    "description": "Black olive, cucumber, onion, bell peppers, cherry tomato, oregano, feta and olive oil",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/salad.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "salad--greek-salad.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Salad",
+    "name": "Beetroot Tabbouleh",
+    "price": 420,
+    "description": "Granny smith apple, beetroot, walnut, bulgur, tomato, mint, lemon and olive oil",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/salad.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "salad--beetroot-tabbouleh.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Salad",
+    "name": "Classic Caesar",
+    "price": 410,
+    "description": "Lettuce, parmesan, croutons and Caesar dressing",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/salad.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "salad--classic-caesar.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Salad",
+    "name": "Organic quinoa",
+    "price": 420,
+    "description": "Quinoa, orange, pomegranate, pumpkin seed, cherry tomato, chia, lime and sumac",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/salad.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "salad--organic-quinoa.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Salad",
+    "name": "Sprout Salad",
+    "price": 270,
+    "description": "Mixed sprouts, tomato, green chilli, cucumber, avocado and coriander",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/salad.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "salad--sprout-salad.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Peri-Peri Paneer",
+    "price": 610,
+    "description": "Mozzarella, malai paneer and peri-peri seasoning",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--peri-peri-paneer.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Burrata pizza",
+    "price": 695,
+    "description": "Fresh burrata and basil pesto",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--burrata-pizza.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "4 Cheese Pizza",
+    "price": 630,
+    "description": "Mozzarella, mild cheddar, parmesan and feta",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--4-cheese-pizza.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Sicilia",
+    "price": 499,
+    "description": "Mushroom, tangy onion, chilli oil and basil",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--sicilia.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Pesto pizza",
+    "price": 499,
+    "description": "Basil pesto, zucchini, broccoli, jalapeño and chilli oil",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--pesto-pizza.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Creamy Spinach pizza",
+    "price": 499,
+    "description": "Creamy spinach, nutmeg and confit garlic",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--creamy-spinach-pizza.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Mediterranean pizza",
+    "price": 595,
+    "description": "Sundried tomato, caper, cherry tomato, olive and peppers",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--mediterranean-pizza.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Ortolano",
+    "price": 499,
+    "description": "Mushroom, artichoke, cherry tomato and olive",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--ortolano.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Di Bianca",
+    "price": 570,
+    "description": "White mozzarella, pesto, confit garlic and rocket leaves",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--di-bianca.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Margarita",
+    "price": 499,
+    "description": "Thin crust, tomato sauce, basil and mozzarella",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu/margarita-pizza.jpg",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-dish",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--margarita.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Chicken pepperoni",
+    "price": 549,
+    "description": "Chicken pepperoni, mozzarella and chilli oil",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--chicken-pepperoni.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Chicken Keema",
+    "price": 650,
+    "description": "Chicken keema, tangy onion and mint",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--chicken-keema.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Farm Fresh",
+    "price": 499,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--farm-fresh.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Smok Chicken Pizza",
+    "price": 549,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--smok-chicken-pizza.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Chicken Makhani Pizza",
+    "price": 549,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/pizza-pide.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pizza-and-pide--chicken-makhani-pizza.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Hummus and saute vegetable sandwich",
+    "price": 330,
+    "description": "Jalapeño hummus, garlic sautéed vegetables, parsley and chilli flakes",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--hummus-and-saute-vegetable-sandwich.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Bbq Chicken Sendwich",
+    "price": 379,
+    "description": "Panini bread, spicy tartare, sour cream, tomato and iceberg lettuce",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--bbq-chicken-sendwich.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Mexican veg burger",
+    "price": 450,
+    "description": "Beans, corn, soya, spinach, guacamole, pico de gallo and yellow cheese",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--mexican-veg-burger.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Mangosteen chicken burger",
+    "price": 399,
+    "description": "Herbed chicken and cheese patty, sunny-side egg, spicy tartare and relish",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--mangosteen-chicken-burger.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Pulled chicken burger",
+    "price": 520,
+    "description": "Pulled barbecue chicken, mustard mayonnaise, onion ring and cheese",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--pulled-chicken-burger.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Add cheese",
+    "price": 70,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--add-cheese.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Avocado Open Sendwich",
+    "price": 349,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--avocado-open-sendwich.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Veg Cheese Burger",
+    "price": 349,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu/veg-cheese-burger.jpg",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-dish",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--veg-cheese-burger.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Herb Avocado Bruschetta",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--herb-avocado-bruschetta.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Cold Bruschetta",
+    "price": 379,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--cold-bruschetta.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Classic Bruschetta",
+    "price": 349,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--classic-bruschetta.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Bbq Chicken Burger",
+    "price": 379,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--bbq-chicken-burger.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Classic Chicken Sendwich",
+    "price": 379,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/burgers-sandwiches.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "burger-and-sandwich--classic-chicken-sendwich.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Breakfast",
+    "name": "Garlic bread",
+    "price": 299,
+    "description": "Toasted baguette with house-mix garlic butter",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/breakfast.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "breakfast--garlic-bread.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Breakfast",
+    "name": "Sprout moonglet",
+    "price": 275,
+    "description": "Mixed sprout moonglet, Cobb salad and cheesy mayo",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/breakfast.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "breakfast--sprout-moonglet.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Breakfast",
+    "name": "Acai Bowl",
+    "price": 395,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/breakfast.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "breakfast--acai-bowl.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Breakfast",
+    "name": "Chia seed pudding",
+    "price": 390,
+    "description": "Coconut milk, chia, cinnamon, maple syrup and berries",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/breakfast.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "breakfast--chia-seed-pudding.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Breakfast",
+    "name": "Cheese omelette",
+    "price": 280,
+    "description": "Cheddar cheese, salad and grilled tomato",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/breakfast.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "breakfast--cheese-omelette.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Breakfast",
+    "name": "Egg white omelette",
+    "price": 260,
+    "description": "Egg white omelette, salad and grilled tomato",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/breakfast.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "breakfast--egg-white-omelette.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Breakfast",
+    "name": "Masala omelette",
+    "price": 250,
+    "description": "Onion, tomato, chilli, coriander, salad and grilled tomato",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/breakfast.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "breakfast--masala-omelette.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Breakfast",
+    "name": "Spanish omelette",
+    "price": 270,
+    "description": "Potato, onion, spinach, scallion and cheddar",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/breakfast.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "breakfast--spanish-omelette.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "French fries salted",
+    "price": 280,
+    "description": "French fries served with spicy mayo",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--french-fries-salted.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Peri Peri Fries",
+    "price": 299,
+    "description": "Served with spicy mayo",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--peri-peri-fries.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Mangosteen loaded Nachosss",
+    "price": 430,
+    "description": "Corn tortilla, refried beans, pico de gallo, guacamole, salsa and sour cream",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--mangosteen-loaded-nachosss.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Arabic Mezze",
+    "price": 449,
+    "description": "Two hummus, baba ganoush, falafel, crudités, pita and olive oil",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--arabic-mezze.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Quesadilla",
+    "price": 399,
+    "description": "Refried beans, onion, peppers, guacamole, salsa and cheese",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--quesadilla.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Falafel roll",
+    "price": 390,
+    "description": "Chickpea falafel wrap with hummus, pickled vegetables and jalapeño",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--falafel-roll.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Chicken karaage",
+    "price": 430,
+    "description": "Japanese fried chicken, cucumber, peri-peri sour cream and togarashi",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--chicken-karaage.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Hummus and chicken",
+    "price": 450,
+    "description": "Classic hummus, Arabic chicken tikka and pita bread",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--hummus-and-chicken.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Chimichuri chicken skewer",
+    "price": 449,
+    "description": "Argentinian chimichurri and romesco sauce",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--chimichuri-chicken-skewer.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Mangosteen Special Fries",
+    "price": 349,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--mangosteen-special-fries.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Mangosteen Grilled Chicken",
+    "price": 499,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--mangosteen-grilled-chicken.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Classic Nachos",
+    "price": 349,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--classic-nachos.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Small Plates",
+    "name": "Mamngosteen Grilled Chicken",
+    "price": 499,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/small-plates.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "small-plates--mamngosteen-grilled-chicken.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pasta",
+    "name": "Aglio olio peperoncino",
+    "price": 450,
+    "description": "Extra virgin olive oil, garlic, parsley and chilli flakes",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pasta.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pasta--aglio-olio-peperoncino.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pasta",
+    "name": "Arrabiata sauce",
+    "price": 460,
+    "description": "Fresh tomato sauce, chilli flakes, garlic and basil",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pasta.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pasta--arrabiata-sauce.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pasta",
+    "name": "Alfredo sauce (white)",
+    "price": 490,
+    "description": "House sauce and parmesan cheese",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pasta.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pasta--alfredo-sauce-white.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pasta",
+    "name": "Pesto cream Pasta",
+    "price": 499,
+    "description": "Basil pesto, garlic, bell pepper, zucchini and parmesan",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu/pesto-pasta.jpg",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-dish",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pasta--pesto-cream-pasta.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pasta",
+    "name": "Pink sauce",
+    "price": 480,
+    "description": "Tomato, cream, cherry tomato, chilli flakes and basil",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pasta.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pasta--pink-sauce.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pasta",
+    "name": "Mushroom Ragu",
+    "price": 520,
+    "description": "Button mushroom, leek, celery, chilli flakes and parmesan",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pasta.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pasta--mushroom-ragu.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pasta",
+    "name": "Persian gnocchi",
+    "price": 449,
+    "description": "Baked Persian-style gnocchi with pesto and parmesan",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/pasta.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pasta--persian-gnocchi.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pasta",
+    "name": "Baked Mac & Cheese",
+    "price": 449,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/pasta.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pasta--baked-mac-and-cheese.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pasta",
+    "name": "Risotto",
+    "price": 449,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/pasta.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pasta--risotto.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Pasta",
+    "name": "Lasagna",
+    "price": 499,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/pasta.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "pasta--lasagna.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Desserts",
+    "name": "Duo chocolate cheese cake",
+    "price": 399,
+    "description": "White and dark chocolate cheesecake with almond praline",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/desserts.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "desserts--duo-chocolate-cheese-cake.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Desserts",
+    "name": "Pizzokie",
+    "price": 430,
+    "description": "White chocolate, cranberry and walnut",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/desserts.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "desserts--pizzokie.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Desserts",
+    "name": "Brownie With Icecream",
+    "price": 275,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/desserts.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "desserts--brownie-with-icecream.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Desserts",
+    "name": "Chocolate Cheesecake",
+    "price": 390,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu/chocolate-cheesecake.jpg",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-dish",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "desserts--chocolate-cheesecake.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Desserts",
+    "name": "Tres Leches",
+    "price": 395,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/desserts.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "desserts--tres-leches.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Thai green curry (Veg)",
+    "price": 530,
+    "description": "Vegetable Thai green coconut curry with jasmine rice",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--thai-green-curry-veg.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Phad Thai (Veg)",
+    "price": 510,
+    "description": "Rice noodle, onion, bean sprout, oyster and tamarind sauce, chilli flakes and peanut",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--phad-thai-veg.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Saute exotic Paneer",
+    "price": 520,
+    "description": "Pesto-tossed paneer, warm quinoa salad and lemon",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--saute-exotic-paneer.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Saute exotic vegetable",
+    "price": 470,
+    "description": "Pesto-tossed vegetables, warm quinoa salad and lemon",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--saute-exotic-vegetable.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Burrito Bowl",
+    "price": 520,
+    "description": "Mexican rice, tossed vegetable, refried beans, guacamole, salsa and sour cream",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--burrito-bowl.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Grilled Fish",
+    "price": 499,
+    "description": "River sole, spinach, potato, herb-oil lemon butter and lemon wedge",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--grilled-fish.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Herb Grilled Chicken",
+    "price": 610,
+    "description": "Herb-grilled chicken breast, cheesy mash, green vegetables and herb jus",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--herb-grilled-chicken.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Phad Thai ( Chicken)",
+    "price": 550,
+    "description": "Chicken, rice noodle, onion, bean sprout, oyster and tamarind sauce, chilli and peanut",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--phad-thai-chicken.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Thai green curry (Chicken)",
+    "price": 630,
+    "description": "Chicken Thai green coconut curry with jasmine rice",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--thai-green-curry-chicken.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Thai green curry (Prawn)",
+    "price": 750,
+    "description": "Prawn Thai green coconut curry with jasmine rice",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--thai-green-curry-prawn.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Chicken Ghee Roast ( MANGOSTEEN)",
+    "price": 499,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--chicken-ghee-roast-mangosteen.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Water Chestnut",
+    "price": 449,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--water-chestnut.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Crispy Lotus Stem",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--crispy-lotus-stem.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Andhra Chilli Chicken",
+    "price": 499,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--andhra-chilli-chicken.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Chilli Chicken",
+    "price": 499,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--chilli-chicken.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Thai Grilled Chicken",
+    "price": 580,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--thai-grilled-chicken.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Butter Khichdi",
+    "price": 390,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--butter-khichdi.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Veg Hakka Noodles",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--veg-hakka-noodles.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Schezwan Noodles",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--schezwan-noodles.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Chilli Garlic Noodles",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--chilli-garlic-noodles.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Veg Biryani",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--veg-biryani.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Veg Fried Rice",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--veg-fried-rice.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Chicken Biryani",
+    "price": 499,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--chicken-biryani.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Lahsuni Palak",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--lahsuni-palak.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Chicken Kadhai",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--chicken-kadhai.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Paneer Makhani",
+    "price": 449,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--paneer-makhani.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Chicken Makhanwala",
+    "price": 449,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--chicken-makhanwala.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Chicken Curry",
+    "price": 449,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--chicken-curry.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Butter Pav Bhaji",
+    "price": 449,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--butter-pav-bhaji.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Paneer Lababdar.",
+    "price": 449,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--paneer-lababdar.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Dal Makhani",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--dal-makhani.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Classic Mix Veg",
+    "price": 399,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--classic-mix-veg.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Extra Paratha",
+    "price": 39,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--extra-paratha.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Main Course",
+    "name": "Andhra Chilli Paneer",
+    "price": 449,
+    "description": "",
+    "descriptionStatus": "Missing verified description; none invented",
+    "currentPhoto": "/images/menu-ai/main-course.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "main-course--andhra-chilli-paneer.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Soup",
+    "name": "Classic Tomato & Fennel",
+    "price": 270,
+    "description": "Fresh tomato, fennel, star anise and parmesan",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/soup.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "soup--classic-tomato-and-fennel.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Soup",
+    "name": "Thai coconut soup (Veg)",
+    "price": 310,
+    "description": "Lemongrass, galangal, kaffir lime, chilli, cherry tomato, coconut milk and lime",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/soup.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "soup--thai-coconut-soup-veg.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Soup",
+    "name": "Mushroom & artichoke soup",
+    "price": 310,
+    "description": "Button mushroom, leek, thyme, cream and truffle oil",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/soup.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "soup--mushroom-and-artichoke-soup.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  },
+  {
+    "category": "Soup",
+    "name": "Thai coconut soup ( Chicken)",
+    "price": 410,
+    "description": "Chicken, lemongrass, galangal, kaffir lime, chilli, cherry tomato, coconut milk and lime",
+    "descriptionStatus": "Existing catalogue description retained",
+    "currentPhoto": "/images/menu-ai/soup.webp",
+    "photoStatus": {
+      "genuine": false,
+      "kind": "illustrative-category",
+      "requiresOriginal": true
+    },
+    "requiredPhoto": "soup--thai-coconut-soup-chicken.webp",
+    "requiredSourceDimensions": "At least 2400 x 2400; entire actual serving, natural colour, unclipped plate; derivative crops for current containers",
+    "dietaryStatus": "Not supplied in shared catalogue; no classification guessed",
+    "menuVerification": "Existing 131-item published snapshot retained byte-for-byte. Current owner price/recipe confirmation not available."
+  }
+]

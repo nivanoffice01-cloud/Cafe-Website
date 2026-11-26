@@ -1,0 +1,30 @@
+{
+  "checkedOn": "2026-11-26",
+  "listing": {
+    "url": "https://www.zomato.com/indore/mangosteen-cafe-by-pass-road-north",
+    "address": "Olympus, Bicholi Mardana, near Mayank Blue Water Park, Indore",
+    "phone": "+919238806060",
+    "hours": "11am\u201311pm shown on primary listing; daily schedule corroborated by secondary listing",
+    "mapsDestination": "22.706144,75.924299",
+    "diningRating": "4.5",
+    "diningRatingCount": 1227,
+    "approximateCost": "\u20b9800 for two"
+  },
+  "companySocial": {
+    "url": "https://in.linkedin.com/company/mangosteencafe",
+    "basis": "Company page identifies Mangosteen Caf\u00e9 at Olympus Sports, Bicholi Mardana Road, Indore"
+  },
+  "otherPublicHours": "https://indiarestros.com/r/mangosteen-cafe-bhichaulimardana-2hgmr68h2t",
+  "unknown": [
+    "Owner-approved current menu/recipes/prices",
+    "Dietary/allergen metadata",
+    "Confirmed email/Instagram",
+    "Actual table IDs/capacities/floor plan"
+  ],
+  "sourceLimitations": [
+    "Public listing information is not a phone verification or owner confirmation",
+    "Menu endpoint returned 403; scanned primary menus were not machine-readable",
+    "The supplied existing Vercel page could not be fetched by the web tool"
+  ],
+  "menuPolicy": "Existing 131-item snapshot preserved; no current prices fabricated"
+}

@@ -1,0 +1,12 @@
+{
+  "baselineFiles": 83,
+  "unchangedFiles": 79,
+  "authorizedContentFilesChanged": [
+    "src/pages/MenuExperiencePage.tsx",
+    "index.html",
+    "src/data/cafe.ts",
+    "src/data/menuPhotos.ts"
+  ],
+  "reservationAndSeatingSourceUnchanged": true,
+  "backendApiAuthenticationAndCRMUnchanged": true
+}

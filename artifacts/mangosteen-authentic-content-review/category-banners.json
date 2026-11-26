@@ -1,0 +1,106 @@
+[
+  {
+    "category": "Shakes",
+    "currentBanner": "/images/menu-ai/shakes.webp",
+    "requiredPhoto": "category-shakes-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 5
+  },
+  {
+    "category": "Juice",
+    "currentBanner": "/images/menu-ai/juice.webp",
+    "requiredPhoto": "category-juice-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 9
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "currentBanner": "/images/menu-ai/mocktails.webp",
+    "requiredPhoto": "category-mocktail-and-coolers-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 7
+  },
+  {
+    "category": "Iced Tea",
+    "currentBanner": "/images/menu-ai/iced-tea.webp",
+    "requiredPhoto": "category-iced-tea-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 2
+  },
+  {
+    "category": "Salad",
+    "currentBanner": "/images/menu-ai/salad.webp",
+    "requiredPhoto": "category-salad-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 6
+  },
+  {
+    "category": "Pizza & Pide",
+    "currentBanner": "/images/menu-ai/pizza-pide.webp",
+    "requiredPhoto": "category-pizza-and-pide-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 15
+  },
+  {
+    "category": "Burger & sandwich",
+    "currentBanner": "/images/menu-ai/burgers-sandwiches.webp",
+    "requiredPhoto": "category-burger-and-sandwich-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 13
+  },
+  {
+    "category": "Breakfast",
+    "currentBanner": "/images/menu-ai/breakfast.webp",
+    "requiredPhoto": "category-breakfast-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 8
+  },
+  {
+    "category": "Small Plates",
+    "currentBanner": "/images/menu-ai/small-plates.webp",
+    "requiredPhoto": "category-small-plates-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 13
+  },
+  {
+    "category": "Pasta",
+    "currentBanner": "/images/menu-ai/pasta.webp",
+    "requiredPhoto": "category-pasta-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 10
+  },
+  {
+    "category": "Desserts",
+    "currentBanner": "/images/menu-ai/desserts.webp",
+    "requiredPhoto": "category-desserts-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 5
+  },
+  {
+    "category": "Main Course",
+    "currentBanner": "/images/menu-ai/main-course.webp",
+    "requiredPhoto": "category-main-course-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 34
+  },
+  {
+    "category": "Soup",
+    "currentBanner": "/images/menu-ai/soup.webp",
+    "requiredPhoto": "category-soup-banner.webp",
+    "dimensions": "1920 x 1200, with actual dishes in this category and space for the existing left-aligned title",
+    "status": "Genuine category food photograph missing; existing distinct illustration retained temporarily",
+    "itemCount": 4
+  }
+]
