@@ -1,0 +1,884 @@
+{
+  "Shakes|Berries shakes": {
+    "src": "/images/menu-dishes/berries-shakes-9d2c4902-800.webp",
+    "srcSet": "/images/menu-dishes/berries-shakes-9d2c4902-320.webp 320w, /images/menu-dishes/berries-shakes-9d2c4902-800.webp 800w",
+    "alt": "AI-generated illustration of Berries shakes; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Shakes|Nutella & biscoff": {
+    "src": "/images/menu-dishes/nutella-biscoff-d7c98957-800.webp",
+    "srcSet": "/images/menu-dishes/nutella-biscoff-d7c98957-320.webp 320w, /images/menu-dishes/nutella-biscoff-d7c98957-800.webp 800w",
+    "alt": "AI-generated illustration of Nutella & biscoff; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Shakes|Fresh Fruit Shake": {
+    "src": "/images/menu-dishes/fresh-fruit-shake-44e70d41-800.webp",
+    "srcSet": "/images/menu-dishes/fresh-fruit-shake-44e70d41-320.webp 320w, /images/menu-dishes/fresh-fruit-shake-44e70d41-800.webp 800w",
+    "alt": "AI-generated illustration of Fresh Fruit Shake; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Shakes|Oreo Shake": {
+    "src": "/images/menu-dishes/oreo-shake-d8917a8e-800.webp",
+    "srcSet": "/images/menu-dishes/oreo-shake-d8917a8e-320.webp 320w, /images/menu-dishes/oreo-shake-d8917a8e-800.webp 800w",
+    "alt": "AI-generated illustration of Oreo Shake; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Shakes|Kit-kat shake": {
+    "src": "/images/menu-dishes/kit-kat-shake-7ebff217-800.webp",
+    "srcSet": "/images/menu-dishes/kit-kat-shake-7ebff217-320.webp 320w, /images/menu-dishes/kit-kat-shake-7ebff217-800.webp 800w",
+    "alt": "AI-generated illustration of Kit-kat shake; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Juice|Cheffy favorites": {
+    "src": "/images/menu-dishes/cheffy-favorites-152b56c7-800.webp",
+    "srcSet": "/images/menu-dishes/cheffy-favorites-152b56c7-320.webp 320w, /images/menu-dishes/cheffy-favorites-152b56c7-800.webp 800w",
+    "alt": "AI-generated illustration of Cheffy favorites; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Juice|Mangosteen Special": {
+    "src": "/images/menu-dishes/mangosteen-special-08325f5c-800.webp",
+    "srcSet": "/images/menu-dishes/mangosteen-special-08325f5c-320.webp 320w, /images/menu-dishes/mangosteen-special-08325f5c-800.webp 800w",
+    "alt": "AI-generated illustration of Mangosteen Special; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Juice|Weightlessness": {
+    "src": "/images/menu-dishes/weightlessness-9c9af96f-800.webp",
+    "srcSet": "/images/menu-dishes/weightlessness-9c9af96f-320.webp 320w, /images/menu-dishes/weightlessness-9c9af96f-800.webp 800w",
+    "alt": "AI-generated illustration of Weightlessness; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Juice|Wake up call": {
+    "src": "/images/menu-dishes/wake-up-call-fbb9dca6-800.webp",
+    "srcSet": "/images/menu-dishes/wake-up-call-fbb9dca6-320.webp 320w, /images/menu-dishes/wake-up-call-fbb9dca6-800.webp 800w",
+    "alt": "AI-generated illustration of Wake up call; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Juice|Good Moving": {
+    "src": "/images/menu-dishes/good-moving-635b2058-800.webp",
+    "srcSet": "/images/menu-dishes/good-moving-635b2058-320.webp 320w, /images/menu-dishes/good-moving-635b2058-800.webp 800w",
+    "alt": "AI-generated illustration of Good Moving; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Juice|Cooler": {
+    "src": "/images/menu-dishes/cooler-ec77fbe2-800.webp",
+    "srcSet": "/images/menu-dishes/cooler-ec77fbe2-320.webp 320w, /images/menu-dishes/cooler-ec77fbe2-800.webp 800w",
+    "alt": "AI-generated illustration of Cooler; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Juice|Abc": {
+    "src": "/images/menu-dishes/abc-bced90f8-800.webp",
+    "srcSet": "/images/menu-dishes/abc-bced90f8-320.webp 320w, /images/menu-dishes/abc-bced90f8-800.webp 800w",
+    "alt": "AI-generated illustration of Abc; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Juice|Orange Juice": {
+    "src": "/images/menu-dishes/orange-juice-b84a62bb-800.webp",
+    "srcSet": "/images/menu-dishes/orange-juice-b84a62bb-320.webp 320w, /images/menu-dishes/orange-juice-b84a62bb-800.webp 800w",
+    "alt": "AI-generated illustration of Orange Juice; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Juice|Pineapple Juice": {
+    "src": "/images/menu-dishes/pineapple-juice-999bb764-800.webp",
+    "srcSet": "/images/menu-dishes/pineapple-juice-999bb764-320.webp 320w, /images/menu-dishes/pineapple-juice-999bb764-800.webp 800w",
+    "alt": "AI-generated illustration of Pineapple Juice; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Mocktail & Coolers|Cola gola": {
+    "src": "/images/menu-dishes/cola-gola-3ab65912-800.webp",
+    "srcSet": "/images/menu-dishes/cola-gola-3ab65912-320.webp 320w, /images/menu-dishes/cola-gola-3ab65912-800.webp 800w",
+    "alt": "AI-generated illustration of Cola gola; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Mocktail & Coolers|Cuban Mojito": {
+    "src": "/images/menu-dishes/cuban-mojito-e6d23f3b-800.webp",
+    "srcSet": "/images/menu-dishes/cuban-mojito-e6d23f3b-320.webp 320w, /images/menu-dishes/cuban-mojito-e6d23f3b-800.webp 800w",
+    "alt": "AI-generated illustration of Cuban Mojito; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Mocktail & Coolers|Tikhi peru": {
+    "src": "/images/menu-dishes/tikhi-peru-0b60f632-800.webp",
+    "srcSet": "/images/menu-dishes/tikhi-peru-0b60f632-320.webp 320w, /images/menu-dishes/tikhi-peru-0b60f632-800.webp 800w",
+    "alt": "AI-generated illustration of Tikhi peru; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Mocktail & Coolers|Kiwi mojito": {
+    "src": "/images/menu-dishes/kiwi-mojito-52f4bbac-800.webp",
+    "srcSet": "/images/menu-dishes/kiwi-mojito-52f4bbac-320.webp 320w, /images/menu-dishes/kiwi-mojito-52f4bbac-800.webp 800w",
+    "alt": "AI-generated illustration of Kiwi mojito; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Mocktail & Coolers|Watermelon mojito": {
+    "src": "/images/menu-dishes/watermelon-mojito-5bac9815-800.webp",
+    "srcSet": "/images/menu-dishes/watermelon-mojito-5bac9815-320.webp 320w, /images/menu-dishes/watermelon-mojito-5bac9815-800.webp 800w",
+    "alt": "AI-generated illustration of Watermelon mojito; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Mocktail & Coolers|Malta mojito": {
+    "src": "/images/menu-dishes/malta-mojito-94e02a46-800.webp",
+    "srcSet": "/images/menu-dishes/malta-mojito-94e02a46-320.webp 320w, /images/menu-dishes/malta-mojito-94e02a46-800.webp 800w",
+    "alt": "AI-generated illustration of Malta mojito; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Iced Tea|Peach Iced Tea": {
+    "src": "/images/menu-dishes/peach-iced-tea-f4d69671-800.webp",
+    "srcSet": "/images/menu-dishes/peach-iced-tea-f4d69671-320.webp 320w, /images/menu-dishes/peach-iced-tea-f4d69671-800.webp 800w",
+    "alt": "AI-generated illustration of Peach Iced Tea; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Iced Tea|Lemon Iced Tea": {
+    "src": "/images/menu-dishes/lemon-iced-tea-a401eaed-800.webp",
+    "srcSet": "/images/menu-dishes/lemon-iced-tea-a401eaed-320.webp 320w, /images/menu-dishes/lemon-iced-tea-a401eaed-800.webp 800w",
+    "alt": "AI-generated illustration of Lemon Iced Tea; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Salad|Burrata & tomato salad": {
+    "src": "/images/menu-dishes/burrata-tomato-salad-59b4263b-800.webp",
+    "srcSet": "/images/menu-dishes/burrata-tomato-salad-59b4263b-320.webp 320w, /images/menu-dishes/burrata-tomato-salad-59b4263b-800.webp 800w",
+    "alt": "AI-generated illustration of Burrata & tomato salad; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Salad|Greek salad": {
+    "src": "/images/menu-dishes/greek-salad-6f687cf8-800.webp",
+    "srcSet": "/images/menu-dishes/greek-salad-6f687cf8-320.webp 320w, /images/menu-dishes/greek-salad-6f687cf8-800.webp 800w",
+    "alt": "AI-generated illustration of Greek salad; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Salad|Beetroot Tabbouleh": {
+    "src": "/images/menu-dishes/beetroot-tabbouleh-aca78558-800.webp",
+    "srcSet": "/images/menu-dishes/beetroot-tabbouleh-aca78558-320.webp 320w, /images/menu-dishes/beetroot-tabbouleh-aca78558-800.webp 800w",
+    "alt": "AI-generated illustration of Beetroot Tabbouleh; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Salad|Classic Caesar": {
+    "src": "/images/menu-dishes/classic-caesar-633b14b2-800.webp",
+    "srcSet": "/images/menu-dishes/classic-caesar-633b14b2-320.webp 320w, /images/menu-dishes/classic-caesar-633b14b2-800.webp 800w",
+    "alt": "AI-generated illustration of Classic Caesar; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Salad|Organic quinoa": {
+    "src": "/images/menu-dishes/organic-quinoa-eb93f3ff-800.webp",
+    "srcSet": "/images/menu-dishes/organic-quinoa-eb93f3ff-320.webp 320w, /images/menu-dishes/organic-quinoa-eb93f3ff-800.webp 800w",
+    "alt": "AI-generated illustration of Organic quinoa; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Salad|Sprout Salad": {
+    "src": "/images/menu-dishes/sprout-salad-43427578-800.webp",
+    "srcSet": "/images/menu-dishes/sprout-salad-43427578-320.webp 320w, /images/menu-dishes/sprout-salad-43427578-800.webp 800w",
+    "alt": "AI-generated illustration of Sprout Salad; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Peri-Peri Paneer": {
+    "src": "/images/menu-dishes/peri-peri-paneer-7bc4bd30-800.webp",
+    "srcSet": "/images/menu-dishes/peri-peri-paneer-7bc4bd30-320.webp 320w, /images/menu-dishes/peri-peri-paneer-7bc4bd30-800.webp 800w",
+    "alt": "AI-generated illustration of Peri-Peri Paneer; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Burrata pizza": {
+    "src": "/images/menu-dishes/burrata-pizza-7cb15c42-800.webp",
+    "srcSet": "/images/menu-dishes/burrata-pizza-7cb15c42-320.webp 320w, /images/menu-dishes/burrata-pizza-7cb15c42-800.webp 800w",
+    "alt": "AI-generated illustration of Burrata pizza; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|4 Cheese Pizza": {
+    "src": "/images/menu-dishes/4-cheese-pizza-cd037c50-800.webp",
+    "srcSet": "/images/menu-dishes/4-cheese-pizza-cd037c50-320.webp 320w, /images/menu-dishes/4-cheese-pizza-cd037c50-800.webp 800w",
+    "alt": "AI-generated illustration of 4 Cheese Pizza; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Sicilia": {
+    "src": "/images/menu-dishes/sicilia-1665a87f-800.webp",
+    "srcSet": "/images/menu-dishes/sicilia-1665a87f-320.webp 320w, /images/menu-dishes/sicilia-1665a87f-800.webp 800w",
+    "alt": "AI-generated illustration of Sicilia; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Pesto pizza": {
+    "src": "/images/menu-dishes/pesto-pizza-b89761a1-800.webp",
+    "srcSet": "/images/menu-dishes/pesto-pizza-b89761a1-320.webp 320w, /images/menu-dishes/pesto-pizza-b89761a1-800.webp 800w",
+    "alt": "AI-generated illustration of Pesto pizza; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Creamy Spinach pizza": {
+    "src": "/images/menu-dishes/creamy-spinach-pizza-cd27b8c1-800.webp",
+    "srcSet": "/images/menu-dishes/creamy-spinach-pizza-cd27b8c1-320.webp 320w, /images/menu-dishes/creamy-spinach-pizza-cd27b8c1-800.webp 800w",
+    "alt": "AI-generated illustration of Creamy Spinach pizza; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Mediterranean pizza": {
+    "src": "/images/menu-dishes/mediterranean-pizza-db073f87-800.webp",
+    "srcSet": "/images/menu-dishes/mediterranean-pizza-db073f87-320.webp 320w, /images/menu-dishes/mediterranean-pizza-db073f87-800.webp 800w",
+    "alt": "AI-generated illustration of Mediterranean pizza; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Ortolano": {
+    "src": "/images/menu-dishes/ortolano-fe8d7a31-800.webp",
+    "srcSet": "/images/menu-dishes/ortolano-fe8d7a31-320.webp 320w, /images/menu-dishes/ortolano-fe8d7a31-800.webp 800w",
+    "alt": "AI-generated illustration of Ortolano; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Di Bianca": {
+    "src": "/images/menu-dishes/di-bianca-705f6c5f-800.webp",
+    "srcSet": "/images/menu-dishes/di-bianca-705f6c5f-320.webp 320w, /images/menu-dishes/di-bianca-705f6c5f-800.webp 800w",
+    "alt": "AI-generated illustration of Di Bianca; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Chicken pepperoni": {
+    "src": "/images/menu-dishes/chicken-pepperoni-f727acd6-800.webp",
+    "srcSet": "/images/menu-dishes/chicken-pepperoni-f727acd6-320.webp 320w, /images/menu-dishes/chicken-pepperoni-f727acd6-800.webp 800w",
+    "alt": "AI-generated illustration of Chicken pepperoni; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Chicken Keema": {
+    "src": "/images/menu-dishes/chicken-keema-d5fd395d-800.webp",
+    "srcSet": "/images/menu-dishes/chicken-keema-d5fd395d-320.webp 320w, /images/menu-dishes/chicken-keema-d5fd395d-800.webp 800w",
+    "alt": "AI-generated illustration of Chicken Keema; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Farm Fresh": {
+    "src": "/images/menu-dishes/farm-fresh-8ea55ad8-800.webp",
+    "srcSet": "/images/menu-dishes/farm-fresh-8ea55ad8-320.webp 320w, /images/menu-dishes/farm-fresh-8ea55ad8-800.webp 800w",
+    "alt": "AI-generated illustration of Farm Fresh; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Smok Chicken Pizza": {
+    "src": "/images/menu-dishes/smok-chicken-pizza-5d5ea23f-800.webp",
+    "srcSet": "/images/menu-dishes/smok-chicken-pizza-5d5ea23f-320.webp 320w, /images/menu-dishes/smok-chicken-pizza-5d5ea23f-800.webp 800w",
+    "alt": "AI-generated illustration of Smok Chicken Pizza; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pizza & Pide|Chicken Makhani Pizza": {
+    "src": "/images/menu-dishes/chicken-makhani-pizza-cafc3b9d-800.webp",
+    "srcSet": "/images/menu-dishes/chicken-makhani-pizza-cafc3b9d-320.webp 320w, /images/menu-dishes/chicken-makhani-pizza-cafc3b9d-800.webp 800w",
+    "alt": "AI-generated illustration of Chicken Makhani Pizza; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Hummus and saute vegetable sandwich": {
+    "src": "/images/menu-dishes/hummus-and-saute-vegetable-sandwich-cbc3147a-800.webp",
+    "srcSet": "/images/menu-dishes/hummus-and-saute-vegetable-sandwich-cbc3147a-320.webp 320w, /images/menu-dishes/hummus-and-saute-vegetable-sandwich-cbc3147a-800.webp 800w",
+    "alt": "AI-generated illustration of Hummus and saute vegetable sandwich; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Bbq Chicken Sendwich": {
+    "src": "/images/menu-dishes/bbq-chicken-sendwich-47c9cb3d-800.webp",
+    "srcSet": "/images/menu-dishes/bbq-chicken-sendwich-47c9cb3d-320.webp 320w, /images/menu-dishes/bbq-chicken-sendwich-47c9cb3d-800.webp 800w",
+    "alt": "AI-generated illustration of Bbq Chicken Sendwich; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Mexican veg burger": {
+    "src": "/images/menu-dishes/mexican-veg-burger-253cf2c2-800.webp",
+    "srcSet": "/images/menu-dishes/mexican-veg-burger-253cf2c2-320.webp 320w, /images/menu-dishes/mexican-veg-burger-253cf2c2-800.webp 800w",
+    "alt": "AI-generated illustration of Mexican veg burger; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Mangosteen chicken burger": {
+    "src": "/images/menu-dishes/mangosteen-chicken-burger-cd23aac8-800.webp",
+    "srcSet": "/images/menu-dishes/mangosteen-chicken-burger-cd23aac8-320.webp 320w, /images/menu-dishes/mangosteen-chicken-burger-cd23aac8-800.webp 800w",
+    "alt": "AI-generated illustration of Mangosteen chicken burger; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Pulled chicken burger": {
+    "src": "/images/menu-dishes/pulled-chicken-burger-28621f68-800.webp",
+    "srcSet": "/images/menu-dishes/pulled-chicken-burger-28621f68-320.webp 320w, /images/menu-dishes/pulled-chicken-burger-28621f68-800.webp 800w",
+    "alt": "AI-generated illustration of Pulled chicken burger; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Add cheese": {
+    "src": "/images/menu-dishes/add-cheese-f3b5598a-800.webp",
+    "srcSet": "/images/menu-dishes/add-cheese-f3b5598a-320.webp 320w, /images/menu-dishes/add-cheese-f3b5598a-800.webp 800w",
+    "alt": "AI-generated illustration of Add cheese; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Avocado Open Sendwich": {
+    "src": "/images/menu-dishes/avocado-open-sendwich-190c077d-800.webp",
+    "srcSet": "/images/menu-dishes/avocado-open-sendwich-190c077d-320.webp 320w, /images/menu-dishes/avocado-open-sendwich-190c077d-800.webp 800w",
+    "alt": "AI-generated illustration of Avocado Open Sendwich; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Herb Avocado Bruschetta": {
+    "src": "/images/menu-dishes/herb-avocado-bruschetta-592709a6-800.webp",
+    "srcSet": "/images/menu-dishes/herb-avocado-bruschetta-592709a6-320.webp 320w, /images/menu-dishes/herb-avocado-bruschetta-592709a6-800.webp 800w",
+    "alt": "AI-generated illustration of Herb Avocado Bruschetta; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Cold Bruschetta": {
+    "src": "/images/menu-dishes/cold-bruschetta-61f4f410-800.webp",
+    "srcSet": "/images/menu-dishes/cold-bruschetta-61f4f410-320.webp 320w, /images/menu-dishes/cold-bruschetta-61f4f410-800.webp 800w",
+    "alt": "AI-generated illustration of Cold Bruschetta; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Classic Bruschetta": {
+    "src": "/images/menu-dishes/classic-bruschetta-dd8e6dbb-800.webp",
+    "srcSet": "/images/menu-dishes/classic-bruschetta-dd8e6dbb-320.webp 320w, /images/menu-dishes/classic-bruschetta-dd8e6dbb-800.webp 800w",
+    "alt": "AI-generated illustration of Classic Bruschetta; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Bbq Chicken Burger": {
+    "src": "/images/menu-dishes/bbq-chicken-burger-4ac9d8f8-800.webp",
+    "srcSet": "/images/menu-dishes/bbq-chicken-burger-4ac9d8f8-320.webp 320w, /images/menu-dishes/bbq-chicken-burger-4ac9d8f8-800.webp 800w",
+    "alt": "AI-generated illustration of Bbq Chicken Burger; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Burger & sandwich|Classic Chicken Sendwich": {
+    "src": "/images/menu-dishes/classic-chicken-sendwich-2c8b642c-v2-800.webp",
+    "srcSet": "/images/menu-dishes/classic-chicken-sendwich-2c8b642c-v2-320.webp 320w, /images/menu-dishes/classic-chicken-sendwich-2c8b642c-v2-800.webp 800w",
+    "alt": "AI-generated illustration of Classic Chicken Sendwich; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Breakfast|Garlic bread": {
+    "src": "/images/menu-dishes/garlic-bread-c9855a97-800.webp",
+    "srcSet": "/images/menu-dishes/garlic-bread-c9855a97-320.webp 320w, /images/menu-dishes/garlic-bread-c9855a97-800.webp 800w",
+    "alt": "AI-generated illustration of Garlic bread; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Breakfast|Sprout moonglet": {
+    "src": "/images/menu-dishes/sprout-moonglet-8155a4b0-800.webp",
+    "srcSet": "/images/menu-dishes/sprout-moonglet-8155a4b0-320.webp 320w, /images/menu-dishes/sprout-moonglet-8155a4b0-800.webp 800w",
+    "alt": "AI-generated illustration of Sprout moonglet; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Breakfast|Acai Bowl": {
+    "src": "/images/menu-dishes/acai-bowl-8513bdab-800.webp",
+    "srcSet": "/images/menu-dishes/acai-bowl-8513bdab-320.webp 320w, /images/menu-dishes/acai-bowl-8513bdab-800.webp 800w",
+    "alt": "AI-generated illustration of Acai Bowl; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Breakfast|Chia seed pudding": {
+    "src": "/images/menu-dishes/chia-seed-pudding-88053996-800.webp",
+    "srcSet": "/images/menu-dishes/chia-seed-pudding-88053996-320.webp 320w, /images/menu-dishes/chia-seed-pudding-88053996-800.webp 800w",
+    "alt": "AI-generated illustration of Chia seed pudding; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Breakfast|Cheese omelette": {
+    "src": "/images/menu-dishes/cheese-omelette-673f0592-800.webp",
+    "srcSet": "/images/menu-dishes/cheese-omelette-673f0592-320.webp 320w, /images/menu-dishes/cheese-omelette-673f0592-800.webp 800w",
+    "alt": "AI-generated illustration of Cheese omelette; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Breakfast|Egg white omelette": {
+    "src": "/images/menu-dishes/egg-white-omelette-a8054adf-800.webp",
+    "srcSet": "/images/menu-dishes/egg-white-omelette-a8054adf-320.webp 320w, /images/menu-dishes/egg-white-omelette-a8054adf-800.webp 800w",
+    "alt": "AI-generated illustration of Egg white omelette; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Breakfast|Masala omelette": {
+    "src": "/images/menu-dishes/masala-omelette-ad466529-800.webp",
+    "srcSet": "/images/menu-dishes/masala-omelette-ad466529-320.webp 320w, /images/menu-dishes/masala-omelette-ad466529-800.webp 800w",
+    "alt": "AI-generated illustration of Masala omelette; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Breakfast|Spanish omelette": {
+    "src": "/images/menu-dishes/spanish-omelette-a892a22d-800.webp",
+    "srcSet": "/images/menu-dishes/spanish-omelette-a892a22d-320.webp 320w, /images/menu-dishes/spanish-omelette-a892a22d-800.webp 800w",
+    "alt": "AI-generated illustration of Spanish omelette; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|French fries salted": {
+    "src": "/images/menu-dishes/french-fries-salted-ed87126b-800.webp",
+    "srcSet": "/images/menu-dishes/french-fries-salted-ed87126b-320.webp 320w, /images/menu-dishes/french-fries-salted-ed87126b-800.webp 800w",
+    "alt": "AI-generated illustration of French fries salted; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Peri Peri Fries": {
+    "src": "/images/menu-dishes/peri-peri-fries-0d31eb6e-800.webp",
+    "srcSet": "/images/menu-dishes/peri-peri-fries-0d31eb6e-320.webp 320w, /images/menu-dishes/peri-peri-fries-0d31eb6e-800.webp 800w",
+    "alt": "AI-generated illustration of Peri Peri Fries; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Mangosteen loaded Nachosss": {
+    "src": "/images/menu-dishes/mangosteen-loaded-nachosss-3cd70d3a-800.webp",
+    "srcSet": "/images/menu-dishes/mangosteen-loaded-nachosss-3cd70d3a-320.webp 320w, /images/menu-dishes/mangosteen-loaded-nachosss-3cd70d3a-800.webp 800w",
+    "alt": "AI-generated illustration of Mangosteen loaded Nachosss; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Arabic Mezze": {
+    "src": "/images/menu-dishes/arabic-mezze-72721c32-800.webp",
+    "srcSet": "/images/menu-dishes/arabic-mezze-72721c32-320.webp 320w, /images/menu-dishes/arabic-mezze-72721c32-800.webp 800w",
+    "alt": "AI-generated illustration of Arabic Mezze; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Quesadilla": {
+    "src": "/images/menu-dishes/quesadilla-a769b676-800.webp",
+    "srcSet": "/images/menu-dishes/quesadilla-a769b676-320.webp 320w, /images/menu-dishes/quesadilla-a769b676-800.webp 800w",
+    "alt": "AI-generated illustration of Quesadilla; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Falafel roll": {
+    "src": "/images/menu-dishes/falafel-roll-3966daa9-800.webp",
+    "srcSet": "/images/menu-dishes/falafel-roll-3966daa9-320.webp 320w, /images/menu-dishes/falafel-roll-3966daa9-800.webp 800w",
+    "alt": "AI-generated illustration of Falafel roll; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Chicken karaage": {
+    "src": "/images/menu-dishes/chicken-karaage-c9732803-800.webp",
+    "srcSet": "/images/menu-dishes/chicken-karaage-c9732803-320.webp 320w, /images/menu-dishes/chicken-karaage-c9732803-800.webp 800w",
+    "alt": "AI-generated illustration of Chicken karaage; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Hummus and chicken": {
+    "src": "/images/menu-dishes/hummus-and-chicken-ae635b69-800.webp",
+    "srcSet": "/images/menu-dishes/hummus-and-chicken-ae635b69-320.webp 320w, /images/menu-dishes/hummus-and-chicken-ae635b69-800.webp 800w",
+    "alt": "AI-generated illustration of Hummus and chicken; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Chimichuri chicken skewer": {
+    "src": "/images/menu-dishes/chimichuri-chicken-skewer-9b30fd61-800.webp",
+    "srcSet": "/images/menu-dishes/chimichuri-chicken-skewer-9b30fd61-320.webp 320w, /images/menu-dishes/chimichuri-chicken-skewer-9b30fd61-800.webp 800w",
+    "alt": "AI-generated illustration of Chimichuri chicken skewer; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Mangosteen Special Fries": {
+    "src": "/images/menu-dishes/mangosteen-special-fries-b140ff70-800.webp",
+    "srcSet": "/images/menu-dishes/mangosteen-special-fries-b140ff70-320.webp 320w, /images/menu-dishes/mangosteen-special-fries-b140ff70-800.webp 800w",
+    "alt": "AI-generated illustration of Mangosteen Special Fries; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Mangosteen Grilled Chicken": {
+    "src": "/images/menu-dishes/mangosteen-grilled-chicken-33d8184e-800.webp",
+    "srcSet": "/images/menu-dishes/mangosteen-grilled-chicken-33d8184e-320.webp 320w, /images/menu-dishes/mangosteen-grilled-chicken-33d8184e-800.webp 800w",
+    "alt": "AI-generated illustration of Mangosteen Grilled Chicken; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Classic Nachos": {
+    "src": "/images/menu-dishes/classic-nachos-9e1cefdf-800.webp",
+    "srcSet": "/images/menu-dishes/classic-nachos-9e1cefdf-320.webp 320w, /images/menu-dishes/classic-nachos-9e1cefdf-800.webp 800w",
+    "alt": "AI-generated illustration of Classic Nachos; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Small Plates|Mamngosteen Grilled Chicken": {
+    "src": "/images/menu-dishes/mamngosteen-grilled-chicken-4df8f1cd-800.webp",
+    "srcSet": "/images/menu-dishes/mamngosteen-grilled-chicken-4df8f1cd-320.webp 320w, /images/menu-dishes/mamngosteen-grilled-chicken-4df8f1cd-800.webp 800w",
+    "alt": "AI-generated illustration of Mamngosteen Grilled Chicken; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pasta|Aglio olio peperoncino": {
+    "src": "/images/menu-dishes/aglio-olio-peperoncino-a16cfc96-800.webp",
+    "srcSet": "/images/menu-dishes/aglio-olio-peperoncino-a16cfc96-320.webp 320w, /images/menu-dishes/aglio-olio-peperoncino-a16cfc96-800.webp 800w",
+    "alt": "AI-generated illustration of Aglio olio peperoncino; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pasta|Arrabiata sauce": {
+    "src": "/images/menu-dishes/arrabiata-sauce-df07baf4-800.webp",
+    "srcSet": "/images/menu-dishes/arrabiata-sauce-df07baf4-320.webp 320w, /images/menu-dishes/arrabiata-sauce-df07baf4-800.webp 800w",
+    "alt": "AI-generated illustration of Arrabiata sauce; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pasta|Alfredo sauce (white)": {
+    "src": "/images/menu-dishes/alfredo-sauce-white-15a33c66-800.webp",
+    "srcSet": "/images/menu-dishes/alfredo-sauce-white-15a33c66-320.webp 320w, /images/menu-dishes/alfredo-sauce-white-15a33c66-800.webp 800w",
+    "alt": "AI-generated illustration of Alfredo sauce (white); not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pasta|Pink sauce": {
+    "src": "/images/menu-dishes/pink-sauce-2f7fd7ce-800.webp",
+    "srcSet": "/images/menu-dishes/pink-sauce-2f7fd7ce-320.webp 320w, /images/menu-dishes/pink-sauce-2f7fd7ce-800.webp 800w",
+    "alt": "AI-generated illustration of Pink sauce; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pasta|Mushroom Ragu": {
+    "src": "/images/menu-dishes/mushroom-ragu-b9cbe83c-800.webp",
+    "srcSet": "/images/menu-dishes/mushroom-ragu-b9cbe83c-320.webp 320w, /images/menu-dishes/mushroom-ragu-b9cbe83c-800.webp 800w",
+    "alt": "AI-generated illustration of Mushroom Ragu; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pasta|Persian gnocchi": {
+    "src": "/images/menu-dishes/persian-gnocchi-9b7c430d-800.webp",
+    "srcSet": "/images/menu-dishes/persian-gnocchi-9b7c430d-320.webp 320w, /images/menu-dishes/persian-gnocchi-9b7c430d-800.webp 800w",
+    "alt": "AI-generated illustration of Persian gnocchi; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pasta|Baked Mac & Cheese": {
+    "src": "/images/menu-dishes/baked-mac-cheese-6f591320-800.webp",
+    "srcSet": "/images/menu-dishes/baked-mac-cheese-6f591320-320.webp 320w, /images/menu-dishes/baked-mac-cheese-6f591320-800.webp 800w",
+    "alt": "AI-generated illustration of Baked Mac & Cheese; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pasta|Risotto": {
+    "src": "/images/menu-dishes/risotto-aea8df23-800.webp",
+    "srcSet": "/images/menu-dishes/risotto-aea8df23-320.webp 320w, /images/menu-dishes/risotto-aea8df23-800.webp 800w",
+    "alt": "AI-generated illustration of Risotto; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Pasta|Lasagna": {
+    "src": "/images/menu-dishes/lasagna-fb0435bf-800.webp",
+    "srcSet": "/images/menu-dishes/lasagna-fb0435bf-320.webp 320w, /images/menu-dishes/lasagna-fb0435bf-800.webp 800w",
+    "alt": "AI-generated illustration of Lasagna; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Desserts|Duo chocolate cheese cake": {
+    "src": "/images/menu-dishes/duo-chocolate-cheese-cake-91e8bc0e-800.webp",
+    "srcSet": "/images/menu-dishes/duo-chocolate-cheese-cake-91e8bc0e-320.webp 320w, /images/menu-dishes/duo-chocolate-cheese-cake-91e8bc0e-800.webp 800w",
+    "alt": "AI-generated illustration of Duo chocolate cheese cake; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Desserts|Pizzokie": {
+    "src": "/images/menu-dishes/pizzokie-16c2136a-800.webp",
+    "srcSet": "/images/menu-dishes/pizzokie-16c2136a-320.webp 320w, /images/menu-dishes/pizzokie-16c2136a-800.webp 800w",
+    "alt": "AI-generated illustration of Pizzokie; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Desserts|Brownie With Icecream": {
+    "src": "/images/menu-dishes/brownie-with-icecream-53376b47-800.webp",
+    "srcSet": "/images/menu-dishes/brownie-with-icecream-53376b47-320.webp 320w, /images/menu-dishes/brownie-with-icecream-53376b47-800.webp 800w",
+    "alt": "AI-generated illustration of Brownie With Icecream; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Desserts|Tres Leches": {
+    "src": "/images/menu-dishes/tres-leches-3330d1bc-800.webp",
+    "srcSet": "/images/menu-dishes/tres-leches-3330d1bc-320.webp 320w, /images/menu-dishes/tres-leches-3330d1bc-800.webp 800w",
+    "alt": "AI-generated illustration of Tres Leches; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Thai green curry (Veg)": {
+    "src": "/images/menu-dishes/thai-green-curry-veg-6907ead8-800.webp",
+    "srcSet": "/images/menu-dishes/thai-green-curry-veg-6907ead8-320.webp 320w, /images/menu-dishes/thai-green-curry-veg-6907ead8-800.webp 800w",
+    "alt": "AI-generated illustration of Thai green curry (Veg); not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Phad Thai (Veg)": {
+    "src": "/images/menu-dishes/phad-thai-veg-eff1a954-800.webp",
+    "srcSet": "/images/menu-dishes/phad-thai-veg-eff1a954-320.webp 320w, /images/menu-dishes/phad-thai-veg-eff1a954-800.webp 800w",
+    "alt": "AI-generated illustration of Phad Thai (Veg); not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Saute exotic Paneer": {
+    "src": "/images/menu-dishes/saute-exotic-paneer-80afd9f3-800.webp",
+    "srcSet": "/images/menu-dishes/saute-exotic-paneer-80afd9f3-320.webp 320w, /images/menu-dishes/saute-exotic-paneer-80afd9f3-800.webp 800w",
+    "alt": "AI-generated illustration of Saute exotic Paneer; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Saute exotic vegetable": {
+    "src": "/images/menu-dishes/saute-exotic-vegetable-9ec815c9-800.webp",
+    "srcSet": "/images/menu-dishes/saute-exotic-vegetable-9ec815c9-320.webp 320w, /images/menu-dishes/saute-exotic-vegetable-9ec815c9-800.webp 800w",
+    "alt": "AI-generated illustration of Saute exotic vegetable; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Burrito Bowl": {
+    "src": "/images/menu-dishes/burrito-bowl-6094909a-800.webp",
+    "srcSet": "/images/menu-dishes/burrito-bowl-6094909a-320.webp 320w, /images/menu-dishes/burrito-bowl-6094909a-800.webp 800w",
+    "alt": "AI-generated illustration of Burrito Bowl; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Grilled Fish": {
+    "src": "/images/menu-dishes/grilled-fish-eafb985b-800.webp",
+    "srcSet": "/images/menu-dishes/grilled-fish-eafb985b-320.webp 320w, /images/menu-dishes/grilled-fish-eafb985b-800.webp 800w",
+    "alt": "AI-generated illustration of Grilled Fish; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Herb Grilled Chicken": {
+    "src": "/images/menu-dishes/herb-grilled-chicken-0cd01e8e-800.webp",
+    "srcSet": "/images/menu-dishes/herb-grilled-chicken-0cd01e8e-320.webp 320w, /images/menu-dishes/herb-grilled-chicken-0cd01e8e-800.webp 800w",
+    "alt": "AI-generated illustration of Herb Grilled Chicken; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Phad Thai ( Chicken)": {
+    "src": "/images/menu-dishes/phad-thai-chicken-6d65ef31-800.webp",
+    "srcSet": "/images/menu-dishes/phad-thai-chicken-6d65ef31-320.webp 320w, /images/menu-dishes/phad-thai-chicken-6d65ef31-800.webp 800w",
+    "alt": "AI-generated illustration of Phad Thai ( Chicken); not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Thai green curry (Chicken)": {
+    "src": "/images/menu-dishes/thai-green-curry-chicken-4036c6cb-800.webp",
+    "srcSet": "/images/menu-dishes/thai-green-curry-chicken-4036c6cb-320.webp 320w, /images/menu-dishes/thai-green-curry-chicken-4036c6cb-800.webp 800w",
+    "alt": "AI-generated illustration of Thai green curry (Chicken); not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Thai green curry (Prawn)": {
+    "src": "/images/menu-dishes/thai-green-curry-prawn-e09f3e47-800.webp",
+    "srcSet": "/images/menu-dishes/thai-green-curry-prawn-e09f3e47-320.webp 320w, /images/menu-dishes/thai-green-curry-prawn-e09f3e47-800.webp 800w",
+    "alt": "AI-generated illustration of Thai green curry (Prawn); not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Chicken Ghee Roast ( MANGOSTEEN)": {
+    "src": "/images/menu-dishes/chicken-ghee-roast-mangosteen-7c07926b-800.webp",
+    "srcSet": "/images/menu-dishes/chicken-ghee-roast-mangosteen-7c07926b-320.webp 320w, /images/menu-dishes/chicken-ghee-roast-mangosteen-7c07926b-800.webp 800w",
+    "alt": "AI-generated illustration of Chicken Ghee Roast ( MANGOSTEEN); not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Water Chestnut": {
+    "src": "/images/menu-dishes/water-chestnut-b148a7e9-800.webp",
+    "srcSet": "/images/menu-dishes/water-chestnut-b148a7e9-320.webp 320w, /images/menu-dishes/water-chestnut-b148a7e9-800.webp 800w",
+    "alt": "AI-generated illustration of Water Chestnut; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Crispy Lotus Stem": {
+    "src": "/images/menu-dishes/crispy-lotus-stem-58695a44-800.webp",
+    "srcSet": "/images/menu-dishes/crispy-lotus-stem-58695a44-320.webp 320w, /images/menu-dishes/crispy-lotus-stem-58695a44-800.webp 800w",
+    "alt": "AI-generated illustration of Crispy Lotus Stem; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Andhra Chilli Chicken": {
+    "src": "/images/menu-dishes/andhra-chilli-chicken-c0ce57bf-800.webp",
+    "srcSet": "/images/menu-dishes/andhra-chilli-chicken-c0ce57bf-320.webp 320w, /images/menu-dishes/andhra-chilli-chicken-c0ce57bf-800.webp 800w",
+    "alt": "AI-generated illustration of Andhra Chilli Chicken; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Chilli Chicken": {
+    "src": "/images/menu-dishes/chilli-chicken-197d66a6-800.webp",
+    "srcSet": "/images/menu-dishes/chilli-chicken-197d66a6-320.webp 320w, /images/menu-dishes/chilli-chicken-197d66a6-800.webp 800w",
+    "alt": "AI-generated illustration of Chilli Chicken; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Thai Grilled Chicken": {
+    "src": "/images/menu-dishes/thai-grilled-chicken-0a81fa74-800.webp",
+    "srcSet": "/images/menu-dishes/thai-grilled-chicken-0a81fa74-320.webp 320w, /images/menu-dishes/thai-grilled-chicken-0a81fa74-800.webp 800w",
+    "alt": "AI-generated illustration of Thai Grilled Chicken; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Butter Khichdi": {
+    "src": "/images/menu-dishes/butter-khichdi-5236de32-800.webp",
+    "srcSet": "/images/menu-dishes/butter-khichdi-5236de32-320.webp 320w, /images/menu-dishes/butter-khichdi-5236de32-800.webp 800w",
+    "alt": "AI-generated illustration of Butter Khichdi; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Veg Hakka Noodles": {
+    "src": "/images/menu-dishes/veg-hakka-noodles-9a343f0d-800.webp",
+    "srcSet": "/images/menu-dishes/veg-hakka-noodles-9a343f0d-320.webp 320w, /images/menu-dishes/veg-hakka-noodles-9a343f0d-800.webp 800w",
+    "alt": "AI-generated illustration of Veg Hakka Noodles; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Schezwan Noodles": {
+    "src": "/images/menu-dishes/schezwan-noodles-f7a25988-800.webp",
+    "srcSet": "/images/menu-dishes/schezwan-noodles-f7a25988-320.webp 320w, /images/menu-dishes/schezwan-noodles-f7a25988-800.webp 800w",
+    "alt": "AI-generated illustration of Schezwan Noodles; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Chilli Garlic Noodles": {
+    "src": "/images/menu-dishes/chilli-garlic-noodles-05ebd2fb-800.webp",
+    "srcSet": "/images/menu-dishes/chilli-garlic-noodles-05ebd2fb-320.webp 320w, /images/menu-dishes/chilli-garlic-noodles-05ebd2fb-800.webp 800w",
+    "alt": "AI-generated illustration of Chilli Garlic Noodles; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Veg Biryani": {
+    "src": "/images/menu-dishes/veg-biryani-db4aec88-800.webp",
+    "srcSet": "/images/menu-dishes/veg-biryani-db4aec88-320.webp 320w, /images/menu-dishes/veg-biryani-db4aec88-800.webp 800w",
+    "alt": "AI-generated illustration of Veg Biryani; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Veg Fried Rice": {
+    "src": "/images/menu-dishes/veg-fried-rice-0f58f488-800.webp",
+    "srcSet": "/images/menu-dishes/veg-fried-rice-0f58f488-320.webp 320w, /images/menu-dishes/veg-fried-rice-0f58f488-800.webp 800w",
+    "alt": "AI-generated illustration of Veg Fried Rice; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Chicken Biryani": {
+    "src": "/images/menu-dishes/chicken-biryani-2f9f3483-800.webp",
+    "srcSet": "/images/menu-dishes/chicken-biryani-2f9f3483-320.webp 320w, /images/menu-dishes/chicken-biryani-2f9f3483-800.webp 800w",
+    "alt": "AI-generated illustration of Chicken Biryani; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Lahsuni Palak": {
+    "src": "/images/menu-dishes/lahsuni-palak-e9aa8671-800.webp",
+    "srcSet": "/images/menu-dishes/lahsuni-palak-e9aa8671-320.webp 320w, /images/menu-dishes/lahsuni-palak-e9aa8671-800.webp 800w",
+    "alt": "AI-generated illustration of Lahsuni Palak; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Chicken Kadhai": {
+    "src": "/images/menu-dishes/chicken-kadhai-403f45bd-800.webp",
+    "srcSet": "/images/menu-dishes/chicken-kadhai-403f45bd-320.webp 320w, /images/menu-dishes/chicken-kadhai-403f45bd-800.webp 800w",
+    "alt": "AI-generated illustration of Chicken Kadhai; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Paneer Makhani": {
+    "src": "/images/menu-dishes/paneer-makhani-f4f0d73b-800.webp",
+    "srcSet": "/images/menu-dishes/paneer-makhani-f4f0d73b-320.webp 320w, /images/menu-dishes/paneer-makhani-f4f0d73b-800.webp 800w",
+    "alt": "AI-generated illustration of Paneer Makhani; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Chicken Makhanwala": {
+    "src": "/images/menu-dishes/chicken-makhanwala-8fe7540d-800.webp",
+    "srcSet": "/images/menu-dishes/chicken-makhanwala-8fe7540d-320.webp 320w, /images/menu-dishes/chicken-makhanwala-8fe7540d-800.webp 800w",
+    "alt": "AI-generated illustration of Chicken Makhanwala; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Chicken Curry": {
+    "src": "/images/menu-dishes/chicken-curry-d8fc5c66-800.webp",
+    "srcSet": "/images/menu-dishes/chicken-curry-d8fc5c66-320.webp 320w, /images/menu-dishes/chicken-curry-d8fc5c66-800.webp 800w",
+    "alt": "AI-generated illustration of Chicken Curry; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Butter Pav Bhaji": {
+    "src": "/images/menu-dishes/butter-pav-bhaji-77756622-800.webp",
+    "srcSet": "/images/menu-dishes/butter-pav-bhaji-77756622-320.webp 320w, /images/menu-dishes/butter-pav-bhaji-77756622-800.webp 800w",
+    "alt": "AI-generated illustration of Butter Pav Bhaji; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Paneer Lababdar.": {
+    "src": "/images/menu-dishes/paneer-lababdar-fb4c3d4a-800.webp",
+    "srcSet": "/images/menu-dishes/paneer-lababdar-fb4c3d4a-320.webp 320w, /images/menu-dishes/paneer-lababdar-fb4c3d4a-800.webp 800w",
+    "alt": "AI-generated illustration of Paneer Lababdar.; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Dal Makhani": {
+    "src": "/images/menu-dishes/dal-makhani-f21a8ba7-800.webp",
+    "srcSet": "/images/menu-dishes/dal-makhani-f21a8ba7-320.webp 320w, /images/menu-dishes/dal-makhani-f21a8ba7-800.webp 800w",
+    "alt": "AI-generated illustration of Dal Makhani; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Classic Mix Veg": {
+    "src": "/images/menu-dishes/classic-mix-veg-506b2a6b-800.webp",
+    "srcSet": "/images/menu-dishes/classic-mix-veg-506b2a6b-320.webp 320w, /images/menu-dishes/classic-mix-veg-506b2a6b-800.webp 800w",
+    "alt": "AI-generated illustration of Classic Mix Veg; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Extra Paratha": {
+    "src": "/images/menu-dishes/extra-paratha-fb647354-800.webp",
+    "srcSet": "/images/menu-dishes/extra-paratha-fb647354-320.webp 320w, /images/menu-dishes/extra-paratha-fb647354-800.webp 800w",
+    "alt": "AI-generated illustration of Extra Paratha; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Main Course|Andhra Chilli Paneer": {
+    "src": "/images/menu-dishes/andhra-chilli-paneer-0c4dee70-800.webp",
+    "srcSet": "/images/menu-dishes/andhra-chilli-paneer-0c4dee70-320.webp 320w, /images/menu-dishes/andhra-chilli-paneer-0c4dee70-800.webp 800w",
+    "alt": "AI-generated illustration of Andhra Chilli Paneer; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Soup|Classic Tomato & Fennel": {
+    "src": "/images/menu-dishes/classic-tomato-fennel-c30b7f74-800.webp",
+    "srcSet": "/images/menu-dishes/classic-tomato-fennel-c30b7f74-320.webp 320w, /images/menu-dishes/classic-tomato-fennel-c30b7f74-800.webp 800w",
+    "alt": "AI-generated illustration of Classic Tomato & Fennel; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Soup|Thai coconut soup (Veg)": {
+    "src": "/images/menu-dishes/thai-coconut-soup-veg-bb2ec8d7-800.webp",
+    "srcSet": "/images/menu-dishes/thai-coconut-soup-veg-bb2ec8d7-320.webp 320w, /images/menu-dishes/thai-coconut-soup-veg-bb2ec8d7-800.webp 800w",
+    "alt": "AI-generated illustration of Thai coconut soup (Veg); not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Soup|Mushroom & artichoke soup": {
+    "src": "/images/menu-dishes/mushroom-artichoke-soup-77a98d0c-800.webp",
+    "srcSet": "/images/menu-dishes/mushroom-artichoke-soup-77a98d0c-320.webp 320w, /images/menu-dishes/mushroom-artichoke-soup-77a98d0c-800.webp 800w",
+    "alt": "AI-generated illustration of Mushroom & artichoke soup; not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  },
+  "Soup|Thai coconut soup ( Chicken)": {
+    "src": "/images/menu-dishes/thai-coconut-soup-chicken-33ffb6ee-800.webp",
+    "srcSet": "/images/menu-dishes/thai-coconut-soup-chicken-33ffb6ee-320.webp 320w, /images/menu-dishes/thai-coconut-soup-chicken-33ffb6ee-800.webp 800w",
+    "alt": "AI-generated illustration of Thai coconut soup ( Chicken); not a photograph of Mangosteen’s actual serving",
+    "kind": "generated",
+    "position": "50% 50%"
+  }
+}

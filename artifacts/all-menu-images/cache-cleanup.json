@@ -1,0 +1,28 @@
+{
+  "before_bytes": 191410176,
+  "directories": [
+    {
+      "path": "/Users/shekharchouhan/Library/Caches/Google/Chrome/Profile 8/Cache/Cache_Data",
+      "files": 1926,
+      "logical_bytes": 307717546,
+      "latest": "2026-07-10T12:28:44.673580",
+      "skipped": [
+        "index-dir",
+        "index"
+      ],
+      "purpose": "Regenerable HTTP response cache; previously authorized Batch A; no open handles"
+    },
+    {
+      "path": "/Users/shekharchouhan/Library/Caches/Google/Chrome/Profile 10/Cache/Cache_Data",
+      "files": 11319,
+      "logical_bytes": 269246064,
+      "latest": "2026-08-20T13:42:56.716778",
+      "skipped": [
+        "index-dir",
+        "index"
+      ],
+      "purpose": "Regenerable HTTP response cache; previously authorized Batch A; no open handles"
+    }
+  ],
+  "after_bytes": 800763904
+}

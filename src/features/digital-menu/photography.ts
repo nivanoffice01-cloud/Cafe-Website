@@ -1,4 +1,5 @@
 import { fullMenu, type MenuItem } from '../../data/fullMenu'
+import generatedDishPhotos from './generated-dish-photos.json'
 import { categoryBannerFor, hasDishPhoto, menuPhotoFor } from '../../data/menuPhotos'
 
 export type VerifiedMenuPhoto = { src: string; srcSet?: string; alt: string; kind?: 'genuine' | 'reference' | 'generated'; position?: string }
@@ -22,7 +23,8 @@ export function dishPhoto(dish: MenuItem & { category: string }) {
   const genuine = verifiedDishPhotos[`${dish.category}|${dish.name}`]
   if (genuine) return genuine
   const reference = hasDishPhoto(dish.category, dish.name) ? menuPhotoFor(dish.category, dish.name) : undefined
-  return reference ? displayPhoto(reference.src, `Illustrative reference for ${dish.name}; not Mangosteen's actual serving`, 'reference') : undefined
+  if (reference) return displayPhoto(reference.src, `Illustrative reference for ${dish.name}; not Mangosteen's actual serving`, 'reference')
+  return (generatedDishPhotos as Record<string, VerifiedMenuPhoto>)[dish.category + '|' + dish.name]
 }
 
 export function categoryPhoto(category: string) {
