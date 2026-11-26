@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { FormEvent, ReactNode } from 'react'
 import { seatsFor, seatingPlans, type SeatingZone } from '../data/seating'
 import { submitWebsiteReservation } from '../lib/crm'
+import { BookingControls } from '../features/reservations/BookingControls'
 import { SeatingMap } from '../features/reservations/SeatingMap'
 import { ReservationIcon } from '../features/reservations/ReservationIcon'
 import { authenticPhoto } from '../features/supplied-frontend/authentic-photos'
@@ -249,12 +250,7 @@ export function ReservationDialog({ onClose, initialSelection, navigation }: Pro
         </div> : stage === 'seats' ? <>
           <div className="reservation-intro reservation-reveal">
             <header className="reservation-header"><h2 id="reservation-title">Find your<br/><em>perfect</em> table.</h2><p>Choose your date, time and a spot you love at Mangosteen.</p></header>
-            <div className="reservation-settings" aria-label="Plan your visit">
-              <label className="reservation-control reservation-area-control"><span>Seating area</span><div><img src={areaPhoto.src} alt=""/><select aria-label="Seating area" value={zone} onChange={event => changeZone(event.target.value as SeatingZone)}><option value="rooftop">The Rooftop</option><option value="inside">Inside Mangosteen</option></select></div></label>
-              <label className="reservation-control"><span>Date</span><div><ReservationIcon name="calendar"/><select aria-label="Preferred date" value={date} onChange={event => { setDate(event.target.value); markDirty() }}>{dates.map(item => <option key={item.value} value={item.value}>{item.weekday}, {item.day} {item.month}</option>)}</select></div></label>
-              <label className="reservation-control"><span>Arrival time</span><div><ReservationIcon name="clock"/><select aria-label="Preferred arrival time" value={time} onChange={event => { setTime(event.target.value); markDirty() }}>{arrivalTimes.map(item => <option key={item}>{item}</option>)}</select></div></label>
-              <label className="reservation-control"><span>Guests</span><div><ReservationIcon name="guests"/><select aria-label="Number of guests" value={guests} onChange={event => changeGuests(Number(event.target.value))}>{[1,2,3,4,5,6].map(n => <option key={n} value={n}>{n} {n === 1 ? 'Guest' : 'Guests'}</option>)}</select></div></label>
-            </div>
+            <BookingControls zone={zone} date={date} dates={dates} time={time} arrivalTimes={arrivalTimes} guests={guests} onZoneChange={changeZone} onDateChange={value=>{setDate(value);markDirty()}} onTimeChange={value=>{setTime(value);markDirty()}} onGuestsChange={changeGuests}/>
           </div>
           <div className="reservation-content reservation-reveal">
             <div className="reservation-map-column">

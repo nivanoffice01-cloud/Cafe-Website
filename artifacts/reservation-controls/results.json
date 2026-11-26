@@ -1,0 +1,39 @@
+{
+  "checks": [
+    "Photo area choice, same-area preservation and guest stepper bounds 1–6; capacity filtering unchanged",
+    "Exactly 14 permitted dates across month navigation; keyboard arrows/Tab and disabled out-of-window dates",
+    "Five existing arrival times; selection, focus return, outside dismissal and Escape close only the picker",
+    "320/390/768/1024/1440px: pickers fit viewport, no horizontal overflow; details/back retain selection",
+    "Complete real reservation API submission to disposable CRM: date, 20:00 time, 4 guests, D2 seats, Pending receipt",
+    "Submission function, seating configuration, map, homepage/menu and backend source unchanged"
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "scrollWidth": 320
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "scrollWidth": 1024
+    },
+    {
+      "width": 1440,
+      "height": 1000,
+      "scrollWidth": 1440
+    }
+  ],
+  "errors": [],
+  "consoleErrors": []
+}

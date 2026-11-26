@@ -204,3 +204,65 @@
 @media(min-width:601px) and (max-width:900px){.reservation-summary{gap:28px;align-items:start}.reservation-area-photo{height:100%;aspect-ratio:auto;min-height:360px}.reservation-preview-copy{padding:6px 0 0}}
 @media(max-width:600px){.reservation-plan{border-radius:12px}.reservation-plan-toolbar{padding:12px}.reservation-map-controls{border:0;box-shadow:none;background:#e9e7da}.reservation-summary{border:0;border-radius:0}.reservation-area-photo{aspect-ratio:1.35;min-height:0;border-radius:12px}.reservation-area-photo>span{left:12px;bottom:12px}.reservation-preview-copy{padding:24px 0 0}.reservation-preview-copy h3{font-size:42px}.reservation-content{gap:30px}.reservation-seat-preferences p{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.reservation-area-photo{animation:none}.reservation-area-photo:hover img{transform:none}.reservation-table:hover{transform:none}}
+
+/* Interactive booking pickers: the original rules/values remain in the parent. */
+.reservation-dialog .booking-trigger{display:flex;align-items:center;gap:10px;width:100%;height:56px;padding:8px 14px;border:1px solid #d9ccb8;border-radius:13px;background:#fffbf280;color:#203626;font-size:12px;font-weight:600;text-align:left;transition:border-color .2s,background .2s,box-shadow .2s}
+.booking-trigger:hover{border-color:#819375;background:#fffaf0}
+.booking-trigger[aria-expanded=true]{border-color:#416044;background:#edf0e3;box-shadow:0 3px 12px #29402b0a}
+.booking-trigger:focus-visible{outline:2px solid #36543b;outline-offset:3px}
+.booking-control-value{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;animation:booking-value-in .2s ease both}
+.booking-trigger .booking-chevron{width:16px!important;height:16px!important;transition:transform .2s}
+.booking-trigger[aria-expanded=true] .booking-chevron{transform:rotate(180deg)}
+.booking-area-trigger img{width:32px;height:32px;border-radius:7px;object-fit:cover;flex:none}
+.booking-picker{position:fixed;inset:auto;left:var(--picker-left,16px);top:var(--picker-top,150px);width:var(--picker-width,352px);max-width:calc(100vw - 32px);max-height:calc(100dvh - 104px);margin:0;padding:22px;border:1px solid #d8cfbc;border-radius:17px;background:#fcf7ed;color:#263f2b;box-shadow:0 18px 60px #14271930;overflow:auto;overscroll-behavior:contain;font:400 13px/1.6 'Manrope',Arial,sans-serif}
+.booking-picker[open]{animation:booking-picker-in .22s cubic-bezier(.2,.7,.2,1) both}
+.booking-picker::backdrop{background:#13261a12}
+.booking-picker-heading{position:sticky;top:0;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:20px;background:#fcf7ed}
+.booking-picker-heading p{margin:0 0 6px;font-size:8px;font-weight:600;letter-spacing:.16em;color:#8b704b}
+.booking-picker-heading h3{margin:0;font:400 30px/1.05 'Cormorant Garamond',Georgia,serif;letter-spacing:-.02em;color:#294431}
+.booking-picker-close{display:grid;place-items:center;flex:none;width:44px;height:44px;margin:-8px -8px 0 0;padding:0;border:0;border-radius:50%;background:none;color:#52654c;font-size:25px!important}
+.booking-picker-close:hover{background:#e9eadc}
+.booking-area-options{display:grid;gap:10px}
+.booking-area-options>button{display:flex;align-items:center;gap:13px;width:100%;padding:8px;border:1px solid #d9d2bf;border-radius:10px;background:#f8f2e5;color:#29442f;text-align:left;transition:background .18s,border-color .18s}
+.booking-area-options>button[aria-pressed=true]{border-color:#3f6042;background:#e9eedf}
+.booking-area-options>button:hover{border-color:#6a825e;background:#eef0e3}
+.booking-area-options img{width:86px;height:70px;border-radius:6px;object-fit:cover;flex:none}
+.booking-area-options button>span{flex:1}
+.booking-area-options strong{display:block;font-size:12px;font-weight:600}
+.booking-area-options small{display:block;margin-top:4px;font-size:10px;color:#6d785f}
+.booking-area-options i{display:grid;place-items:center;flex:none;width:22px;height:22px;border:1px solid #a4b295;border-radius:50%;font-style:normal}
+.booking-area-options [aria-pressed=true] i{background:#2b4b32;color:#fff5e5;border-color:#2b4b32}
+.booking-area-options i svg{width:13px!important;height:13px!important}
+.booking-area-options>p,.booking-calendar>p{margin:7px 0 0;font-size:10px;line-height:1.7;color:#6b765e}
+.booking-month{display:flex;justify-content:space-between;align-items:center;margin:-4px 0 12px}
+.booking-month>strong{font-weight:500;font-size:13px}
+.booking-month>button{width:44px;height:44px;border:0;border-radius:50%;background:none;color:#3b583d;font-size:25px}
+.booking-month>button:hover:not(:disabled){background:#e9eddf}
+.booking-month>button:disabled{opacity:.25}
+.booking-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.booking-weekday{padding:4px 0 8px;color:#8c947f;font-size:10px}
+.booking-calendar-grid>button{position:relative;min-width:0;height:40px;padding:0;border:1px solid transparent;border-radius:50%;color:#345037;background:none;font-size:12px}
+.booking-calendar-grid>button:hover:not(:disabled){border-color:#b5c2a4;background:#e8eddd}
+.booking-calendar-grid>button[aria-pressed=true]{background:#2c4b33;color:#fff5e5}
+.booking-calendar-grid>button[aria-current=date]::after{position:absolute;left:calc(50% - 1.5px);bottom:4px;width:3px;height:3px;border-radius:50%;background:currentColor;content:''}
+.booking-calendar-grid>button:disabled{color:#c3c5b6;cursor:not-allowed}
+.booking-arrival>p,.booking-party>p:first-child{margin:0 0 16px;color:#68765d;font-size:12px}
+.booking-arrival>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.booking-arrival button{min-height:46px;padding:8px;border:1px solid #c8d0b8;border-radius:9px;background:#f8f3e7;color:#365239;font-size:12px}
+.booking-arrival button:hover{background:#e7eddb;border-color:#7b936d}
+.booking-arrival button[aria-pressed=true]{color:#fff4df;background:#2c4b33;border-color:#2c4b33}
+.booking-arrival small{display:block;margin:16px 0 0;font-size:10px;line-height:1.7;color:#76816a}
+.booking-party-counter{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:12px 0 20px}
+.booking-party-counter>button{width:46px;height:46px;border:1px solid #b9c6a7;border-radius:50%;color:#304e35;background:#f7f3e8;font-size:23px}
+.booking-party-counter>button:hover:not(:disabled){background:#e6edda;border-color:#526e47}
+.booking-party-counter>button:disabled{opacity:.35}
+.booking-party-counter output{text-align:center;min-width:65px}
+.booking-party-counter strong{display:block;color:#2c4930;font:400 54px/1 'Cormorant Garamond',Georgia,serif}
+.booking-party-counter output>span{display:block;margin-top:6px;color:#7f8a71;font-size:10px}
+.booking-party>p:not(:first-child){margin:0 0 17px;font-size:10px;color:#6e7c60;line-height:1.7}
+.booking-party .reservation-save{min-height:46px;font-size:12px}
+@keyframes booking-picker-in{from{opacity:0;transform:translateY(6px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes booking-value-in{from{opacity:.45;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media(max-width:600px){.reservation-dialog .booking-trigger{height:52px;font-size:14px}.booking-picker{left:14px;right:14px;top:auto;bottom:calc(12px + env(safe-area-inset-bottom));width:auto;max-width:none;max-height:calc(100dvh - 104px - env(safe-area-inset-bottom));padding:22px;border-radius:20px}.booking-picker::backdrop{background:#13261a38}.booking-picker-heading h3{font-size:34px}.booking-area-options>button{min-height:88px}.booking-area-options strong{font-size:14px}.booking-area-options small{font-size:11px}.booking-calendar-grid>button{height:44px;font-size:14px}.booking-month>strong{font-size:14px}.booking-arrival button{min-height:48px;font-size:14px}.booking-party-counter>button{width:50px;height:50px}.booking-picker .reservation-save{min-height:50px;font-size:14px}}
+@media(max-width:360px){.booking-picker{padding:18px}.booking-calendar-grid{gap:2px}.reservation-dialog .booking-trigger{gap:7px;padding-inline:11px;font-size:13px}}
+@media(prefers-reduced-motion:reduce){.booking-picker[open],.booking-control-value{animation:none}.booking-trigger,.booking-chevron{transition:none}}
