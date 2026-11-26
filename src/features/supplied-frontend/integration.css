@@ -10,3 +10,40 @@
 html[data-mangosteen-transition]::view-transition-old(root){animation:none}
 html[data-mangosteen-transition]::view-transition-new(root){animation:supplied-page-in .75s cubic-bezier(.4,0,.2,1) both}
 @keyframes supplied-page-in{from{opacity:0}to{opacity:1}}
+
+/* Keep light editorial type readable over the bright food artwork. This layer
+   follows the existing copy opacity, leaving the canvas and scroll motion alone. */
+.saved-mangosteen .hero-copy{isolation:isolate}
+.saved-mangosteen .hero-copy:first-child::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse 68% 29% at 50% 53%,rgba(4,10,6,.54),rgba(4,10,6,.28) 58%,transparent 100%);
+}
+.saved-mangosteen .hero-copy .hero-glass{
+  color:#fff8eb;font-weight:400;
+  text-shadow:0 2px 3px rgba(0,0,0,.95),0 5px 20px rgba(0,0,0,.75);
+}
+.saved-mangosteen .hero-copy .hand{color:#f5ead7;font-weight:500;text-shadow:0 1px 3px #000}
+.saved-mangosteen .hero-copy:first-child .hand.text-accent-300{
+  color:#f4dfb5;font-weight:500;background:rgba(8,18,12,.9);
+  box-shadow:0 0 0 7px rgba(8,18,12,.9);text-shadow:0 1px 2px #000;
+}
+.saved-mangosteen .hero-copy p{
+  color:#fff8eb;font-weight:500;text-shadow:0 1px 3px #000;
+  background:rgba(8,18,12,.88);box-shadow:0 0 0 7px rgba(8,18,12,.88);
+}
+.saved-mangosteen .hero-copy .sticker{
+  background:#132219;color:#fff8eb;border-color:#e6cca1;
+}
+.saved-mangosteen .hero-copy .btn-poster{
+  min-height:48px;font-size:12px;letter-spacing:.12em;text-shadow:none;
+}
+.saved-mangosteen .hero-copy .btn-berry{background:#dfbd80;color:#111b13;border-color:#dfbd80}
+.saved-mangosteen .hero-copy .btn-poster:not(.btn-berry){
+  background:#112117;color:#fff8eb!important;border-color:#dfbd80;
+}
+.saved-mangosteen .hero-copy .btn-poster:not(.btn-berry):hover{background:#fff8eb;color:#112117!important}
+@media(max-width:767px){
+  .saved-mangosteen .hero-copy:first-child::before{
+    background:radial-gradient(ellipse 95% 31% at 50% 48%,rgba(4,10,6,.58),rgba(4,10,6,.3) 60%,transparent 100%);
+  }
+}
