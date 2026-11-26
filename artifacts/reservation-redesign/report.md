@@ -19,7 +19,8 @@ Checkpoint: `checkpoint/reservation-before-15ec00e` at
 - Area switching, guest-capacity filtering, table-to-seat-preference selection,
   individually adjustable seats, zoom/native pan and accessible list alternative.
 - Genuine indoor/rooftop photographic previews labelled as area photographs.
-- Guest details with unchanged submission function, pending confirmation with
+- Guest details lock while submitting to preserve the submitted summary; the
+  submission function remains unchanged. Pending confirmation displays
   the real API receipt, copy/local-save/delete controls and 30-day retention.
 - Scoped reveal/selection/closing motion; no new animation dependency, WebGL,
   Blender, generated venue interiors, heavy models or frame sequences.

@@ -15,10 +15,10 @@ dist/index.html                                  2.17 kB │ gzip:  1.01 kB
 dist/assets/index-BgUcjEL2.css                  70.80 kB │ gzip: 14.62 kB
 dist/assets/SuppliedFrontendPage-CYmka7fr.css  240.90 kB │ gzip: 32.72 kB
 dist/assets/fullMenu-_9CL9VZk.js                15.25 kB │ gzip:  4.45 kB
-dist/assets/MenuExperiencePage-DyYMKY69.js      26.97 kB │ gzip:  8.02 kB
-dist/assets/index-DCL6zPvg.js                  226.03 kB │ gzip: 70.44 kB
-dist/assets/SuppliedFrontendPage-CtukCWxk.js   235.47 kB │ gzip: 79.55 kB
-✓ built in 1.39s
+dist/assets/MenuExperiencePage-Bqd2-uDZ.js      26.97 kB │ gzip:  8.02 kB
+dist/assets/index-B0mXt6Fs.js                  226.03 kB │ gzip: 70.44 kB
+dist/assets/SuppliedFrontendPage-meDY-Qu7.js   235.68 kB │ gzip: 79.57 kB
+✓ built in 1.26s
 
 > cafe-website@0.1.0 test
 > python3 -m unittest discover -s CRM/tests -v
@@ -34,33 +34,33 @@ test_session_survives_a_separate_request (test_server.CRMServerTests.test_sessio
 test_trusted_proxy_uses_forwarded_client_for_rate_limits (test_server.CRMServerTests.test_trusted_proxy_uses_forwarded_client_for_rate_limits) ... ok
 
 ----------------------------------------------------------------------
-Ran 9 tests in 0.797s
+Ran 9 tests in 0.808s
 
 OK
-[14:20:17] "POST /api/auth/login HTTP/1.1" 200 -
-[14:20:17] "POST /api/customers HTTP/1.1" 403 -
-[14:20:17] "POST /api/auth/login HTTP/1.1" 200 -
-[14:20:17] "POST /api/customers HTTP/1.1" 403 -
-[14:20:17] "POST /api/public/orders HTTP/1.1" 201 -
-[14:20:17] "POST /api/public/orders HTTP/1.1" 200 -
-[14:20:17] "POST /api/public/orders HTTP/1.1" 400 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 201 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 200 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 400 -
-[14:20:17] "POST /api/auth/login HTTP/1.1" 401 -
-[14:20:17] "POST /api/auth/login HTTP/1.1" 401 -
-[14:20:17] "POST /api/auth/login HTTP/1.1" 401 -
-[14:20:17] "POST /api/auth/login HTTP/1.1" 401 -
-[14:20:17] "POST /api/auth/login HTTP/1.1" 401 -
-[14:20:17] "POST /api/auth/login HTTP/1.1" 429 -
-[14:20:17] "POST /api/auth/login HTTP/1.1" 200 -
-[14:20:17] "GET /api/auth/session HTTP/1.1" 200 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 201 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 201 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 201 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 201 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 201 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 201 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 201 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 201 -
-[14:20:17] "POST /api/public/reservations HTTP/1.1" 201 -
+[14:28:43] "POST /api/auth/login HTTP/1.1" 200 -
+[14:28:43] "POST /api/customers HTTP/1.1" 403 -
+[14:28:43] "POST /api/auth/login HTTP/1.1" 200 -
+[14:28:43] "POST /api/customers HTTP/1.1" 403 -
+[14:28:43] "POST /api/public/orders HTTP/1.1" 201 -
+[14:28:43] "POST /api/public/orders HTTP/1.1" 200 -
+[14:28:43] "POST /api/public/orders HTTP/1.1" 400 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 201 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 200 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 400 -
+[14:28:43] "POST /api/auth/login HTTP/1.1" 401 -
+[14:28:43] "POST /api/auth/login HTTP/1.1" 401 -
+[14:28:43] "POST /api/auth/login HTTP/1.1" 401 -
+[14:28:43] "POST /api/auth/login HTTP/1.1" 401 -
+[14:28:43] "POST /api/auth/login HTTP/1.1" 401 -
+[14:28:43] "POST /api/auth/login HTTP/1.1" 429 -
+[14:28:43] "POST /api/auth/login HTTP/1.1" 200 -
+[14:28:43] "GET /api/auth/session HTTP/1.1" 200 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 201 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 201 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 201 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 201 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 201 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 201 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 201 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 201 -
+[14:28:43] "POST /api/public/reservations HTTP/1.1" 201 -

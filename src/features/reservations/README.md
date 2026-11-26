@@ -63,6 +63,8 @@ is the display label, and `seats` is the exact identifier array. QR ordering
   groups or exceed the party size. Smaller groups are muted, not "unavailable".
 - Continuation requires exactly N seats in one group. Back preserves all form
   and seating values while the experience is open.
+- Guest fields and the change-seats action are disabled while submitting, so
+  the final details remain consistent with the request in flight.
 - Confirmation displays the real API receipt/reference and Pending status.
   A failed API call stays on the form with an error and local-save/copy options.
 - Local copies retain the existing 30-day expiry and explicit remove action.
