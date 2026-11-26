@@ -1,0 +1,11 @@
+{
+  "src/components/ReservationDialog.tsx": "ea8e064ffedd91b1e4ad32411bbe7ba99ce8278fe62f3539da9686d818b22a9a",
+  "src/features/reservations/layout.ts": "9dfd377bba8740197d5680f4151bdd323bc4d59908bfd94b51a548ef78d90b67",
+  "src/data/seating.ts": "b46c9fb8897f64c599fa556b060f26d6486e7016deab4a1fbe16f175eec2e0ec",
+  "src/lib/crm.ts": "019ab4f4201a7b0c2d4944be37799d350d0c51d5d901fdeefbd0aa4ef14bdbaf",
+  "src/features/supplied-frontend/SuppliedDesign.tsx": "9615c88965694cabb971cc0cd156bb2777f095b3a92a8379a4c786267ce0f8c7",
+  "src/features/supplied-frontend/SuppliedFrontendPage.tsx": "0cad769a706bb2895d3f5590242559a3ddecb25b05fa742f0ae6ad473e073dec",
+  "src/features/supplied-frontend/integration.css": "07dc889508b24258beefc9e85d98898d9b264da77c27872c8caeaa1c7ca6bf3a",
+  "src/pages/MenuExperiencePage.tsx": "a2dfaec1492f39160833d9afb126864ae074dfecdefe9b46f8ac68d2bc471ce1",
+  "CRM/server.py": "162c42ca72c69842d6b17d70b86a4abb78b1978ecdd6fbbca556ea1a44f89722"
+}

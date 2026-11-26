@@ -167,3 +167,40 @@
 }
 @media(max-width:360px){.reservation-page{width:calc(100% - 28px)}.reservation-header h2{font-size:46px}.reservation-topline>.reservation-eyebrow{max-width:110px}.reservation-control select{font-size:14px}.reservation-mobile-sticky{padding-inline:14px}.reservation-mobile-sticky>span{font-size:10px}.reservation-mobile-sticky .reservation-save{min-width:115px}}
 @media(prefers-reduced-motion:reduce){.reservation-backdrop,.reservation-backdrop.is-closing,.reservation-reveal,.reservation-seat-map,.reservation-area-photo{animation:none}.reservation-dialog *, .reservation-dialog *::before,.reservation-dialog *::after{scroll-behavior:auto!important;transition:none!important}.reservation-table:hover,.reservation-save:hover:not(:disabled){transform:none}}
+
+/* Photographic refinement: materials and editorial composition only. */
+.reservation-plan{border-color:#d6d2c5;border-radius:14px;background:#d1d1c4;box-shadow:0 18px 44px #2530230b}
+.reservation-plan-toolbar{padding:12px 18px;background:#eee9dd;color:#3d5140;border-bottom:1px solid #d9d5c6}
+.reservation-plan-toolbar>span:last-child{color:#727968;letter-spacing:.025em}
+.reservation-map-scroll{background:#c6c9bb;scrollbar-color:#8a957e #d2d2c6}
+.reservation-seat-map{animation:none}
+.reservation-furniture.is-small{opacity:.55}
+.reservation-table{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.reservation-table:hover{transform:translateY(-1px)}
+.reservation-table-ring{transition:opacity .3s,stroke .3s}
+.reservation-furniture.is-active .reservation-table-ring{stroke:#c5a572}
+.reservation-furniture.is-active .reservation-table-marker circle{fill:#284b34;stroke:#f0dfbb}
+.reservation-furniture.is-active .reservation-table-marker text{fill:#fff4e1}
+.reservation-table-marker circle,.reservation-table-marker text{transition:fill .25s,stroke .25s}
+.reservation-chair:focus-visible .reservation-chair-focus,.reservation-chair:hover .reservation-chair-focus{stroke:#294b34}
+.reservation-map-controls{position:static;justify-content:flex-end;padding:4px 12px;border:0;border-top:1px solid #d4d3c4;border-radius:0;background:#eeeadf;box-shadow:none}
+.reservation-table-list{background:#f6f0e4;border-top:1px solid #d8d5c7}
+.reservation-table-list summary{color:#3c5140;font-size:11px;letter-spacing:.02em}
+.reservation-summary{border:0;border-radius:0;background:none;box-shadow:none;overflow:visible}
+.reservation-area-photo{width:100%;min-width:0;aspect-ratio:1.65;border-radius:13px;box-shadow:0 15px 32px #21332410;animation:reservation-photo-in .65s cubic-bezier(.2,.7,.2,1) both;isolation:isolate}
+.reservation-area-photo img{object-position:58% 55%;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.reservation-area-photo:hover img{transform:scale(1.025)}
+.reservation-area-photo>span{left:16px;bottom:16px;padding:6px 9px;border-radius:3px;font-size:9px;background:#14291ee0;letter-spacing:.025em}
+.reservation-preview-copy{padding:20px 0 0}
+.reservation-preview-copy h3{font-size:clamp(36px,3vw,46px);margin:6px 0 12px;line-height:1.02}
+.reservation-preview-meta{padding-bottom:12px;border-color:#d9d1c0;font-size:12px}
+.reservation-area-note{margin:12px 0;font-size:12px;line-height:1.7}
+.reservation-seat-preferences{margin:12px 0 14px;padding-top:12px;border-color:#d9d1c0}
+.reservation-seat-preferences p{max-width:330px;font-size:11px}
+.reservation-seat-preferences button{border-radius:6px;background:#faf5e9}
+.reservation-stage-action p{max-width:400px;margin:12px auto 0;font-size:10px}
+@media(min-width:1200px){.reservation-content{grid-template-columns:minmax(0,1.8fr) minmax(340px,1.1fr);gap:clamp(28px,3vw,48px)}}
+@media(min-width:901px) and (max-width:1199px){.reservation-content{grid-template-columns:minmax(0,1.65fr) minmax(290px,1fr);gap:26px}.reservation-area-photo{aspect-ratio:1.1}.reservation-preview-copy{padding:24px 0 0}}
+@media(min-width:601px) and (max-width:900px){.reservation-summary{gap:28px;align-items:start}.reservation-area-photo{height:100%;aspect-ratio:auto;min-height:360px}.reservation-preview-copy{padding:6px 0 0}}
+@media(max-width:600px){.reservation-plan{border-radius:12px}.reservation-plan-toolbar{padding:12px}.reservation-map-controls{border:0;box-shadow:none;background:#e9e7da}.reservation-summary{border:0;border-radius:0}.reservation-area-photo{aspect-ratio:1.35;min-height:0;border-radius:12px}.reservation-area-photo>span{left:12px;bottom:12px}.reservation-preview-copy{padding:24px 0 0}.reservation-preview-copy h3{font-size:42px}.reservation-content{gap:30px}.reservation-seat-preferences p{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.reservation-area-photo{animation:none}.reservation-area-photo:hover img{transform:none}.reservation-table:hover{transform:none}}

@@ -1,5 +1,6 @@
-import { useId, useMemo, useState } from 'react'
+import { useId, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent } from 'react'
+import { gsap } from 'gsap'
 import { seatingPlans, type SeatingZone } from '../../data/seating'
 import { chairPositions, visualSeatingGroups } from './layout'
 import { ReservationIcon } from './ReservationIcon'
@@ -9,55 +10,95 @@ type Props = {
   onSelectGroup: (id: string) => void; onToggleSeat: (id: string, seat: string) => void
 }
 
+// Decorative perimeter planting only. These do not alter seating coordinates,
+// introduce inventory, or claim surveyed architectural/plant positions.
+const planting = [
+  { x: 44, y: 40, size: 74, rotation: -18, asset: 'planter-palm-v2' },
+  { x: 365, y: 23, size: 48, rotation: 32, asset: 'planter-broadleaf-v2' },
+  { x: 700, y: 22, size: 44, rotation: -46, asset: 'planter-broadleaf-v2' },
+  { x: 1005, y: 115, size: 58, rotation: 76, asset: 'planter-palm-v2' },
+  { x: 28, y: 315, size: 56, rotation: 24, asset: 'planter-broadleaf-v2' },
+  { x: 1006, y: 402, size: 62, rotation: -34, asset: 'planter-palm-v2' },
+  { x: 73, y: 548, size: 54, rotation: 110, asset: 'planter-broadleaf-v2' },
+  { x: 991, y: 546, size: 82, rotation: 145, asset: 'planter-palm-v2' },
+] as const
+
 export function SeatingMap({ zone, guests, selectedSeats, activeId, onSelectGroup, onToggleSeat }: Props) {
   const id = useId().replace(/:/g, '')
+  const root = useRef<HTMLDivElement>(null)
   const groups = useMemo(() => visualSeatingGroups(zone), [zone])
   const [zoom, setZoom] = useState(1)
+  const [hoveredId, setHoveredId] = useState<string>()
+  const hovered = groups.find(group => group.id === hoveredId)
   const activate = (event: KeyboardEvent<SVGGElement>, action: () => void) => {
     if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); action() }
   }
-  return <div className="reservation-plan">
-    <div className="reservation-plan-toolbar"><span><ReservationIcon name="leaf"/>{seatingPlans[zone].name}</span><span>Illustrated seating plan</span></div>
+
+  useLayoutEffect(() => {
+    const media = gsap.matchMedia()
+    const context = gsap.context(() => {
+      media.add('(prefers-reduced-motion: no-preference)', () => {
+        const timeline = gsap.timeline({ defaults: { ease: 'power2.out' } })
+        timeline.from('.reservation-floor', { opacity: 0, duration: .5 })
+          .from('.reservation-furniture', { opacity: 0, duration: .5, stagger: .025, clearProps: 'opacity' }, .12)
+          .from('.reservation-plant-art', { opacity: 0, scale: .96, transformOrigin: '50% 50%', duration: .7, stagger: .025, clearProps: 'transform,opacity' }, .2)
+        return () => { timeline.kill() }
+      })
+    }, root)
+    return () => { media.revert(); context.revert() }
+  }, [zone])
+
+  useLayoutEffect(() => {
+    if (!activeId || matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const preview = root.current?.closest('.reservation-content')?.querySelector('.reservation-preview-copy')
+    if (!preview) return
+    const context = gsap.context(() => {
+      gsap.fromTo(preview.querySelector('h3'), { y: 8, opacity: .2, clipPath: 'inset(0 0 18% 0)' }, { y: 0, opacity: 1, clipPath: 'inset(0)', duration: .4, ease: 'power2.out', clearProps: 'transform,opacity,clipPath' })
+      gsap.fromTo(preview.querySelector('.reservation-preview-meta'), { opacity: .25 }, { opacity: 1, duration: .45, clearProps: 'opacity' })
+    })
+    return () => context.revert()
+  }, [activeId, zone])
+
+  return <div ref={root} className="reservation-plan">
+    <div className="reservation-plan-toolbar"><span><ReservationIcon name="leaf"/>{seatingPlans[zone].name}</span><span>{hovered ? `${hovered.label} · ${hovered.capacity} seats` : 'Illustrated seating plan'}</span></div>
     <div className="reservation-map-canvas"><div className="reservation-map-scroll" tabIndex={zoom > 1 ? 0 : undefined} aria-label="Seating map. Zoom in to explore; scroll to pan.">
       <svg key={zone} className="reservation-seat-map" style={{ width: `${zoom * 100}%` }} viewBox="0 0 1040 580" role="group" aria-label={`${seatingPlans[zone].name} schematic seating map`}>
         <defs>
-          <pattern id={`${id}-wood`} patternUnits="userSpaceOnUse" width="256" height="180"><image href="/images/reservation/walnut-v1.webp" width="256" height="180" preserveAspectRatio="none"/></pattern>
-          <pattern id={`${id}-floor`} patternUnits="userSpaceOnUse" width="320" height="96"><rect width="320" height="96" fill={`url(#${id}-wood)`}/><path d="M0 0h320M0 48h320M160 0v48M40 48v48" stroke="#281d13" strokeWidth="2" opacity=".55"/></pattern>
-          <linearGradient id={`${id}-light`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#f9d59c" stopOpacity=".14"/><stop offset="1" stopColor="#121b12" stopOpacity=".6"/></linearGradient>
-          <linearGradient id={`${id}-sofa`} x1="0" y1="0" x2="0" y2="1"><stop stopColor="#b3936c"/><stop offset="1" stopColor="#5f4b35"/></linearGradient>
-          <filter id={`${id}-shadow`} x="-50%" y="-70%" width="200%" height="240%"><feDropShadow dx="2" dy="7" stdDeviation="6" floodColor="#110e08" floodOpacity=".48"/></filter>
+          <pattern id={`${id}-floor`} patternUnits="userSpaceOnUse" width={zone === 'rooftop' ? 340 : 260} height={zone === 'rooftop' ? 340 : 260}><image href={`/images/reservation/${zone === 'rooftop' ? 'rooftop-stone-v2' : 'inside-tile-v2'}.webp`} width={zone === 'rooftop' ? 340 : 260} height={zone === 'rooftop' ? 340 : 260}/></pattern>
+          <radialGradient id={`${id}-light`} cx="18%" cy="0%" r="95%"><stop stopColor="#f7d3a0" stopOpacity=".2"/><stop offset=".5" stopColor="#f7d3a0" stopOpacity=".025"/><stop offset="1" stopColor="#19291d" stopOpacity=".17"/></radialGradient>
+          <linearGradient id={`${id}-edge`} x1="0" y1="0" x2="0" y2="1"><stop stopColor="#1b2922" stopOpacity=".2"/><stop offset=".24" stopColor="#1b2922" stopOpacity="0"/><stop offset="1" stopColor="#1b2922" stopOpacity=".08"/></linearGradient>
+          <filter id={`${id}-table-shadow`} x="-35%" y="-55%" width="170%" height="210%"><feColorMatrix type="saturate" values=".75"/><feDropShadow dx="1.5" dy="5" stdDeviation="3.5" floodColor="#1a2018" floodOpacity=".36"/></filter>
+          <filter id={`${id}-chair-shadow`} x="-40%" y="-45%" width="180%" height="190%"><feDropShadow dx="1" dy="2.5" stdDeviation="2" floodColor="#182016" floodOpacity=".28"/></filter>
+          <filter id={`${id}-plant-shadow`} x="-50%" y="-50%" width="200%" height="210%"><feDropShadow dx="3" dy="6" stdDeviation="4" floodColor="#152016" floodOpacity=".3"/></filter>
         </defs>
-        <g aria-hidden="true" pointerEvents="none">
+        <g className="reservation-floor" aria-hidden="true" pointerEvents="none">
           <rect width="1040" height="580" fill={`url(#${id}-floor)`}/>
           <rect width="1040" height="580" fill={`url(#${id}-light)`}/>
-          <path d="M35 580V30H1005V580" fill="none" stroke="#191f13" strokeWidth="24"/>
-          <path d="M48 32H994" stroke="#d6b980" strokeWidth="2" opacity=".6"/>
-          {[100,250,400,550,700,850].map(x => <path key={x} d={`M${x} 18v26`} stroke="#b69b6d" strokeWidth="3"/>)}
-          {[0,1,2,3,4,5,6].map(i => <image key={`top-${i}`} href="/images/reservation/palm-v1.webp" x={i * 152 - 60} y={-66 - (i % 2) * 12} width="190" height="190" opacity=".96"/>)}
-          {[0,1,2].map(i => <g key={`edges-${i}`}><image href="/images/reservation/palm-v1.webp" x="-89" y={150 + i * 180} width="180" height="180"/><image href="/images/reservation/palm-v1.webp" x="950" y={130 + i * 180} width="180" height="180"/></g>)}
-          <rect x="380" y="550" width="280" height="30" rx="5" fill="#1a291f"/>
-          <text x="520" y="570" textAnchor="middle" fill="#f1e7d5" fontSize="12" letterSpacing="2">{seatingPlans[zone].entry}</text>
+          <rect width="1040" height="580" fill={`url(#${id}-edge)`}/>
+          <path d="M24 580V24H1016V580" fill="none" stroke="#515a4d" strokeWidth="6" opacity=".65"/>
+          <path d="M30 25H1010" stroke="#ddd8c7" strokeWidth="1" opacity=".65"/>
+          <rect x="390" y="552" width="260" height="26" rx="13" fill="#f4efdf" opacity=".88"/>
+          <text x="520" y="569" textAnchor="middle" fill="#2e3e31" fontSize="9" letterSpacing="2.5">{seatingPlans[zone].entry}</text>
         </g>
+        <g aria-hidden="true" pointerEvents="none">{planting.map((plant, i) => <g key={i} className="reservation-plant" transform={`translate(${plant.x} ${plant.y}) rotate(${plant.rotation})`}><image className="reservation-plant-art" href={`/images/reservation/${plant.asset}.webp`} x={-plant.size / 2} y={-plant.size / 2} width={plant.size} height={plant.size} filter={`url(#${id}-plant-shadow)`}/></g>)}</g>
         {groups.map(group => {
           const small = group.capacity < guests, active = group.id === activeId
           const chairs = chairPositions(group)
           return <g key={group.id} transform={`translate(${group.x} ${group.y}) rotate(${group.rotation})`} className={`reservation-furniture${small ? ' is-small' : ''}${active ? ' is-active' : ''}`} data-table-id={group.id}>
             {chairs.map((chair, i) => {
               const seat = group.seats[i], selected = selectedSeats.includes(seat)
+              const lounge = group.furniture === 'lounge' && i < group.capacity / 2
               return <g key={seat} role="button" tabIndex={small ? -1 : 0} aria-disabled={small} aria-pressed={selected} aria-label={`${group.label}, seat ${i + 1}${small ? ', too small for your party' : ''}`} className={`reservation-chair${selected ? ' is-selected' : ''}`} onClick={() => !small && onToggleSeat(group.id, seat)} onKeyDown={e => activate(e, () => !small && onToggleSeat(group.id, seat))} transform={`translate(${chair.x} ${chair.y})`}>
                 <rect className="reservation-chair-focus" x="-29" y="-29" width="58" height="58" rx="12" fill="transparent"/>
-                {group.furniture === 'lounge' && i < group.capacity / 2 ? <g filter={`url(#${id}-shadow)`}><rect x="-25" y="-23" width="50" height="46" rx="9" fill={`url(#${id}-sofa)`} stroke="#c2a983" strokeWidth="2"/><path d="M-20-12h40M-20-12v27h40v-27" fill="none" stroke="#5b4433" strokeWidth="2" opacity=".6"/></g> : <image href="/images/reservation/cane-chair-v1.webp" x="-25" y="-25" width="50" height="50" transform={`rotate(${chair.rotation})`}/>}
-                {selected && <g aria-hidden="true"><circle r="12" fill="#203b28" stroke="#e8cf9a" strokeWidth="1.5"/><path d="M-5 0l3 3 7-7" stroke="#fff7e7" strokeWidth="2" fill="none"/></g>}
+                <image href={`/images/reservation/${lounge ? 'lounge-seat-v2' : 'cane-chair-v2'}.webp`} x="-25" y="-25" width="50" height="50" transform={`rotate(${chair.rotation})`} filter={`url(#${id}-chair-shadow)`}/>
+                {selected && <g className="reservation-seat-check" transform="translate(0 10)" aria-hidden="true"><circle r="8" fill="#274432" stroke="#f1e5c9" strokeWidth="1"/><path d="M-3.5 0l2.2 2.2 4.8-4.8" stroke="#fff7e7" strokeWidth="1.4" fill="none"/></g>}
               </g>
             })}
-            <g role="button" tabIndex={small ? -1 : 0} aria-disabled={small} aria-pressed={active} aria-label={`${group.accessibilityLabel}${small ? ', too small for your party' : ', select preferred seats'}`} className="reservation-table" onClick={() => !small && onSelectGroup(group.id)} onKeyDown={e => activate(e, () => !small && onSelectGroup(group.id))}>
+            <g role="button" tabIndex={small ? -1 : 0} aria-disabled={small} aria-pressed={active} aria-label={`${group.accessibilityLabel}${small ? ', too small for your party' : ', select preferred seats'}`} className="reservation-table" onMouseEnter={() => setHoveredId(group.id)} onMouseLeave={() => setHoveredId(undefined)} onFocus={() => setHoveredId(group.id)} onBlur={() => setHoveredId(undefined)} onClick={() => !small && onSelectGroup(group.id)} onKeyDown={e => activate(e, () => !small && onSelectGroup(group.id))}>
               <title>{group.accessibilityLabel}</title>
-              <rect className="reservation-table-ring" x={-group.width / 2 - 8} y={-group.height / 2 - 8} width={group.width + 16} height={group.height + 16} rx={group.furniture === 'round' ? 60 : 17} fill="none" stroke="#e3c385" strokeWidth="3"/>
-              <rect x={-group.width / 2} y={-group.height / 2 + 5} width={group.width} height={group.height} rx={group.furniture === 'round' ? 50 : 9} fill="#49331d"/>
-              <rect x={-group.width / 2} y={-group.height / 2} width={group.width} height={group.height} rx={group.furniture === 'round' ? 50 : 9} fill={`url(#${id}-wood)`} stroke="#c79a62" strokeWidth="2" filter={`url(#${id}-shadow)`}/>
-              <rect x={-group.width / 2} y={-group.height / 2} width={group.width} height={group.height} rx={group.furniture === 'round' ? 50 : 9} fill="#1b150e" opacity=".32"/>
-              <text y="-4" textAnchor="middle" fill="#fff4de" fontSize={group.capacity === 2 ? 12 : 16} fontWeight="600">{group.label}</text>
-              <text y="18" textAnchor="middle" fill="#fff4de" fontSize="12">{group.capacity} seats</text>
+              <rect className="reservation-table-ring" x={-group.width / 2 - 5} y={-group.height / 2 - 5} width={group.width + 10} height={group.height + 10} rx="8" fill="none" stroke="#244631" strokeWidth="2"/>
+              <image className="reservation-table-surface" href={`/images/reservation/${group.capacity === 2 ? 'table-square-v2' : 'table-long-v2'}.webp`} x={-group.width / 2} y={-group.height / 2} width={group.width} height={group.height} preserveAspectRatio="none" filter={`url(#${id}-table-shadow)`}/>
+              <g className="reservation-table-marker"><circle r="12" fill="#f9f2e4" stroke="#52664b" strokeWidth=".6"/><text y="3.5" textAnchor="middle" fill="#304b35" fontSize="10" fontWeight="600">{group.id}</text></g>
             </g>
           </g>
         })}
