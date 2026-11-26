@@ -11,6 +11,7 @@ import { applyVerifiedContent } from './verified-content'
 import { authenticPhoto } from './authentic-photos'
 import { MenuInvitationCard } from './MenuInvitationCard'
 import { cafe } from '../../data/cafe'
+import { mobilePosterFrame, mobileSequenceFrame } from './mobile-hero-framing'
 lf.registerPlugin($)
 var $o = [{ label: `Menu`, to: `/menu` }, { label: `Our Story`, to: `/about` }, { label: `The Café`, to: `/locations` }, { label: `Contact`, to: `/contact` }];
 
@@ -50,7 +51,7 @@ var Wh = (e, t) => [e.k * t[0] + e.dx, e.k * t[1] + e.dy, e.k * t[2] + e.dx, e.k
 
 function Gh(e) { let t = e.clips.A.bounds; e.clips.B.bounds; let n = e.clips.C.bounds, r = { k: 1, dx: 0, dy: 0 }, i = { k: 1, dx: 0, dy: 0 }, a = { k: 1, dx: 0, dy: 0 }, o = Wh(a, n[n.length - 1]), s = t[0], c = [1 / 0, 1 / 0, -1 / 0, -1 / 0]; return [[`A`, r], [`B`, i], [`C`, a]].forEach(([t, n]) => { e.clips[t].bounds.forEach(e => { let t = Wh(n, e); c[0] = Math.min(c[0], t[0]), c[1] = Math.min(c[1], t[1]), c[2] = Math.max(c[2], t[2]), c[3] = Math.max(c[3], t[3]); }); }), { clip: { A: r, B: i, C: a }, posterOpen: { k: 1, dx: 0, dy: 0 }, posterClose: { k: 1.015, dx: -4, dy: -9 }, openBox: s, closeBox: o, midBox: c }; }
 
-function Kh(e, t, n, r, i) { let a = i ? i[2] - i[0] : e[2] - e[0], o = (r ? Math.min(.26 * t, .5 * n) : Math.min(.68 * t, .86 * n)) / a * (i ? a / (e[2] - e[0]) : 1), s = r ? (76 + (n - 16)) / 2 : n / 2; return { s: o, tx: t / 2 - (e[0] + e[2]) / 2 * o, ty: s - (e[1] + e[3]) / 2 * o }; }
+function Kh(e, t, n, r, i) { if (!r) return mobilePosterFrame(e, t, n, innerHeight < 500 && innerWidth < 1100); let a = i ? i[2] - i[0] : e[2] - e[0], o = (r ? Math.min(.26 * t, .5 * n) : Math.min(.68 * t, .86 * n)) / a * (i ? a / (e[2] - e[0]) : 1), s = r ? (76 + (n - 16)) / 2 : n / 2; return { s: o, tx: t / 2 - (e[0] + e[2]) / 2 * o, ty: s - (e[1] + e[3]) / 2 * o }; }
 
 function qh(e, t, n, r) { let i = e[2] - e[0], a = e[3] - e[1], o = 1.14 * (r ? Math.min(.84 * n / a, .4 * t / i) : Math.min(.6 * n / a, .94 * t / i)), s = n * (r ? .54 : .4); return { s: o, tx: t / 2 - (e[0] + e[2]) / 2 * o, ty: s - (e[1] + e[3]) / 2 * o }; }
 
@@ -151,7 +152,7 @@ function ug(e, t, n, r, i) { i <= .001 || (e.globalAlpha = i, e.drawImage(t, r.t
 
 function dg(e, t, n, r, i, a, o, s) { let c = o.meta, l = o.geo; if (!c || !l)
     return s; let { clip: u, t: d } = tg(i), f = c.clips[u], p = Math.round(Qh(d) * (f.count - 1)); o.focus(Zh.sheetKey(c, u, p)); let m = o.frame(u, p), h = `${t}x${n}|${a}`; cg && cg.key === h || (cg = { key: h, mid: qh(l.midBox, t, n, a), open: Kh(og, t, n, a), close: Kh(sg, t, n, a) }); let g = Math.round(ng(i) * 1e3) / 1e3, _ = rg(i), v = o.posterOpen ? Math.round(_.open * 100) / 100 : 0, y = o.posterClose ? Math.round(_.close * 100) / 100 : 0, b = `${t}x${n}@${r}|${u}${m ? m.idx : -1}|${g}|${v}|${y}`; if (b === s)
-    return s; let x = g >= 1 ? cg.mid : lg(i < .5 ? cg.open : cg.close, cg.mid, g), { s: S, tx: C, ty: w } = x; if (e.setTransform(r, 0, 0, r, 0, 0), e.fillStyle = `#000`, e.fillRect(0, 0, t, n), e.imageSmoothingEnabled = !0, e.imageSmoothingQuality = g >= 1 ? `medium` : `high`, m && v < 1 && y < 1) {
+    return s; let mid = a ? cg.mid : mobileSequenceFrame(f.bounds, m?.idx ?? p, t, n, innerHeight < 500 && innerWidth < 1100); let x = g >= 1 ? mid : lg(i < .5 ? cg.open : cg.close, mid, g), { s: S, tx: C, ty: w } = x; if (e.setTransform(r, 0, 0, r, 0, 0), e.fillStyle = `#000`, e.fillRect(0, 0, t, n), e.imageSmoothingEnabled = !0, e.imageSmoothingQuality = g >= 1 ? `medium` : `high`, m && v < 1 && y < 1) {
     let [t, n, r, i] = f.crop;
     e.drawImage(m.bmp, m.sx, m.sy, f.frameW, f.frameH, C + t * S, w + n * S, r * S, i * S);
 } return o.posterOpen && ug(e, o.posterOpen, l.posterOpen, x, v), o.posterClose && ug(e, o.posterClose, l.posterClose, x, y), b; }
