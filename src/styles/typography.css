@@ -1,0 +1,141 @@
+/* Shared guest-facing typography. The admin application has its own stylesheet. */
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/lora/lora-latin-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/lora/lora-latin-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+:root {
+  --cafe-font-display: 'Lora', Georgia, serif;
+  --cafe-font-body: 'Manrope', Arial, sans-serif;
+  --cafe-heading-weight: 400;
+  --cafe-heading-tracking: -.035em;
+  --cafe-body-leading: 1.7;
+  --cafe-label-tracking: .12em;
+}
+/* Specificity keeps the system consistent across independently loaded routes. */
+#root .saved-mangosteen {
+  --font-cover: var(--cafe-font-display);
+  --font-heading: var(--cafe-font-display);
+  --font-hand: var(--cafe-font-display);
+  --font-body: var(--cafe-font-body);
+  --font-label: var(--cafe-font-body);
+}
+#root .dm-menu { --dm-serif: var(--cafe-font-display); }
+#root :is(.saved-mangosteen, .dm-menu, .reservation-dialog) {
+  font-family: var(--cafe-font-body);
+  font-synthesis: none;
+}
+#root :is(.saved-mangosteen, .dm-menu, .reservation-dialog) :is(button, input, select, textarea) {
+  font-family: var(--cafe-font-body);
+}
+#root .saved-mangosteen :is(.display:not(.cafe-price), .cover-title, .h-statement, .h-section) {
+  font-family: var(--cafe-font-display);
+  font-weight: var(--cafe-heading-weight);
+  letter-spacing: var(--cafe-heading-tracking);
+  line-height: 1.1;
+}
+#root .saved-mangosteen .h-card { font-weight: 500; line-height: 1.25; letter-spacing: -.025em; }
+#root .saved-mangosteen .hand { font-family: var(--cafe-font-display); font-style: italic; font-weight: 400; letter-spacing: -.02em; line-height: 1.3; }
+#root .saved-mangosteen .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: var(--cafe-label-tracking); line-height: 1.5; }
+#root .saved-mangosteen .sticker { font-size: 10px; font-weight: 600; letter-spacing: .12em; }
+#root .saved-mangosteen main p:not(.eyebrow):not(.display):not(.hand):not(.sticker) { font-size: 16px; line-height: var(--cafe-body-leading); font-weight: 400; }
+#root .saved-mangosteen .poster-card p:not(.eyebrow):not(.hand) { font-size: 14px; line-height: 1.65; }
+#root .saved-mangosteen .btn-poster { font-size: 12px; font-weight: 600; letter-spacing: .075em; line-height: 1.4; }
+#root .saved-mangosteen address { font-size: 15px; line-height: 1.75; }
+#root .saved-mangosteen footer p.display[aria-hidden] { font-size: clamp(40px, 13.4vw, 220px); line-height: 1.06; letter-spacing: -.05em; }
+#root .saved-mangosteen .menu-invitation-copy h3 { font-family: var(--cafe-font-display); font-weight: 400; font-size: clamp(27px, 2.5vw, 34px); line-height: 1.15; }
+#root .saved-mangosteen .menu-invitation-copy p { font-size: 14px; line-height: 1.65; }
+#root .premium-site-header .premium-header-links a { font-size: 11px; font-weight: 500; letter-spacing: .12em; }
+#root .premium-site-header .premium-header-actions > a { font-size: 10.5px; letter-spacing: .1em; }
+#root .premium-site-header .premium-site-brand > span { font-size: 8px; letter-spacing: .26em; }
+/* Preserve the artwork placement while giving the new serif room to breathe. */
+#root .saved-mangosteen #top .cover-title { font-size: clamp(46px, 6.1vw, 104px); max-width: none; line-height: 1.08; }
+#root .saved-mangosteen #top .hero-glass { font-weight: 400; letter-spacing: -.035em; }
+#root .saved-mangosteen #top .hero-copy p { font-size: 16px; line-height: 1.6; }
+#root .saved-mangosteen #top .hero-copy .btn-poster { font-size: 12px; letter-spacing: .06em; }
+/* Digital menu: editorial headings, clear sans-serif dish information. */
+#root .dm-menu :is(h1, h2, h3) { font-family: var(--cafe-font-display); font-weight: 400; letter-spacing: -.035em; line-height: 1.12; }
+#root .dm-menu .dm-hero h1 { max-width: 100%; width: fit-content; font-size: clamp(30px, 8.8vw, 38px); line-height: 1.1; }
+#root .dm-menu .dm-hero-copy > p:not(.dm-eyebrow) { font-size: 14px; line-height: 1.65; }
+#root .dm-menu .dm-browse h2 { font-size: clamp(27px, 7.5vw, 34px); }
+#root .dm-menu .dm-banner-copy strong { font-family: var(--cafe-font-display); font-weight: 400; font-size: clamp(24px, 6.6vw, 30px); line-height: 1.15; letter-spacing: -.03em; }
+#root .dm-menu .dm-category-hero h1 { font-size: clamp(34px, 9.5vw, 56px); }
+#root .dm-menu .dm-page-title h1 { font-size: clamp(34px, 8.8vw, 52px); }
+#root .dm-menu .dm-dish-copy > strong { font-size: 16px; font-weight: 600; line-height: 1.35; letter-spacing: -.015em; }
+#root .dm-menu .dm-description { font-size: 13px; line-height: 1.45; }
+#root .dm-menu .dm-sheet-copy h2 { font-size: clamp(29px, 8vw, 38px); }
+#root .dm-menu .dm-bottom-nav button small { font-size: 10px; font-weight: 500; }
+#root .dm-menu .dm-primary { font-weight: 600; letter-spacing: -.01em; }
+#root .dm-menu .dm-brand strong { font-size: clamp(14px, 4.1vw, 20px); letter-spacing: .13em; }
+#root .dm-menu .dm-brand > span { font-family: var(--cafe-font-body); font-size: 8px; letter-spacing: .2em; }
+/* Currency and digits stay in the same aligned font. */
+#root .dm-menu .dm-price,
+#root .saved-mangosteen .cafe-price {
+  font-family: 'Mangosteen Price', var(--cafe-font-body);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+  letter-spacing: 0;
+}
+/* Guest-facing booking screens share the same heading and form hierarchy. */
+#root .reservation-dialog :is(h2, h3) { font-family: var(--cafe-font-display); font-weight: 400; letter-spacing: -.035em; line-height: 1.12; }
+#root .reservation-dialog :is(.reservation-header, .reservation-details-form, .reservation-confirmation) h2 { font-size: clamp(42px, 3.6vw, 60px); }
+#root .reservation-dialog .reservation-preview-copy h3 { font-size: clamp(27px, 2.4vw, 36px); }
+#root .reservation-dialog .booking-picker-heading h3 { font-size: 27px; }
+#root .reservation-dialog .booking-party-counter strong { font-family: var(--cafe-font-display); font-size: 46px; font-weight: 400; }
+#root .reservation-dialog :is(.reservation-details-photo, .reservation-confirmation-photo) > span { font-family: var(--cafe-font-display); font-style: italic; font-size: 23px; }
+#root .reservation-dialog :is(.reservation-header p, .reservation-preview-copy p) { font-size: 15px; line-height: 1.7; }
+#root .reservation-dialog :is(.reservation-control > span, .reservation-details-form label) { font-family: var(--cafe-font-body); font-size: 13px; font-weight: 500; }
+#root .reservation-dialog :is(input, textarea, select) { font-size: 16px; }
+#root .reservation-dialog .reservation-eyebrow { font-size: 11px; letter-spacing: .13em; }
+@media (min-width: 900px) {
+  #root .dm-menu .dm-hero h1 { font-size: clamp(58px, 5.2vw, 76px); }
+  #root .dm-menu .dm-browse h2 { font-size: 48px; }
+  #root .dm-menu .dm-category-circles strong { font-size: 23px; }
+}
+@media (max-width: 1023px) {
+  #root .saved-mangosteen #top .hero-copy:first-child .cover-title { font-size: clamp(34px, 9.2vw, 42px); line-height: 1.08; }
+  #root .saved-mangosteen #top .hero-copy:first-child .hand.text-accent-300 { font-size: 17px; line-height: 1.4; }
+  #root .saved-mangosteen #top .hero-copy:first-child .sticker { font-size: 9px; letter-spacing: .12em; }
+  #root .saved-mangosteen #top .hero-copy:first-child .btn-poster { font-size: 11px; letter-spacing: .025em; }
+  #root .saved-mangosteen #top .hero-copy:not(:first-child) .hero-glass { font-size: 28px; line-height: 1.12; }
+  #root .saved-mangosteen #top .hero-copy:not(:first-child) p { font-size: 13px; line-height: 1.5; }
+  #root .saved-mangosteen #top .hero-copy:not(:first-child) .sticker { font-size: 9px; }
+  #root .saved-mangosteen #top .hero-copy:not(:first-child) .sticker-circle { font-family: var(--cafe-font-body); width: 36px; height: 36px; font-size: 12px; }
+  #root .saved-mangosteen #story .h-statement { font-size: clamp(32px, 8vw, 40px); }
+}
+@media (max-width: 1023px) and (max-height: 700px) {
+  #root .saved-mangosteen #top .hero-copy:first-child .cover-title { font-size: 32px; }
+  #root .saved-mangosteen #top .hero-copy:first-child .hand.text-accent-300 { font-size: 15px; }
+  #root .saved-mangosteen #top .hero-copy:first-child .btn-poster { font-size: 10.5px; }
+  #root .saved-mangosteen #top .hero-copy:not(:first-child) .hero-glass { font-size: 24px; }
+  #root .saved-mangosteen #top .hero-copy:not(:first-child) p { font-size: 12px; line-height: 1.4; }
+}
+@media (max-width: 1099px) and (max-height: 500px) {
+  #root .saved-mangosteen #top .hero-copy:first-child .cover-title { font-size: 28px; }
+  #root .saved-mangosteen #top .hero-copy:first-child .hand.text-accent-300 { font-size: 13px; }
+  #root .saved-mangosteen #top .hero-copy:first-child .btn-poster { font-size: 9px; letter-spacing: .01em; }
+}
+@media (max-width: 599px) {
+  #root .saved-mangosteen .h-section { font-size: clamp(28px, 7.8vw, 36px); }
+  #root .saved-mangosteen .h-statement { font-size: clamp(32px, 8vw, 42px); }
+  #root .saved-mangosteen .menu-invitation-copy h3 { font-size: 27px; }
+  #root .reservation-dialog :is(.reservation-header, .reservation-details-form, .reservation-confirmation) h2 { font-size: clamp(36px, 9vw, 44px); }
+  #root .reservation-dialog .reservation-preview-copy h3 { font-size: 27px; }
+}
+@media (max-width: 359px) {
+  #root .dm-menu .dm-dish-copy > strong { font-size: 15px; }
+  #root .dm-menu .dm-description { font-size: 12px; }
+  #root .dm-menu .dm-brand strong { font-size: 13px; }
+  #root .dm-menu .dm-bottom-nav button small { font-size: 9px; }
+}
