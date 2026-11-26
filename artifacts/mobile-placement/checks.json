@@ -1,0 +1,92 @@
+{
+  "checks": [
+    {
+      "width": 320,
+      "height": 568,
+      "captions": [
+        {
+          "progress": 0.3,
+          "x": 20,
+          "y": 419.40625,
+          "width": 280,
+          "height": 128.59375
+        },
+        {
+          "progress": 0.52,
+          "x": 20,
+          "y": 376.40625,
+          "width": 280,
+          "height": 171.59375
+        },
+        {
+          "progress": 0.75,
+          "x": 20,
+          "y": 436.203125,
+          "width": 280,
+          "height": 111.796875
+        }
+      ],
+      "reversible": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "width": 393,
+      "height": 852,
+      "captions": [
+        {
+          "progress": 0.3,
+          "x": 20,
+          "y": 676.4375,
+          "width": 353,
+          "height": 150.5625
+        },
+        {
+          "progress": 0.52,
+          "x": 20,
+          "y": 618.4375,
+          "width": 353,
+          "height": 208.5625
+        },
+        {
+          "progress": 0.75,
+          "x": 20,
+          "y": 695.28125,
+          "width": 353,
+          "height": 131.71875
+        }
+      ],
+      "reversible": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "captions": [
+        {
+          "progress": 0.3,
+          "x": 20,
+          "y": 750.5,
+          "width": 390,
+          "height": 156.5
+        },
+        {
+          "progress": 0.52,
+          "x": 20,
+          "y": 692.5,
+          "width": 390,
+          "height": 214.5
+        },
+        {
+          "progress": 0.75,
+          "x": 20,
+          "y": 769.34375,
+          "width": 390,
+          "height": 137.65625
+        }
+      ],
+      "reversible": true,
+      "noHorizontalOverflow": true
+    }
+  ],
+  "errors": []
+}

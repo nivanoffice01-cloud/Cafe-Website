@@ -152,7 +152,7 @@ function ug(e, t, n, r, i) { i <= .001 || (e.globalAlpha = i, e.drawImage(t, r.t
 
 function dg(e, t, n, r, i, a, o, s) { let c = o.meta, l = o.geo; if (!c || !l)
     return s; let { clip: u, t: d } = tg(i), f = c.clips[u], p = Math.round(Qh(d) * (f.count - 1)); o.focus(Zh.sheetKey(c, u, p)); let m = o.frame(u, p), h = `${t}x${n}|${a}`; cg && cg.key === h || (cg = { key: h, mid: qh(l.midBox, t, n, a), open: Kh(og, t, n, a), close: Kh(sg, t, n, a) }); let g = Math.round(ng(i) * 1e3) / 1e3, _ = rg(i), v = o.posterOpen ? Math.round(_.open * 100) / 100 : 0, y = o.posterClose ? Math.round(_.close * 100) / 100 : 0, b = `${t}x${n}@${r}|${u}${m ? m.idx : -1}|${g}|${v}|${y}`; if (b === s)
-    return s; let mid = a ? cg.mid : mobileSequenceFrame(f.bounds, m?.idx ?? p, t, n, innerHeight < 500 && innerWidth < 1100); let x = g >= 1 ? mid : lg(i < .5 ? cg.open : cg.close, mid, g), { s: S, tx: C, ty: w } = x; if (e.setTransform(r, 0, 0, r, 0, 0), e.fillStyle = `#000`, e.fillRect(0, 0, t, n), e.imageSmoothingEnabled = !0, e.imageSmoothingQuality = g >= 1 ? `medium` : `high`, m && v < 1 && y < 1) {
+    return s; let mid = a ? cg.mid : mobileSequenceFrame(f.bounds, m?.idx ?? p, t, n, innerHeight < 500 && innerWidth < 1100, u); let x = g >= 1 ? mid : lg(i < .5 ? cg.open : cg.close, mid, g), { s: S, tx: C, ty: w } = x; if (e.setTransform(r, 0, 0, r, 0, 0), e.fillStyle = `#000`, e.fillRect(0, 0, t, n), e.imageSmoothingEnabled = !0, e.imageSmoothingQuality = g >= 1 ? `medium` : `high`, m && v < 1 && y < 1) {
     let [t, n, r, i] = f.crop;
     e.drawImage(m.bmp, m.sx, m.sy, f.frameW, f.frameH, C + t * S, w + n * S, r * S, i * S);
 } return o.posterOpen && ug(e, o.posterOpen, l.posterOpen, x, v), o.posterClose && ug(e, o.posterClose, l.posterClose, x, y), b; }
