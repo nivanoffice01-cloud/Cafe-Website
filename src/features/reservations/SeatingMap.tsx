@@ -87,10 +87,9 @@ export function SeatingMap({ zone, guests, selectedSeats, activeId, onSelectGrou
           return <g key={group.id} transform={`translate(${group.x} ${group.y}) rotate(${group.rotation})`} className={`reservation-furniture${small ? ' is-small' : ''}${active ? ' is-active' : ''}`} data-table-id={group.id}>
             {chairs.map((chair, i) => {
               const seat = group.seats[i], selected = selectedSeats.includes(seat)
-              const lounge = group.furniture === 'lounge' && i < group.capacity / 2
               return <g key={seat} role="button" tabIndex={small ? -1 : 0} aria-disabled={small} aria-pressed={selected} aria-label={`${group.label}, seat ${i + 1}${small ? ', too small for your party' : ''}`} className={`reservation-chair${selected ? ' is-selected' : ''}`} onClick={() => !small && onToggleSeat(group.id, seat)} onKeyDown={e => activate(e, () => !small && onToggleSeat(group.id, seat))} transform={`translate(${chair.x} ${chair.y})`}>
                 <rect className="reservation-chair-focus" x="-29" y="-29" width="58" height="58" rx="12" fill="transparent"/>
-                <image href={`/images/reservation/${lounge ? 'lounge-seat-v2' : 'cane-chair-v2'}.webp`} x="-25" y="-25" width="50" height="50" transform={`rotate(${chair.rotation})`} filter={`url(#${id}-chair-shadow)`}/>
+                <image href="/images/reservation/cane-chair-v2.webp" x="-25" y="-25" width="50" height="50" transform={`rotate(${chair.rotation})`} filter={`url(#${id}-chair-shadow)`}/>
                 {selected && <g className="reservation-seat-check" transform="translate(0 10)" aria-hidden="true"><circle r="8" fill="#274432" stroke="#f1e5c9" strokeWidth="1"/><path d="M-3.5 0l2.2 2.2 4.8-4.8" stroke="#fff7e7" strokeWidth="1.4" fill="none"/></g>}
               </g>
             })}
