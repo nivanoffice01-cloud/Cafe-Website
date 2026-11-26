@@ -49,3 +49,18 @@ export function menuPhotoFor(category: string, name: string): MenuPhoto | undefi
 export function hasDishPhoto(category: string, name: string) {
   return Boolean(dishPhotos[`${category}|${name}`])
 }
+
+// Banners have their own category mapping, independent of whichever dish is first.
+// All currently remain temporary illustrations; no matched genuine category food
+// photograph was found. See the complete missing-asset inventory in the review.
+export function categoryBannerFor(category: string): MenuPhoto | undefined {
+  return categoryPhotos[category]
+}
+
+export function menuPhotoStatus(category: string, name: string) {
+  return {
+    genuine: false,
+    kind: hasDishPhoto(category, name) ? 'illustrative-dish' : 'illustrative-category',
+    requiresOriginal: true,
+  } as const
+}

@@ -48,7 +48,9 @@ temporary database.
 
 ## Marketing architecture and recovery
 
-Current branch: `mangosteen-supplied-frontend`.
+Current branch: `mangosteen-authentic-content`.
+Approved design checkpoint: `checkpoint/approved-design-d7a8e55` at `d7a8e55`.
+Design restoration branch: `mangosteen-supplied-frontend`.
 Previous cinematic branch: `mangosteen-clean-rebuild`.
 Legacy backup: `mangosteen-legacy-frontend-backup` at `a89e67c`.
 Clean foundation: `checkpoint/clean-foundation-080966f` at `080966f`.
@@ -58,6 +60,14 @@ The subsequent supplied-design restoration is on `mangosteen-supplied-frontend`.
 Its backup is `checkpoint/before-supplied-frontend-c035d43` at `c035d43`.
 See [the restoration notes](src/features/supplied-frontend/README.md) and
 `artifacts/supplied-frontend-review/` for the current implementation and evidence.
+
+The content update replaces the café imagery with retained original photographs
+without changing the approved design or animation. Its comparison, verified
+business sources and complete missing-food-photo inventory are in
+`artifacts/mangosteen-authentic-content-review/`. All 131 dish records and 13
+categories remain the existing indicative catalogue. Genuine named dish photos,
+current owner-approved prices, missing descriptions and dietary details still
+need the café's source material; no food identity was guessed from photographs.
 
 ```text
 src/app/                       Minimal route selection; no transition wrapper

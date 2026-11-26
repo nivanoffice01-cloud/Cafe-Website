@@ -42,11 +42,21 @@ export function applyVerifiedContent(content: DesignContent) {
       return dish ? [{ name: dish.name, price: `₹${dish.price}` }] : []
     }),
   })))
-  Object.assign(content.Qg[0], { address: cafe.address, hours: [{ day: 'Daily', time: cafe.hours }] })
+  Object.assign(content.Qg[0], { address: cafe.address, status: 'Olympus', hours: [{ day: 'Daily', time: cafe.hours.replace(/^Daily · /, '') }] })
   content.c_.splice(0, content.c_.length,
     { icon: 'ri-map-pin-line', label: 'Visit', value: cafe.address },
     { icon: 'ri-time-line', label: 'Hours', value: cafe.hours },
-    { icon: 'ri-restaurant-line', label: 'Menu', value: '131 dishes · 13 categories' },
+    { icon: 'ri-phone-line', label: 'Call', value: cafe.phone },
+  )
+  // Visual artwork labels only: these are not recipes for an actual menu burger.
+  content.Vg.splice(0, content.Vg.length,
+    { no: '01', name: 'Top bun', note: 'Golden upper layer' },
+    { no: '02', name: 'Sauce', note: 'Creamy visual layer' },
+    { no: '03', name: 'Pickles & onion', note: 'The crisp layers in the artwork' },
+    { no: '04', name: 'Cheese', note: 'Melted visual layer' },
+    { no: '05', name: 'Patty layer', note: 'First central layer' },
+    { no: '06', name: 'Second layer', note: 'The lower centre of the composition' },
+    { no: '07', name: 'Base bun', note: 'Toasted base in the artwork' },
   )
   content.Lh.layersBody = 'A cinematic burger composition, separated into individual visual layers.'
   content.Lh.upgradeBody = 'Explore the animation. Find your next favourite in our actual menu.'

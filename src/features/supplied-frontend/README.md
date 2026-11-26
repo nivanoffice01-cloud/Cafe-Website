@@ -1,5 +1,37 @@
 # Supplied Mangosteen frontend restoration
 
+## Authentic photography update — 26 November 2026
+
+The approved design is preserved on `mangosteen-authentic-content`. Its checkpoint
+is `checkpoint/approved-design-d7a8e55` at `d7a8e55`. `authentic-photos.ts` now maps
+the story, counter, rooftop lifestyle, façade, supporting pages and menu landing
+to responsive crops of the retained Mangosteen photographs. Originals remain
+unchanged in `public/images/highres/` and `public/images/gallery/`.
+
+No matched genuine photograph was found for any named catalogue dish. Existing
+food illustrations remain temporarily, as requested; each missing dish and all
+13 category banners are listed in
+`artifacts/mangosteen-authentic-content-review/missing-dish-assets.csv` and its
+JSON companion. The authentic overhead meal photograph has no confirmed dish
+identity and is used only as an unlabelled café food photograph.
+
+The hero/sprite files, motion logic, styles, masks, dimensions, transitions,
+navigation and reservation implementation are unchanged. Five sampled canvas
+frames match the approved version exactly. The artwork does not match the listed
+single chicken-and-egg burger; it remains a visual concept pending owner review.
+Ingredient labels describe the artwork rather than claiming an actual recipe.
+
+Business contact details, opening hours, rating provenance and the Maps pin were
+checked against the public Zomato listing. The complete 131-item catalogue is
+retained as an indicative published snapshot. Current owner-approved prices,
+48 missing descriptions and dietary metadata still require confirmation.
+
+Run `node scripts/review-authentic-content.mjs before|after` with Vite on port
+5173 for the photographic comparison and animation checks. The review directory
+contains the business regression results and source-preservation evidence.
+
+The following notes describe the original design restoration and its provenance.
+
 The active marketing entry restores the Chrome-saved Mangosteen design supplied on
 26 November 2026. It reuses the supplied layout, typography, colour tokens,
 photographs, poster framing, horizontal dish rail, canvas burger sequence,
