@@ -158,13 +158,15 @@ try {
   assert.notEqual(await page.evaluate(() => document.body.style.overflow), 'hidden')
   mark('Legacy dish query links, QR alias, search empty/clear states, back/scroll restoration, drawer focus trap and Escape verified')
 
-  // Menu is a personal shortlist without a valid QR context, never a checkout.
+  // Website entry is browse-only, including direct selection links.
   await goto('/menu/selection')
   assert.equal(await page.getByRole('button', { name: 'Demo pay & place order' }).count(), 0)
   await clickNav('Favourites'); await page.getByRole('button', { name: 'Remove Margarita from favourites', exact: true }).click()
   await page.getByRole('heading', { name: 'Nothing saved yet', exact: true }).waitFor()
-  await clickNav('My List'); await page.getByRole('heading', { name: 'Your list is empty', exact: true }).waitFor()
-  mark('Non-QR menu never exposes order submission; favourite removal and My List empty states verified')
+  assert.equal(await page.locator('.dm-add,.dm-quantity,.dm-selection-peek').count(), 0)
+  assert.equal(await page.locator('.dm-desktop-nav').getByRole('button', { name: 'My List', exact: true }).count(), 0)
+  await goto('/menu/selection?table=4'); await page.getByRole('heading', { name: 'Your list is empty', exact: true }).waitFor()
+  mark('Non-QR menu is browse-only; favourite removal and QR My List empty states verified')
 
   for (const [width, height] of [[320,568],[360,800],[375,667],[390,844],[393,852],[414,896],[430,932],[768,1024],[1024,768],[1440,1000],[1920,1080],[844,390]]) {
     await page.setViewportSize({ width, height })

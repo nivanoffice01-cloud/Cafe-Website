@@ -1,0 +1,27 @@
+{
+  "checks": [
+    "Website entry: 32 route/viewport combinations are browse-only, all 131 dishes retained, invalid QR/selection links fall back to categories, old QR cart remains hidden and unchanged",
+    "Website search, favourites, dish details and drawer work with no selection or checkout controls",
+    "Both Table 4 QR aliases skip hero; table context, independent details Add, quantities, totals, reload persistence and demo order submission pass against disposable CRM"
+  ],
+  "errors": [],
+  "orders": [
+    {
+      "requestKey": "7cfbdb15-b939-45fc-9418-eb1faab2c178",
+      "table": "4",
+      "guestName": "QR Access Regression Guest",
+      "phone": "",
+      "notes": "",
+      "paymentMethod": "demo-upi",
+      "items": [
+        {
+          "category": "Pizza & Pide",
+          "name": "Margarita",
+          "quantity": 1,
+          "unitPrice": 499
+        }
+      ],
+      "website": ""
+    }
+  ]
+}
