@@ -1,0 +1,118 @@
+{
+  "checks": [
+    "All 15 seating groups and 54 seat IDs match the unchanged CRM allow-list",
+    "Both maps retain exact chair counts; capacity filtering and selection reset work",
+    "Date/time/guest details survive back navigation; native phone/email validation and exact pending CRM payload verified",
+    "Escape closes the full-screen experience and restores background scrolling and interactivity",
+    "320–1920px: no page overflow; SVG keyboard activation, individual seats, list alternative, zoom and back navigation work",
+    "Mobile menu Escape/scroll lock and reservation Tab focus loop verified",
+    "Captured complete desktop/mobile recordings and mobile-emulation frame/resource measurements",
+    "Menu, seating data, backend/API, homepage content/motion/style sources unchanged; only shared-header export added"
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "scrollWidth": 320,
+      "documentWidth": 320
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "scrollWidth": 360,
+      "documentWidth": 360
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "documentWidth": 390
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "scrollWidth": 430,
+      "documentWidth": 430
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768,
+      "documentWidth": 768
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "scrollWidth": 1024,
+      "documentWidth": 1024
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "documentWidth": 1440
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "documentWidth": 1920
+    }
+  ],
+  "submissions": [
+    {
+      "area": "Inside Mangosteen",
+      "table": "Dining 02",
+      "seats": [
+        "D2-1",
+        "D2-2",
+        "D2-3",
+        "D2-4"
+      ],
+      "date": "2026-11-29",
+      "time": "20:00",
+      "reference": "MG-000011",
+      "status": "Pending"
+    }
+  ],
+  "performance": {
+    "environment": "Headless Chrome on local Mac; 390x844 touch viewport; 4x CPU slowdown; not physical-device or field CWV data",
+    "sampleMs": 2000,
+    "meanFrameIntervalMs": 16.59090909090909,
+    "maxFrameIntervalMs": 16.799999999999955,
+    "framesOver34ms": 0,
+    "reservationAssets": [
+      {
+        "url": "/images/reservation/walnut-v1.webp",
+        "transferBytes": 46982,
+        "decodedBytes": 46682
+      },
+      {
+        "url": "/images/reservation/palm-v1.webp",
+        "transferBytes": 89310,
+        "decodedBytes": 89010
+      },
+      {
+        "url": "/images/reservation/cane-chair-v1.webp",
+        "transferBytes": 22568,
+        "decodedBytes": 22268
+      }
+    ],
+    "longTasksDuringPageLoad": [
+      68,
+      79
+    ]
+  },
+  "protectedFiles": {
+    "src/data/seating.ts": "unchanged (header export excluded where applicable)",
+    "src/lib/crm.ts": "unchanged (header export excluded where applicable)",
+    "src/pages/MenuExperiencePage.tsx": "unchanged (header export excluded where applicable)",
+    "src/features/supplied-frontend/SuppliedDesign.tsx": "unchanged (header export excluded where applicable)",
+    "src/features/supplied-frontend/integration.css": "unchanged (header export excluded where applicable)",
+    "src/features/supplied-frontend/integration.tsx": "unchanged (header export excluded where applicable)",
+    "CRM/server.py": "unchanged (header export excluded where applicable)",
+    "api/full-menu.mjs": "unchanged (header export excluded where applicable)"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "src/data/seating.ts": "b46c9fb8897f64c599fa556b060f26d6486e7016deab4a1fbe16f175eec2e0ec",
+  "src/lib/crm.ts": "019ab4f4201a7b0c2d4944be37799d350d0c51d5d901fdeefbd0aa4ef14bdbaf",
+  "src/pages/MenuExperiencePage.tsx": "a2dfaec1492f39160833d9afb126864ae074dfecdefe9b46f8ac68d2bc471ce1",
+  "src/features/supplied-frontend/SuppliedDesign.tsx": "ff2db63b4122cb7807b9cfb1b51bf269b508d647663c19d6ff3f096e7cbe5c9a",
+  "src/features/supplied-frontend/integration.css": "07dc889508b24258beefc9e85d98898d9b264da77c27872c8caeaa1c7ca6bf3a",
+  "src/features/supplied-frontend/integration.tsx": "afb4a91598baaa9df445f489069e5222bc06c56f9c9d1c6069ff3e6524dae2e4",
+  "CRM/server.py": "162c42ca72c69842d6b17d70b86a4abb78b1978ecdd6fbbca556ea1a44f89722",
+  "api/full-menu.mjs": "c4d8c5f1418d2f3774501915cb76afb635b671229b7c556e70bef9b567b2185d"
+}

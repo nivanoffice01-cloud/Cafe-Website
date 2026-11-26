@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { ReservationDialog } from '../../components/ReservationDialog'
-import { Home, Story, Locations, Contact, observeMotion, startScroll, stopScroll, resetScroll } from './SuppliedDesign'
+import { SiteHeader, Home, Story, Locations, Contact, observeMotion, startScroll, stopScroll, resetScroll } from './SuppliedDesign'
 import { openReservation, reservationEvent, marketingNavigationEvent } from './integration'
 import './fonts.css'
 import './icons.css'
@@ -10,7 +10,7 @@ import './integration.css'
 
 export default function SuppliedFrontendPage() {
   const scope = useRef<HTMLDivElement>(null)
-  const [reservation, setReservation] = useState(false)
+  const [reservation, setReservation] = useState(location.pathname === '/contact' && location.hash === '#book')
   const [route, setRoute] = useState(location.pathname)
   const page = route === '/about' ? <Story/> : route === '/locations' ? <Locations/> : route === '/contact' ? <Contact/> : <Home/>
   useEffect(() => {
@@ -58,6 +58,15 @@ export default function SuppliedFrontendPage() {
     startScroll()
     const reserve = () => { stopScroll(); setReservation(true) }
     window.addEventListener(reservationEvent, reserve)
+    let bookingHash = location.pathname === '/contact' && location.hash === '#book'
+    const syncBookingLocation = () => {
+      const next = location.pathname === '/contact' && location.hash === '#book'
+      if (next) reserve()
+      else if (bookingHash) setReservation(false)
+      bookingHash = next
+    }
+    window.addEventListener('hashchange', syncBookingLocation)
+    if (bookingHash) reserve()
     // Saved hero/footer also contain ordinary anchors, alongside router-style links.
     const anchors = (event: globalThis.MouseEvent) => {
       const link = (event.target as Element).closest<HTMLAnchorElement>('a')
@@ -91,13 +100,13 @@ export default function SuppliedFrontendPage() {
       }
     }
     document.addEventListener('keydown', keyboard)
-    return () => { cleanup(); stopScroll(); observer.disconnect(); if (menuOpen) document.body.style.overflow = priorOverflow; document.removeEventListener('keydown', keyboard); root.removeEventListener('click', anchors); window.removeEventListener(reservationEvent, reserve) }
+    return () => { cleanup(); stopScroll(); observer.disconnect(); if (menuOpen) document.body.style.overflow = priorOverflow; document.removeEventListener('keydown', keyboard); root.removeEventListener('click', anchors); window.removeEventListener(reservationEvent, reserve); window.removeEventListener('hashchange', syncBookingLocation) }
   }, [route])
   useEffect(() => {
     if (!reservation) startScroll()
   }, [reservation])
   return <>
     <div ref={scope} className="saved-mangosteen motion-ready">{page}</div>
-    {reservation && <ReservationDialog onClose={() => setReservation(false)}/>}
+    {reservation && <ReservationDialog navigation={<SiteHeader/>} onClose={() => { setReservation(false); if (location.hash === '#book') history.replaceState(null, '', location.pathname) }}/>}
   </>
 }

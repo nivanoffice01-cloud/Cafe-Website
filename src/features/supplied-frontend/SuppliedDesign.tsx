@@ -269,4 +269,4 @@ function H_(e) { z_(); let t = new WeakSet, n = e => { e.classList.add(`m-in`), 
     return () => { }; let r = new IntersectionObserver(e => { e.forEach(e => { let t = e.target; (e.isIntersecting || e.boundingClientRect.bottom < 0) && (n(t), r.unobserve(t)); }); }, { rootMargin: `0px 0px -16% 0px`, threshold: 0 }), i = () => { V_(e), e.querySelectorAll(`[data-m], [data-count]`).forEach(e => { t.has(e) || (e.hasAttribute(`data-m`) || !e.closest(`[data-m]`)) && (t.add(e), r.observe(e)); }); }; i(); let a = 0, o = new MutationObserver(() => { a ||= window.requestAnimationFrame(() => { a = 0, i(); }); }); return o.observe(e, { childList: !0, subtree: !0 }), () => { r.disconnect(), o.disconnect(), a && cancelAnimationFrame(a); }; }
 
 applyVerifiedContent({ Rg, Bg, Qg, Vg, Hh, Lh, o_, s_, c_ })
-export { e_ as Home, g_ as Story, h_ as Locations, A_ as Contact, H_ as observeMotion, jg as startScroll, Mg as stopScroll, Ng as resetScroll }
+export { ts as SiteHeader, e_ as Home, g_ as Story, h_ as Locations, A_ as Contact, H_ as observeMotion, jg as startScroll, Mg as stopScroll, Ng as resetScroll }

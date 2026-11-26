@@ -1,0 +1,38 @@
+{
+  "home-390": {
+    "same_dimensions": true,
+    "pixel_identical": true,
+    "mean_absolute_difference_RGB": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "home-1440": {
+    "same_dimensions": true,
+    "pixel_identical": true,
+    "mean_absolute_difference_RGB": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "menu-390": {
+    "same_dimensions": true,
+    "pixel_identical": true,
+    "mean_absolute_difference_RGB": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "menu-1440": {
+    "same_dimensions": true,
+    "pixel_identical": true,
+    "mean_absolute_difference_RGB": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}
