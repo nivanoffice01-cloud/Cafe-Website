@@ -6,6 +6,7 @@ import { BookingControls } from '../features/reservations/BookingControls'
 import { SeatingMap } from '../features/reservations/SeatingMap'
 import { ReservationIcon } from '../features/reservations/ReservationIcon'
 import { authenticPhoto } from '../features/supplied-frontend/authentic-photos'
+import '../styles/reservation.css'
 
 type Props = { onClose: () => void; navigation?: ReactNode; initialSelection?: { date: string; time: string; guests: number } }
 
