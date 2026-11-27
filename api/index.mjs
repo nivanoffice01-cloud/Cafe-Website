@@ -1,11 +1,10 @@
-import { get, put, BlobPreconditionFailedError } from '@vercel/blob'
+import { get, put } from '@vercel/blob'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
 import { fullMenu } from './full-menu.mjs'
 import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable } from './floor.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
-const stateVersions = new WeakMap()
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
 const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
@@ -21,25 +20,20 @@ const store = () => ({
     const result = await get(blobPath(key), { access: 'private', useCache: false })
     if (!result?.stream) return null
     const value = await new Response(result.stream).text()
-    if (options.type === 'json') {
-      const parsed = JSON.parse(value)
-      if (key === STORE_KEY && result.blob?.etag) stateVersions.set(parsed, result.blob.etag)
-      return parsed
-    }
+    if (options.type === 'json') return JSON.parse(value)
     return value
   },
-  async set(key, value, options = {}) {
-    return put(blobPath(key), value, {
+  async set(key, value) {
+    await put(blobPath(key), value, {
       access: 'private',
       addRandomSuffix: false,
       allowOverwrite: true,
       cacheControlMaxAge: 60,
       contentType: 'application/json; charset=utf-8',
-      ...options,
     })
   },
-  async setJSON(key, value, options = {}) {
-    return this.set(key, JSON.stringify(value), options)
+  async setJSON(key, value) {
+    await this.set(key, JSON.stringify(value))
   },
 })
 const now = () => new Date().toISOString()
@@ -211,9 +205,7 @@ async function loadState() {
 }
 
 async function saveState(state) {
-  const version = stateVersions.get(state)
-  const result = await store().setJSON(STORE_KEY, state, version ? { ifMatch: version } : {})
-  if (result?.etag) stateVersions.set(state, result.etag)
+  await store().setJSON(STORE_KEY, state)
 }
 
 function json(payload, status = 200, headers = {}) {
@@ -657,7 +649,6 @@ async function handleRequest(request) {
     }
     return json({ error: 'API route not found' }, 404)
   } catch (error) {
-    if (error instanceof BlobPreconditionFailedError) return json({ error: 'Another team member updated the CRM. Refresh, review the latest details and try again.' }, 409)
     console.error('Mangosteen API error', error)
     return json({ error: error.message || 'The CRM could not complete this request.' }, error.status || 400)
   }

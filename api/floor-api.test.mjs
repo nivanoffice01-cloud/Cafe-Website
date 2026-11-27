@@ -5,7 +5,7 @@ import vm from 'node:vm'
 import * as crypto from 'node:crypto'
 import { dayInIndia } from './floor.mjs'
 
-test('hosted routes authenticate, persist visits and reject simultaneous overwrites', async () => {
+test('hosted routes authenticate, persist visits and validate conflicts and stale edits', async () => {
   let stored = null, version = 0
   class BlobPreconditionFailedError extends Error {}
   const blob = {
@@ -50,8 +50,10 @@ test('hosted routes authenticate, persist visits and reject simultaneous overwri
   assert.equal(bootstrap.tables.find(t => t.id === 'R1').session.name, 'Hosted Guest')
   assert.equal((await request('/tables/R1', { action: 'checkout' })).code, 200)
   assert.equal((await request('/tables/R1', { action: 'available' })).code, 200)
-  const parallel = await Promise.all([request('/tables/R3', { action: 'seat', name: 'Party One', guests: 2 }), request('/tables/R3', { action: 'seat', name: 'Party Two', guests: 2 })])
-  assert.deepEqual(parallel.map(r => r.code).sort(), [200,409])
+  assert.equal((await request('/tables/R3', { action: 'seat', name: 'Party One', guests: 2 })).code, 200)
+  assert.equal((await request('/tables/R3', { action: 'seat', name: 'Party Two', guests: 2 })).code, 409)
+  const editable = await request('/reservations', { ...body, tableId: 'R2', status: 'Pending' })
+  assert.equal((await request(`/reservations/${editable.payload.id}/edit`, { ...body, tableId: 'R2', revision: 999 })).code, 409)
   bootstrap = (await request('/bootstrap')).payload
   assert.equal(bootstrap.tables.find(t => t.id === 'R3').status, 'Occupied')
   assert.equal(bootstrap.reservations.find(r => r.id === created.payload.id).status, 'Completed')

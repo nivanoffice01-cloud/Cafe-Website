@@ -84,8 +84,11 @@ No-show is allowed after the arrival time, and terminal bookings are retained.
 Calendar/List views, date navigation, and status filters are supported. On mobile,
 use the page selector in the top bar. Customer message automation is separate.
 
-The hosted API uses conditional Vercel Blob writes to reject concurrent stale
-updates. Local SQLite uses a write transaction for each table/booking change.
+Reservation revisions reject stale booking forms after another saved edit.
+Local SQLite uses a write transaction for each table/booking change. The hosted
+demo retains its existing single-JSON Vercel Blob storage; it is not an atomic
+multi-user database. Use database transactions when migrating to MongoDB for
+production service.
 
 ## Demo owner sign-in
 
