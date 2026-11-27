@@ -120,7 +120,7 @@
 #root #cafe-gallery .cafe-gallery-collection header>p { font-size:14px; line-height:1.7; }
 @media (max-width:1023px) {
   .saved-mangosteen .cafe-gallery-spaces { --gallery-card-width:85vw; --gallery-card-height:min(calc(var(--gallery-card-width) / 1.5),max(120px,calc(100svh - 230px))); }
-  .saved-mangosteen .cafe-gallery-spaces.is-scroll-driven { min-height:0; height:calc(100svh - 90px); justify-content:flex-start; box-sizing:border-box; padding-top:clamp(22px,4.5svh,38px); }
+  .saved-mangosteen .cafe-gallery-spaces.is-scroll-driven { min-height:0; height:auto; justify-content:flex-start; box-sizing:border-box; padding-top:clamp(22px,4.5svh,38px); }
   .saved-mangosteen .cafe-spaces-window { height:var(--gallery-card-height); }
   .saved-mangosteen .is-scroll-driven .cafe-spaces-window { flex:none; height:var(--gallery-card-height); }
   .saved-mangosteen .cafe-gallery-collection-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
@@ -186,22 +186,6 @@
   .saved-mangosteen .cafe-gallery-viewer-bottom span { font-size:10px; }
   .saved-mangosteen .cafe-gallery-viewer-bottom nav { gap:7px; }
   .saved-mangosteen .cafe-gallery-viewer button { width:44px; height:44px; }
-}
-/* Portrait phones: the pinned section fills the viewport, so let the cards grow
-   into the free height (up to a 2:3 portrait card) instead of leaving a blank gap. */
-@media (max-width:767px) and (min-height:501px) and (orientation:portrait) {
-  .saved-mangosteen .cafe-gallery-spaces.is-scroll-driven { justify-content:center; padding-top:0; }
-  .saved-mangosteen .is-scroll-driven .cafe-spaces-window { flex:0 1 auto; height:calc(var(--gallery-card-width) * 1.5); min-height:260px; }
-  .saved-mangosteen .is-scroll-driven .cafe-gallery-photo { width:var(--gallery-card-width); height:100%; aspect-ratio:auto; }
-  .saved-mangosteen .is-scroll-driven .cafe-gallery-photo>img { left:-3%; width:106%; }
-  .saved-mangosteen .is-scroll-driven .cafe-gallery-caption { bottom:22px; left:20px; right:18px; }
-  .saved-mangosteen .is-scroll-driven .cafe-gallery-caption strong { font-size:clamp(26px,7.4vw,34px); }
-  .saved-mangosteen .is-scroll-driven .cafe-gallery-more { padding:28px 24px; justify-content:flex-end; }
-  .saved-mangosteen .is-scroll-driven .cafe-gallery-more-label { margin-bottom:14px; }
-  .saved-mangosteen .is-scroll-driven .cafe-gallery-more>strong { font-size:clamp(34px,9.6vw,44px); max-width:10ch; }
-  .saved-mangosteen .is-scroll-driven .cafe-gallery-more-description { display:block; font-size:13px; margin-top:16px; }
-  .saved-mangosteen .is-scroll-driven .cafe-gallery-more-action { margin-top:22px; }
-  .saved-mangosteen .is-scroll-driven .cafe-gallery-more-continue { display:flex; margin-top:22px; }
 }
 @media (prefers-reduced-motion:reduce) {
   .saved-mangosteen .cafe-gallery *, .saved-mangosteen .cafe-gallery-viewer * { transition:none!important; animation:none!important; }
