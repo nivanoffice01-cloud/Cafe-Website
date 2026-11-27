@@ -1,0 +1,260 @@
+{
+  "story-dining": {
+    "original": "public/images/highres/mangosteen_original_1_8k.jpg",
+    "alt": "The long wooden dining table, cane chairs and woven pendant lights at Mangosteen",
+    "width": 7680,
+    "height": 5116,
+    "files": [
+      {
+        "src": "/images/cafe-gallery/story-dining-640.webp",
+        "width": 640,
+        "height": 426,
+        "bytes": 81988
+      },
+      {
+        "src": "/images/cafe-gallery/story-dining-1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 199462
+      },
+      {
+        "src": "/images/cafe-gallery/story-dining-1920.webp",
+        "width": 1920,
+        "height": 1279,
+        "bytes": 316780
+      },
+      {
+        "src": "/images/cafe-gallery/story-dining-2560.webp",
+        "width": 2560,
+        "height": 1705,
+        "bytes": 458882
+      }
+    ]
+  },
+  "rooftop-evening": {
+    "original": "public/images/gallery/cafe-16.jpg",
+    "alt": "Mangosteen’s rooftop in the evening with wooden tables and tropical greenery",
+    "width": 1453,
+    "height": 969,
+    "files": [
+      {
+        "src": "/images/cafe-gallery/rooftop-evening-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 87168
+      },
+      {
+        "src": "/images/cafe-gallery/rooftop-evening-1280.webp",
+        "width": 1280,
+        "height": 854,
+        "bytes": 246682
+      },
+      {
+        "src": "/images/cafe-gallery/rooftop-evening-1453.webp",
+        "width": 1453,
+        "height": 969,
+        "bytes": 308558
+      }
+    ]
+  },
+  "counter": {
+    "original": "public/images/gallery/cafe-07.jpg",
+    "alt": "Mangosteen’s café counter, woven pendant lamps and wooden seating",
+    "width": 1545,
+    "height": 1030,
+    "files": [
+      {
+        "src": "/images/cafe-gallery/counter-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 94420
+      },
+      {
+        "src": "/images/cafe-gallery/counter-1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 278816
+      },
+      {
+        "src": "/images/cafe-gallery/counter-1545.webp",
+        "width": 1545,
+        "height": 1030,
+        "bytes": 399778
+      }
+    ]
+  },
+  "facade": {
+    "original": "public/images/highres/mangosteen_original_4_8k.jpg",
+    "alt": "The illuminated handwritten Mangosteen sign, wooden façade and hanging greenery",
+    "width": 7680,
+    "height": 4314,
+    "files": [
+      {
+        "src": "/images/cafe-gallery/facade-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 67378
+      },
+      {
+        "src": "/images/cafe-gallery/facade-1280.webp",
+        "width": 1280,
+        "height": 719,
+        "bytes": 169514
+      },
+      {
+        "src": "/images/cafe-gallery/facade-1920.webp",
+        "width": 1920,
+        "height": 1079,
+        "bytes": 265208
+      },
+      {
+        "src": "/images/cafe-gallery/facade-2560.webp",
+        "width": 2560,
+        "height": 1438,
+        "bytes": 363642
+      }
+    ]
+  },
+  "menu-invitation": {
+    "original": "public/images/gallery/cafe-18.jpeg",
+    "alt": "Wooden rooftop tables and greenery at Mangosteen Café",
+    "width": 1600,
+    "height": 1066,
+    "files": [
+      {
+        "src": "/images/cafe-gallery/menu-invitation-640.webp",
+        "width": 640,
+        "height": 426,
+        "bytes": 86570
+      },
+      {
+        "src": "/images/cafe-gallery/menu-invitation-1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 279518
+      },
+      {
+        "src": "/images/cafe-gallery/menu-invitation-1600.webp",
+        "width": 1600,
+        "height": 1066,
+        "bytes": 392318
+      }
+    ]
+  },
+  "cane-seating": {
+    "original": "public/images/gallery/cafe-06.png",
+    "alt": "Cane-back chairs and wooden tables beside Mangosteen’s windows",
+    "width": 1032,
+    "height": 1282,
+    "files": [
+      {
+        "src": "/images/cafe-gallery/cane-seating-640.webp",
+        "width": 640,
+        "height": 795,
+        "bytes": 108752
+      },
+      {
+        "src": "/images/cafe-gallery/cane-seating-1032.webp",
+        "width": 1032,
+        "height": 1282,
+        "bytes": 198754
+      }
+    ]
+  },
+  "rooftop-daylight": {
+    "original": "public/images/gallery/cafe-14.png",
+    "alt": "Mangosteen’s open rooftop in daylight, with wooden tables and tropical planters",
+    "width": 1960,
+    "height": 1292,
+    "files": [
+      {
+        "src": "/images/cafe-gallery/rooftop-daylight-640.webp",
+        "width": 640,
+        "height": 422,
+        "bytes": 98424
+      },
+      {
+        "src": "/images/cafe-gallery/rooftop-daylight-1280.webp",
+        "width": 1280,
+        "height": 844,
+        "bytes": 304734
+      },
+      {
+        "src": "/images/cafe-gallery/rooftop-daylight-1920.webp",
+        "width": 1920,
+        "height": 1266,
+        "bytes": 522740
+      },
+      {
+        "src": "/images/cafe-gallery/rooftop-daylight-1960.webp",
+        "width": 1960,
+        "height": 1292,
+        "bytes": 543374
+      }
+    ]
+  },
+  "evening-corner": {
+    "original": "public/images/gallery/cafe-19.jpg",
+    "alt": "Warm pendant lighting over Mangosteen’s rooftop seating in the evening",
+    "width": 1962,
+    "height": 1198,
+    "files": [
+      {
+        "src": "/images/cafe-gallery/evening-corner-640.webp",
+        "width": 640,
+        "height": 391,
+        "bytes": 66418
+      },
+      {
+        "src": "/images/cafe-gallery/evening-corner-1280.webp",
+        "width": 1280,
+        "height": 782,
+        "bytes": 187012
+      },
+      {
+        "src": "/images/cafe-gallery/evening-corner-1920.webp",
+        "width": 1920,
+        "height": 1172,
+        "bytes": 311876
+      },
+      {
+        "src": "/images/cafe-gallery/evening-corner-1962.webp",
+        "width": 1962,
+        "height": 1198,
+        "bytes": 307374
+      }
+    ]
+  },
+  "main-dining": {
+    "original": "public/images/highres/mangosteen_original_3_8k.jpg",
+    "alt": "Mangosteen’s main dining space with woven pendant lamps and its decorative café counter",
+    "width": 7680,
+    "height": 5760,
+    "files": [
+      {
+        "src": "/images/cafe-gallery/main-dining-640.webp",
+        "width": 640,
+        "height": 480,
+        "bytes": 95600
+      },
+      {
+        "src": "/images/cafe-gallery/main-dining-1280.webp",
+        "width": 1280,
+        "height": 960,
+        "bytes": 246714
+      },
+      {
+        "src": "/images/cafe-gallery/main-dining-1920.webp",
+        "width": 1920,
+        "height": 1440,
+        "bytes": 384616
+      },
+      {
+        "src": "/images/cafe-gallery/main-dining-2560.webp",
+        "width": 2560,
+        "height": 1920,
+        "bytes": 551298
+      }
+    ]
+  }
+}

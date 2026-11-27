@@ -1,0 +1,19 @@
+{
+  "checks": [
+    "Production: Arrow keys focus and reveal offscreen photographs in pinned and native rail modes; live reduced-motion changes stop animations and remove the pin."
+  ],
+  "errors": [],
+  "performance": {
+    "durationMs": 7610,
+    "samples": 455,
+    "meanFrameMs": 16.7,
+    "p95FrameMs": 16.8,
+    "frameIntervalsOver33ms": 0,
+    "longTasks": [],
+    "canvasPixels": 283900,
+    "autoRevealCoverage": 0.403,
+    "revealed": true,
+    "environment": "Local production build, Chrome mobile emulation 390×844 DPR2, 4× CPU slowdown, 6Mbps / 80ms network. rAF intervals during real touch wiping and reveal; not a physical-phone or field Core Web Vitals measurement.",
+    "pageTransferToGalleryBytes": 6275330
+  }
+}

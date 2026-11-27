@@ -1,0 +1,159 @@
+{
+  "date": "2026-11-27",
+  "localUrl": "http://127.0.0.1:5173/",
+  "scope": "Only the homepage café gallery",
+  "checkpoint": {
+    "commit": "bc04d5affdd503ee9f85d17f03eb62f1205b2dd4",
+    "branch": "checkpoint/before-cinematic-gallery-bc04d5a"
+  },
+  "implemented": [
+    "Canvas condensation with droplets, diffuse genuine photography, grain and soft persistent erasing along the real pointer path",
+    "Intentional horizontal touch wiping, with native vertical page scrolling preserved",
+    "Automatic reveal at 40% coverage; revealed state persists for the document visit and SPA navigation",
+    "Welcome typography, gentle photographic zoom-out, accessible Reveal photo and Explore our spaces actions",
+    "GSAP desktop horizontal photographic travel, independent image parallax, progress, forward/reverse scrolling and natural pin release",
+    "Native mobile/tablet photo swipe and snapping, keyboard navigation and original full-screen viewer",
+    "Responsive bounded Canvas resolution, lazy-loading, offscreen pause, lifecycle cleanup and live reduced-motion support"
+  ],
+  "files": [
+    "src/features/supplied-frontend/CafeGallery.tsx",
+    "src/features/supplied-frontend/GalleryGlassEntrance.tsx",
+    "src/features/supplied-frontend/gallery-condensation.ts",
+    "src/features/supplied-frontend/cafe-gallery.css",
+    "src/features/supplied-frontend/SuppliedDesign.tsx (gallery integration only)",
+    "scripts/review-cinematic-gallery.mjs"
+  ],
+  "protection": [
+    "Only gallery files changed; original PhotoViewer source, homepage hero/navbar, menu, reservations, CRM, APIs, data, package dependencies and genuine photographs are unchanged",
+    "Seven widths: no horizontal page overflow, bounded Canvas resolution, all five images, keyboard skip and reduced-motion fallback verified"
+  ],
+  "verification": {
+    "build": "Passed, TypeScript and Vite production build",
+    "backend": "9 existing tests passed; CRM JavaScript syntax passed",
+    "menu": "Existing access regression passed: 32 browse-only route/viewport combinations, table-specific QR routes, search, favourites, details, quantities, persistence and demo submission to a disposable CRM",
+    "gallery": {
+      "checks": [
+        "Only gallery files changed; original PhotoViewer source, homepage hero/navbar, menu, reservations, CRM, APIs, data, package dependencies and genuine photographs are unchanged",
+        "Seven widths: no horizontal page overflow, bounded Canvas resolution, all five images, keyboard skip and reduced-motion fallback verified"
+      ],
+      "desktop": {
+        "partialCoverage": 0.092,
+        "autoRevealCoverage": 0.413,
+        "erasedAlpha": 0,
+        "alphaAfterResize": 0,
+        "canvasPixelBudget": null,
+        "scrollDistance": 4240,
+        "reversible": true,
+        "pinRelease": true,
+        "fullscreenPreserved": true,
+        "spaStatePersists": true,
+        "noDuplicatePin": true
+      },
+      "mobile": {
+        "verticalGesturePageScroll": 242,
+        "verticalGestureCleared": 0,
+        "autoRevealCoverage": 0.401,
+        "nativeHorizontalScroll": 354,
+        "verticalGalleryScroll": true,
+        "noForcedPin": true
+      },
+      "viewports": [
+        {
+          "width": 320,
+          "pageOverflow": false,
+          "canvasPixels": 158188,
+          "photos": 5,
+          "keyboardSkip": true,
+          "reducedMotionStatic": true
+        },
+        {
+          "width": 375,
+          "pageOverflow": false,
+          "canvasPixels": 188823,
+          "photos": 5,
+          "keyboardSkip": true,
+          "reducedMotionStatic": true
+        },
+        {
+          "width": 390,
+          "pageOverflow": false,
+          "canvasPixels": 197178,
+          "photos": 5,
+          "keyboardSkip": true,
+          "reducedMotionStatic": true
+        },
+        {
+          "width": 430,
+          "pageOverflow": false,
+          "canvasPixels": 219458,
+          "photos": 5,
+          "keyboardSkip": true,
+          "reducedMotionStatic": true
+        },
+        {
+          "width": 768,
+          "pageOverflow": false,
+          "canvasPixels": 445440,
+          "photos": 5,
+          "keyboardSkip": true,
+          "reducedMotionStatic": true
+        },
+        {
+          "width": 1440,
+          "pageOverflow": false,
+          "canvasPixels": 849920,
+          "photos": 5,
+          "keyboardSkip": true,
+          "reducedMotionStatic": true
+        },
+        {
+          "width": 1920,
+          "pageOverflow": false,
+          "canvasPixels": 694400,
+          "photos": 5,
+          "keyboardSkip": true,
+          "reducedMotionStatic": true
+        }
+      ],
+      "errors": [],
+      "consoleErrors": [],
+      "recordings": [
+        {
+          "label": "Desktop wipe, automatic reveal and forward/reverse gallery",
+          "source": "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/artifacts/cafe-cinematic-gallery/recordings/raw/page@ad86b52fd4041c99b1ef48a2f9a9394f.webm",
+          "output": "artifacts/cafe-cinematic-gallery/recordings/desktop-gallery.mp4"
+        },
+        {
+          "label": "Mobile touch wiping and native gallery swiping",
+          "source": "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/artifacts/cafe-cinematic-gallery/recordings/raw/page@cb7e96d89ed0ba9307a0d4098b42b3f6.webm",
+          "output": "artifacts/cafe-cinematic-gallery/recordings/mobile-gallery.mp4"
+        }
+      ]
+    },
+    "final": {
+      "checks": [
+        "Production: Arrow keys focus and reveal offscreen photographs in pinned and native rail modes; live reduced-motion changes stop animations and remove the pin."
+      ],
+      "errors": [],
+      "performance": {
+        "durationMs": 7610,
+        "samples": 455,
+        "meanFrameMs": 16.7,
+        "p95FrameMs": 16.8,
+        "frameIntervalsOver33ms": 0,
+        "longTasks": [],
+        "canvasPixels": 283900,
+        "autoRevealCoverage": 0.403,
+        "revealed": true,
+        "environment": "Local production build, Chrome mobile emulation 390×844 DPR2, 4× CPU slowdown, 6Mbps / 80ms network. rAF intervals during real touch wiping and reveal; not a physical-phone or field Core Web Vitals measurement.",
+        "pageTransferToGalleryBytes": 6275330
+      }
+    }
+  },
+  "limitations": [
+    "Performance figures are local Chrome emulation measurements, not physical iPhone/Safari tests or field Core Web Vitals.",
+    "The optical glass effect is a lightweight Canvas approximation rather than a physical fluid simulation.",
+    "Existing original café photographs are preserved; visible sharpness on large displays remains limited by their source resolution."
+  ],
+  "deployment": "Not deployed. No remote Git push or production change."
+}

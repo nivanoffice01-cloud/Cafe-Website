@@ -1,0 +1,28 @@
+PASS desktop wipe, mask persistence, auto completion, pin, reverse, release, viewer and cleanup
+PASS real touch: vertical navigation, intentional wiping, automatic reveal and native photo swipe
+{
+  desktop: {
+    partialCoverage: 0.092,
+    autoRevealCoverage: 0.413,
+    erasedAlpha: 0,
+    alphaAfterResize: 0,
+    canvasPixelBudget: null,
+    scrollDistance: 4240,
+    reversible: true,
+    pinRelease: true,
+    fullscreenPreserved: true,
+    spaStatePersists: true,
+    noDuplicatePin: true
+  },
+  mobile: {
+    verticalGesturePageScroll: 242,
+    verticalGestureCleared: 0,
+    autoRevealCoverage: 0.401,
+    nativeHorizontalScroll: 354,
+    verticalGalleryScroll: true,
+    noForcedPin: true
+  },
+  viewports: 7,
+  errors: [],
+  failure: undefined
+}

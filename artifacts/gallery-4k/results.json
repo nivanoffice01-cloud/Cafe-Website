@@ -1,0 +1,203 @@
+{
+  "assets": [
+    {
+      "key": "story-dining",
+      "original": "public/images/highres/mangosteen_original_1_8k.jpg",
+      "master": "assets/gallery-restorations/story-dining.png",
+      "generationDimensions": {
+        "width": 1537,
+        "height": 1023
+      },
+      "export": {
+        "width": 3840,
+        "height": 2556
+      },
+      "fullFile": "/images/cafe-gallery-enhanced/story-dining-3840.webp",
+      "bytes": 1204060,
+      "enhanced": true
+    },
+    {
+      "key": "rooftop-evening",
+      "original": "public/images/gallery/cafe-16.jpg",
+      "master": "assets/gallery-restorations/rooftop-evening.png",
+      "generationDimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "export": {
+        "width": 3840,
+        "height": 2560
+      },
+      "fullFile": "/images/cafe-gallery-enhanced/rooftop-evening-3840.webp",
+      "bytes": 1263794,
+      "enhanced": true
+    },
+    {
+      "key": "counter",
+      "original": "public/images/gallery/cafe-07.jpg",
+      "master": "assets/gallery-restorations/counter.png",
+      "generationDimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "export": {
+        "width": 3840,
+        "height": 2560
+      },
+      "fullFile": "/images/cafe-gallery-enhanced/counter-3840.webp",
+      "bytes": 1391034,
+      "enhanced": true
+    },
+    {
+      "key": "facade",
+      "original": "public/images/highres/mangosteen_original_4_8k.jpg",
+      "master": "assets/gallery-restorations/facade.png",
+      "generationDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "export": {
+        "width": 3840,
+        "height": 2161
+      },
+      "fullFile": "/images/cafe-gallery-enhanced/facade-3840.webp",
+      "bytes": 1159466,
+      "enhanced": true
+    },
+    {
+      "key": "menu-invitation",
+      "original": "public/images/gallery/cafe-18.jpeg",
+      "master": "assets/gallery-restorations/menu-invitation.png",
+      "generationDimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "export": {
+        "width": 3840,
+        "height": 2560
+      },
+      "fullFile": "/images/cafe-gallery-enhanced/menu-invitation-3840.webp",
+      "bytes": 1319578,
+      "enhanced": true
+    },
+    {
+      "key": "cane-seating",
+      "original": "public/images/gallery/cafe-06.png",
+      "master": "assets/gallery-restorations/cane-seating.png",
+      "generationDimensions": {
+        "width": 1125,
+        "height": 1398
+      },
+      "export": {
+        "width": 3090,
+        "height": 3840
+      },
+      "fullFile": "/images/cafe-gallery-enhanced/cane-seating-3090.webp",
+      "bytes": 1095706,
+      "enhanced": true
+    },
+    {
+      "key": "rooftop-daylight",
+      "original": "public/images/gallery/cafe-14.png",
+      "master": "assets/gallery-restorations/rooftop-daylight.png",
+      "generationDimensions": {
+        "width": 1543,
+        "height": 1019
+      },
+      "export": {
+        "width": 3840,
+        "height": 2536
+      },
+      "fullFile": "/images/cafe-gallery-enhanced/rooftop-daylight-3840.webp",
+      "bytes": 1342952,
+      "enhanced": true
+    },
+    {
+      "key": "evening-corner",
+      "original": "public/images/gallery/cafe-19.jpg",
+      "master": "assets/gallery-restorations/evening-corner.png",
+      "generationDimensions": {
+        "width": 1605,
+        "height": 980
+      },
+      "export": {
+        "width": 3840,
+        "height": 2345
+      },
+      "fullFile": "/images/cafe-gallery-enhanced/evening-corner-3840.webp",
+      "bytes": 965278,
+      "enhanced": true
+    },
+    {
+      "key": "main-dining",
+      "original": "public/images/highres/mangosteen_original_3_8k.jpg",
+      "master": "assets/gallery-restorations/main-dining.png",
+      "generationDimensions": {
+        "width": 1448,
+        "height": 1086
+      },
+      "export": {
+        "width": 3840,
+        "height": 2880
+      },
+      "fullFile": "/images/cafe-gallery-enhanced/main-dining-3840.webp",
+      "bytes": 1367646,
+      "enhanced": true
+    }
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "enhancedSource": "http://127.0.0.1:5173/images/cafe-gallery-enhanced/story-dining-1280.webp",
+      "disclosures": 9,
+      "originalToggle": true,
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "enhancedSource": "http://127.0.0.1:5173/images/cafe-gallery-enhanced/story-dining-1280.webp",
+      "disclosures": 9,
+      "originalToggle": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "enhancedSource": "http://127.0.0.1:5173/images/cafe-gallery-enhanced/story-dining-1280.webp",
+      "disclosures": 9,
+      "originalToggle": true,
+      "overflow": false
+    },
+    {
+      "width": 430,
+      "enhancedSource": "http://127.0.0.1:5173/images/cafe-gallery-enhanced/story-dining-1280.webp",
+      "disclosures": 9,
+      "originalToggle": true,
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "enhancedSource": "http://127.0.0.1:5173/images/cafe-gallery-enhanced/story-dining-1280.webp",
+      "disclosures": 9,
+      "originalToggle": true,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "enhancedSource": "http://127.0.0.1:5173/images/cafe-gallery-enhanced/story-dining-1920.webp",
+      "disclosures": 9,
+      "originalToggle": true,
+      "overflow": false
+    },
+    {
+      "width": 3840,
+      "enhancedSource": "http://127.0.0.1:5173/images/cafe-gallery-enhanced/story-dining-3840.webp",
+      "disclosures": 9,
+      "originalToggle": true,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "notes": [
+    "4K-size exports of AI-assisted restorations, not native 4K captures or exact pixel copies. All original café photographs are retained and available in the viewer."
+  ]
+}
