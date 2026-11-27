@@ -187,6 +187,7 @@ def payload(state):
 def enrich(connection, base):
     row = connection.execute("SELECT value FROM settings WHERE key='floor_state'").fetchone()
     extra = json.loads(row['value']) if row else {}
+    base['waitlist'] = extra.get('waitlist', [])
     for o in base.get('orders', []):
         if str(o['id']) in extra.get('closedOrders', {}):
             o['floorClosedAt'] = extra['closedOrders'][str(o['id'])]
@@ -210,4 +211,5 @@ def persist(connection, state):
     previous = connection.execute("SELECT value FROM settings WHERE key='floor_state'").fetchone()
     closed = json.loads(previous['value']).get('closedOrders', {}) if previous else {}
     closed.update({str(o['id']):o['floorClosedAt'] for o in state.get('orders', []) if o.get('floorClosedAt')})
-    connection.execute("INSERT INTO settings(key,value) VALUES('floor_state',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", (json.dumps(dict(tables=tables, bookings=metadata, closedOrders=closed)),))
+    waiting = [{k:v for k,v in e.items() if k != 'tableChoices'} for e in state.get('waitlist', [])]
+    connection.execute("INSERT INTO settings(key,value) VALUES('floor_state',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", (json.dumps(dict(tables=tables, bookings=metadata, closedOrders=closed, waitlist=waiting)),))

@@ -233,6 +233,7 @@ const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: 'grid' },
   { id: 'orders', label: 'Orders & POS', icon: 'coffee' },
   { id: 'tables', label: 'Live tables', icon: 'table' },
+  { id: 'waitlist', label: 'Waiting list', icon: 'users' },
   { id: 'kitchen', label: 'Kitchen display', icon: 'clock' },
   { id: 'billing', label: 'Billing & closing', icon: 'wallet' },
   { id: 'stock', label: 'Inventory', icon: 'database' },
@@ -250,15 +251,16 @@ const navItems = [
 const rolePages = {
   Owner: navItems.map((item) => item.id),
   Manager: navItems.map((item) => item.id),
-  Cashier: ['dashboard', 'tables', 'orders', 'billing', 'customers', 'reservations'],
+  Cashier: ['dashboard', 'tables', 'waitlist', 'orders', 'billing', 'customers', 'reservations'],
   Kitchen: ['kitchen'],
-  Host: ['dashboard', 'tables', 'customers', 'reservations', 'feedback', 'reports'],
+  Host: ['dashboard', 'tables', 'waitlist', 'customers', 'reservations', 'feedback', 'reports'],
 };
 
 const pageSearchAliases = {
   dashboard: 'home overview summary',
   orders: 'order orders pos table takeaway menu',
   tables: 'live tables floor board occupancy cleaning waiter seating',
+  waitlist: 'waiting waitlist walk-in queue arrivals walkins',
   kitchen: 'kitchen display tickets cooking',
   billing: 'billing bill payment payments closing cash',
   stock: 'inventory stock ingredients supplies',
@@ -438,6 +440,7 @@ function renderPage() {
     customers: renderCustomers,
     reservations: renderFloorReservations,
     tables: renderTableBoard,
+    waitlist: renderWaitlist,
     loyalty: renderLoyalty,
     feedback: renderFeedback,
     reports: renderReports,
@@ -1307,7 +1310,7 @@ document.getElementById('modal-root').addEventListener('click', async (event) =>
 document.getElementById('modal-root').addEventListener('submit', async (event) => {
   event.preventDefault();
   const form = event.target;
-  if (['booking-editor', 'table-editor'].includes(form.id)) return;
+  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat'].includes(form.id)) return;
   const values = Object.fromEntries(new FormData(form).entries());
   const submit = form.closest('.modal')?.querySelector('[type="submit"]');
   if (submit) { submit.disabled = true; submit.dataset.original = submit.innerHTML; submit.textContent = 'Saving…'; }

@@ -91,6 +91,24 @@ demo retains its existing single-JSON Vercel Blob storage; it is not an atomic
 multi-user database. Use database transactions when migrating to MongoDB for
 production service.
 
+## Walk-in waiting list
+
+Open **Waiting list** to add a party with guest name, optional phone, party size,
+quoted wait in minutes, and notes. Arrival time is recorded automatically. The
+queue shows actual waiting time and highlights parties past their quoted wait;
+it refreshes every 15 seconds. Estimated wait is staff-entered, not a guarantee.
+
+Use **Mark called** after calling the guest in person. **Seat party** checks
+capacity, table occupancy/cleaning and the next 90 minutes of confirmed bookings,
+then moves the party to History and starts a visit on Live tables. Guest left
+and Cancel entry also retain their history. Previous-day waiting entries remain
+visible but must be closed and re-added if the party returns today. Staff can
+filter History by arrival date. Automatic customer messaging is separate.
+
+Owner, Manager, Cashier and Host can manage the list; Kitchen cannot access it.
+Queue records use the existing cloud store in Vercel and floor metadata in local
+SQLite. New entries have retry keys and edits check record revisions.
+
 ## Demo owner sign-in
 
 - Email: `owner@mangosteen.local`

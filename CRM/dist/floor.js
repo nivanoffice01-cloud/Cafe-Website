@@ -10,7 +10,7 @@ function renderTableBoard() {
   const visible = tables.filter(t => (!state.floorZone || t.zone === state.floorZone) && (!state.floorStatus || t.displayStatus === state.floorStatus));
   const linkedOrders = new Set(tables.flatMap(t => t.openOrders.map(o => o.id)));
   const unmapped = (data.orders || []).filter(o => !['Paid', 'Cancelled'].includes(o.status) && !linkedOrders.has(o.id));
-  return `${pageHeader('Floor service', 'Live tables', 'Seat guests, assign your team and keep every table ready for its next visit.', floorButton('Refresh', 'refresh') + `<button class="btn" data-page="reservations">Reservations</button>`)}
+  return `${pageHeader('Floor service', 'Live tables', 'Seat guests, assign your team and keep every table ready for its next visit.', floorButton('Refresh', 'refresh') + `<button class="btn" data-page="waitlist">Waiting list (${(data.waitlist || []).filter(e => ['Waiting','Called'].includes(e.status)).length})</button><button class="btn" data-page="reservations">Reservations</button>`)}
     <div class="mini-stats">${['Available', 'Reserved', 'Occupied', 'Cleaning'].map(status => `<div class="mini-stat"><span>${status}</span><strong>${tables.filter(t => t.displayStatus === status).length}</strong></div>`).join('')}</div>
     <div class="toolbar floor-toolbar"><label>Area <select id="floor-zone"><option value="">All areas</option>${[...new Set(tables.map(t => t.zone))].map(zone => `<option ${zone === state.floorZone ? 'selected' : ''}>${escapeHtml(zone)}</option>`).join('')}</select></label><label>Status <select id="floor-status"><option value="">All tables</option>${['Available', 'Reserved', 'Occupied', 'Cleaning'].map(s => `<option ${s === state.floorStatus ? 'selected' : ''}>${s}</option>`).join('')}</select></label><span class="floor-refresh-note">Updates every 15 seconds</span></div>
     ${unmapped.length ? `<div class="floor-import-note"><span>${unmapped.length} open order${unmapped.length === 1 ? '' : 's'} use other table names: ${[...new Set(unmapped.map(o => escapeHtml(o.table)))].join(', ')}.</span><button class="btn btn-small" data-page="orders">View orders</button></div>` : ''}
@@ -124,7 +124,7 @@ document.addEventListener('submit', async event => {
 
 let floorRefreshing = false;
 setInterval(async () => {
-  if (floorRefreshing || document.hidden || authState !== 'authenticated' || !['tables','reservations'].includes(state.page) || document.getElementById('modal-root')?.children.length || ['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName)) return;
+  if (floorRefreshing || document.hidden || authState !== 'authenticated' || !['tables','reservations','waitlist'].includes(state.page) || document.getElementById('modal-root')?.children.length || ['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName)) return;
   floorRefreshing = true;
   try { await loadData({ quiet: true }); if (!dataError) refreshPage(); } finally { floorRefreshing = false; }
 }, 15000);

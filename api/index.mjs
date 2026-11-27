@@ -2,6 +2,7 @@ import { get, put } from '@vercel/blob'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
 import { fullMenu } from './full-menu.mjs'
 import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable, keepPaidVisit, orderIsPaid } from './floor.mjs'
+import { waitlistPayload, updateWaitlist } from './waitlist.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
@@ -258,6 +259,7 @@ function publicUser(user) {
 function bootstrap(state, user) {
   const role = user.role
   const base = {
+    waitlist: role === 'Kitchen' ? [] : waitlistPayload(state),
     tables: role === 'Kitchen' ? [] : floorPayload(state),
     floorStaff: role === 'Kitchen' ? [] : (state.staff || []).map(({ id, name, jobRole }) => ({ id, name, jobRole })),
     customers: role === 'Kitchen' ? [] : state.customers,
@@ -453,6 +455,15 @@ async function handleRequest(request) {
     }
 
     if (request.method !== 'POST') return json({ error: 'API route not found' }, 404)
+
+    const waitingRoute = path.match(/^\/waitlist(?:\/(\d+))?$/)
+    if (waitingRoute) {
+      const actor = requireRoles(request, state, ['Owner', 'Manager', 'Cashier', 'Host'])
+      const entry = updateWaitlist(state, body, actor, waitingRoute[1] ? Number(waitingRoute[1]) : null)
+      addActivity(state, 'reservation', 'Waiting list updated', `${entry.name} · ${entry.status} · ${actor.name}`)
+      await saveState(state)
+      return json({ id: entry.id, status: entry.status })
+    }
 
     const floorRoute = path.match(/^\/(tables|reservations)(?:\/(\w[\w-]*))?(?:\/(status|edit))?$/)
     if (floorRoute) {

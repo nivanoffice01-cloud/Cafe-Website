@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import csv
 import floor
+import waitlist
 from contextlib import closing, contextmanager
 import hashlib
 import hmac
@@ -1106,9 +1107,10 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
             **operations,
             "user": current_user}
     if (current_user or {}).get("role") != "Kitchen":
-        floor.enrich(connection, result)
+        floor_state = floor.enrich(connection, result)
+        result['waitlist'] = waitlist.payload(floor_state)
     else:
-        result.update(tables=[], floorStaff=[])
+        result.update(tables=[], floorStaff=[], waitlist=[])
     result['settings'].pop('floor_state', None)
     return result
 
@@ -1654,6 +1656,18 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     connection.execute("DELETE FROM sessions WHERE user_id=? AND token_hash<>?", (user["id"], current_hash))
                     connection.commit()
                     self.send_json({"changed": True})
+                    return
+
+                waiting_route = re.fullmatch(r'/api/waitlist(?:/(\d+))?', path)
+                if waiting_route:
+                    self.require_roles('Owner', 'Manager', 'Cashier', 'Host')
+                    connection.execute('BEGIN IMMEDIATE')
+                    state = floor.enrich(connection, bootstrap_payload(connection, user))
+                    entry = waitlist.update(state, body, user, int(waiting_route[1]) if waiting_route[1] else None)
+                    floor.persist(connection, state)
+                    connection.execute("INSERT INTO activities(kind,title,details,created_at) VALUES('reservation',?,?,?)", ('Waiting list updated', f"{entry['name']} · {entry['status']} · {user['name']}", now_iso()))
+                    connection.commit()
+                    self.send_json(dict(id=entry['id'], status=entry['status']))
                     return
 
                 floor_route = re.fullmatch(r"/api/(tables|reservations)(?:/([\w-]+))?(?:/(status|edit))?", path)

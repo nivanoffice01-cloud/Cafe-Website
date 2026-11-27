@@ -146,12 +146,11 @@ export function changeTable(state, id, body, user) {
     if (waiterId && !(state.staff || []).some(s => String(s.id) === waiterId)) fail('Choose a staff member from the roster.')
     t.waiterId = waiterId
   } else if (body.action === 'seat') {
-    if (t.status !== 'Available' || tableOrders(state, t).length) fail('This table is not available.')
     const guests = Number(body.guests)
     const name = String(body.name || '').trim()
     if (name.length < 2 || !Number.isInteger(guests) || guests < 1 || guests > t.capacity) fail(`Enter a guest name and 1–${t.capacity} guests.`)
-    const upcoming = state.reservations.filter(r => r.tableId === id && active.includes(r.status) && minute(r) < Date.now() / 60000 + 90 && minute(r) + r.duration > Date.now() / 60000)
-    if (upcoming.length) fail('A confirmed booking needs this table within 90 minutes. Choose another table.')
+    const problem = walkInProblem(state, t, guests)
+    if (problem) fail(problem)
     t.status = 'Occupied'; t.session = { name, guests, startedAt: stamp() }
   } else if (body.action === 'checkout') {
     const orders = tableOrders(state, t)
@@ -166,4 +165,11 @@ export function changeTable(state, id, body, user) {
   } else fail('Unknown table action.')
   t.updatedAt = stamp()
   return t
+}
+export function walkInProblem(state, table, guests) {
+  if (table.active === false) return 'Table disabled'
+  if (guests > table.capacity) return `Only ${table.capacity} seats`
+  if (table.status !== 'Available' || tableOrders(state, table).length) return 'This table is not available.'
+  if (state.reservations.some(r => r.tableId === table.id && active.includes(r.status) && minute(r) < Date.now() / 60000 + 90 && minute(r) + r.duration > Date.now() / 60000)) return 'A confirmed booking needs this table within 90 minutes. Choose another table.'
+  return ''
 }

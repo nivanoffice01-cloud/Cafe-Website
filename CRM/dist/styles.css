@@ -1389,6 +1389,26 @@ svg {
 .floor-refresh-note { margin-left:auto; font-size:11px; color:var(--ink-3); }
 .floor-import-note { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center; margin-bottom:16px; padding:12px 16px; border:1px solid var(--line); border-radius:12px; font-size:12px; background:#faf5e9; }
 .floor-arrivals { display:grid; gap:10px; }
+.waiting-list { display:grid; gap:14px; }
+.mini-stats.waiting-stats { grid-template-columns:repeat(4,minmax(0,1fr)); }
+@media(max-width:680px) { .mini-stats.waiting-stats { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+.waiting-card { padding:20px; }
+.waiting-heading { display:flex; gap:12px; align-items:center; }
+.waiting-heading h2 { margin:0; font-size:17px; }
+.waiting-heading h2 span { color:var(--ink-3); font-weight:500; font-size:13px; }
+.waiting-heading p { margin:5px 0 0; color:var(--ink-3); font-size:12px; }
+.waiting-heading>.floor-badge { margin-left:auto; }
+.waiting-number { display:grid; place-items:center; width:40px; height:40px; flex:none; border-radius:10px; background:#edf3ee; color:#285b45; font-weight:700; }
+.waiting-info { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; padding:16px 0; margin:14px 0; border-block:1px solid var(--line); }
+.waiting-info span,.waiting-info strong { display:block; }
+.waiting-info span { color:var(--ink-3); font-size:12px; }
+.waiting-info strong { margin-top:6px; font-size:15px; }
+.waiting-warning { color:#8a5d22; background:#fbf0db; padding:10px 12px; border-radius:8px; font-size:12px; line-height:1.5; }
+.waiting-notes { color:var(--ink-2); font-size:13px; white-space:pre-wrap; overflow-wrap:anywhere; }
+.floor-badge[data-status="Waiting"] { background:#f6edda; color:#885e21; }
+.floor-badge[data-status="Called"] { background:#e7edf8; color:#3a5685; }
+.floor-badge[data-status="Left"] { background:#edf0f2; color:#536470; }
+@media(max-width:680px) { .waiting-card { padding:16px; } .waiting-heading { flex-wrap:wrap; } .waiting-heading h2 { overflow-wrap:anywhere; } .waiting-info { gap:8px; } .waiting-info strong { font-size:13px; } .waiting-card .floor-actions .btn { flex:1 1 40%; } }
 .booking-history { padding:15px 0; font-size:12px; }
 .booking-history summary { cursor:pointer; font-weight:700; }
 .booking-history p { padding:10px 0; border-bottom:1px solid var(--line); line-height:1.6; }

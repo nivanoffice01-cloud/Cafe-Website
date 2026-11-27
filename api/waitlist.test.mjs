@@ -1,0 +1,61 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import { ensureFloor, changeTable, saveReservation, dayInIndia } from './floor.mjs'
+import { updateWaitlist, waitlistPayload } from './waitlist.mjs'
+const user = { name: 'Test Host' }
+const state = () => ensureFloor({ reservations: [], orders: [], staff: [] })
+const party = extra => ({ name: 'Walk In Party', phone: '', guests: 3, estimatedWait: 20, ...extra })
+
+test('arrival, optional contact, idempotent retries, edits and stale forms', () => {
+  const s = state()
+  const e = updateWaitlist(s, party({ requestKey:'walkin-request-123' }), user)
+  assert.equal(e.date, dayInIndia())
+  assert.equal(e.status, 'Waiting')
+  assert(Number.isFinite(Date.parse(e.arrivedAt)))
+  assert.equal(updateWaitlist(s, party({ requestKey:'walkin-request-123' }), user).id, e.id)
+  assert.equal(s.waitlist.length, 1)
+  const revision = e.revision
+  updateWaitlist(s, party({ action:'edit', estimatedWait:30, revision }), user, e.id)
+  assert.equal(e.estimatedWait,30)
+  assert.equal(e.history.length,2)
+  assert.throws(() => updateWaitlist(s, party({ action:'edit', revision }), user,e.id), /changed/)
+  for (const fields of [{guests:1.5},{guests:0},{estimatedWait:241},{phone:'123'},{name:'X'}]) assert.throws(() => updateWaitlist(s, party(fields),user))
+})
+test('seating checks capacity, reservations, occupancy and cleaning and preserves history', () => {
+  const s = state()
+  const e = updateWaitlist(s,party(),user)
+  assert.match(waitlistPayload(s)[0].tableChoices.find(t => t.id === 'R1').unavailable,/seats/)
+  assert.throws(() => updateWaitlist(s,{action:'seat',tableId:'R1'},user,e.id), /guests/)
+  assert.equal(e.status,'Waiting')
+  changeTable(s,'G1',{action:'seat',name:'Other Party',guests:2},user)
+  assert.throws(() => updateWaitlist(s,{action:'seat',tableId:'G1'},user,e.id), /not available/)
+  changeTable(s,'G1',{action:'checkout'},user)
+  assert.throws(() => updateWaitlist(s,{action:'seat',tableId:'G1'},user,e.id), /not available/)
+  changeTable(s,'G1',{action:'available'},user)
+  updateWaitlist(s,{action:'call'},user,e.id)
+  assert.equal(e.status,'Called')
+  updateWaitlist(s,{action:'seat',tableId:'G1'},user,e.id)
+  assert.equal(e.status,'Seated')
+  assert.equal(s.tables.find(t=>t.id==='G1').session.waitlistId,e.id)
+  assert.equal(s.tables.find(t=>t.id==='G1').session.guests,3)
+  assert.throws(() => updateWaitlist(s,{action:'seat',tableId:'G2'},user,e.id), /already seated/)
+  assert.equal(s.tables.find(t=>t.id==='G2').status,'Available')
+  assert.equal(waitlistPayload(s)[0].tableChoices.length,0)
+})
+test('upcoming reservation blocks seating; previous-day and terminal entries stay closed', () => {
+  const s = state()
+  const e = updateWaitlist(s,party(),user)
+  const date = new Date(Date.now()+30*60000)
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(date).map(p=>[p.type,p.value]))
+  saveReservation(s,{name:'Booked Guest',phone:'9876543210',date:`${parts.year}-${parts.month}-${parts.day}`,time:`${parts.hour}:${parts.minute}`,guests:4,duration:90,tableId:'G2',status:'Confirmed'},user)
+  assert.match(waitlistPayload(s)[0].tableChoices.find(t=>t.id==='G2').unavailable,/confirmed booking/)
+  assert.throws(() => updateWaitlist(s,{action:'seat',tableId:'G2'},user,e.id), /confirmed booking/)
+  e.date='2020-01-01'
+  assert.throws(() => updateWaitlist(s,{action:'seat',tableId:'G1'},user,e.id), /previous date/)
+  updateWaitlist(s,{action:'left'},user,e.id)
+  assert.equal(e.status,'Left')
+  assert.throws(() => updateWaitlist(s,{action:'call'},user,e.id), /already left/)
+  const cancelled=updateWaitlist(s,party({name:'Cancelled Guest'}),user)
+  updateWaitlist(s,{action:'cancel'},user,cancelled.id)
+  assert.equal(cancelled.status,'Cancelled')
+})

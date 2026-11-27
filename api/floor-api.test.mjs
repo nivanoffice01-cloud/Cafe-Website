@@ -57,4 +57,14 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
   bootstrap = (await request('/bootstrap')).payload
   assert.equal(bootstrap.tables.find(t => t.id === 'R3').status, 'Occupied')
   assert.equal(bootstrap.reservations.find(r => r.id === created.payload.id).status, 'Completed')
+  assert.equal((await request('/waitlist', { name:'No Access',guests:2,estimatedWait:15 }, false)).code,401)
+  const waiting = await request('/waitlist', { name:'Hosted Walkin',guests:2,estimatedWait:15,requestKey:'hosted-walkin-123' })
+  assert.equal(waiting.code,200)
+  assert.equal((await request('/bootstrap')).payload.waitlist.length,1)
+  assert.equal((await request(`/waitlist/${waiting.payload.id}`,{action:'seat',tableId:'R3'})).code,409)
+  assert.equal((await request('/bootstrap')).payload.waitlist[0].status,'Waiting')
+  assert.equal((await request(`/waitlist/${waiting.payload.id}`,{action:'seat',tableId:'G1'})).code,200)
+  bootstrap=(await request('/bootstrap')).payload
+  assert.equal(bootstrap.waitlist[0].status,'Seated')
+  assert.equal(bootstrap.tables.find(t=>t.id==='G1').session.waitlistId,waiting.payload.id)
 })

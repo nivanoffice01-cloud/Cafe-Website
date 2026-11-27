@@ -121,6 +121,42 @@ class CRMServerTests(unittest.TestCase):
         status, _, _ = self.request('/api/tables/B1', body={'action':'seat', 'name':'Forbidden', 'guests':2}, cookie=cookie, headers={'X-CSRF-Token':csrf})
         self.assertEqual(status, 403)
 
+    def test_walkin_queue_seating_and_persistence(self):
+        cookie, csrf = self.login()
+        headers = {'X-CSRF-Token':csrf}
+        body = dict(name='Waiting Test Guest',guests=3,estimatedWait=20,phone='',requestKey='local-walkin-123')
+        status, entry, _ = self.request('/api/waitlist',body=body,cookie=cookie,headers=headers)
+        self.assertEqual(status,200,entry)
+        id = entry['id']
+        status, duplicate, _ = self.request('/api/waitlist',body=body,cookie=cookie,headers=headers)
+        self.assertEqual(duplicate['id'],id)
+        status, error, _ = self.request(f'/api/waitlist/{id}',body=dict(action='seat',tableId='R1'),cookie=cookie,headers=headers)
+        self.assertEqual(status,400,error)
+        _, snapshot, _ = self.request('/api/bootstrap',cookie=cookie)
+        saved = next(e for e in snapshot['waitlist'] if e['id']==id)
+        self.assertEqual(saved['status'],'Waiting')
+        status, error, _ = self.request(f'/api/waitlist/{id}',body=dict(action='edit',revision=999,**{k:v for k,v in body.items() if k!='requestKey'}),cookie=cookie,headers=headers)
+        self.assertEqual(status,400,error)
+        for action, fields in [('call',{}),('seat',{'tableId':'W2'})]:
+            status, result, _ = self.request(f'/api/waitlist/{id}',body=dict(action=action,**fields),cookie=cookie,headers=headers)
+            self.assertEqual(status,200,result)
+        _, snapshot, _ = self.request('/api/bootstrap',cookie=cookie)
+        self.assertEqual(next(e for e in snapshot['waitlist'] if e['id']==id)['status'],'Seated')
+        self.assertEqual(next(t for t in snapshot['tables'] if t['id']=='W2')['session']['waitlistId'],id)
+        status, result, _ = self.request(f'/api/waitlist/{id}',body=dict(action='seat',tableId='D2'),cookie=cookie,headers=headers)
+        self.assertEqual(status,400,result)
+        # An unrelated table update must preserve the queue/history metadata.
+        self.request('/api/tables/W2',body=dict(action='assign',waiterId='1'),cookie=cookie,headers=headers)
+        _, snapshot, _ = self.request('/api/bootstrap',cookie=cookie)
+        self.assertEqual(next(e for e in snapshot['waitlist'] if e['id']==id)['status'],'Seated')
+
+    def test_kitchen_cannot_manage_walkin_queue(self):
+        cookie, csrf = self.login('kitchen@mangosteen.local')
+        status, _, _ = self.request('/api/waitlist',body=dict(name='Denied',guests=2,estimatedWait=10),cookie=cookie,headers={'X-CSRF-Token':csrf})
+        self.assertEqual(status,403)
+        _, snapshot, _ = self.request('/api/bootstrap',cookie=cookie)
+        self.assertEqual(snapshot['waitlist'],[])
+
     def test_public_reservation_is_validated_normalized_and_idempotent(self):
         key = "reservation-idempotency-test"
         first_status, first, _ = self.reservation(key)
