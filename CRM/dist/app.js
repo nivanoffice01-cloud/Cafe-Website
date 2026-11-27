@@ -605,7 +605,7 @@ function renderKitchen() {
 
 function renderBilling() {
   const operations = calculateOperations();
-  const unpaid = operations.unpaidOrders.filter((order) => order.status !== 'Draft');
+  const unpaid = operations.unpaidOrders.filter((order) => order.status !== 'Draft' && !order.paidAt && order.paymentStatus !== 'Paid');
   const total = Math.max(1, operations.todaySales);
   return `
     ${pageHeader('Cashier workspace', 'Billing & day closing', 'Settle table bills and reconcile cash, UPI, and card totals before closing.', `<button class="btn btn-primary" data-action="new-order">${icon('plus')} New order</button>`)}

@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable, dayInIndia } from './floor.mjs'
+import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable, dayInIndia, keepPaidVisit } from './floor.mjs'
 const user = { name: 'Test Host' }
 const state = () => ensureFloor({ reservations: [], orders: [], staff: [{ id: 1, name: 'Waiter' }] })
 const booking = (extra = {}) => ({ name: 'Guest Test', phone: '9876543210', date: dayInIndia(), time: '19:00', guests: 2, tableId: 'R1', duration: 90, status: 'Confirmed', ...extra })
@@ -83,4 +83,20 @@ test('existing QR table configuration is preserved and normalized without exposi
   changeTable(s, '1', { action: 'seat', name: 'Existing Guest', guests: 2 }, user)
   assert.equal(floorPayload(s)[0].displayStatus, 'Occupied')
   assert.equal(s.tables[0].accessKey, 'private-key')
+})
+test('served prepaid visits show no amount due and can check out; cash settlement retains occupancy', () => {
+  const s = state()
+  const order = { id: 1, table: 'Table 4', tableCode: '4', status: 'Served', total: 600, paidAt: new Date().toISOString(), createdAt: new Date().toISOString() }
+  s.orders.push(order)
+  assert.equal(floorPayload(s).find(t => t.id === '4').runningBill, 0)
+  changeTable(s, '4', { action: 'checkout' }, user)
+  assert.equal(floorPayload(s).find(t => t.id === '4').displayStatus, 'Cleaning')
+  changeTable(s, '4', { action: 'available' }, user)
+  assert.equal(floorPayload(s).find(t => t.id === '4').displayStatus, 'Available')
+  s.orders.push({ id: 2, table: 'Table 4', status: 'Ready', total: 300, createdAt: new Date().toISOString() })
+  keepPaidVisit(s, s.orders[1])
+  s.orders[1].status = 'Paid'
+  assert.equal(floorPayload(s).find(t => t.id === '4').displayStatus, 'Occupied')
+  changeTable(s, '4', { action: 'checkout' }, user)
+  assert.equal(floorPayload(s).find(t => t.id === '4').displayStatus, 'Cleaning')
 })

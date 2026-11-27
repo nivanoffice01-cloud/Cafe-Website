@@ -1,7 +1,7 @@
 import { get, put } from '@vercel/blob'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
 import { fullMenu } from './full-menu.mjs'
-import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable } from './floor.mjs'
+import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable, keepPaidVisit, orderIsPaid } from './floor.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
@@ -506,7 +506,8 @@ async function handleRequest(request) {
       requireRoles(request, state, ['Owner', 'Manager', 'Cashier'])
       const order = state.orders.find((item) => item.id === Number(match[1]))
       const method = String(body.method || '').toUpperCase() === 'UPI' ? 'UPI' : String(body.method || '').replace(/^./, (value) => value.toUpperCase())
-      if (!order || order.status === 'Paid' || !['Cash', 'UPI', 'Card'].includes(method)) throw new Error('Order or payment method is invalid')
+      if (!order || orderIsPaid(order) || !['Cash', 'UPI', 'Card'].includes(method)) throw new Error('Order is already paid or the payment method is invalid')
+      keepPaidVisit(state, order)
       order.status = 'Paid'; order.paymentMethod = method; order.paidAt = now()
       state.payments.unshift({ id: nextId(state.payments), orderId: order.id, method, amount: order.total, createdAt: order.paidAt })
       await saveState(state)

@@ -40,7 +40,18 @@ def orders(state, t):
     names = {t['id'].lower(), t['label'].lower()}
     if t['id'] == '4':
         names.add('t-04')
-    return [o for o in state.get('orders', []) if o['status'] not in ('Paid', 'Cancelled') and (o.get('table', '').lower() in names or str(o.get('tableCode')) == t['id'] or o.get('tableId') == t['id'])]
+    return [o for o in state.get('orders', []) if not o.get('floorClosedAt') and o['status'] not in ('Paid', 'Cancelled') and (o.get('table', '').lower() in names or str(o.get('tableCode')) == t['id'] or o.get('tableId') == t['id'])]
+
+
+def paid(order):
+    return bool(order.get('paidAt') or order['status'] == 'Paid' or order.get('paymentStatus') == 'Paid')
+
+
+def keep_paid_visit(state, order_id):
+    for t in state['tables']:
+        order = next((o for o in orders(state, t) if o['id'] == order_id), None)
+        if order and not t.get('session'):
+            t.update(status='Occupied', session=dict(name=order.get('guestName') or 'Table guests', guests=None, startedAt=order['createdAt']))
 
 
 def validate(state, r):
@@ -111,9 +122,11 @@ def reservation_action(state, id, body, user, edit=False):
     if status == 'No-show' and start(r) > datetime.now(IST):
         raise ValueError('Mark no-show only after the arrival time.')
     if status == 'Completed':
-        if not t or (t.get('session') or {}).get('reservationId') != id or orders(state, t):
+        if not t or (t.get('session') or {}).get('reservationId') != id or any(not paid(o) for o in orders(state, t)):
             raise ValueError('Settle all table bills before checking out the matching visit.')
         t.update(status='Cleaning', session=None)
+        for o in orders(state, t):
+            o['floorClosedAt'] = stamp()
         r['completedAt'] = stamp()
     r['status'] = status
     record(r, user, status, str(body.get('reason', ''))[:500])
@@ -141,11 +154,14 @@ def table_action(state, id, body, user):
             raise ValueError('A confirmed booking needs this table within 90 minutes.')
         t.update(status='Occupied', session=dict(name=name, guests=guests, startedAt=stamp()))
     elif action == 'checkout':
-        if not t.get('session') or t['status'] != 'Occupied' or orders(state, t):
+        open_orders = orders(state, t)
+        if (not t.get('session') and not open_orders) or any(not paid(o) for o in open_orders):
             raise ValueError('Settle all open table bills before checking out an active visit.')
-        if t['session'].get('reservationId'):
+        if (t.get('session') or {}).get('reservationId'):
             return reservation_action(state, t['session']['reservationId'], {'status': 'Completed'}, user)
         t.update(status='Cleaning', session=None)
+        for o in open_orders:
+            o['floorClosedAt'] = stamp()
     elif action == 'available':
         if t['status'] != 'Cleaning':
             raise ValueError('Only a table being cleaned can be marked available.')
@@ -164,13 +180,16 @@ def payload(state):
         status = t['status']
         if status == 'Available':
             status = 'Occupied' if open_orders else 'Reserved' if any(r['status'] == 'Confirmed' for r in bookings) else 'Available'
-        result.append({**t, 'displayStatus': status, 'reservations': bookings, 'openOrders': open_orders, 'runningBill': sum(o['total'] for o in open_orders)})
+        result.append({**t, 'displayStatus': status, 'reservations': bookings, 'openOrders': [{**o, 'paid': paid(o)} for o in open_orders], 'runningBill': sum(o['total'] for o in open_orders if not paid(o))})
     return result
 
 
 def enrich(connection, base):
     row = connection.execute("SELECT value FROM settings WHERE key='floor_state'").fetchone()
     extra = json.loads(row['value']) if row else {}
+    for o in base.get('orders', []):
+        if str(o['id']) in extra.get('closedOrders', {}):
+            o['floorClosedAt'] = extra['closedOrders'][str(o['id'])]
     for r in base['reservations']:
         r.update(extra.get('bookings', {}).get(str(r['id']), {}))
     state = {**base, **({'tables': extra['tables']} if 'tables' in extra else {})}
@@ -188,4 +207,7 @@ def persist(connection, state):
     metadata = {str(r['id']): {k: r[k] for k in ('duration','tableId','history','revision','updatedAt','checkedInAt','completedAt') if k in r} for r in state['reservations']}
     # Only canonical table state is persisted, not derived bookings and bills.
     tables = [{k:v for k,v in t.items() if k not in ('displayStatus','reservations','openOrders','runningBill')} for t in state['tables']]
-    connection.execute("INSERT INTO settings(key,value) VALUES('floor_state',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", (json.dumps(dict(tables=tables, bookings=metadata)),))
+    previous = connection.execute("SELECT value FROM settings WHERE key='floor_state'").fetchone()
+    closed = json.loads(previous['value']).get('closedOrders', {}) if previous else {}
+    closed.update({str(o['id']):o['floorClosedAt'] for o in state.get('orders', []) if o.get('floorClosedAt')})
+    connection.execute("INSERT INTO settings(key,value) VALUES('floor_state',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", (json.dumps(dict(tables=tables, bookings=metadata, closedOrders=closed)),))

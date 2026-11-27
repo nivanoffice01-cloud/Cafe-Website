@@ -1753,6 +1753,9 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         raise ValueError("Order not found")
                     if order["status"] == "Paid":
                         raise ValueError("Order is already paid")
+                    floor_state = floor.enrich(connection, bootstrap_payload(connection, user))
+                    floor.keep_paid_visit(floor_state, order_id)
+                    floor.persist(connection, floor_state)
                     timestamp = now_iso()
                     connection.execute(
                         "INSERT INTO payments (order_id, method, amount, created_by, created_at) VALUES (?, ?, ?, ?, ?)",

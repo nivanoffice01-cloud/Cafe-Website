@@ -105,7 +105,8 @@ export function changeReservation(state, id, body, user) {
   if (body.status === 'No-show' && minute(r) > Date.now() / 60000) fail('Mark no-show only after the arrival time.')
   if (body.status === 'Completed') {
     if (t?.session?.reservationId !== id) fail('The table visit no longer matches this booking. Refresh the board.')
-    if (tableOrders(state, t).length) fail('Settle all open table bills before checkout.')
+    if (tableOrders(state, t).some(o => !orderIsPaid(o))) fail('Settle all open table bills before checkout.')
+    tableOrders(state, t).forEach(o => { o.floorClosedAt = stamp() })
     t.status = 'Cleaning'; t.session = null; r.completedAt = stamp()
   }
   r.status = body.status
@@ -113,9 +114,18 @@ export function changeReservation(state, id, body, user) {
   return r
 }
 export function tableOrders(state, t) {
-  return (state.orders || []).filter(o => !['Paid', 'Cancelled'].includes(o.status) &&
+  return (state.orders || []).filter(o => !o.floorClosedAt && !['Paid', 'Cancelled'].includes(o.status) &&
     (o.tableId === t.id || String(o.tableCode) === t.id || key(o.table) === key(t.label) || key(o.table) === key(t.id) ||
     (t.id === '4' && key(o.table) === 't-04')))
+}
+export const orderIsPaid = (order) => Boolean(order.paidAt || order.status === 'Paid' || order.paymentStatus === 'Paid')
+export function keepPaidVisit(state, order) {
+  ensureFloor(state)
+  const table = state.tables.find(t => tableOrders(state, t).some(o => o.id === order.id))
+  if (table && !table.session) {
+    table.status = 'Occupied'
+    table.session = { name: order.guestName || 'Table guests', guests: null, startedAt: order.createdAt }
+  }
 }
 export function floorPayload(state) {
   ensureFloor(state)
@@ -123,7 +133,7 @@ export function floorPayload(state) {
     const orders = tableOrders(state, t)
     const reservations = state.reservations.filter(r => r.tableId === t.id && r.date === dayInIndia() && ['Pending', ...active].includes(r.status)).sort((a, b) => a.time.localeCompare(b.time))
     return { id: t.id, label: t.label, capacity: t.capacity, zone: t.zone, status: t.status, waiterId: t.waiterId, session: t.session, displayStatus: t.status === 'Available' ? orders.length ? 'Occupied' : reservations.some(r => r.status === 'Confirmed') ? 'Reserved' : 'Available' : t.status,
-      reservations, openOrders: orders.map(o => ({ id: o.id, total: o.total, status: o.status })), runningBill: orders.reduce((n, o) => n + Number(o.total || 0), 0) }
+      reservations, openOrders: orders.map(o => ({ id: o.id, total: o.total, status: o.status, paid: orderIsPaid(o) })), runningBill: orders.filter(o => !orderIsPaid(o)).reduce((n, o) => n + Number(o.total || 0), 0) }
   })
 }
 export function changeTable(state, id, body, user) {
@@ -144,9 +154,11 @@ export function changeTable(state, id, body, user) {
     if (upcoming.length) fail('A confirmed booking needs this table within 90 minutes. Choose another table.')
     t.status = 'Occupied'; t.session = { name, guests, startedAt: stamp() }
   } else if (body.action === 'checkout') {
-    if (t.status !== 'Occupied' || !t.session) fail('No checked-in visit is assigned to this table.')
-    if (tableOrders(state, t).length) fail('Settle all open table bills before checkout.')
-    if (t.session.reservationId) return changeReservation(state, t.session.reservationId, { status: 'Completed' }, user)
+    const orders = tableOrders(state, t)
+    if (!t.session && !orders.length) fail('No active visit is assigned to this table.')
+    if (orders.some(o => !orderIsPaid(o))) fail('Settle all open table bills before checkout.')
+    if (t.session?.reservationId) return changeReservation(state, t.session.reservationId, { status: 'Completed' }, user)
+    orders.forEach(o => { o.floorClosedAt = stamp() })
     t.status = 'Cleaning'; t.session = null
   } else if (body.action === 'available') {
     if (t.status !== 'Cleaning') fail('Only a table being cleaned can be marked available.')
