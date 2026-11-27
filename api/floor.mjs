@@ -15,6 +15,14 @@ export function ensureFloor(state) {
     ['D2', 'Dining 02', 4, 'Inside'], ['S1', 'Sofa 01', 4, 'Inside'], ['S2', 'Sofa 02', 2, 'Inside'], ['B1', 'Bar side', 2, 'Inside'],
     ['4', 'Table 4', 4, 'Cafe floor'],
   ].map(([id, label, capacity, zone]) => ({ id, label, capacity, zone, status: 'Available', waiterId: '', session: null }))
+  for (const table of state.tables) {
+    table.id = String(table.id)
+    table.label ||= table.name || `Table ${table.id}`
+    table.zone ||= table.zoneName || 'Cafe floor'
+    table.status ||= 'Available'
+    table.waiterId ||= ''
+    table.session ||= null
+  }
   for (const r of state.reservations) {
     let table = state.tables.find(t => t.id === r.tableId || key(t.label) === key(r.table) || key(t.id) === key(r.table))
     // Keep old free-text preferences intact; staff assign a real table before confirming.
@@ -38,6 +46,7 @@ function validate(state, r, blocking = active.includes(r.status)) {
   if (!statuses.includes(r.status)) fail('Reservation status is invalid.')
   const table = state.tables.find(t => t.id === r.tableId)
   if (r.tableId && !table) fail('Choose a valid table.')
+  if (table?.active === false) fail('This table has been disabled. Choose an active table.')
   if (table && r.guests > table.capacity) fail(`${table.label} seats ${table.capacity}. Choose a larger table.`)
   if (blocking) {
     if (!table) fail('Assign a table before confirming or checking in.')
@@ -110,10 +119,10 @@ export function tableOrders(state, t) {
 }
 export function floorPayload(state) {
   ensureFloor(state)
-  return state.tables.map(t => {
+  return state.tables.filter(t => t.active !== false).map(t => {
     const orders = tableOrders(state, t)
     const reservations = state.reservations.filter(r => r.tableId === t.id && r.date === dayInIndia() && ['Pending', ...active].includes(r.status)).sort((a, b) => a.time.localeCompare(b.time))
-    return { ...t, displayStatus: t.status === 'Available' ? orders.length ? 'Occupied' : reservations.some(r => r.status === 'Confirmed') ? 'Reserved' : 'Available' : t.status,
+    return { id: t.id, label: t.label, capacity: t.capacity, zone: t.zone, status: t.status, waiterId: t.waiterId, session: t.session, displayStatus: t.status === 'Available' ? orders.length ? 'Occupied' : reservations.some(r => r.status === 'Confirmed') ? 'Reserved' : 'Available' : t.status,
       reservations, openOrders: orders.map(o => ({ id: o.id, total: o.total, status: o.status })), runningBill: orders.reduce((n, o) => n + Number(o.total || 0), 0) }
   })
 }
@@ -121,6 +130,7 @@ export function changeTable(state, id, body, user) {
   ensureFloor(state)
   const t = state.tables.find(t => t.id === id)
   if (!t) fail('Table not found.')
+  if (t.active === false) fail('This table has been disabled.')
   if (body.action === 'assign') {
     const waiterId = String(body.waiterId || '')
     if (waiterId && !(state.staff || []).some(s => String(s.id) === waiterId)) fail('Choose a staff member from the roster.')

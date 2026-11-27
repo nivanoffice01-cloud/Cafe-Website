@@ -64,8 +64,9 @@ continues to use the Python/SQLite server.
 
 ## Live tables and reservations
 
-Use **Live tables** to view the existing website seating groups and the published
-Table 4 QR. The board refreshes every 15 seconds and shows Available, Reserved,
+Use **Live tables** to view the saved table configuration. Existing QR table
+definitions are preserved; a fresh local demo starts with the website seating
+groups and Table 4 QR. The board refreshes every 15 seconds and shows Available, Reserved,
 Occupied, and Cleaning, assigned roster staff, guest counts, and open bills.
 Select a known table name when creating a POS order to link its running bill.
 Older orders with other free-text table names remain visible under Orders and
