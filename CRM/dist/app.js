@@ -712,9 +712,14 @@ function renderReservations() {
   times.forEach((time) => {
     calendar += `<div class="calendar-time">${displayTime(time)}</div>`;
     days.forEach((day) => {
-      const event = data.reservations.find((item) => item.date === day.key && item.time.slice(0, 2) === time.slice(0, 2));
-      const colors = eventColors[event?.status] || eventColors.Confirmed;
-      calendar += `<div class="calendar-cell">${event ? `<div class="calendar-event" style="--accent:${colors[0]};--soft:${colors[1]}" data-action="reservation-detail" data-id="${event.id}"><strong>${escapeHtml(event.name)} · ${event.guests}</strong><span>${escapeHtml(event.occasion)} · ${escapeHtml(event.table)}</span></div>` : ''}</div>`;
+      const events = data.reservations
+        .filter((item) => item.date === day.key && item.time.slice(0, 2) === time.slice(0, 2))
+        .sort((a, b) => a.time.localeCompare(b.time) || a.name.localeCompare(b.name));
+      const eventCards = events.map((event) => {
+        const colors = eventColors[event.status] || eventColors.Confirmed;
+        return `<button type="button" class="calendar-event" style="--accent:${colors[0]};--soft:${colors[1]}" data-action="reservation-detail" data-id="${event.id}" aria-label="Open ${escapeHtml(event.name)} reservation at ${escapeHtml(displayTime(event.time))}"><strong>${escapeHtml(displayTime(event.time))} · ${escapeHtml(event.name)} · ${event.guests}</strong><span>${escapeHtml(event.occasion)} · ${escapeHtml(event.table)}</span></button>`;
+      }).join('');
+      calendar += `<div class="calendar-cell${events.length > 1 ? ' has-multiple' : ''}">${eventCards}</div>`;
     });
   });
   const todayArrivals = analytics.todayReservations.slice().sort((a, b) => a.time.localeCompare(b.time));

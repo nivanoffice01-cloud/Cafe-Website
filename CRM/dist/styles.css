@@ -1316,20 +1316,31 @@ svg {
 
 .calendar-cell {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   min-height: 72px;
   padding: 4px;
   background: #fff;
 }
 
 .calendar-event {
-  height: 100%;
+  width: 100%;
+  flex: 1 1 62px;
   min-height: 62px;
   padding: 7px;
+  border: 0;
   border-left: 3px solid var(--accent, var(--forest-600));
   border-radius: 7px;
   background: var(--soft, var(--forest-50));
   color: var(--ink);
   cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.calendar-cell.has-multiple .calendar-event {
+  min-height: 52px;
 }
 
 .calendar-event strong {
