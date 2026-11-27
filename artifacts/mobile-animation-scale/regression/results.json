@@ -1,0 +1,779 @@
+{
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "scrollWidth": 320,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 568,
+        "top": 0,
+        "right": 320,
+        "bottom": 568,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 568,
+        "top": 0,
+        "right": 320,
+        "bottom": 568,
+        "left": 0
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 20,
+            "y": 458,
+            "width": 135,
+            "height": 44,
+            "top": 458,
+            "right": 155,
+            "bottom": 502,
+            "left": 20
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 165,
+            "y": 458,
+            "width": 135,
+            "height": 44,
+            "top": 458,
+            "right": 300,
+            "bottom": 502,
+            "left": 165
+          }
+        }
+      ],
+      "title": {
+        "x": 91.46875,
+        "y": 135,
+        "width": 137.046875,
+        "height": 64,
+        "top": 135,
+        "right": 228.515625,
+        "bottom": 199,
+        "left": 91.46875
+      },
+      "desktopLinksVisible": false
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "scrollWidth": 360,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 360,
+        "height": 800,
+        "top": 0,
+        "right": 360,
+        "bottom": 800,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 360,
+        "height": 800,
+        "top": 0,
+        "right": 360,
+        "bottom": 800,
+        "left": 0
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 20,
+            "y": 668,
+            "width": 155,
+            "height": 48,
+            "top": 668,
+            "right": 175,
+            "bottom": 716,
+            "left": 20
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 185,
+            "y": 668,
+            "width": 155,
+            "height": 48,
+            "top": 668,
+            "right": 340,
+            "bottom": 716,
+            "left": 185
+          }
+        }
+      ],
+      "title": {
+        "x": 96.75,
+        "y": 151,
+        "width": 166.5,
+        "height": 77.75,
+        "top": 151,
+        "right": 263.25,
+        "bottom": 228.75,
+        "left": 96.75
+      },
+      "desktopLinksVisible": false
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "scrollWidth": 375,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 375,
+        "height": 667,
+        "top": 0,
+        "right": 375,
+        "bottom": 667,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 375,
+        "height": 667,
+        "top": 0,
+        "right": 375,
+        "bottom": 667,
+        "left": 0
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 20,
+            "y": 557,
+            "width": 162.5,
+            "height": 44,
+            "top": 557,
+            "right": 182.5,
+            "bottom": 601,
+            "left": 20
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 192.5,
+            "y": 557,
+            "width": 162.5,
+            "height": 44,
+            "top": 557,
+            "right": 355,
+            "bottom": 601,
+            "left": 192.5
+          }
+        }
+      ],
+      "title": {
+        "x": 108.796875,
+        "y": 135,
+        "width": 157.390625,
+        "height": 73.5,
+        "top": 135,
+        "right": 266.1875,
+        "bottom": 208.5,
+        "left": 108.796875
+      },
+      "desktopLinksVisible": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "top": 0,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 20,
+            "y": 712,
+            "width": 170,
+            "height": 48,
+            "top": 712,
+            "right": 190,
+            "bottom": 760,
+            "left": 20
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 200,
+            "y": 712,
+            "width": 170,
+            "height": 48,
+            "top": 712,
+            "right": 370,
+            "bottom": 760,
+            "left": 200
+          }
+        }
+      ],
+      "title": {
+        "x": 104.8125,
+        "y": 152.75,
+        "width": 180.375,
+        "height": 84.25,
+        "top": 152.75,
+        "right": 285.1875,
+        "bottom": 237,
+        "left": 104.8125
+      },
+      "desktopLinksVisible": false
+    },
+    {
+      "width": 393,
+      "height": 852,
+      "scrollWidth": 393,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 393,
+        "height": 852,
+        "top": 0,
+        "right": 393,
+        "bottom": 852,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 393,
+        "height": 852,
+        "top": 0,
+        "right": 393,
+        "bottom": 852,
+        "left": 0
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 20,
+            "y": 720,
+            "width": 171.5,
+            "height": 48,
+            "top": 720,
+            "right": 191.5,
+            "bottom": 768,
+            "left": 20
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 201.5,
+            "y": 720,
+            "width": 171.5,
+            "height": 48,
+            "top": 720,
+            "right": 373,
+            "bottom": 768,
+            "left": 201.5
+          }
+        }
+      ],
+      "title": {
+        "x": 105.625,
+        "y": 153.078125,
+        "width": 181.75,
+        "height": 84.875,
+        "top": 153.078125,
+        "right": 287.375,
+        "bottom": 237.953125,
+        "left": 105.625
+      },
+      "desktopLinksVisible": false
+    },
+    {
+      "width": 414,
+      "height": 896,
+      "scrollWidth": 414,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 414,
+        "height": 896,
+        "top": 0,
+        "right": 414,
+        "bottom": 896,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 414,
+        "height": 896,
+        "top": 0,
+        "right": 414,
+        "bottom": 896,
+        "left": 0
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 20,
+            "y": 764,
+            "width": 182,
+            "height": 48,
+            "top": 764,
+            "right": 202,
+            "bottom": 812,
+            "left": 20
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 212,
+            "y": 764,
+            "width": 182,
+            "height": 48,
+            "top": 764,
+            "right": 394,
+            "bottom": 812,
+            "left": 212
+          }
+        }
+      ],
+      "title": {
+        "x": 111.265625,
+        "y": 154.828125,
+        "width": 191.46875,
+        "height": 89.4375,
+        "top": 154.828125,
+        "right": 302.734375,
+        "bottom": 244.265625,
+        "left": 111.265625
+      },
+      "desktopLinksVisible": false
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "scrollWidth": 430,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932,
+        "top": 0,
+        "right": 430,
+        "bottom": 932,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932,
+        "top": 0,
+        "right": 430,
+        "bottom": 932,
+        "left": 0
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 20,
+            "y": 800,
+            "width": 190,
+            "height": 48,
+            "top": 800,
+            "right": 210,
+            "bottom": 848,
+            "left": 20
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 220,
+            "y": 800,
+            "width": 190,
+            "height": 48,
+            "top": 800,
+            "right": 410,
+            "bottom": 848,
+            "left": 220
+          }
+        }
+      ],
+      "title": {
+        "x": 116.5,
+        "y": 155,
+        "width": 197,
+        "height": 92,
+        "top": 155,
+        "right": 313.5,
+        "bottom": 247,
+        "left": 116.5
+      },
+      "desktopLinksVisible": false
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1024,
+        "top": 0,
+        "right": 768,
+        "bottom": 1024,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1024,
+        "top": 0,
+        "right": 768,
+        "bottom": 1024,
+        "left": 0
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 184,
+            "y": 892,
+            "width": 195,
+            "height": 48,
+            "top": 892,
+            "right": 379,
+            "bottom": 940,
+            "left": 184
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 389,
+            "y": 892,
+            "width": 195,
+            "height": 48,
+            "top": 892,
+            "right": 584,
+            "bottom": 940,
+            "left": 389
+          }
+        }
+      ],
+      "title": {
+        "x": 219.4375,
+        "y": 155,
+        "width": 329.125,
+        "height": 92,
+        "top": 155,
+        "right": 548.5625,
+        "bottom": 247,
+        "left": 219.4375
+      },
+      "desktopLinksVisible": false
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "scrollWidth": 844,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 844,
+        "height": 390,
+        "top": 0,
+        "right": 844,
+        "bottom": 390,
+        "left": 0
+      },
+      "canvas": {
+        "x": 413.546875,
+        "y": 76,
+        "width": 430.453125,
+        "height": 302,
+        "top": 76,
+        "right": 844,
+        "bottom": 378,
+        "left": 413.546875
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 20,
+            "y": 324,
+            "width": 189.453125,
+            "height": 44,
+            "top": 324,
+            "right": 209.453125,
+            "bottom": 368,
+            "left": 20
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 216.453125,
+            "y": 324,
+            "width": 189.453125,
+            "height": 44,
+            "top": 324,
+            "right": 405.90625,
+            "bottom": 368,
+            "left": 216.453125
+          }
+        }
+      ],
+      "title": {
+        "x": 91.3125,
+        "y": 121,
+        "width": 243.265625,
+        "height": 68,
+        "top": 121,
+        "right": 334.578125,
+        "bottom": 189,
+        "left": 91.3125
+      },
+      "desktopLinksVisible": false
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "scrollWidth": 568,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 568,
+        "height": 320,
+        "top": 0,
+        "right": 568,
+        "bottom": 320,
+        "left": 0
+      },
+      "canvas": {
+        "x": 278.3125,
+        "y": 76,
+        "width": 289.6875,
+        "height": 232,
+        "top": 76,
+        "right": 568,
+        "bottom": 308,
+        "left": 278.3125
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 20,
+            "y": 254,
+            "width": 123.21875,
+            "height": 44,
+            "top": 254,
+            "right": 143.21875,
+            "bottom": 298,
+            "left": 20
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 150.21875,
+            "y": 254,
+            "width": 123.21875,
+            "height": 44,
+            "top": 254,
+            "right": 273.4375,
+            "bottom": 298,
+            "left": 150.21875
+          }
+        }
+      ],
+      "title": {
+        "x": 73.90625,
+        "y": 121,
+        "width": 145.609375,
+        "height": 68,
+        "top": 121,
+        "right": 219.515625,
+        "bottom": 189,
+        "left": 73.90625
+      },
+      "desktopLinksVisible": false
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "scrollWidth": 1024,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 768,
+        "top": 0,
+        "right": 1024,
+        "bottom": 768,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 768,
+        "top": 0,
+        "right": 1024,
+        "bottom": 768,
+        "left": 0
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 320.890625,
+            "y": 490.921875,
+            "width": 190.640625,
+            "height": 48,
+            "top": 490.921875,
+            "right": 511.53125,
+            "bottom": 538.921875,
+            "left": 320.890625
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 527.53125,
+            "y": 490.921875,
+            "width": 175.5625,
+            "height": 48,
+            "top": 490.921875,
+            "right": 703.09375,
+            "bottom": 538.921875,
+            "left": 527.53125
+          }
+        }
+      ],
+      "title": {
+        "x": 199.390625,
+        "y": 318.0625,
+        "width": 625.203125,
+        "height": 75.359375,
+        "top": 318.0625,
+        "right": 824.59375,
+        "bottom": 393.421875,
+        "left": 199.390625
+      },
+      "desktopLinksVisible": true
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "hero": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900,
+        "top": 0,
+        "right": 1440,
+        "bottom": 900,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900,
+        "top": 0,
+        "right": 1440,
+        "bottom": 900,
+        "left": 0
+      },
+      "actions": [
+        {
+          "name": "Explore the menu",
+          "rect": {
+            "x": 528.890625,
+            "y": 572.234375,
+            "width": 190.640625,
+            "height": 48,
+            "top": 572.234375,
+            "right": 719.53125,
+            "bottom": 620.234375,
+            "left": 528.890625
+          }
+        },
+        {
+          "name": "Reserve a table",
+          "rect": {
+            "x": 735.53125,
+            "y": 572.234375,
+            "width": 175.5625,
+            "height": 48,
+            "top": 572.234375,
+            "right": 911.09375,
+            "bottom": 620.234375,
+            "left": 735.53125
+          }
+        }
+      ],
+      "title": {
+        "x": 280.390625,
+        "y": 368.75,
+        "width": 879.203125,
+        "height": 105.984375,
+        "top": 368.75,
+        "right": 1159.59375,
+        "bottom": 474.734375,
+        "left": 280.390625
+      },
+      "desktopLinksVisible": true
+    }
+  ],
+  "checks": [
+    "Twelve portrait, landscape, tablet and desktop layouts have full-width heroes, visible 44px actions, readable titles and no horizontal overflow",
+    "Live phone resizing and orientation changes preserve full-width pin and canvas layout",
+    "Actual canvas frames change with forward scrolling and return to the original frame on reverse scrolling",
+    "Mobile navigation, Escape, reservation opening and digital menu link still work"
+  ],
+  "errors": []
+}

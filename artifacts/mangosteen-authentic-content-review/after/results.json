@@ -1,0 +1,546 @@
+{
+  "phase": "after",
+  "errors": [],
+  "badResponses": [],
+  "frames": [
+    {
+      "progress": 0,
+      "hash": "853873e614ada0a1a97846a71caa5086623f99223b4e4b3bbe43151bd9ca043c"
+    },
+    {
+      "progress": 0.25,
+      "hash": "2fd5632791680085dd5ac6f749118221535feabbfb88c662db49f0acb9cf87c9"
+    },
+    {
+      "progress": 0.5,
+      "hash": "1d82fa0c57082554c9963d51db1427059528c8ba8c7590cc16087515801b570f"
+    },
+    {
+      "progress": 0.75,
+      "hash": "e177070812d362830dc56ee871a0e485918a1d68891450448b20985a98fb8705"
+    },
+    {
+      "progress": 1,
+      "hash": "b34aac8238782a5ef99783321c58466f51e0eacfbb2b8692a3ffa9d939aec090"
+    }
+  ],
+  "routes": [
+    {
+      "path": "/",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sections": [
+        {
+          "id": "story",
+          "className": "relative scroll-mt-[76px] bg-background-50 py-20 md:py-28 overflow-hidden",
+          "images": [
+            {
+              "src": "/images/authentic/story-dining-960.webp",
+              "alt": "The long wooden dining table, cane chairs and woven pendant lights at Mangosteen",
+              "parentClass": "col-span-5 sm:col-span-3 sm:col-start-3 h-[380px] md:h-[520px] lg:h-[600px] poster-frame hard-drop m-in",
+              "width": 372,
+              "height": 600
+            },
+            {
+              "src": "/images/authentic/story-food-960.webp",
+              "alt": "A plated meal photographed on a wooden table at Mangosteen; dish identity not confirmed",
+              "parentClass": "col-span-5 sm:col-span-2 sm:order-none sm:-mt-16 mt-2 relative h-[220px] md:h-[300px] poster-frame hard-drop-paper m-in",
+              "width": 240.27691650390625,
+              "height": 300.22149658203125
+            }
+          ]
+        },
+        {
+          "id": "menu",
+          "className": "relative scroll-mt-[76px] bg-background-100 border-y border-foreground-950/10",
+          "images": [
+            {
+              "src": "/supplied-frontend/assets/search-image(2)",
+              "alt": "Mangosteen chicken burger — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 348,
+              "height": 261
+            },
+            {
+              "src": "/supplied-frontend/assets/search-image(3)",
+              "alt": "Pesto cream Pasta — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 348,
+              "height": 261
+            },
+            {
+              "src": "/supplied-frontend/assets/search-image(4)",
+              "alt": "Margarita — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 348,
+              "height": 261
+            },
+            {
+              "src": "/supplied-frontend/assets/search-image(5)",
+              "alt": "Oreo Shake — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 348,
+              "height": 261
+            },
+            {
+              "src": "/supplied-frontend/assets/search-image(6)",
+              "alt": "Duo chocolate cheese cake — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 348,
+              "height": 261
+            },
+            {
+              "src": "/supplied-frontend/assets/search-image(7)",
+              "alt": "Virgin mojito — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 348,
+              "height": 261
+            },
+            {
+              "src": "/images/authentic/menu-invitation-960.webp",
+              "alt": "Wooden rooftop tables and greenery at Mangosteen Café",
+              "parentClass": "relative h-[180px] w-full overflow-hidden",
+              "width": 348,
+              "height": 180
+            }
+          ]
+        },
+        {
+          "id": "",
+          "className": "relative bg-primary-600 py-7 overflow-hidden",
+          "images": []
+        },
+        {
+          "id": "craft",
+          "className": "relative scroll-mt-[76px] bg-primary-500 text-background-50 wrap py-20 md:py-28 overflow-hidden",
+          "images": [
+            {
+              "src": "/images/authentic/counter-960.webp",
+              "alt": "Mangosteen’s café counter, woven pendant lamps and wooden seating",
+              "parentClass": "h-[420px] md:h-[580px] lg:h-[660px] poster-frame !border-background-50/20 hard-drop-berry m-in",
+              "width": 636,
+              "height": 660
+            }
+          ]
+        },
+        {
+          "id": "",
+          "className": "bg-background-50 wrap py-20 md:py-28",
+          "images": [
+            {
+              "src": "/supplied-frontend/assets/0ba43c55-3dd5-4419-bd54-30933f4086f0_77fb2d5f.webp",
+              "alt": "Illustrative burger artwork, separated into visual layers; not an actual Mangosteen dish",
+              "parentClass": "relative lg:col-span-7 order-1 lg:order-2 h-[460px] md:h-[680px] lg:h-[760px] poster-frame split-v3 m-in",
+              "width": 751.03564453125,
+              "height": 759.7041015625
+            }
+          ]
+        },
+        {
+          "id": "",
+          "className": "bg-background-50 wrap pb-20 md:pb-28",
+          "images": [
+            {
+              "src": "/images/authentic/rooftop-evening-960.webp",
+              "alt": "Mangosteen’s rooftop in the evening with wooden tables and tropical greenery",
+              "parentClass": "relative overflow-hidden poster-frame bg-primary-950 text-background-50 h-[78svh] min-h-[540px] max-h-[880px]",
+              "width": 1328,
+              "height": 780
+            }
+          ]
+        },
+        {
+          "id": "locations",
+          "className": "scroll-mt-[76px] bg-background-100 border-t border-foreground-950/10 wrap py-20 md:py-28",
+          "images": [
+            {
+              "src": "/images/authentic/facade-960.webp",
+              "alt": "The illuminated handwritten Mangosteen sign, wooden façade and hanging greenery",
+              "parentClass": "m-zoom lg:col-span-7 h-[280px] md:h-[420px] lg:h-full min-h-[320px] overflow-hidden m-in",
+              "width": 773.5,
+              "height": 515.65625
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/menu",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "images": [
+        {
+          "src": "/images/authentic/menu-interior-960.webp",
+          "alt": "Inside Mangosteen: woven pendant lights, wooden tables, cane chairs and botanical greenery",
+          "width": 1440,
+          "height": 840
+        },
+        {
+          "src": "/images/menu-ui/bougainvillea-botanical-v1.png",
+          "alt": "",
+          "width": 352,
+          "height": 480
+        },
+        {
+          "src": "/images/menu-ui/torn-paper-v1.png",
+          "alt": "",
+          "width": 1440,
+          "height": 67.1875
+        },
+        {
+          "src": "/images/menu/margarita-pizza.jpg",
+          "alt": "Illustrative photograph of a basil and mozzarella pizza",
+          "width": 565.75,
+          "height": 230.390625
+        },
+        {
+          "src": "/images/menu/pesto-pasta.jpg",
+          "alt": "Illustrative photograph of basil pesto pasta with parmesan",
+          "width": 0,
+          "height": 0
+        },
+        {
+          "src": "/images/menu/veg-cheese-burger.jpg",
+          "alt": "Illustrative photograph of a veggie cheese burger",
+          "width": 0,
+          "height": 0
+        },
+        {
+          "src": "/images/menu/virgin-mojito.jpg",
+          "alt": "Illustrative photograph of a lime and mint mojito",
+          "width": 0,
+          "height": 0
+        },
+        {
+          "src": "/images/menu/chocolate-cheesecake.jpg",
+          "alt": "Illustrative photograph of a chocolate cheesecake slice",
+          "width": 0,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "path": "/about",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "images": [
+        {
+          "src": "/images/authentic/cane-seating-960.webp",
+          "alt": "Cane-back chairs and natural wooden tables beside Mangosteen’s windows",
+          "width": 634,
+          "height": 793
+        }
+      ]
+    },
+    {
+      "path": "/locations",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "images": [
+        {
+          "src": "/images/authentic/facade-960.webp",
+          "alt": "The illuminated handwritten Mangosteen sign, wooden façade and hanging greenery",
+          "width": 749.328125,
+          "height": 498.875
+        },
+        {
+          "src": "/images/authentic/visit-interior-960.webp",
+          "alt": "Mangosteen’s main dining area, warm pendant lighting and decorative café counter",
+          "width": 363.65625,
+          "height": 272.234375
+        }
+      ]
+    },
+    {
+      "path": "/contact",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "images": []
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sections": [
+        {
+          "id": "story",
+          "className": "relative scroll-mt-[76px] bg-background-50 py-20 md:py-28 overflow-hidden",
+          "images": [
+            {
+              "src": "/images/authentic/story-dining-960.webp",
+              "alt": "The long wooden dining table, cane chairs and woven pendant lights at Mangosteen",
+              "parentClass": "col-span-5 sm:col-span-3 sm:col-start-3 h-[380px] md:h-[520px] lg:h-[600px] poster-frame hard-drop",
+              "width": 354,
+              "height": 380
+            },
+            {
+              "src": "/images/authentic/story-food-960.webp",
+              "alt": "A plated meal photographed on a wooden table at Mangosteen; dish identity not confirmed",
+              "parentClass": "col-span-5 sm:col-span-2 sm:order-none sm:-mt-16 mt-2 relative h-[220px] md:h-[300px] poster-frame hard-drop-paper",
+              "width": 354,
+              "height": 220
+            }
+          ]
+        },
+        {
+          "id": "menu",
+          "className": "relative scroll-mt-[76px] bg-background-100 border-y border-foreground-950/10",
+          "images": [
+            {
+              "src": "/supplied-frontend/assets/search-image(2)",
+              "alt": "Mangosteen chicken burger — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 294.390625,
+              "height": 220.78125
+            },
+            {
+              "src": "/supplied-frontend/assets/search-image(3)",
+              "alt": "Pesto cream Pasta — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 294.390625,
+              "height": 220.78125
+            },
+            {
+              "src": "/supplied-frontend/assets/search-image(4)",
+              "alt": "Margarita — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 294.390625,
+              "height": 220.78125
+            },
+            {
+              "src": "/supplied-frontend/assets/search-image(5)",
+              "alt": "Oreo Shake — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 294.390625,
+              "height": 220.78125
+            },
+            {
+              "src": "/supplied-frontend/assets/search-image(6)",
+              "alt": "Duo chocolate cheese cake — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 294.390625,
+              "height": 220.78125
+            },
+            {
+              "src": "/supplied-frontend/assets/search-image(7)",
+              "alt": "Virgin mojito — illustrative photograph",
+              "parentClass": "relative aspect-[4/3] w-full overflow-hidden border-b border-foreground-950/10",
+              "width": 294.390625,
+              "height": 220.78125
+            },
+            {
+              "src": "/images/authentic/menu-invitation-960.webp",
+              "alt": "Wooden rooftop tables and greenery at Mangosteen Café",
+              "parentClass": "relative h-[180px] w-full overflow-hidden",
+              "width": 294.390625,
+              "height": 180
+            }
+          ]
+        },
+        {
+          "id": "",
+          "className": "relative bg-primary-600 py-7 overflow-hidden",
+          "images": []
+        },
+        {
+          "id": "craft",
+          "className": "relative scroll-mt-[76px] bg-primary-500 text-background-50 wrap py-20 md:py-28 overflow-hidden",
+          "images": [
+            {
+              "src": "/images/authentic/counter-960.webp",
+              "alt": "Mangosteen’s café counter, woven pendant lamps and wooden seating",
+              "parentClass": "h-[420px] md:h-[580px] lg:h-[660px] poster-frame !border-background-50/20 hard-drop-berry m-in",
+              "width": 354,
+              "height": 420
+            }
+          ]
+        },
+        {
+          "id": "",
+          "className": "bg-background-50 wrap py-20 md:py-28",
+          "images": [
+            {
+              "src": "/supplied-frontend/assets/0ba43c55-3dd5-4419-bd54-30933f4086f0_77fb2d5f.webp",
+              "alt": "Illustrative burger artwork, separated into visual layers; not an actual Mangosteen dish",
+              "parentClass": "relative lg:col-span-7 order-1 lg:order-2 h-[460px] md:h-[680px] lg:h-[760px] poster-frame split-v3 m-in",
+              "width": 353.8267822265625,
+              "height": 459.77490234375
+            }
+          ]
+        },
+        {
+          "id": "",
+          "className": "bg-background-50 wrap pb-20 md:pb-28",
+          "images": [
+            {
+              "src": "/images/authentic/rooftop-evening-960.webp",
+              "alt": "Mangosteen’s rooftop in the evening with wooden tables and tropical greenery",
+              "parentClass": "relative overflow-hidden poster-frame bg-primary-950 text-background-50 h-[78svh] min-h-[540px] max-h-[880px]",
+              "width": 354,
+              "height": 658.3125
+            }
+          ]
+        },
+        {
+          "id": "locations",
+          "className": "scroll-mt-[76px] bg-background-100 border-t border-foreground-950/10 wrap py-20 md:py-28",
+          "images": [
+            {
+              "src": "/images/authentic/facade-960.webp",
+              "alt": "The illuminated handwritten Mangosteen sign, wooden façade and hanging greenery",
+              "parentClass": "m-zoom lg:col-span-7 h-[280px] md:h-[420px] lg:h-full min-h-[320px] overflow-hidden m-in",
+              "width": 352,
+              "height": 319.9999694824219
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/menu",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "images": [
+        {
+          "src": "/images/authentic/menu-interior-960.webp",
+          "alt": "Inside Mangosteen: woven pendant lights, wooden tables, cane chairs and botanical greenery",
+          "width": 390,
+          "height": 840
+        },
+        {
+          "src": "/images/menu-ui/bougainvillea-botanical-v1.png",
+          "alt": "",
+          "width": 319.796875,
+          "height": 480
+        },
+        {
+          "src": "/images/menu-ui/torn-paper-v1.png",
+          "alt": "",
+          "width": 390,
+          "height": 67.1875
+        },
+        {
+          "src": "/images/menu/margarita-pizza.jpg",
+          "alt": "Illustrative photograph of a basil and mozzarella pizza",
+          "width": 243.4375,
+          "height": 230.390625
+        },
+        {
+          "src": "/images/menu/pesto-pasta.jpg",
+          "alt": "Illustrative photograph of basil pesto pasta with parmesan",
+          "width": 0,
+          "height": 0
+        },
+        {
+          "src": "/images/menu/veg-cheese-burger.jpg",
+          "alt": "Illustrative photograph of a veggie cheese burger",
+          "width": 0,
+          "height": 0
+        },
+        {
+          "src": "/images/menu/virgin-mojito.jpg",
+          "alt": "Illustrative photograph of a lime and mint mojito",
+          "width": 0,
+          "height": 0
+        },
+        {
+          "src": "/images/menu/chocolate-cheesecake.jpg",
+          "alt": "Illustrative photograph of a chocolate cheesecake slice",
+          "width": 0,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "path": "/about",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "images": [
+        {
+          "src": "/images/authentic/cane-seating-960.webp",
+          "alt": "Cane-back chairs and natural wooden tables beside Mangosteen’s windows",
+          "width": 352,
+          "height": 440.5
+        }
+      ]
+    },
+    {
+      "path": "/locations",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "images": [
+        {
+          "src": "/images/authentic/facade-960.webp",
+          "alt": "The illuminated handwritten Mangosteen sign, wooden façade and hanging greenery",
+          "width": 352,
+          "height": 234
+        },
+        {
+          "src": "/images/authentic/visit-interior-960.webp",
+          "alt": "Mangosteen’s main dining area, warm pendant lighting and decorative café counter",
+          "width": 165,
+          "height": 123.25
+        }
+      ]
+    },
+    {
+      "path": "/contact",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "images": []
+    }
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 568
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 1024
+    },
+    {
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 768
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900
+    },
+    {
+      "width": 1920,
+      "scrollWidth": 1920,
+      "height": 1080
+    }
+  ],
+  "heroAnimationUnchanged": "Five canvas hashes identical to approved design"
+}

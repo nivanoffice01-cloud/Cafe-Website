@@ -1,0 +1,184 @@
+[
+  {
+    "file": "reservation-desktop.png",
+    "beforeSize": [
+      1440,
+      1000
+    ],
+    "afterSize": [
+      1440,
+      1000
+    ],
+    "identicalPixels": false,
+    "meanAbsoluteChannelDifference": 0.0818
+  },
+  {
+    "file": "menu-categories.png",
+    "beforeSize": [
+      390,
+      844
+    ],
+    "afterSize": [
+      390,
+      844
+    ],
+    "identicalPixels": false,
+    "meanAbsoluteChannelDifference": 0.0001
+  },
+  {
+    "file": "crm-orders.png",
+    "beforeSize": [
+      1440,
+      1000
+    ],
+    "afterSize": [
+      1440,
+      1000
+    ],
+    "identicalPixels": true,
+    "meanAbsoluteChannelDifference": 0.0
+  },
+  {
+    "file": "reservation-mobile.png",
+    "beforeSize": [
+      390,
+      844
+    ],
+    "afterSize": [
+      390,
+      844
+    ],
+    "identicalPixels": false,
+    "meanAbsoluteChannelDifference": 0.1033
+  },
+  {
+    "file": "menu-selection.png",
+    "beforeSize": [
+      390,
+      844
+    ],
+    "afterSize": [
+      390,
+      844
+    ],
+    "identicalPixels": true,
+    "meanAbsoluteChannelDifference": 0.0
+  },
+  {
+    "file": "reservation-dialog.png",
+    "beforeSize": [
+      1384,
+      850
+    ],
+    "afterSize": [
+      1384,
+      850
+    ],
+    "identicalPixels": false,
+    "meanAbsoluteChannelDifference": 0.0
+  },
+  {
+    "file": "menu-favourites.png",
+    "beforeSize": [
+      390,
+      844
+    ],
+    "afterSize": [
+      390,
+      844
+    ],
+    "identicalPixels": true,
+    "meanAbsoluteChannelDifference": 0.0
+  },
+  {
+    "file": "menu-search.png",
+    "beforeSize": [
+      390,
+      844
+    ],
+    "afterSize": [
+      390,
+      844
+    ],
+    "identicalPixels": false,
+    "meanAbsoluteChannelDifference": 0.0001
+  },
+  {
+    "file": "crm-reservations.png",
+    "beforeSize": [
+      1440,
+      1000
+    ],
+    "afterSize": [
+      1440,
+      1000
+    ],
+    "identicalPixels": true,
+    "meanAbsoluteChannelDifference": 0.0
+  },
+  {
+    "file": "menu-table-4.png",
+    "beforeSize": [
+      390,
+      844
+    ],
+    "afterSize": [
+      390,
+      844
+    ],
+    "identicalPixels": true,
+    "meanAbsoluteChannelDifference": 0.0
+  },
+  {
+    "file": "crm-login.png",
+    "beforeSize": [
+      1440,
+      1000
+    ],
+    "afterSize": [
+      1440,
+      1000
+    ],
+    "identicalPixels": true,
+    "meanAbsoluteChannelDifference": 0.0
+  },
+  {
+    "file": "crm-settings.png",
+    "beforeSize": [
+      1440,
+      1000
+    ],
+    "afterSize": [
+      1440,
+      1000
+    ],
+    "identicalPixels": true,
+    "meanAbsoluteChannelDifference": 0.0
+  },
+  {
+    "file": "crm-dashboard.png",
+    "beforeSize": [
+      1440,
+      1000
+    ],
+    "afterSize": [
+      1440,
+      1000
+    ],
+    "identicalPixels": true,
+    "meanAbsoluteChannelDifference": 0.0
+  },
+  {
+    "file": "menu-landing.png",
+    "beforeSize": [
+      390,
+      844
+    ],
+    "afterSize": [
+      390,
+      844
+    ],
+    "identicalPixels": true,
+    "meanAbsoluteChannelDifference": 0.0
+  }
+]

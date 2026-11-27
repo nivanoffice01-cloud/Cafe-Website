@@ -1,0 +1,158 @@
+{
+  "checks": [
+    "Seven widths / both zones: 15 table groups and 54 seats retain exact transforms, capacities and IDs; individual seat toggles, party filtering, keyboard selection, back persistence, mobile 44px map targets, fit/explore and sticky continuation pass without page overflow",
+    "Real pending request with changed date/time and non-default D1-2/3/4/5 individual seats reached disposable CRM and appears in authenticated bootstrap; no live reservation created",
+    "All protected source hashes and reservation state/submission handlers are unchanged; Escape/close restores body scrolling"
+  ],
+  "layouts": [
+    {
+      "zone": "rooftop",
+      "width": 320,
+      "scrollWidth": 320,
+      "mapWidth": 800,
+      "photoWidth": 292,
+      "photoNatural": 320
+    },
+    {
+      "zone": "inside",
+      "width": 320,
+      "scrollWidth": 320,
+      "mapWidth": 800,
+      "photoWidth": 292,
+      "photoNatural": 320
+    },
+    {
+      "zone": "rooftop",
+      "width": 390,
+      "scrollWidth": 390,
+      "mapWidth": 800,
+      "photoWidth": 354,
+      "photoNatural": 389
+    },
+    {
+      "zone": "inside",
+      "width": 390,
+      "scrollWidth": 390,
+      "mapWidth": 800,
+      "photoWidth": 354,
+      "photoNatural": 389
+    },
+    {
+      "zone": "rooftop",
+      "width": 600,
+      "scrollWidth": 600,
+      "mapWidth": 800,
+      "photoWidth": 564,
+      "photoNatural": 600
+    },
+    {
+      "zone": "inside",
+      "width": 600,
+      "scrollWidth": 600,
+      "mapWidth": 800,
+      "photoWidth": 564,
+      "photoNatural": 600
+    },
+    {
+      "zone": "rooftop",
+      "width": 768,
+      "scrollWidth": 768,
+      "mapWidth": 704.546875,
+      "photoWidth": 323.109375,
+      "photoNatural": 368
+    },
+    {
+      "zone": "inside",
+      "width": 768,
+      "scrollWidth": 768,
+      "mapWidth": 704.546875,
+      "photoWidth": 323.109375,
+      "photoNatural": 368
+    },
+    {
+      "zone": "rooftop",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "mapWidth": 568.375,
+      "photoWidth": 345.6875,
+      "photoNatural": 430
+    },
+    {
+      "zone": "inside",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "mapWidth": 568.375,
+      "photoWidth": 345.6875,
+      "photoNatural": 430
+    },
+    {
+      "zone": "rooftop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "mapWidth": 743.65625,
+      "photoWidth": 535.953125,
+      "photoNatural": 604
+    },
+    {
+      "zone": "inside",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "mapWidth": 743.65625,
+      "photoWidth": 535.953125,
+      "photoNatural": 604
+    },
+    {
+      "zone": "rooftop",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "mapWidth": 877.703125,
+      "photoWidth": 632.296875,
+      "photoNatural": 806
+    },
+    {
+      "zone": "inside",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "mapWidth": 877.703125,
+      "photoWidth": 632.296875,
+      "photoNatural": 806
+    }
+  ],
+  "errors": [],
+  "requests": [
+    {
+      "requestKey": "f7749f3b-02e6-4b23-9fc9-389b6f11b952",
+      "name": "Reservation Visual V3 Guest",
+      "phone": "9876543210",
+      "email": "",
+      "date": "2026-11-28",
+      "time": "20:00",
+      "guests": 4,
+      "area": "Inside Mangosteen",
+      "table": "Dining 01",
+      "seats": [
+        "D1-2",
+        "D1-3",
+        "D1-4",
+        "D1-5"
+      ],
+      "occasion": "Regular visit",
+      "specialRequests": "",
+      "consent": false,
+      "website": ""
+    }
+  ],
+  "protected": {
+    "src/data/seating.ts": "byte-identical",
+    "src/features/reservations/layout.ts": "byte-identical",
+    "src/lib/crm.ts": "byte-identical",
+    "src/features/reservations/BookingControls.tsx": "byte-identical",
+    "src/pages/MenuExperiencePage.tsx": "byte-identical",
+    "src/features/digital-menu/photography.ts": "byte-identical",
+    "src/features/supplied-frontend/SuppliedDesign.tsx": "byte-identical",
+    "src/features/supplied-frontend/SuppliedFrontendPage.tsx": "byte-identical",
+    "src/styles/typography.css": "byte-identical",
+    "CRM/server.py": "byte-identical",
+    "api/full-menu.mjs": "byte-identical"
+  }
+}

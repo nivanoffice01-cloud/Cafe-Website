@@ -1,0 +1,131 @@
+{
+  "errors": [],
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "noOverflow": true
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "noOverflow": true
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "noOverflow": true
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "noOverflow": true
+    }
+  ],
+  "contrasts": [
+    {
+      "viewport": 320,
+      "label": "Explore the menu",
+      "color": "rgb(17, 27, 19)",
+      "background": "rgb(223, 189, 128)",
+      "fontSize": "12px",
+      "height": 48,
+      "ratio": 9.855655376993479
+    },
+    {
+      "viewport": 320,
+      "label": "Reserve a table",
+      "color": "rgb(255, 248, 235)",
+      "background": "rgb(17, 33, 23)",
+      "fontSize": "12px",
+      "height": 48,
+      "ratio": 15.855319487904579
+    },
+    {
+      "viewport": 390,
+      "label": "Explore the menu",
+      "color": "rgb(17, 27, 19)",
+      "background": "rgb(223, 189, 128)",
+      "fontSize": "12px",
+      "height": 48,
+      "ratio": 9.855655376993479
+    },
+    {
+      "viewport": 390,
+      "label": "Reserve a table",
+      "color": "rgb(255, 248, 235)",
+      "background": "rgb(17, 33, 23)",
+      "fontSize": "12px",
+      "height": 48,
+      "ratio": 15.855319487904579
+    },
+    {
+      "viewport": 768,
+      "label": "Explore the menu",
+      "color": "rgb(17, 27, 19)",
+      "background": "rgb(223, 189, 128)",
+      "fontSize": "12px",
+      "height": 48,
+      "ratio": 9.855655376993479
+    },
+    {
+      "viewport": 768,
+      "label": "Reserve a table",
+      "color": "rgb(255, 248, 235)",
+      "background": "rgb(17, 33, 23)",
+      "fontSize": "12px",
+      "height": 48,
+      "ratio": 15.855319487904579
+    },
+    {
+      "viewport": 1440,
+      "label": "Explore the menu",
+      "color": "rgb(17, 27, 19)",
+      "background": "rgb(223, 189, 128)",
+      "fontSize": "12px",
+      "height": 48,
+      "ratio": 9.855655376993479
+    },
+    {
+      "viewport": 1440,
+      "label": "Reserve a table",
+      "color": "rgb(255, 248, 235)",
+      "background": "rgb(17, 33, 23)",
+      "fontSize": "12px",
+      "height": 48,
+      "ratio": 15.855319487904579
+    },
+    {
+      "viewport": 1920,
+      "label": "Explore the menu",
+      "color": "rgb(17, 27, 19)",
+      "background": "rgb(223, 189, 128)",
+      "fontSize": "12px",
+      "height": 48,
+      "ratio": 9.855655376993479
+    },
+    {
+      "viewport": 1920,
+      "label": "Reserve a table",
+      "color": "rgb(255, 248, 235)",
+      "background": "rgb(17, 33, 23)",
+      "fontSize": "12px",
+      "height": 48,
+      "ratio": 15.855319487904579
+    }
+  ],
+  "interactions": [
+    "Hero reservation opens existing dialog and closes with Escape",
+    "Hero menu button opens approved menu"
+  ],
+  "supportingCaption": {
+    "color": "rgb(245, 234, 215)",
+    "fontSize": "14px",
+    "fontWeight": "500"
+  }
+}

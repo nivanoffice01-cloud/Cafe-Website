@@ -1,0 +1,90 @@
+[
+  {
+    "name": "table-long-v2",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-9cff96c3-bf88-46e3-b1ea-e67785954976.png",
+    "output": "public/images/reservation/table-long-v2.webp",
+    "dimensions": [
+      512,
+      231
+    ],
+    "bytes": 37518,
+    "transparent": true
+  },
+  {
+    "name": "table-square-v2",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-acb7f63a-ff42-45b0-905b-f9b5a177cc85.png",
+    "output": "public/images/reservation/table-square-v2.webp",
+    "dimensions": [
+      320,
+      317
+    ],
+    "bytes": 23384,
+    "transparent": true
+  },
+  {
+    "name": "cane-chair-v2",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-9dc04bfa-37ab-47aa-a40b-9335b6159e8a.png",
+    "output": "public/images/reservation/cane-chair-v2.webp",
+    "dimensions": [
+      256,
+      276
+    ],
+    "bytes": 28122,
+    "transparent": true
+  },
+  {
+    "name": "rooftop-stone-v2",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-05b27004-7bd1-413b-97c6-673f3b5f7464.png",
+    "output": "public/images/reservation/rooftop-stone-v2.webp",
+    "dimensions": [
+      768,
+      768
+    ],
+    "bytes": 117736,
+    "transparent": false
+  },
+  {
+    "name": "inside-tile-v2",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-58fb0d50-48e7-42c5-9d94-d300b2a54b2a.png",
+    "output": "public/images/reservation/inside-tile-v2.webp",
+    "dimensions": [
+      512,
+      512
+    ],
+    "bytes": 57352,
+    "transparent": false
+  },
+  {
+    "name": "lounge-seat-v2",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-d608292c-0be0-41d3-88db-1d2ab76612f8.png",
+    "output": "public/images/reservation/lounge-seat-v2.webp",
+    "dimensions": [
+      256,
+      258
+    ],
+    "bytes": 10804,
+    "transparent": true
+  },
+  {
+    "name": "planter-palm-v2",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-36e42e98-e71c-4ecb-90eb-42cdab889708.png",
+    "output": "public/images/reservation/planter-palm-v2.webp",
+    "dimensions": [
+      320,
+      294
+    ],
+    "bytes": 59316,
+    "transparent": true
+  },
+  {
+    "name": "planter-broadleaf-v2",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-b86158f2-b42c-42e6-9883-fc98fe8ce2e2.png",
+    "output": "public/images/reservation/planter-broadleaf-v2.webp",
+    "dimensions": [
+      256,
+      233
+    ],
+    "bytes": 20112,
+    "transparent": true
+  }
+]

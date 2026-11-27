@@ -44,3 +44,16 @@ export const seatingPlans: Record<SeatingZone, { name: string; orientation: stri
 }
 
 export const seatsFor = (cluster: SeatCluster) => Array.from({ length: cluster.capacity }, (_, index) => `${cluster.id}-${index + 1}`)
+
+export type OrderTable = SeatCluster & { zone: SeatingZone; zoneName: string }
+
+// QR ordering is intentionally separate from the reservation floor-plan model.
+// Only codes physically printed and placed by the cafe belong in this list.
+export const orderTables: OrderTable[] = [
+  { id: '4', label: 'Table 4', capacity: 4, columns: 2, column: 2, row: 2, zone: 'inside', zoneName: 'Cafe floor' },
+]
+
+export const orderTableFor = (code: string | null | undefined) => {
+  const normalized = String(code || '').trim().toUpperCase()
+  return orderTables.find((table) => table.id === normalized) || null
+}

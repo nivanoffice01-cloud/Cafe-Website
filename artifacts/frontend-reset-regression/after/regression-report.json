@@ -1,0 +1,20 @@
+{
+  "phase": "after",
+  "viewport": "390x844@2x",
+  "checks": {
+    "menuLanding": true,
+    "dishCount": "131 Dishes",
+    "categoryCount": 15,
+    "tableContext": true,
+    "qrAliasContext": true,
+    "searchResult": true,
+    "favouriteStored": "[\"Pizza & Pide|Margarita\"]",
+    "selectionStored": "[{\"name\":\"Margarita\",\"price\":499,\"description\":\"Thin crust, tomato sauce, basil and mozzarella\",\"category\":\"Pizza & Pide\",\"quantity\":1}]",
+    "selectionVisible": true,
+    "orderAction": true,
+    "holdingPage": true,
+    "reservationDialog": true,
+    "seatingMap": true
+  },
+  "errors": []
+}

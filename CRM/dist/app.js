@@ -246,6 +246,78 @@ const navItems = [
   { id: 'settings', label: 'Settings', icon: 'settings' },
 ];
 
+const rolePages = {
+  Owner: navItems.map((item) => item.id),
+  Manager: navItems.map((item) => item.id),
+  Cashier: ['dashboard', 'orders', 'billing', 'customers', 'reservations'],
+  Kitchen: ['kitchen'],
+  Host: ['dashboard', 'customers', 'reservations', 'feedback', 'reports'],
+};
+
+const pageSearchAliases = {
+  dashboard: 'home overview summary',
+  orders: 'order orders pos table takeaway menu',
+  kitchen: 'kitchen display tickets cooking',
+  billing: 'billing bill payment payments closing cash',
+  stock: 'inventory stock ingredients supplies',
+  expenses: 'expense expenses costs spending',
+  vendors: 'vendor vendors supplier suppliers',
+  staff: 'staff team employee employees attendance roster',
+  customers: 'customer customers guest guests crm',
+  reservations: 'reservation reservations booking bookings tables',
+  loyalty: 'loyalty rewards points membership',
+  feedback: 'feedback review reviews rating ratings',
+  reports: 'report reports analytics sales profit',
+  settings: 'setting settings configuration preferences account security',
+};
+
+function allowedPagesForCurrentUser() {
+  return rolePages[data.user?.role] || rolePages.Host;
+}
+
+function runGlobalSearch(rawQuery) {
+  const query = rawQuery.trim().toLowerCase();
+  if (!query) return;
+  const allowedPages = allowedPagesForCurrentUser();
+  const pageMatch = navItems.find((item) => {
+    if (!allowedPages.includes(item.id)) return false;
+    const terms = `${item.id} ${item.label} ${pageSearchAliases[item.id] || ''}`.toLowerCase();
+    return terms.split(/\s+/).some((term) => term.startsWith(query)) || terms.includes(query);
+  });
+
+  if (pageMatch) {
+    state.page = pageMatch.id;
+    state.customerQuery = '';
+    refreshPage();
+    showToast(`Opened ${pageMatch.label}.`);
+    return;
+  }
+
+  const sources = [
+    { page: 'customers', label: 'Customers', records: data.customers },
+    { page: 'orders', label: 'Orders & POS', records: [...(data.orders || []), ...(data.menuItems || [])] },
+    { page: 'reservations', label: 'Reservations', records: data.reservations },
+    { page: 'stock', label: 'Inventory', records: data.inventory },
+    { page: 'expenses', label: 'Expenses', records: data.expenses },
+    { page: 'vendors', label: 'Vendors', records: data.vendors },
+    { page: 'staff', label: 'Staff & attendance', records: data.staff },
+    { page: 'feedback', label: 'Feedback', records: data.feedback },
+  ];
+  const recordMatch = sources.find((source) => allowedPages.includes(source.page)
+    && (source.records || []).some((record) => JSON.stringify(record).toLowerCase().includes(query)));
+
+  if (!recordMatch) {
+    showToast(`No CRM result found for “${rawQuery.trim()}”.`, 'error');
+    return;
+  }
+
+  state.page = recordMatch.page;
+  state.customerQuery = recordMatch.page === 'customers' ? rawQuery.trim() : '';
+  refreshPage();
+  if (recordMatch.page === 'customers') window.setTimeout(() => filterCustomers(), 0);
+  showToast(`Found a match in ${recordMatch.label}.`);
+}
+
 function escapeHtml(value = '') {
   return String(value)
     .replaceAll('&', '&amp;')
@@ -293,14 +365,7 @@ function shell() {
   const businessName = data.settings.business_name || 'Mangosteen Cafe';
   const user = data.user || { name: 'Staff member', role: 'Host' };
   const userInitials = initials(user.name || 'Staff');
-  const rolePages = {
-    Owner: navItems.map((item) => item.id),
-    Manager: navItems.map((item) => item.id),
-    Cashier: ['dashboard', 'orders', 'billing', 'customers', 'reservations'],
-    Kitchen: ['kitchen'],
-    Host: ['dashboard', 'customers', 'reservations', 'feedback', 'reports'],
-  };
-  const allowedPages = rolePages[user.role] || rolePages.Host;
+  const allowedPages = allowedPagesForCurrentUser();
   if (!allowedPages.includes(state.page)) state.page = allowedPages[0];
   const visibleNav = navItems.filter((item) => allowedPages.includes(item.id));
   const dynamicBadge = (id) => id === 'reservations' ? analytics.todayReservations.length : id === 'feedback' ? analytics.openFeedback : id === 'kitchen' ? operations.kitchenOrders.length : id === 'stock' ? operations.lowStock.length : null;
@@ -308,8 +373,7 @@ function shell() {
     <div class="app-shell">
       <aside class="sidebar ${state.sidebarOpen ? 'open' : ''}" id="sidebar">
         <div class="brand">
-          <div class="brand-mark">${icon('coffee')}</div>
-          <div class="brand-copy"><strong>${escapeHtml(businessName.replace(/\s+Cafe$/i, ''))}</strong><span>Cafe Operating Suite</span></div>
+          <img class="brand-lockup" src="./assets/mangosteen-brand-lockup.png" alt="${escapeHtml(businessName)}" />
         </div>
         <div class="nav-label">Workspace</div>
         <nav class="nav-list" aria-label="Main navigation">
@@ -329,10 +393,9 @@ function shell() {
       <div class="mobile-overlay ${state.sidebarOpen ? 'open' : ''}" data-action="close-sidebar"></div>
       <main class="main-shell">
         <div class="topbar">
-          <button class="icon-btn menu-toggle" data-action="toggle-sidebar" aria-label="Open navigation">${icon('menu')}</button>
           <div class="global-search">
             ${icon('search')}
-            <input id="global-search" type="search" placeholder="Search guests, tables and orders…" aria-label="Global search" />
+            <input id="global-search" type="search" placeholder="Search pages, guests, orders, stock…" aria-label="Global search" />
             <span class="shortcut">⌘ K</span>
           </div>
           <div class="topbar-right">
@@ -348,7 +411,7 @@ function shell() {
         <div class="page-wrap">
           <div class="demo-banner">
             ${icon('sparkles')}
-            <span><strong>Private operating workspace.</strong> ${isCloudHosted ? 'Orders, stock and guest data use the secured Netlify data layer' : 'Orders, stock and guest data stay on this Mac'}; website requests arrive here as pending.</span>
+            <span><strong>Private operating workspace.</strong> ${isCloudHosted ? 'Orders, stock and guest data use the secured cloud data layer' : 'Orders, stock and guest data stay on this Mac'}; website requests arrive here as pending.</span>
             ${user.role === 'Owner' ? '<button data-action="reset-demo">Rebuild sample data</button>' : ''}
           </div>
           <div id="page-content">${renderPage()}</div>
@@ -842,7 +905,7 @@ function renderSettings() {
       <div class="form-section"><h3>Account security</h3><p>Sessions expire after 12 hours and passwords are stored with PBKDF2 hashing.</p><div class="security-callout">${icon('shield')}<div><strong>Signed in as ${escapeHtml(data.user?.email || '')}</strong><span>${escapeHtml(data.user?.role || '')} permissions are enforced by the local API.</span></div></div><button class="btn" data-action="change-password">${icon('lock')} Change password</button> <button class="btn" data-action="logout">Sign out</button></div>`,
     data: `
       <div class="form-section"><h3>Import and export</h3><p>Use UTF-8 CSV from the cafe POS. Name and phone are required; common column names are detected automatically.</p><div class="button-row"><button class="btn" data-action="import-customers">${icon('download')} Import customer CSV</button><button class="btn" data-action="download-customers">${icon('download')} Export customers</button><button class="btn" data-action="export-report">${icon('chart')} Export report</button></div></div>
-      <div class="form-section"><h3>Automatic backups</h3><p>${isCloudHosted ? 'Versioned JSON backups are retained in Netlify Blobs.' : 'A daily SQLite backup is retained locally.'} Manual backups and restores require Owner access.</p><div class="switch-row"><div class="switch-copy"><strong>Daily backups</strong><span>${isCloudHosted ? 'Stored in the secured production data layer.' : 'Stored inside the project backups folder.'}</span></div><button id="setting-backup-enabled" class="switch ${settings.backup_enabled ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle daily backups"></button></div><div class="field" style="max-width:220px"><label>Retention (days)</label><input id="setting-backup-retention" type="number" min="1" max="365" value="${Number(settings.backup_retention_days || 30)}" /></div>${isOwner ? `<div class="button-row"><button class="btn btn-primary" data-action="create-backup">${icon('database')} Create backup now</button></div>` : ''}</div>
+      <div class="form-section"><h3>Automatic backups</h3><p>${isCloudHosted ? 'Versioned JSON backups are retained in the secured cloud data layer.' : 'A daily SQLite backup is retained locally.'} Manual backups and restores require Owner access.</p><div class="switch-row"><div class="switch-copy"><strong>Daily backups</strong><span>${isCloudHosted ? 'Stored in the secured production data layer.' : 'Stored inside the project backups folder.'}</span></div><button id="setting-backup-enabled" class="switch ${settings.backup_enabled ? 'on' : ''}" data-action="toggle-switch" aria-label="Toggle daily backups"></button></div><div class="field" style="max-width:220px"><label>Retention (days)</label><input id="setting-backup-retention" type="number" min="1" max="365" value="${Number(settings.backup_retention_days || 30)}" /></div>${isOwner ? `<div class="button-row"><button class="btn btn-primary" data-action="create-backup">${icon('database')} Create backup now</button></div>` : ''}</div>
       <div class="form-section"><h3>Available backups</h3>${data.backups.length ? `<div class="backup-list">${data.backups.slice(0, 8).map((backup) => `<div class="backup-row"><div>${icon('database')}<span><strong>${escapeHtml(backup.name)}</strong><small>${new Intl.NumberFormat('en-IN').format(Math.ceil(backup.size / 1024))} KB · ${relativeTime(backup.createdAt)} ago</small></span></div><div class="button-row"><button class="btn btn-small" data-action="download-backup" data-name="${escapeHtml(backup.name)}">Download</button>${isOwner ? `<button class="btn btn-small" data-action="restore-backup" data-name="${escapeHtml(backup.name)}">Restore</button>` : ''}</div></div>`).join('')}</div>` : '<div class="empty-state compact"><p>No backups are available yet.</p></div>'}</div>`,
   }[tab];
   return `
@@ -856,7 +919,7 @@ function renderSettings() {
 }
 
 function renderLogin() {
-  return `<main class="login-shell"><section class="login-card"><div class="login-brand"><div class="brand-mark">${icon('coffee')}</div><div><strong>Mangosteen</strong><span>Cafe Operating Suite</span></div></div><div class="login-copy"><span class="eyebrow">Private operating system</span><h1>Welcome to Mangosteen</h1><p>One secure workspace for orders, kitchen, billing, stock, staff and every guest.</p></div>${dataError ? `<div class="form-error">${escapeHtml(dataError)}</div>` : ''}<form id="login-form"><div class="field"><label>Email address</label><input name="email" type="email" autocomplete="username" required /></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required /></div><button class="btn btn-primary login-button" type="submit">${icon('lock')} Enter private workspace</button></form><div class="login-demo"><strong>Private workspace</strong><span>Use the account provided by the owner. Replace every seeded demo password before storing real customer data.</span></div></section><aside class="login-visual"><div><span class="eyebrow">Mangosteen Cafe · Indore</span><h2>Run the whole cafe. Know every guest.</h2><p>A premium operating layer for tables, kitchen, billing, inventory, people, loyalty and profit intelligence.</p></div></aside></main>`;
+  return `<main class="login-shell"><section class="login-card"><div class="login-brand login-brand-lockup"><img src="./assets/mangosteen-brand-lockup.png" alt="Mangosteen Cafe" /></div><div class="login-copy"><span class="eyebrow">Private operating system</span><h1>Welcome to Mangosteen</h1><p>One secure workspace for orders, kitchen, billing, stock, staff and every guest.</p></div>${dataError ? `<div class="form-error">${escapeHtml(dataError)}</div>` : ''}<form id="login-form"><div class="field"><label>Email address</label><input name="email" type="email" autocomplete="username" required /></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required /></div><button class="btn btn-primary login-button" type="submit">${icon('lock')} Enter private workspace</button></form><div class="login-demo"><strong>Private workspace</strong><span>Use the account provided by the owner. Replace every seeded demo password before storing real customer data.</span></div></section><aside class="login-visual"><div><span class="eyebrow">Mangosteen Cafe · Indore</span><h2>Run the whole cafe. Know every guest.</h2><p>A premium operating layer for tables, kitchen, billing, inventory, people, loyalty and profit intelligence.</p></div></aside></main>`;
 }
 
 function renderApp() {
@@ -1169,13 +1232,8 @@ document.getElementById('app').addEventListener('change', (event) => {
 
 document.getElementById('app').addEventListener('keydown', (event) => {
   if (event.target.id === 'global-search' && event.key === 'Enter') {
-    const query = event.target.value.trim();
-    if (query) {
-      state.page = 'customers';
-      state.customerQuery = query;
-      refreshPage();
-      window.setTimeout(() => filterCustomers(), 0);
-    }
+    event.preventDefault();
+    runGlobalSearch(event.target.value);
   }
 });
 

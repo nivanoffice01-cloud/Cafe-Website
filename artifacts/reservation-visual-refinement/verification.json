@@ -1,0 +1,95 @@
+{
+  "checks": [
+    "320–1920px: no overflow, preserved table/chair coordinates, 54 seats, capacity filtering, selection and back navigation",
+    "Small ID-only markers; immediate full-name/capacity hover information; photo and seat preferences remain synchronized",
+    "ReservationDialog, seating/layout data, handlers/API, homepage/nav, menu and backend remain byte-identical",
+    "Non-reduced-motion map entrance, selection reveal and area switching recorded without runtime errors"
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "scrollWidth": 320,
+      "zone": "rooftop"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "scrollWidth": 320,
+      "zone": "inside"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "zone": "rooftop"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "zone": "inside"
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768,
+      "zone": "rooftop"
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768,
+      "zone": "inside"
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "scrollWidth": 1024,
+      "zone": "rooftop"
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "scrollWidth": 1024,
+      "zone": "inside"
+    },
+    {
+      "width": 1440,
+      "height": 1000,
+      "scrollWidth": 1440,
+      "zone": "rooftop"
+    },
+    {
+      "width": 1440,
+      "height": 1000,
+      "scrollWidth": 1440,
+      "zone": "inside"
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "zone": "rooftop"
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "zone": "inside"
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "protectedFiles": {
+    "src/components/ReservationDialog.tsx": "byte-identical",
+    "src/features/reservations/layout.ts": "byte-identical",
+    "src/data/seating.ts": "byte-identical",
+    "src/lib/crm.ts": "byte-identical",
+    "src/features/supplied-frontend/SuppliedDesign.tsx": "byte-identical",
+    "src/features/supplied-frontend/SuppliedFrontendPage.tsx": "byte-identical",
+    "src/features/supplied-frontend/integration.css": "byte-identical",
+    "src/pages/MenuExperiencePage.tsx": "byte-identical",
+    "CRM/server.py": "byte-identical"
+  }
+}

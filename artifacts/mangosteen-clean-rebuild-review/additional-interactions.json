@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "Direct gallery fragment lands on the requested section",
+    "Gallery fullscreen, next photograph and Escape/focus return",
+    "Mobile menu-to-menu transition and back restores unlocked, closed navigation",
+    "Immediate interrupted navigation close",
+    "Existing Maps integration toggles without a new destination"
+  ],
+  "errors": []
+}

@@ -1,5 +1,12 @@
-import { HomePage } from '../pages/HomePage'
+import { Suspense, lazy } from 'react'
+const MarketingPage = lazy(() => import('../features/supplied-frontend/SuppliedFrontendPage'))
+const MenuExperiencePage = lazy(() => import('../pages/MenuExperiencePage').then((module) => ({ default: module.MenuExperiencePage })))
 
-export default function App() {
-  return <HomePage />
+function Routes() {
+  const pathname = window.location.pathname.replace(/\/$/, '') || '/'
+  const fallback = <div style={{ minHeight: '100svh', background: '#0b100c' }} />
+  if (pathname === '/m' || pathname === '/menu' || pathname.startsWith('/menu/')) return <Suspense fallback={fallback}><MenuExperiencePage /></Suspense>
+  return <Suspense fallback={fallback}><MarketingPage /></Suspense>
 }
+
+export default function App() { return <Routes /> }

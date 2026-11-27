@@ -1,0 +1,7 @@
+[
+  'Story transition completes with one active page',
+  'Native browser back restores marketing route',
+  'Interrupted navigation clears its transition state',
+  'Existing reservation works after page transitions',
+  'Menu leaves marketing router and opens protected page'
+]

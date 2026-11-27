@@ -1,0 +1,155 @@
+/* A pin must follow the live container width after device rotation/preview resize,
+   rather than keeping a previously measured inline width from ScrollTrigger. */
+.saved-mangosteen #top > .pin-spacer,
+.saved-mangosteen #top .cinematic-hero-stage {
+  width: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+@media (max-width: 1023px) {
+  .saved-mangosteen #top .cinematic-hero-stage {
+    height: 100svh !important;
+    min-height: 540px;
+  }
+  .saved-mangosteen #top .hero-frame { border-radius: 0; }
+  /* Give the artwork its own vertical space between copy and actions. The
+     existing canvas continues rendering and reversing the actual animation. */
+  .saved-mangosteen #top .cinematic-visual-layer {
+    top: 0;
+    bottom: 0;
+    height: auto;
+  }
+  .saved-mangosteen #top .hero-copy:first-child > .wrap:not(.absolute) {
+    justify-content: flex-start;
+    padding: calc(76px + clamp(20px, 4svh, 36px)) 20px max(84px, calc(env(safe-area-inset-bottom) + 66px));
+  }
+  .saved-mangosteen #top .hero-copy:first-child > .wrap:not(.absolute) > div {
+    height: 100%;
+    min-height: 0;
+  }
+  .saved-mangosteen #top .hero-copy:first-child .sticker {
+    padding: 9px 13px;
+    font-size: 8px;
+    letter-spacing: .16em;
+  }
+  .saved-mangosteen #top .hero-copy:first-child h1 { margin-top: 15px; }
+  .saved-mangosteen #top .hero-copy:first-child .cover-title {
+    font-size: clamp(36px, 10.8vw, 46px);
+    line-height: 1;
+    max-width: 15ch;
+    white-space: normal;
+  }
+  .saved-mangosteen #top .hero-copy:first-child .hand.text-accent-300 {
+    margin-top: 14px;
+    max-width: 100%;
+    font-size: clamp(16px, 4.5vw, 19px);
+    line-height: 1.3;
+    background: transparent;
+    box-shadow: none;
+  }
+  .saved-mangosteen #top .hero-copy:first-child .pointer-events-auto {
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+    margin-top: auto;
+  }
+  .saved-mangosteen #top .hero-copy:first-child .btn-poster {
+    flex: 1;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px 10px;
+    font-size: 10px;
+    letter-spacing: .08em;
+  }
+  .saved-mangosteen #top .hero-copy:first-child > .absolute {
+    pointer-events: none;
+    justify-content: center;
+    padding-bottom: max(23px, env(safe-area-inset-bottom));
+  }
+  .saved-mangosteen #top .hero-copy:first-child > .absolute > span:first-child { display: none; }
+  .saved-mangosteen #top .hero-copy:first-child > .absolute .hand { font-size: 15px; }
+  .saved-mangosteen #story { padding-top: 54px; padding-bottom: 56px; }
+  .saved-mangosteen #story .h-statement { font-size: clamp(34px, 9vw, 44px); line-height: 1.08; }
+  .saved-mangosteen #story > .wrap { gap: 32px; }
+}
+@media (max-width: 1023px) and (max-height: 700px) {
+  .saved-mangosteen #top .cinematic-visual-layer { top: 0; bottom: 0; }
+  .saved-mangosteen #top .hero-copy:first-child > .wrap:not(.absolute) { padding-top: 96px; padding-bottom: 66px; }
+  .saved-mangosteen #top .hero-copy:first-child .cover-title { font-size: clamp(32px, 9.8vw, 38px); }
+  .saved-mangosteen #top .hero-copy:first-child h1 { margin-top: 11px; }
+  .saved-mangosteen #top .hero-copy:first-child .hand.text-accent-300 { font-size: 16px; margin-top: 11px; }
+  .saved-mangosteen #top .hero-copy:first-child .btn-poster { min-height: 44px; font-size: 9px; padding-inline: 8px; }
+  .saved-mangosteen #top .hero-copy:first-child > .absolute { padding-bottom: 15px; }
+}
+@media (max-width: 1099px) and (max-height: 500px) {
+  .saved-mangosteen #top .cinematic-hero-stage { height: 100svh !important; min-height: 320px; }
+  .saved-mangosteen #top .hero-frame { border-radius: 0; }
+  .saved-mangosteen #top .cinematic-visual-layer { top: 76px; bottom: 12px; left: 49%; right: 0; height: auto; }
+  .saved-mangosteen #top .hero-copy:first-child > .wrap:not(.absolute) { justify-content: flex-start; padding: 90px 20px 22px; }
+  .saved-mangosteen #top .hero-copy:first-child > .wrap:not(.absolute) > div { height: 100%; width: 48%; max-width: 430px; margin-left: 0; }
+  .saved-mangosteen #top .hero-copy:first-child h1 { margin-top: 8px; }
+  .saved-mangosteen #top .hero-copy:first-child .cover-title { font-size: 34px; white-space: normal; line-height: 1; }
+  .saved-mangosteen #top .hero-copy:first-child .sticker { font-size: 7px; padding: 7px 10px; }
+  .saved-mangosteen #top .hero-copy:first-child .hand.text-accent-300 { margin-top: 8px; font-size: 15px; background: none; box-shadow: none; }
+  .saved-mangosteen #top .hero-copy:first-child .pointer-events-auto { flex-direction: row; gap: 7px; margin-top: auto; width: 100%; }
+  .saved-mangosteen #top .hero-copy:first-child .btn-poster { flex: 1; min-width: 0; min-height: 44px; padding: 10px 8px; font-size: 8px; letter-spacing: .06em; }
+  .saved-mangosteen #top .hero-copy:first-child > .absolute { display: none; }
+}
+
+@media (max-width: 1023px) {
+  .premium-site-header .premium-header-links,
+  .premium-site-header .premium-header-actions > a { display: none !important; }
+  .premium-site-header button[aria-label="Toggle menu"] { display: flex !important; }
+  .premium-site-header > div:not([aria-hidden]) { display: flex; flex-direction: column; }
+}
+
+/* Later cinematic stages use the larger upper artwork region; copy occupies a
+   compact footer so the exploded ingredients remain the visual focus. */
+@media (max-width: 1023px) and (min-height: 501px) {
+  .saved-mangosteen #top .hero-copy:not(:first-child) > .wrap {
+    justify-content: flex-end;
+    padding: 0 20px max(25px, env(safe-area-inset-bottom));
+  }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid {
+    display: block;
+    width: 100%;
+  }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid > div {
+    text-align: left;
+    align-items: flex-start;
+  }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .hero-glass {
+    font-size: clamp(29px, 8vw, 36px);
+    line-height: 1;
+    margin-top: 3px;
+  }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid > div:first-child .hero-glass { margin-top: 11px; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .sticker { padding: 8px 12px; font-size: 8px; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) p {
+    margin-top: 10px;
+    max-width: 34ch;
+    font-size: 13px;
+    line-height: 1.45;
+    background: transparent;
+    box-shadow: none;
+  }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .sticker-circle { width: 48px; height: 48px; font-size: 15px; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid > div:first-child > .flex { margin-top: 10px; }
+}
+@media (max-width: 1023px) and (min-height: 501px) {
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 0; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid > div { display: contents; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid .sticker { order: 0; align-self: flex-start; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid .hero-glass { order: 1; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid > div > .flex { order: 2; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid p { order: 3; }
+}
+@media (max-width: 1023px) and (min-height: 501px) and (max-height: 700px) {
+  .saved-mangosteen #top .hero-copy:not(:first-child) > .wrap { padding-bottom: 20px; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .hero-glass { font-size: 26px; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .sticker { padding: 6px 10px; font-size: 7px; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) p { font-size: 12px; line-height: 1.4; margin-top: 8px; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .sticker-circle { width: 32px; height: 32px; font-size: 11px; }
+  .saved-mangosteen #top .hero-copy:not(:first-child) .grid > div:first-child > .flex { margin-top: 8px; }
+}

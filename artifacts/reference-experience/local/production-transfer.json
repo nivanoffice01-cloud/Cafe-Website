@@ -1,0 +1,14 @@
+[
+  {
+    "name": "desktop",
+    "initialBytes": 2329741,
+    "fullJourneyBytes": 2499717,
+    "mode": "Production build served locally, cache disabled by fresh browser context"
+  },
+  {
+    "name": "mobile",
+    "initialBytes": 2811433,
+    "fullJourneyBytes": 2981409,
+    "mode": "Production build served locally, cache disabled by fresh browser context"
+  }
+]

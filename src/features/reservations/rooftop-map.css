@@ -1,0 +1,37 @@
+/* Only the rooftop SVG and its materials are refined; indoor/page styling stays intact. */
+.reservation-plan[data-area="rooftop"] .reservation-map-scroll{background:#676b60}
+.reservation-plan[data-area="rooftop"] .reservation-furniture.is-small{opacity:.7}
+.reservation-plan[data-area="rooftop"] .reservation-table,
+.reservation-plan[data-area="rooftop"] .reservation-table:hover{transform:none}
+.reservation-plan[data-area="rooftop"] .reservation-table-surface,
+.reservation-plan[data-area="rooftop"] .rooftop-table-depth{transition:transform .28s cubic-bezier(.2,.7,.2,1)}
+.reservation-plan[data-area="rooftop"] .reservation-table:hover .reservation-table-surface,
+.reservation-plan[data-area="rooftop"] .reservation-table:focus-visible .reservation-table-surface,
+.reservation-plan[data-area="rooftop"] .reservation-furniture.is-active .reservation-table-surface{transform:translateY(-.9px)}
+.reservation-plan[data-area="rooftop"] .reservation-table-ring{stroke:#f4ecdc;stroke-width:2.8;transition:opacity .25s}
+.reservation-plan[data-area="rooftop"] .rooftop-selection-inset{opacity:0;transition:opacity .25s}
+.reservation-plan[data-area="rooftop"] .reservation-furniture.is-active .rooftop-selection-inset,
+.reservation-plan[data-area="rooftop"] .reservation-table:hover .rooftop-selection-inset,
+.reservation-plan[data-area="rooftop"] .reservation-table:focus-visible .rooftop-selection-inset{opacity:1}
+.reservation-plan[data-area="rooftop"] .reservation-furniture.is-small .rooftop-selection-inset{opacity:0}
+.reservation-plan[data-area="rooftop"] .reservation-table-marker circle{fill:#f5eddd;stroke:#294331;stroke-width:.65}
+.reservation-plan[data-area="rooftop"] .reservation-table-marker text{fill:#25422e}
+.reservation-plan[data-area="rooftop"] .reservation-furniture.is-active .reservation-table-marker circle{fill:#1b3a28;stroke:#f5ebd5;stroke-width:1.1;animation:rooftop-choice .24s ease-out}
+.reservation-plan[data-area="rooftop"] .reservation-furniture.is-active .reservation-table-marker text{fill:#fff5e3}
+.reservation-plan[data-area="rooftop"] .reservation-seat-check circle{fill:#1e3c2a;stroke:#f7efdc}
+.reservation-plan[data-area="rooftop"] .reservation-chair-focus{transition:stroke .2s}
+.reservation-plan[data-area="rooftop"] .reservation-chair:hover .reservation-chair-focus,
+.reservation-plan[data-area="rooftop"] .reservation-chair:focus-visible .reservation-chair-focus{stroke:#f4eddb;stroke-width:1.5}
+@keyframes rooftop-choice{from{opacity:.65}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+ .reservation-plan[data-area="rooftop"] .reservation-table-surface,
+ .reservation-plan[data-area="rooftop"] .rooftop-table-depth,
+ .reservation-plan[data-area="rooftop"] .rooftop-selection-inset,
+ .reservation-plan[data-area="rooftop"] .reservation-chair-focus{transition:none}
+ .reservation-plan[data-area="rooftop"] .reservation-table:hover .reservation-table-surface,
+ .reservation-plan[data-area="rooftop"] .reservation-furniture.is-active .reservation-table-surface{transform:none}
+ .reservation-plan[data-area="rooftop"] .reservation-table-marker circle{animation:none!important}
+}
+.reservation-plan[data-area="rooftop"] .reservation-furniture.is-active .reservation-table-ring,
+.reservation-plan[data-area="rooftop"] .reservation-table:hover .reservation-table-ring,
+.reservation-plan[data-area="rooftop"] .reservation-table:focus-visible .reservation-table-ring{stroke:#f4ecdc}

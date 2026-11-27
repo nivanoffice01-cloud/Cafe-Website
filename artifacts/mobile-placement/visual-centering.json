@@ -1,0 +1,56 @@
+[
+  {
+    "file": "artifacts/mobile-animation-scale/393-0.3.png",
+    "foodCentreX": 160.5,
+    "viewportCentreX": 196.5,
+    "errorPx": 36.0
+  },
+  {
+    "file": "artifacts/mobile-placement/393-0.52.png",
+    "foodCentreX": 195.0,
+    "viewportCentreX": 196.5,
+    "errorPx": 1.5
+  },
+  {
+    "file": "artifacts/mobile-placement/320-0.75.png",
+    "foodCentreX": 160.0,
+    "viewportCentreX": 160.0,
+    "errorPx": 0.0
+  },
+  {
+    "file": "artifacts/mobile-placement/393-0.26.png",
+    "foodCentreX": 196.5,
+    "viewportCentreX": 196.5,
+    "errorPx": 0.0
+  },
+  {
+    "file": "artifacts/mobile-placement/393-0.3.png",
+    "foodCentreX": 196.0,
+    "viewportCentreX": 196.5,
+    "errorPx": 0.5
+  },
+  {
+    "file": "artifacts/mobile-placement/320-0.52.png",
+    "foodCentreX": 159.0,
+    "viewportCentreX": 160.0,
+    "errorPx": 1.0
+  },
+  {
+    "file": "artifacts/mobile-placement/393-0.75.png",
+    "foodCentreX": 197.0,
+    "viewportCentreX": 196.5,
+    "errorPx": 0.5
+  },
+  {
+    "file": "artifacts/mobile-placement/320-0.3.png",
+    "foodCentreX": 159.5,
+    "viewportCentreX": 160.0,
+    "errorPx": 0.5
+  },
+  {
+    "file": "artifacts/mobile-placement/320-0.26.png",
+    "foodCentreX": 160.0,
+    "viewportCentreX": 160.0,
+    "errorPx": 0.0
+  }
+]

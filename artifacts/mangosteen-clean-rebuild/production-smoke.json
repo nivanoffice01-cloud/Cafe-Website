@@ -1,0 +1,51 @@
+{
+  "results": [
+    {
+      "route": "/",
+      "status": 200,
+      "brokenVisibleImages": []
+    },
+    {
+      "route": "/menu",
+      "status": 200,
+      "brokenVisibleImages": []
+    },
+    {
+      "route": "/menu/all",
+      "status": 200,
+      "brokenVisibleImages": []
+    },
+    {
+      "route": "/menu/browse",
+      "status": 200,
+      "brokenVisibleImages": []
+    },
+    {
+      "route": "/m?table=4",
+      "status": 200,
+      "brokenVisibleImages": []
+    },
+    {
+      "route": "/experience",
+      "status": 200,
+      "brokenVisibleImages": []
+    },
+    {
+      "route": "/reference-experience",
+      "status": 200,
+      "brokenVisibleImages": []
+    },
+    {
+      "route": "/claude-vfx-lab",
+      "status": 200,
+      "brokenVisibleImages": []
+    },
+    {
+      "route": "/crm/",
+      "status": 200,
+      "brokenVisibleImages": []
+    }
+  ],
+  "errors": [],
+  "note": "Static CRM login verified in packaged build. Auth/API verified separately against disposable Python CRM."
+}

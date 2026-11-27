@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mangosteen · Supplied frontend review</title><style>*{box-sizing:border-box}body{background:#101810;color:#f2ebdf;margin:0;font:16px/1.6 system-ui,sans-serif}main{max-width:1440px;margin:auto;padding:clamp(20px,4vw,64px)}h1,h2{font:400 clamp(32px,4vw,64px)/1.1 Georgia,serif}h2{font-size:36px;margin-top:70px}a{color:#dfc18e}img,video{display:block;width:100%;height:auto}video{max-height:700px;background:#080b08}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.links{display:flex;flex-wrap:wrap;gap:20px}.note{border-left:3px solid #c5a572;padding:16px 24px;background:#233423}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#233423;padding:24px;font:13px/1.7 ui-monospace,monospace}figure{margin:0}figcaption{color:#c5a572;font-size:12px}.eyebrow{letter-spacing:.16em;font-size:12px;color:#c5a572} @media(max-width:650px){.grid{grid-template-columns:1fr}}</style><main><p class="eyebrow">26 NOVEMBER 2026 · LOCAL REVIEW · NOT DEPLOYED</p><h1>The supplied Mangosteen frontend.<br>Restored and connected.</h1><div class="links"><a href="http://127.0.0.1:5173/">Inspect homepage</a><a href="http://127.0.0.1:5173/menu">Approved menu</a><a href="http://127.0.0.1:5173/menu?table=4">Table 4</a><a href="REPORT.txt">Full report</a></div><p class="note">Implementation checkpoint <b>35c9c54</b> · <b>mangosteen-supplied-frontend</b>. Previous version preserved at <b>c035d43</b>. The supplied design is restored; its demo business details are replaced by the existing café data and reservation system.</p><h2>Watch the experience</h2><div class="grid"><article><h3>Desktop journey and reverse scroll</h3><video controls preload="none" src="recordings/desktop.mp4"></video><a href="recordings/desktop.mp4">Open recording</a></article><article><h3>Mobile journey and reservation entry</h3><video controls preload="none" src="recordings/mobile.mp4"></video><a href="recordings/mobile.mp4">Open recording</a></article><article><h3>Page transitions and browser back</h3><video controls preload="none" src="recordings/navigation.mp4"></video><a href="recordings/navigation.mp4">Open recording</a></article></div><h2>Original reference and restored opening</h2><p>The original mobile header overflows; the restored header keeps every control within the screen. Photographic artwork, typography, framing and motion are retained. Demo prices/contact information are adapted to verified existing data.</p><div class="grid"><figure><img loading="lazy" src="reference-desktop.jpg" alt="Supplied reference desktop"><figcaption>Saved design · original reference</figcaption></figure><figure><img loading="lazy" src="screenshots/desktop-hero-0.jpg" alt="Restored desktop"><figcaption>Restored application · existing business integration</figcaption></figure><figure><img loading="lazy" src="reference-mobile.jpg" alt="Supplied reference mobile"><figcaption>Original mobile header overflow</figcaption></figure><figure><img loading="lazy" src="screenshots/mobile-opening.jpg" alt="Restored mobile"><figcaption>Restored mobile header</figcaption></figure></div><h2>Reversible burger animation</h2><img loading="lazy" src="burger-contact-sheet.jpg" alt="Burger animation at five scroll states"><p>Five distinct canvas states verified; reverse playback returns to the exact opening canvas pixels.</p><div class="links"><a href="screenshots/desktop-hero-0.jpg">0%</a><a href="screenshots/desktop-hero-25.jpg">25%</a><a href="screenshots/desktop-hero-50.jpg">50%</a><a href="screenshots/desktop-hero-75.jpg">75%</a><a href="screenshots/desktop-hero-100.jpg">100%</a></div><h2>Responsive and supporting pages</h2><div class="links"><a href="screenshots/viewport-1024-768.jpg">viewport-1024-768</a><a href="screenshots/viewport-1440-900.jpg">viewport-1440-900</a><a href="screenshots/viewport-1920-1080.jpg">viewport-1920-1080</a><a href="screenshots/viewport-2560-1440.jpg">viewport-2560-1440</a><a href="screenshots/viewport-320-568.jpg">viewport-320-568</a><a href="screenshots/viewport-360-800.jpg">viewport-360-800</a><a href="screenshots/viewport-390-844.jpg">viewport-390-844</a><a href="screenshots/viewport-430-932.jpg">viewport-430-932</a><a href="screenshots/viewport-768-1024.jpg">viewport-768-1024</a></div><div class="links"><a href="screenshots/page-about.jpg">Story</a><a href="screenshots/page-locations.jpg">The café</a><a href="screenshots/page-contact.jpg">Contact</a><a href="screenshots/mobile-reservation.jpg">Existing reservation</a></div><h2>Verification evidence</h2><div class="links"><a href="interaction-results.json">Interaction checks</a><a href="navigation-results.json">Transitions/back navigation</a><a href="business-after/results.json">Menu/reservations/CRM</a><a href="protected-files.json">83 protected hashes</a><a href="build-and-tests.log">Build and nine tests</a><a href="final-asset-build.log">Final build</a><a href="import-manifest.json">Asset mapping</a><a href="additional-source-images.json">Supporting image sources</a></div><p>Business tests submit to a disposable real Python/SQLite backend. No production data was touched. The source concept imagery is not claimed as actual café architecture, staff or dishes. Physical-device, cross-browser and field performance verification remain outside these local checks.</p><pre>SUPPLIED MANGOSTEEN FRONTEND — RESTORATION REVIEW
+26 November 2026 · Local only · Not deployed
+
+INSPECT
+http://127.0.0.1:5173/
+http://127.0.0.1:5173/artifacts/supplied-frontend-review/index.html
+
+RECOVERY
+Branch: mangosteen-supplied-frontend
+Implementation checkpoint: 35c9c54
+Previous version preserved: checkpoint/before-supplied-frontend-c035d43 at c035d43
+The final evidence commit follows the implementation. Use git log -1 for its exact hash.
+The pre-existing untracked src/components/FullMenuDialog.tsx was left untouched.
+
+RESTORED
+The supplied Chrome-saved frontend&#x27;s layout, forest/ivory/gold palette, local serif
+and Manrope typography, header, four-stage canvas burger, poster story composition,
+horizontal dish rail, short menu, animated marquee, craft composition, ingredient
+artwork, lifestyle image, café visit block, giant letter-reveal footer and supporting
+story/café/contact pages. Source atlas frame counts: {&#x27;A&#x27;: 60, &#x27;B&#x27;: 45, &#x27;C&#x27;: 52}.
+Burger forward/reverse playback uses the actual supplied sprites. Five distinct
+progress states are captured; returning to zero produced the exact initial canvas hash.
+Marketing page transitions reproduce the source&#x27;s 750ms opacity choreography using
+View Transitions, with rapid-navigation handling and native browser back support.
+
+INTEGRATION
+Original business source, catalogue, API clients, QR routes, reservations and CRM
+remain unchanged. All menu buttons lead to the approved menu; featured dishes map
+to actual catalogue entries. Reservations reuse the existing dialog and backend.
+Protected business UI is outside the restored stylesheet scope.
+The reference&#x27;s demo prices, unverified popularity/preparation claims, placeholder
+phone/address/email/hours and replacement Readdy booking/contact endpoints were
+adapted to existing data and supported interfaces. No new external contact service.
+Header overflow on phones and overlapping tablet navigation in the saved source
+were corrected; mobile drawer supports focus containment, Escape and scroll locking.
+
+ASSETS
+All supplied files and linked burger assets are retained locally. Two additional
+existing images linked by the source story/café pages were retrieved and localized.
+No paid assets, paid API requests, external uploads or deployment.
+The provided design imagery is conceptual/illustrative; it is not independently
+verified as actual Mangosteen architecture, staff, food or servings. The previous
+original café photographs remain untouched. The hero is labelled a visual concept
+and dish preview imagery is labelled illustrative. Asset URLs and mapping are in
+import-manifest.json, additional-source-images.json and the public asset manifest.
+Fonts/icons use local files and included upstream licence notices. The existing
+Google Fonts link in the protected document is retained. Builder preview tooling,
+analytics, error collectors and promotion injection were excluded from active code.
+The supplied watermark.png file is retained, but the builder promotion is not café UI.
+
+VERIFICATION
+npm run check: TypeScript/Vite production build PASS; CRM client syntax PASS;
+9/9 existing Python backend tests PASS. Final image-only build PASS.
+Eight visual/interaction groups PASS; five navigation groups PASS; five protected
+business groups PASS. No new page errors, missing assets or bad HTTP responses.
+Nine viewports 320x568, 360x800, 390x844, 430x932, 768x1024, 1024x768,
+1440x900, 1920x1080, 2560x1440 show no horizontal document overflow.
+Reduced motion renders the supplied static fallback. Keyboard Escape and focus
+handling, exact dish links, rapid route changes, back navigation and reservation
+entry verified. Desktop/mobile/navigation MP4s are actual Chrome captures.
+83 protected file SHA-256 hashes match the baseline exactly.
+Menu landing and Table 4 screenshots are byte-identical to the previous approved captures.
+
+BUSINESS TESTS
+131 dishes / 13 categories, search, persistent favourites, selection, Table 4 demo
+order, full seat-selection reservation request, pending confirmation state, CRM
+owner authentication/dashboard/order queue/reservation queue/settings tested with
+a real Python/SQLite API using a disposable database. No customer data was changed.
+
+LIMITATIONS
+Creative visual approval is pending. The copied concept imagery is not an actual
+architectural reconstruction or real-time 3D food model. It is the supplied rendered
+sprite animation. Exact demo business copy is intentionally replaced with existing
+facts. This does not claim every reference pixel is identical across browsers.
+The existing reservation phone regex warning is present in the baseline and remains
+in protected source. No physical phone, Safari/Firefox or field performance claims.
+Local browser testing used Chrome/touch emulation on this Mac. Manual submissions
+require the CRM server running on its configured port 4173; regression tests used
+an isolated CRM instance, not that live service.
+
+REPRODUCE
+npm run dev -- --host 127.0.0.1 --port 5173
+npm run check
+node scripts/verify-supplied-frontend-business.mjs after
+node scripts/review-supplied-frontend.mjs
+</pre></main></html>

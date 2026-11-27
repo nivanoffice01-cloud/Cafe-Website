@@ -1,0 +1,113 @@
+{
+  "results": [
+    {
+      "host": "localhost",
+      "entry": "homepage header",
+      "background": "rgb(245, 239, 229)",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000,
+        "top": 0,
+        "right": 1440,
+        "bottom": 1000,
+        "left": 0
+      },
+      "controls": 4,
+      "layout": "grid",
+      "oldHeaderImage": "none"
+    },
+    {
+      "host": "localhost",
+      "entry": "contact page booking button",
+      "background": "rgb(245, 239, 229)",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000,
+        "top": 0,
+        "right": 1440,
+        "bottom": 1000,
+        "left": 0
+      },
+      "controls": 4,
+      "layout": "grid",
+      "oldHeaderImage": "none"
+    },
+    {
+      "host": "localhost",
+      "entry": "direct booking URL",
+      "background": "rgb(245, 239, 229)",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000,
+        "top": 0,
+        "right": 1440,
+        "bottom": 1000,
+        "left": 0
+      },
+      "controls": 4,
+      "layout": "grid",
+      "oldHeaderImage": "none"
+    },
+    {
+      "host": "127.0.0.1",
+      "entry": "homepage header",
+      "background": "rgb(245, 239, 229)",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000,
+        "top": 0,
+        "right": 1440,
+        "bottom": 1000,
+        "left": 0
+      },
+      "controls": 4,
+      "layout": "grid",
+      "oldHeaderImage": "none"
+    },
+    {
+      "host": "127.0.0.1",
+      "entry": "contact page booking button",
+      "background": "rgb(245, 239, 229)",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000,
+        "top": 0,
+        "right": 1440,
+        "bottom": 1000,
+        "left": 0
+      },
+      "controls": 4,
+      "layout": "grid",
+      "oldHeaderImage": "none"
+    },
+    {
+      "host": "127.0.0.1",
+      "entry": "direct booking URL",
+      "background": "rgb(245, 239, 229)",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000,
+        "top": 0,
+        "right": 1440,
+        "bottom": 1000,
+        "left": 0
+      },
+      "controls": 4,
+      "layout": "grid",
+      "oldHeaderImage": "none"
+    }
+  ],
+  "errors": []
+}

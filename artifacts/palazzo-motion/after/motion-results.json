@@ -1,0 +1,48 @@
+{
+  "checks": [
+    "Table arrow-key navigation",
+    "desktop-complete: forward/reverse section journey and reservation close",
+    "Mobile touch inertia settles and updates dish",
+    "Vertical touch gesture scrolls instead of dragging table",
+    "Mobile touch glass brush follows actual gesture",
+    "mobile-complete: forward/reverse section journey and reservation close",
+    "Escape interrupts outgoing navigation",
+    "Covered document navigation reveals approved menu",
+    "Browser Back restores scroll without a stranded cover",
+    "Browser Forward restores menu",
+    "Direct Table 4 QR access has no entrance curtain",
+    "Rapid navigation uses the latest destination",
+    "Table reverse and rapid selections leave text visible",
+    "Glass trail persists across responsive resize",
+    "Accessible reveal and full condensation reset"
+  ],
+  "performance": [
+    {
+      "name": "desktop-complete",
+      "initialBytes": 1833594,
+      "fullBytes": 3248953,
+      "frameSamples": 1802,
+      "medianMs": 16.69999999999891,
+      "p95Ms": 16.700000000004366,
+      "framesOver25ms": 0,
+      "framesOver50ms": 0,
+      "tasks": [],
+      "lcp": 616,
+      "note": "Chrome on local Mac with recording; mobile is emulated. Long tasks include navigation/module initialization. LCP is a lab observation, not field CWV."
+    },
+    {
+      "name": "mobile-complete",
+      "initialBytes": 1833773,
+      "fullBytes": 3730824,
+      "frameSamples": 1802,
+      "medianMs": 16.69999999999891,
+      "p95Ms": 16.799999999995634,
+      "framesOver25ms": 0,
+      "framesOver50ms": 0,
+      "tasks": [],
+      "lcp": 520,
+      "note": "Chrome on local Mac with recording; mobile is emulated. Long tasks include navigation/module initialization. LCP is a lab observation, not field CWV."
+    }
+  ],
+  "errors": []
+}

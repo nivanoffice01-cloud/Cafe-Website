@@ -1,0 +1,185 @@
+[
+  {
+    "name": "arrival",
+    "source": "public/images/highres/mangosteen_original_4_8k.jpg",
+    "category": "Exterior/signage",
+    "composition": "Hero arch; full facade at 50% 65%; do not cut signage",
+    "dimensions": [
+      7680,
+      4314
+    ],
+    "files": [
+      "public/marketing/arrival-640.webp",
+      "public/marketing/arrival-1280.webp",
+      "public/marketing/arrival-1920.webp",
+      "public/marketing/arrival-portrait-640.webp",
+      "public/marketing/arrival-portrait-960.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "dining",
+    "source": "public/images/highres/mangosteen_original_1_8k.jpg",
+    "category": "Main dining / long tables / pendant lights",
+    "composition": "Glass reveal; one-point perspective down wooden table",
+    "dimensions": [
+      7680,
+      5116
+    ],
+    "files": [
+      "public/marketing/dining-640.webp",
+      "public/marketing/dining-1280.webp",
+      "public/marketing/dining-1920.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "evening",
+    "source": "public/images/highres/mangosteen_original_3_8k.jpg",
+    "category": "Main dining / amber light",
+    "composition": "Architectural exploration; preserve vertical beams",
+    "dimensions": [
+      7680,
+      5760
+    ],
+    "files": [
+      "public/marketing/evening-640.webp",
+      "public/marketing/evening-1280.webp",
+      "public/marketing/evening-1920.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "plate",
+    "source": "public/images/highres/mangosteen_original_2_8k.jpg",
+    "category": "Food / overhead composition",
+    "composition": "Floating culinary composition; unverified dish identity, no invented name",
+    "dimensions": [
+      7680,
+      5116
+    ],
+    "files": [
+      "public/marketing/plate-640.webp",
+      "public/marketing/plate-1280.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "chair",
+    "source": "public/images/gallery/cafe-06.png",
+    "category": "Cane seating / architectural detail",
+    "composition": "Inline editorial image; foreground cane and natural light",
+    "dimensions": [
+      1032,
+      1282
+    ],
+    "files": [
+      "public/marketing/chair-640.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "daylight",
+    "source": "public/images/gallery/cafe-07.jpg",
+    "category": "Dining / ceiling / counter",
+    "composition": "Architecture gallery; wide view",
+    "dimensions": [
+      1545,
+      1030
+    ],
+    "files": [
+      "public/marketing/daylight-640.webp",
+      "public/marketing/daylight-1280.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "terrace",
+    "source": "public/images/gallery/cafe-14.png",
+    "category": "Rooftop / greenery",
+    "composition": "Lifestyle portrait crop keeping plants and railing",
+    "dimensions": [
+      1960,
+      1292
+    ],
+    "files": [
+      "public/marketing/terrace-640.webp",
+      "public/marketing/terrace-1280.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "night",
+    "source": "public/images/gallery/cafe-16.jpg",
+    "category": "Rooftop evening",
+    "composition": "Closing image with genuine blue hour lighting",
+    "dimensions": [
+      1453,
+      969
+    ],
+    "files": [
+      "public/marketing/night-640.webp",
+      "public/marketing/night-1280.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "rooftop",
+    "source": "public/images/gallery/cafe-18.jpeg",
+    "category": "Rooftop / wooden tables",
+    "composition": "Gallery; natural daytime atmosphere",
+    "dimensions": [
+      1600,
+      1066
+    ],
+    "files": [
+      "public/marketing/rooftop-640.webp",
+      "public/marketing/rooftop-1280.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "corner",
+    "source": "public/images/gallery/cafe-19.jpg",
+    "category": "Quiet seating / lighting detail",
+    "composition": "Lifestyle secondary image; wall pendant detail",
+    "dimensions": [
+      1962,
+      1198
+    ],
+    "files": [
+      "public/marketing/corner-640.webp",
+      "public/marketing/corner-1280.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "table-wood",
+    "source": "public/images/highres/mangosteen_original_2_8k.jpg",
+    "category": "Genuine photographic texture crop",
+    "composition": "Crop (0, 3800, 700, 4300), resized to 600x429; circular wooden table surface",
+    "files": [
+      "public/marketing/table-wood.webp"
+    ],
+    "independentLayers": false
+  },
+  {
+    "name": "brand",
+    "source": "public/images/architectural/brand-lockup.png",
+    "category": "Existing brand asset",
+    "composition": "Header and transition logo; original file unmodified"
+  },
+  {
+    "name": "named-dish-portraits",
+    "source": "public/images/menu/README.md",
+    "category": "Existing illustrative Pexels photography, not actual Mangosteen servings",
+    "composition": "Five independently rotating DOM plates. Existing source attribution retained. No new assets licensed or purchased.",
+    "files": [
+      "public/images/menu/margarita-pizza.jpg",
+      "public/images/menu/pesto-pasta.jpg",
+      "public/images/menu/veg-cheese-burger.jpg",
+      "public/images/menu/virgin-mojito.jpg",
+      "public/images/menu/chocolate-cheesecake.jpg"
+    ]
+  }
+]

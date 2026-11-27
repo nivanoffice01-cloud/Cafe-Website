@@ -1,0 +1,7 @@
+{
+  "checks": [
+    "Categories and Search accessible through hamburger drawer; favourite, selection and header shortcuts work; conditional list summary sits 12px above viewport bottom",
+    "Bottom navigation absent and no horizontal overflow on six menu screens at 320, 390, 768 and 1440px"
+  ],
+  "errors": []
+}

@@ -1,0 +1,9 @@
+LOCATION GOOGLE MAP UPDATE
+
+Replaced only the homepage Find us in Indore photograph with a lazy-loaded interactive Google Maps iframe using the existing verified coordinates 22.706144,75.924299. The original photograph remains available elsewhere.
+
+Address, hours, phone and reservation presentation retained. Directions now opens Google Maps at the same destination in a new tab. No API key required. Map fits the existing responsive panel.
+
+Rendered Google map tiles visually verified on desktop and mobile. Responsive dimensions and no horizontal overflow checked at 320,390,768,1024,1440,1920px. Directions destination/target verified. Existing reservation dialog opens and closes with Escape. No page errors observed. Production build passed. Google map content loads asynchronously; loading and loaded captures retained.
+
+No deployment performed.

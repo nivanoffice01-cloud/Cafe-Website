@@ -1,0 +1,18 @@
+HERO READABILITY FIX · 26 November 2026
+
+Scope: src/features/supplied-frontend/integration.css only.
+Solid ivory headlines, slightly stronger serif weight, localized shadow backing,
+readable italic annotations, solid caption surfaces and clear gold/forest CTA
+buttons. No source photographs, sprite assets, animation code, positioning,
+menu logic or reservation logic changed.
+
+Verified in Chrome at 320x568, 390x844, 768x1024, 1440x900 and 1920x1080.
+No horizontal page overflow. Both main hero buttons are 48px high and have
+measured solid foreground/background contrast of at least 9.86:1.
+All five hero scroll stages captured on desktop/mobile; final screenshots inspected.
+Existing menu opens normally; existing reservation dialog opens and Escape closes it.
+No page errors observed. Production build passes.
+
+This is local Chrome verification; no physical-device or field measurements claimed.
+Before/after images and scroll-state captures are in this directory.
+No deployment performed.

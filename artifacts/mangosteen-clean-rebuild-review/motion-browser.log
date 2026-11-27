@@ -1,0 +1,7 @@
+PASS Arch path genuinely changes with scroll and returns exactly on reverse; photograph is not scaled
+PASS Complete desktop journey recorded
+PASS Dining table buttons, keyboard, independent rotation and pointer inertia work
+PASS Glass brush persistently erases real canvas pixels; accessible reveal and reset work
+PASS Marketing exit, native back/forward, and direct QR bypass work without a stuck curtain
+PASS Mobile navigation focus/scroll lock, touch table rotation and touch glass wiping pass
+PASS 12 responsive viewports, desktop/mobile section captures, and reduced-motion fallback verified

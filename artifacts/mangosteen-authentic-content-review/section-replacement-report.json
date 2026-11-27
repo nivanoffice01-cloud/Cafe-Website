@@ -1,0 +1,195 @@
+[
+  {
+    "section": "Hero burger animation",
+    "existingImage": "public/supplied-frontend/assets/*_sheet-*.webp and *_open.webp / *_close.webp",
+    "required": "Actual Mangosteen burger captured in matching animation layers, only after owner review",
+    "selectedReplacement": null,
+    "aspectRatio": "Existing canvas, portrait sprite artwork",
+    "status": "Intentionally unchanged; mismatch flagged",
+    "missing": "No actual menu burger matches the double-patty illustration; listed Mangosteen chicken burger has chicken patty and egg."
+  },
+  {
+    "section": "Brand introduction / main image",
+    "existingImage": "/supplied-frontend/assets/search-image",
+    "required": "Actual main dining, pendant lamps and wooden seating",
+    "selectedReplacement": "story-dining",
+    "aspectRatio": "900:1040; existing masks unchanged",
+    "status": "Replaced with genuine project photograph",
+    "missing": null,
+    "originalSource": "public/images/highres/mangosteen_original_1_8k.jpg",
+    "replacementFiles": [
+      "/images/authentic/story-dining-480.webp",
+      "/images/authentic/story-dining-960.webp",
+      "/images/authentic/story-dining-1440.webp",
+      "/images/authentic/story-dining-1920.webp"
+    ]
+  },
+  {
+    "section": "Brand introduction / secondary image",
+    "existingImage": "/supplied-frontend/assets/search-image(1)",
+    "required": "Actual caf\u00e9 food photograph",
+    "selectedReplacement": "story-food",
+    "aspectRatio": "4:3",
+    "status": "Replaced with genuine overhead meal photo",
+    "missing": "Exact dish identity is unconfirmed; not assigned to a named item.",
+    "originalSource": "public/images/highres/mangosteen_original_2_8k.jpg",
+    "replacementFiles": [
+      "/images/authentic/story-food-480.webp",
+      "/images/authentic/story-food-960.webp",
+      "/images/authentic/story-food-1440.webp",
+      "/images/authentic/story-food-1920.webp"
+    ]
+  },
+  {
+    "section": "What We Are Known For / six dishes",
+    "existingImage": "/supplied-frontend/assets/search-image(2) through search-image(7)",
+    "required": "Six actual menu dishes matched by name, actual serving and current menu",
+    "selectedReplacement": null,
+    "aspectRatio": "4:3 cards",
+    "status": "Existing illustrative images retained temporarily and labelled",
+    "missing": "Genuine photos for Mangosteen chicken burger, Pesto cream Pasta, Margarita, Oreo Shake, Duo chocolate cheese cake and Virgin mojito."
+  },
+  {
+    "section": "Full-menu invitation",
+    "existingImage": "/supplied-frontend/assets/search-image(8)",
+    "required": "Genuine caf\u00e9 table atmosphere",
+    "selectedReplacement": "menu-invitation",
+    "aspectRatio": "8:5",
+    "status": "Replaced with genuine rooftop tables",
+    "missing": null,
+    "originalSource": "public/images/gallery/cafe-18.jpeg",
+    "replacementFiles": [
+      "/images/authentic/menu-invitation-480.webp",
+      "/images/authentic/menu-invitation-960.webp",
+      "/images/authentic/menu-invitation-1440.webp"
+    ]
+  },
+  {
+    "section": "Built on the Counter",
+    "existingImage": "/supplied-frontend/assets/search-image(9)",
+    "required": "Actual Mangosteen counter or coffee preparation",
+    "selectedReplacement": "counter",
+    "aspectRatio": "1300:1500",
+    "status": "Replaced with genuine counter photograph",
+    "missing": "No verified genuine coffee-preparation / cup close-up exists; counter used instead.",
+    "originalSource": "public/images/gallery/cafe-07.jpg",
+    "replacementFiles": [
+      "/images/authentic/counter-480.webp",
+      "/images/authentic/counter-960.webp",
+      "/images/authentic/counter-1440.webp"
+    ]
+  },
+  {
+    "section": "Every Layer Counts",
+    "existingImage": "/supplied-frontend/assets/0ba43c55-3dd5-4419-bd54-30933f4086f0_77fb2d5f.webp",
+    "required": "Actual approved food layers if replacing artwork in a later task",
+    "selectedReplacement": null,
+    "aspectRatio": "Existing transparent artwork / contain mask",
+    "status": "Artwork and movement unchanged; labels describe visual layers only",
+    "missing": "Owner-reviewed matching burger assets."
+  },
+  {
+    "section": "Caf\u00e9 lifestyle",
+    "existingImage": "/supplied-frontend/assets/search-image(10)",
+    "required": "Actual rooftop evening atmosphere / seating",
+    "selectedReplacement": "rooftop-evening",
+    "aspectRatio": "16:9",
+    "status": "Replaced with genuine empty rooftop evening photograph",
+    "missing": "No new customer-portrait permissions were supplied; no posed/generated customers substituted.",
+    "originalSource": "public/images/gallery/cafe-16.jpg",
+    "replacementFiles": [
+      "/images/authentic/rooftop-evening-480.webp",
+      "/images/authentic/rooftop-evening-960.webp",
+      "/images/authentic/rooftop-evening-1440.webp"
+    ]
+  },
+  {
+    "section": "Homepage location and caf\u00e9-page exterior",
+    "existingImage": "/supplied-frontend/assets/search-image(11)",
+    "required": "Actual illuminated Mangosteen signage and wooden fa\u00e7ade",
+    "selectedReplacement": "facade",
+    "aspectRatio": "3:2",
+    "status": "Replaced with genuine fa\u00e7ade",
+    "missing": "Sharper non-upscaled original recommended for future large-display quality.",
+    "originalSource": "public/images/highres/mangosteen_original_4_8k.jpg",
+    "replacementFiles": [
+      "/images/authentic/facade-480.webp",
+      "/images/authentic/facade-960.webp",
+      "/images/authentic/facade-1440.webp",
+      "/images/authentic/facade-1920.webp"
+    ]
+  },
+  {
+    "section": "Caf\u00e9-page interior",
+    "existingImage": "/supplied-frontend/assets/mg-loc-interior.jpg",
+    "required": "Actual main dining / counter",
+    "selectedReplacement": "visit-interior",
+    "aspectRatio": "3:2 source, existing 4:3 mask retained",
+    "status": "Replaced with genuine dining photograph",
+    "missing": null,
+    "originalSource": "public/images/highres/mangosteen_original_3_8k.jpg",
+    "replacementFiles": [
+      "/images/authentic/visit-interior-480.webp",
+      "/images/authentic/visit-interior-960.webp",
+      "/images/authentic/visit-interior-1440.webp",
+      "/images/authentic/visit-interior-1920.webp"
+    ]
+  },
+  {
+    "section": "Our Story photograph",
+    "existingImage": "/supplied-frontend/assets/mg-about-team.jpg",
+    "required": "Genuine caf\u00e9 photograph; no fictional staff",
+    "selectedReplacement": "cane-seating",
+    "aspectRatio": "900:1120 source, existing 4:5 container retained",
+    "status": "Replaced with genuine cane-chair / wooden-table detail",
+    "missing": "No verified staff portrait supplied; no staff identity invented.",
+    "originalSource": "public/images/gallery/cafe-06.png",
+    "replacementFiles": [
+      "/images/authentic/cane-seating-480.webp",
+      "/images/authentic/cane-seating-960.webp"
+    ]
+  },
+  {
+    "section": "Digital menu landing",
+    "existingImage": "/images/experience/mangosteen-table-enhanced.jpg",
+    "required": "Genuine original interior with pendant lamps, wood, cane chairs and greenery",
+    "selectedReplacement": "menu-interior",
+    "aspectRatio": "2:3 portrait crop, existing full-bleed container retained",
+    "status": "Replaced the AI-assisted restoration with a derivative of the retained original",
+    "missing": null,
+    "originalSource": "public/images/highres/mangosteen_original_1_8k.jpg",
+    "replacementFiles": [
+      "/images/authentic/menu-interior-480.webp",
+      "/images/authentic/menu-interior-960.webp",
+      "/images/authentic/menu-interior-1440.webp",
+      "/images/authentic/menu-interior-1920.webp"
+    ]
+  },
+  {
+    "section": "All menu category banners",
+    "existingImage": "13 images in public/images/menu-ai/",
+    "required": "An authentic food composition for each of the 13 actual categories",
+    "selectedReplacement": null,
+    "aspectRatio": "1920:1200 suggested source; existing banner unchanged",
+    "status": "Distinct category banner mapping retained; all currently illustrative",
+    "missing": "13 genuine category food banners. See category-banners.json."
+  },
+  {
+    "section": "Every menu dish",
+    "existingImage": "Existing dish-specific Pexels references / AI category illustrations",
+    "required": "Correct actual serving for each named menu item",
+    "selectedReplacement": null,
+    "aspectRatio": "2400:2400 source recommended, with room for existing crops",
+    "status": "All 131 records audited; temporary images explicitly flagged",
+    "missing": "131 matched genuine named-dish photographs. See CSV/JSON."
+  },
+  {
+    "section": "Reservation interface",
+    "existingImage": "No photograph slots exist in current ReservationDialog",
+    "required": "Owner-confirmed table/zone plan and seating capacities",
+    "selectedReplacement": null,
+    "aspectRatio": "Not applicable; no new slot added",
+    "status": "Interface and logic unchanged; source hash verified",
+    "missing": "Surveyed/owner-approved seating map. Current layout is documented as schematic; confirmation remains pending staff approval."
+  }
+]

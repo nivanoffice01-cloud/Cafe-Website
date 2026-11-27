@@ -1,0 +1,88 @@
+[
+  {
+    "category": "Exterior and signage",
+    "available": [
+      "public/images/highres/mangosteen_original_4_8k.jpg"
+    ],
+    "status": "Genuine retained photograph, underlying fine detail limited"
+  },
+  {
+    "category": "Main dining / long wooden tables / pendant lights",
+    "available": [
+      "public/images/highres/mangosteen_original_1_8k.jpg",
+      "public/images/highres/mangosteen_original_3_8k.jpg"
+    ],
+    "status": "Available"
+  },
+  {
+    "category": "Rooftop / greenery / evening atmosphere",
+    "available": [
+      "public/images/gallery/cafe-14.png",
+      "public/images/gallery/cafe-16.jpg",
+      "public/images/gallery/cafe-18.jpeg",
+      "public/images/gallery/cafe-19.jpg"
+    ],
+    "status": "Available"
+  },
+  {
+    "category": "Cane seating / architectural details",
+    "available": [
+      "public/images/gallery/cafe-06.png"
+    ],
+    "status": "Available; exact named lounge zone not verified"
+  },
+  {
+    "category": "Caf\u00e9 counter",
+    "available": [
+      "public/images/gallery/cafe-07.jpg"
+    ],
+    "status": "Available within actual dining/counter composition"
+  },
+  {
+    "category": "Food / overhead composition",
+    "available": [
+      "public/images/highres/mangosteen_original_2_8k.jpg"
+    ],
+    "status": "Photograph available; exact dish identity unconfirmed"
+  },
+  {
+    "category": "Coffee preparation / cups",
+    "available": [],
+    "status": "No genuinely matched menu photograph identified; supplied design images, Pexels images and generated categories are not treated as authentic food photos"
+  },
+  {
+    "category": "Pizza",
+    "available": [],
+    "status": "No genuinely matched menu photograph identified; supplied design images, Pexels images and generated categories are not treated as authentic food photos"
+  },
+  {
+    "category": "Burgers",
+    "available": [],
+    "status": "No genuinely matched menu photograph identified; supplied design images, Pexels images and generated categories are not treated as authentic food photos"
+  },
+  {
+    "category": "Pasta",
+    "available": [],
+    "status": "No genuinely matched menu photograph identified; supplied design images, Pexels images and generated categories are not treated as authentic food photos"
+  },
+  {
+    "category": "Sandwiches",
+    "available": [],
+    "status": "No genuinely matched menu photograph identified; supplied design images, Pexels images and generated categories are not treated as authentic food photos"
+  },
+  {
+    "category": "Shakes",
+    "available": [],
+    "status": "No genuinely matched menu photograph identified; supplied design images, Pexels images and generated categories are not treated as authentic food photos"
+  },
+  {
+    "category": "Mocktails",
+    "available": [],
+    "status": "No genuinely matched menu photograph identified; supplied design images, Pexels images and generated categories are not treated as authentic food photos"
+  },
+  {
+    "category": "Desserts",
+    "available": [],
+    "status": "No genuinely matched menu photograph identified; supplied design images, Pexels images and generated categories are not treated as authentic food photos"
+  }
+]

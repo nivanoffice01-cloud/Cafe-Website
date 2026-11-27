@@ -1,0 +1,633 @@
+[
+  {
+    "category": "Shakes",
+    "name": "Berries shakes",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-e67a87d1-3e8b-4af8-b3c8-1299618c5e32.png"
+  },
+  {
+    "category": "Shakes",
+    "name": "Nutella & biscoff",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-da20ebe6-2de2-4f45-a290-315a43da0011.png"
+  },
+  {
+    "category": "Shakes",
+    "name": "Fresh Fruit Shake",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-332318fd-a59f-4d55-8ec8-1249071bc6fc.png"
+  },
+  {
+    "category": "Shakes",
+    "name": "Oreo Shake",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-e2bff4c2-9363-4fc2-9f7a-5e3c2253a67a.png"
+  },
+  {
+    "category": "Shakes",
+    "name": "Kit-kat shake",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-c9deb4a6-df32-435b-a6a3-7935c000d25b.png"
+  },
+  {
+    "category": "Juice",
+    "name": "Cheffy favorites",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-1eb19067-5f82-4bf4-be3a-d45fdf8077e3.png"
+  },
+  {
+    "category": "Juice",
+    "name": "Mangosteen Special",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-57bb3838-dc15-482a-9e18-cb8dec95f895.png"
+  },
+  {
+    "category": "Juice",
+    "name": "Weightlessness",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-56182a80-5718-42a8-a355-0e3d9fffa492.png"
+  },
+  {
+    "category": "Juice",
+    "name": "Wake up call",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-28de566e-bd3b-4c11-b994-5cf3a5518d97.png"
+  },
+  {
+    "category": "Juice",
+    "name": "Good Moving",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-5c95194e-86f6-4bc1-8736-264f94b0316f.png"
+  },
+  {
+    "category": "Juice",
+    "name": "Cooler",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-16e477da-9f70-489e-ad38-29c4f6252a87.png"
+  },
+  {
+    "category": "Juice",
+    "name": "Abc",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3208356e-9843-4957-9769-d0613b6e9ab0.png"
+  },
+  {
+    "category": "Juice",
+    "name": "Orange Juice",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-fc7d524d-c938-47de-8ca2-b8b77ee430a8.png"
+  },
+  {
+    "category": "Juice",
+    "name": "Pineapple Juice",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-dad51552-98f1-4600-913c-83ee5675f9f3.png"
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Cola gola",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-0dc1236c-aeef-4e16-8740-629f3a8fd5df.png"
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Cuban Mojito",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-fd531997-e812-49c4-9dc7-925ca9531ed7.png"
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Tikhi peru",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-fb2f4f98-f092-4fe1-a1ef-3e0320860ce2.png"
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Kiwi mojito",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-55259070-8a4d-4945-8135-7092226df2c9.png"
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Watermelon mojito",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-e854f038-ecd4-4014-9be9-42f0a898d4fd.png"
+  },
+  {
+    "category": "Mocktail & Coolers",
+    "name": "Malta mojito",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-1ce06385-2b50-40be-bb4f-02e1a98d4357.png"
+  },
+  {
+    "category": "Iced Tea",
+    "name": "Peach Iced Tea",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-927594d1-a85a-4b0a-9a7f-cd3ed847710e.png"
+  },
+  {
+    "category": "Iced Tea",
+    "name": "Lemon Iced Tea",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-686c0a56-a741-4a18-b9c2-000534fb4ba5.png"
+  },
+  {
+    "category": "Salad",
+    "name": "Burrata & tomato salad",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-ecfb3f59-708c-4397-9875-f810947b73d7.png"
+  },
+  {
+    "category": "Salad",
+    "name": "Greek salad",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-0b051f06-103a-4cea-bd3d-45d58222f378.png"
+  },
+  {
+    "category": "Salad",
+    "name": "Beetroot Tabbouleh",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-f56b82bc-fe71-44d9-91f2-e8017e0ecd7d.png"
+  },
+  {
+    "category": "Salad",
+    "name": "Classic Caesar",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-d87f84f9-f4a5-48bb-a1a7-b2c478a418dc.png"
+  },
+  {
+    "category": "Salad",
+    "name": "Organic quinoa",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-c2af3c2e-4fa6-4b7a-a525-8d8dbe7c9796.png"
+  },
+  {
+    "category": "Salad",
+    "name": "Sprout Salad",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-174a4de5-cd56-428e-9463-a21913b72ce2.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Peri-Peri Paneer",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-090158f2-c36d-45dd-b766-5bcd98e0f2cc.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Burrata pizza",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-bb785dbf-e35b-468f-acac-2f9c4b328824.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "4 Cheese Pizza",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-160cef62-a67d-440a-98c0-fc9067412fce.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Sicilia",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-4ab7b6cb-5eac-4631-977b-e7c6bf33f560.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Pesto pizza",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-44d9d54e-8998-4387-bae5-060a9f83dedc.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Creamy Spinach pizza",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-2469b304-5342-4ddf-9625-1263e916c3b2.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Mediterranean pizza",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3b6f2c81-5433-442f-bc2f-b75f9acc4d34.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Ortolano",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-a66aac21-a853-418d-9b96-68dda6f868ed.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Di Bianca",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-e8fd9407-0d61-4c2c-80bf-4bb6ca2d0e11.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Chicken pepperoni",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-78d997a3-23ee-4396-85db-cf287aed8370.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Chicken Keema",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-24cb84bd-ca6d-4d0a-895a-1496794bda38.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Farm Fresh",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-5cb327f2-d624-403c-a711-671151a1e50e.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Smok Chicken Pizza",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-e39148e9-c4e8-4ec0-b3a8-43f82b4b8dcd.png"
+  },
+  {
+    "category": "Pizza & Pide",
+    "name": "Chicken Makhani Pizza",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-94594caa-91bf-4cb4-b931-8f17198b67f0.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Hummus and saute vegetable sandwich",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-e25be05e-4492-46c8-b5ec-3c04b1ae5f1d.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Bbq Chicken Sendwich",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-afc9f0b6-5b4a-4644-88ed-f3d7ccdeccd7.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Mexican veg burger",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-46ef305c-b04a-4a09-86f1-232d529879b7.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Mangosteen chicken burger",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-83ffe767-279a-4ff7-bc41-e9d16aded44b.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Pulled chicken burger",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-76836631-ee52-497c-b753-767025330471.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Add cheese",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-bbac1d0b-8ce8-4a0e-9dfa-f8c6581d3c12.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Avocado Open Sendwich",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-1e3495eb-abfc-4f9b-9efe-b563045a8b33.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Herb Avocado Bruschetta",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3962ac51-ce15-4482-b84f-257c26425e3a.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Cold Bruschetta",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-74b37fbd-eb8c-4474-9dd5-286d8bfd9f13.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Classic Bruschetta",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-1d204f93-eafe-4695-bebb-03db90b44e9a.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Bbq Chicken Burger",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-2f7f5945-6174-4de8-8c2a-206286b3b6bd.png"
+  },
+  {
+    "category": "Burger & sandwich",
+    "name": "Classic Chicken Sendwich",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-dbd99814-78ea-4738-94da-bcbdd78a9f75.png",
+    "revision": 2
+  },
+  {
+    "category": "Breakfast",
+    "name": "Garlic bread",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-69ff3f07-7af6-456d-b53e-51f75f095e37.png"
+  },
+  {
+    "category": "Breakfast",
+    "name": "Sprout moonglet",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-b064a078-842b-4c8e-9343-1e21803f4455.png"
+  },
+  {
+    "category": "Breakfast",
+    "name": "Acai Bowl",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-de859ebc-89c7-451a-834f-7d18046ae999.png"
+  },
+  {
+    "category": "Breakfast",
+    "name": "Chia seed pudding",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-ca83f04e-70dd-45d5-b43b-ec68046e036b.png"
+  },
+  {
+    "category": "Breakfast",
+    "name": "Cheese omelette",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-368c2599-9683-4540-a563-202abb3f1dd5.png"
+  },
+  {
+    "category": "Breakfast",
+    "name": "Egg white omelette",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-c3413bfa-4351-4458-b56d-46a00fcae2a7.png"
+  },
+  {
+    "category": "Breakfast",
+    "name": "Masala omelette",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-35b7d234-b968-4c71-ade2-920c86d42152.png"
+  },
+  {
+    "category": "Breakfast",
+    "name": "Spanish omelette",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-ce2d6a23-a5e1-48ab-8232-44784da3f058.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "French fries salted",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-b2d6751d-b1aa-4c1d-8b5e-03c02cb5d1f6.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Peri Peri Fries",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-2bda0fce-2d24-4aa2-b118-933756b1c137.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Mangosteen loaded Nachosss",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-deff4fbf-ef49-4c99-8432-de4db1b1de06.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Arabic Mezze",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-b5cfad59-3b8a-49cd-8f98-76e47fa3d41c.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Quesadilla",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-73250ef3-ed98-41e5-bb02-9be20097fa1c.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Falafel roll",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-4780dfd6-e5f6-4170-bd77-5b271593c98a.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Chicken karaage",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-33992997-da46-46d1-911d-eb6a230e5abd.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Hummus and chicken",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-e371baa9-6d1c-413c-9038-da0b5742f087.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Chimichuri chicken skewer",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-66798dad-a1a1-413b-a3fc-752850cc9dbf.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Mangosteen Special Fries",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-beca1cbe-41c5-4edc-9cc5-1e7f7e638507.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Mangosteen Grilled Chicken",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-490086a4-ff1f-45c5-8b06-d35cf03707bf.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Classic Nachos",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-09d9d332-3b97-493a-8886-210acc40ba3c.png"
+  },
+  {
+    "category": "Small Plates",
+    "name": "Mamngosteen Grilled Chicken",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-2ef5b73f-af5a-4668-a6ac-b12e150175fe.png"
+  },
+  {
+    "category": "Pasta",
+    "name": "Aglio olio peperoncino",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-2ea3df50-dce9-41d7-aa55-d3e834ff66ec.png"
+  },
+  {
+    "category": "Pasta",
+    "name": "Arrabiata sauce",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-e9add09a-0c2e-42c6-8401-7a8a7e94833b.png"
+  },
+  {
+    "category": "Pasta",
+    "name": "Alfredo sauce (white)",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-b57d13d2-7418-432b-b1f6-b2fd7e9ba97f.png"
+  },
+  {
+    "category": "Pasta",
+    "name": "Pink sauce",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-5c4f71fd-762a-462e-8a03-6ea9441dd616.png"
+  },
+  {
+    "category": "Pasta",
+    "name": "Mushroom Ragu",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-ac74e572-aa92-486e-880f-b92e88f106b2.png"
+  },
+  {
+    "category": "Pasta",
+    "name": "Persian gnocchi",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-89d31545-599a-4005-87a3-89b7f09e088d.png"
+  },
+  {
+    "category": "Pasta",
+    "name": "Baked Mac & Cheese",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-0c041dfc-5488-4855-83b8-c5017720a0d4.png"
+  },
+  {
+    "category": "Pasta",
+    "name": "Risotto",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-39a3ad10-0be3-4f64-aa26-4d4dead86fb9.png"
+  },
+  {
+    "category": "Pasta",
+    "name": "Lasagna",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-ac943aa2-14db-40c6-ace3-9743228459d9.png"
+  },
+  {
+    "category": "Desserts",
+    "name": "Duo chocolate cheese cake",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-ad08811d-63b9-452f-90b3-a76139e7e53c.png"
+  },
+  {
+    "category": "Desserts",
+    "name": "Pizzokie",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-979123dc-5a11-47c1-938c-377677842902.png"
+  },
+  {
+    "category": "Desserts",
+    "name": "Brownie With Icecream",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-24fc9127-578b-4bdf-a3f1-13276848ba76.png"
+  },
+  {
+    "category": "Desserts",
+    "name": "Tres Leches",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-4ae41d67-0f44-4c88-b3ff-2a765dc91071.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Thai green curry (Veg)",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-c8c7fc1b-adae-4b8d-932f-3ae593cebe47.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Phad Thai (Veg)",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3d6d2254-0005-471e-b3f9-ce5fdadc6a93.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Saute exotic Paneer",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-4db63380-076c-4a65-a5e8-27914f70c8de.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Saute exotic vegetable",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-14d42240-e045-4b25-aea6-80a57ab006ea.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Burrito Bowl",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-41a21fb7-6f1b-4d89-87c7-004d4565e74a.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Grilled Fish",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-cb6c4902-ffb1-4d2e-b494-342af31be3a7.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Herb Grilled Chicken",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-bd9cd0b5-6b55-4b3e-b2b8-ca49c413e32b.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Phad Thai ( Chicken)",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-584dd5f6-6d9a-4c0c-9e01-40a99f1872e5.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Thai green curry (Chicken)",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-2df2b4bb-ebe2-45bd-b497-8b893bb92e21.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Thai green curry (Prawn)",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-5db4c7f9-9a62-4ad5-a1d1-55d12f170e29.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Chicken Ghee Roast ( MANGOSTEEN)",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-6ad3b3c1-afdf-4d5b-8e20-1b6a0969ec3e.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Water Chestnut",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-491eda09-4468-4079-bac6-0e1065765526.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Crispy Lotus Stem",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-02255dae-6cd5-4be0-8a54-7d4560a72f5d.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Andhra Chilli Chicken",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-a6744dfd-6df6-4507-86ed-53f193fb985e.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Chilli Chicken",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-90f24708-fa7e-49f9-a4e3-ec40478eb80e.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Thai Grilled Chicken",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-1cc79b60-1b5b-4619-8e95-1762aaba9710.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Butter Khichdi",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-62f8342f-7985-4b9b-8528-4bdd9f3a4f89.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Veg Hakka Noodles",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-06b876d4-651d-417b-82f3-5b80878f466c.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Schezwan Noodles",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-da88903f-7321-45bf-9495-01fe6bcef6b2.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Chilli Garlic Noodles",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-6b1859e5-c3ee-4f3e-bc58-47d676ad9d3d.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Veg Biryani",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-d0dadbd1-78a5-4b67-8e85-3879cc51223c.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Veg Fried Rice",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-8a9ab73c-c18c-4844-8aa7-2770d2a895ce.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Chicken Biryani",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-9a037dee-2a58-44c8-aed7-dce187ab2a14.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Lahsuni Palak",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-f96b41a9-b03d-415e-a6bb-fc5a46c1c5fb.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Chicken Kadhai",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-15815977-4369-43c1-85ef-e8c81c11b5c0.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Paneer Makhani",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-f548d038-b1aa-4c73-9c0a-a3863091147d.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Chicken Makhanwala",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-99bc34fc-aed0-4fad-bf30-05cb08beae1c.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Chicken Curry",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3c986232-7348-4695-808c-18d70c6a853a.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Butter Pav Bhaji",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-45c73d87-b9a1-438d-b40d-557e21b8a802.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Paneer Lababdar.",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-302406ff-b602-41f9-b1ac-2e1885af191c.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Dal Makhani",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-be34d436-917a-482b-8bea-dbc47af571bd.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Classic Mix Veg",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-91dd2ad6-dfdd-4394-b722-97620192d8ea.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Extra Paratha",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-bfe5d053-dfc8-4e3c-ad05-2cfd8fce847b.png"
+  },
+  {
+    "category": "Main Course",
+    "name": "Andhra Chilli Paneer",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-a9032d37-086b-4ab0-90c8-bd74d01b7eeb.png"
+  },
+  {
+    "category": "Soup",
+    "name": "Classic Tomato & Fennel",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-9716e330-9592-4147-83d1-dbe8bc67050e.png"
+  },
+  {
+    "category": "Soup",
+    "name": "Thai coconut soup (Veg)",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-b90ec48e-f684-4f9b-92b2-6c83bd3bae6d.png"
+  },
+  {
+    "category": "Soup",
+    "name": "Mushroom & artichoke soup",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-e4fdd07e-2166-4a3f-9ecf-aebf82355765.png"
+  },
+  {
+    "category": "Soup",
+    "name": "Thai coconut soup ( Chicken)",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-7be114f9-2f56-490e-b0d5-5ead30956c95.png"
+  }
+]

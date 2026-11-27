@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "checks": [
+    "All guest fields and back action lock during in-flight request",
+    "Fields and back action unlock after API failure",
+    "No real database submission"
+  ],
+  "errors": []
+}

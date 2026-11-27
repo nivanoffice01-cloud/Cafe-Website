@@ -1,0 +1,79 @@
+[
+  {
+    "interaction": "Opening / arch",
+    "reference": "Velvet 00\u201302s: central arch opens into photography.",
+    "implemented": "A normalized SVG B\u00e9zier mask grows reversibly; image transform stays none; independent text entrance.",
+    "verification": "0/25/50/75/100% screenshots, exact reverse-path assertion.",
+    "limitation": "Genuine source exterior is visibly soft; sharper original needed."
+  },
+  {
+    "interaction": "Editorial storytelling",
+    "reference": "Velvet 02\u201311s: sparse image placements and architectural typography.",
+    "implemented": "Line masks, embedded cane-chair photograph, native scrolling, independently clipped photographs.",
+    "verification": "Desktop/mobile recordings and section captures.",
+    "limitation": "Original Mangosteen composition and copy; no chef or invented facilities."
+  },
+  {
+    "interaction": "Circular culinary imagery",
+    "reference": "Velvet 12\u201314s and 17\u201320s: independently placed circular food imagery.",
+    "implemented": "Genuine unnamed overhead plate with circular mask, restrained rotation, shadow and ivory field.",
+    "verification": "Food-story screenshots and complete recordings.",
+    "limitation": "Only one genuine suitable overhead composition; identity is not inferred."
+  },
+  {
+    "interaction": "Interactive table",
+    "reference": "Palazzo live: cropped round table, independent dishes and changing dish information during dragging.",
+    "implemented": "Five DOM plate assets rotate on a wood-textured surface; bounded inertia, 72\u00b0 snapping, upright imagery and masked text.",
+    "verification": "Mouse drag, buttons, keyboard and real CDP touch events; separate recording.",
+    "limitation": "Existing Pexels portraits are illustrative; genuine isolated dish portraits are missing."
+  },
+  {
+    "interaction": "Gallery",
+    "reference": "Velvet 06\u201311s: architectural photography exploration.",
+    "implemented": "Genuine distinct spaces, arched image, horizontal touch rail, arrows, full-screen photo viewer and keyboard control.",
+    "verification": "Gallery next/Escape/focus-return tests; direct #gallery link test.",
+    "limitation": "Separate photographic viewpoints, not a connected architectural walkthrough."
+  },
+  {
+    "interaction": "Window reveal",
+    "reference": "Palazzo live page presents a wiping invitation.",
+    "implemented": "Canvas condensation with persistent soft erasing, subtle droplets, pointer/touch input and Reveal Caf\u00e9 alternative.",
+    "verification": "Canvas alpha changes 255\u21920 along actual brush path; reset and touch verified.",
+    "limitation": "Original canvas implementation; exact reference droplet physics not claimed."
+  },
+  {
+    "interaction": "Lifestyle",
+    "reference": "Velvet 21\u201323s: photographic lifestyle collage.",
+    "implemented": "Independent rooftop and quiet-corner image motion with readable editorial type.",
+    "verification": "Desktop/mobile moments captures and recordings.",
+    "limitation": "No invented wine, celebrations, staff or facilities."
+  },
+  {
+    "interaction": "Closing reservation",
+    "reference": "Velvet 24\u201325s: ivory circular invitation; 34\u201338s external OpenTable.",
+    "implemented": "Scroll-expanded ivory circle, masked invitation and unchanged Mangosteen reservation dialog.",
+    "verification": "Closing recordings; pending reservation successfully submitted to disposable CRM.",
+    "limitation": "Existing reservation system intentionally replaces external OpenTable."
+  },
+  {
+    "interaction": "Navigation / transition",
+    "reference": "Reference shows navigation to a menu and booking destination; exact timing is not recoverable.",
+    "implemented": "Original 360 ms forest curtain only for marketing-to-menu links; native document routing/back/forward and QR bypass.",
+    "verification": "Repeated navigation, native back/forward, drawer interrupted-close and mobile restore checks.",
+    "limitation": "Protected menu arrival animation is unchanged; no new marketing curtain injected into QR/menu routes."
+  },
+  {
+    "interaction": "Responsive motion",
+    "reference": "Live mobile reference observed; supplied recording is desktop.",
+    "implemented": "Portrait hero crop, vertical editorial compositions, touch table, touch glass, reduced-motion and short-landscape static fallbacks.",
+    "verification": "12 viewport widths, touch events, focus traps, Escape and scroll-lock checks.",
+    "limitation": "Chrome emulation on a Mac; no physical iOS/Android or cross-browser certification."
+  },
+  {
+    "interaction": "Food ingredient VFX",
+    "reference": "Requires suitable independent photographic ingredients.",
+    "implemented": "No fake detached basil, coffee, mint or generated food substituted.",
+    "verification": "Asset inventory and requirements.",
+    "limitation": "Blocked by missing genuine photographic layers; explicitly deferred."
+  }
+]

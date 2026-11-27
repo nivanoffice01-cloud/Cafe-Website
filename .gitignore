@@ -7,3 +7,16 @@ dist
 
 # Local Netlify folder
 .netlify
+
+# Local Vercel project metadata
+.vercel
+.env*
+
+# Recoverable local archive of rejected frontend experiments.
+archives/rejected-frontends/
+
+# Raw review captures; final MP4s, screenshots and measurements are versioned.
+artifacts/mangosteen-architectural-3d-review/recordings/
+artifacts/mangosteen-architectural-3d-review/*.webm
+artifacts/mangosteen-architectural-3d-review/**/recordings/
+artifacts/mangosteen-architectural-3d-review/**/*.webm

@@ -1,0 +1,9 @@
+{
+  "checks": [
+    "503 remains an error; no confirmation or invented reference; local fallback is saved",
+    "Local request save and explicit privacy deletion work",
+    "Mobile header reservation entry and reduced-motion close work"
+  ],
+  "errors": [],
+  "removeVisibleBeforeSave": 0
+}

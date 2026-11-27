@@ -1,0 +1,27 @@
+/* A small, local Manrope subset includes ₹ and digits in the same font. */
+@font-face{
+  font-family:"Mangosteen Price";font-style:normal;font-weight:500;font-display:swap;
+  src:url('/fonts/manrope-prices-500.ttf') format('truetype');
+  unicode-range:U+002C,U+002E,U+0030-0039,U+20B9;
+}
+@font-face{
+  font-family:"Mangosteen Price";font-style:normal;font-weight:700;font-display:swap;
+  src:url('/fonts/manrope-prices-700.ttf') format('truetype');
+  unicode-range:U+002C,U+002E,U+0030-0039,U+20B9;
+}
+.saved-mangosteen .display.cafe-price,
+.bm-shell .bm-dish-copy>b,
+.bm-shell .bm-feature strong,
+.bm-shell .bm-dish-sheet>div>strong,
+.bm-shell .mn-selection-lines article>b,
+.bm-shell .mn-selection-summary strong,
+.order-success-ticket>strong:last-child{
+  font-family:"Mangosteen Price","Manrope",Arial,sans-serif;
+  font-variant-numeric:lining-nums tabular-nums;
+  font-feature-settings:"lnum" 1,"tnum" 1;
+  letter-spacing:0;white-space:nowrap;
+}
+.saved-mangosteen .display.cafe-price{
+  font-size:20px;font-weight:500;line-height:1.25;flex-shrink:0;
+}
+.saved-mangosteen .cafe-price-row{align-items:baseline}

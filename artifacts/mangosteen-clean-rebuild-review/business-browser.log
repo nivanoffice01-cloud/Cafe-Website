@@ -1,0 +1,5 @@
+PASS Search, persistent favourites, selection and real Table 4 demo order submission to isolated CRM
+PASS QR alias and all 131 dishes / 13 categories remain accessible
+PASS Complete mobile seat selection and pending reservation submission to isolated CRM; Escape restores scrolling
+PASS Protected menu has no horizontal overflow at 320/390/768/1440/1920px
+PASS Owner login, dashboard, order queue, submitted reservation and admin settings work in isolated CRM

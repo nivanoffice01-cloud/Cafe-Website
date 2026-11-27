@@ -1,0 +1,376 @@
+{
+  "files": [
+    {
+      "path": "src/features/supplied-frontend/SuppliedFrontendPage.tsx",
+      "unchanged": true
+    },
+    {
+      "path": "src/features/supplied-frontend/integration.tsx",
+      "unchanged": true
+    },
+    {
+      "path": "src/features/supplied-frontend/supplied.css",
+      "unchanged": true
+    },
+    {
+      "path": "src/features/supplied-frontend/fonts.css",
+      "unchanged": true
+    },
+    {
+      "path": "src/features/supplied-frontend/icons.css",
+      "unchanged": true
+    },
+    {
+      "path": "src/features/supplied-frontend/integration.css",
+      "unchanged": true
+    },
+    {
+      "path": "src/data/seating.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/components/ReservationDialog.tsx",
+      "unchanged": true
+    },
+    {
+      "path": "api/full-menu.mjs",
+      "unchanged": true
+    }
+  ],
+  "animationDeclarations": [
+    {
+      "name": "Ph",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Nh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Bh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Vh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Hh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Uh",
+      "sourceIdentical": false,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 1
+    },
+    {
+      "name": "Wh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Gh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Kh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "qh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Jh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Yh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Xh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Zh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Qh",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "$h",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "eg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "tg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "ng",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "rg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "ig",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "ag",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "og",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "sg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "cg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "lg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "ug",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "dg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Dg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Og",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "kg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Ag",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "jg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Mg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Ng",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Pg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Fg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Ig",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Yg",
+      "sourceIdentical": false,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 1
+    },
+    {
+      "name": "L_",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "R_",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "z_",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "B_",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "V_",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "H_",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Wg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Gg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    },
+    {
+      "name": "Kg",
+      "sourceIdentical": true,
+      "animationLogicUnchanged": true,
+      "permittedCopyChanges": 0
+    }
+  ],
+  "layoutClassesStylesAndDimensionsUnchanged": true,
+  "semanticFooterGlyphsMappedToVerifiedDestinations": true,
+  "hookCallbacksUnchanged": true,
+  "hookCallbackCount": 0,
+  "originalPhotographs": [
+    {
+      "path": "public/images/gallery/cafe-06.png",
+      "unchanged": true
+    },
+    {
+      "path": "public/images/gallery/cafe-07.jpg",
+      "unchanged": true
+    },
+    {
+      "path": "public/images/gallery/cafe-14.png",
+      "unchanged": true
+    },
+    {
+      "path": "public/images/gallery/cafe-16.jpg",
+      "unchanged": true
+    },
+    {
+      "path": "public/images/gallery/cafe-18.jpeg",
+      "unchanged": true
+    },
+    {
+      "path": "public/images/gallery/cafe-19.jpg",
+      "unchanged": true
+    },
+    {
+      "path": "public/images/highres/mangosteen_original_1_8k.jpg",
+      "unchanged": true
+    },
+    {
+      "path": "public/images/highres/mangosteen_original_2_8k.jpg",
+      "unchanged": true
+    },
+    {
+      "path": "public/images/highres/mangosteen_original_3_8k.jpg",
+      "unchanged": true
+    },
+    {
+      "path": "public/images/highres/mangosteen_original_4_8k.jpg",
+      "unchanged": true
+    }
+  ]
+}

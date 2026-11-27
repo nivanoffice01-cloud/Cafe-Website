@@ -1,0 +1,89 @@
+.saved-mangosteen{width:100%;min-width:0;line-height:1.5;font-family:var(--font-body);background:oklch(var(--background-50));color:var(--ink)}
+.saved-mangosteen a:focus-visible,.saved-mangosteen button:focus-visible{outline:2px solid oklch(var(--accent-500));outline-offset:5px}
+/* Scope the saved reset to marketing; the existing business dialogs stay outside. */
+.saved-mangosteen *, .saved-mangosteen *::before, .saved-mangosteen *::after{box-sizing:border-box}
+/* The supplied pill rule follows .hidden and overrides it at mobile widths. */
+@media(max-width:767px){.saved-mangosteen header a.hidden{display:none}.saved-mangosteen header nav{gap:16px}.saved-mangosteen header nav>a{min-width:0}}
+@media(min-width:768px) and (max-width:1023px){.saved-mangosteen header nav>ul,.saved-mangosteen header nav>div>a{display:none}.saved-mangosteen header nav button[aria-label="Toggle menu"],.saved-mangosteen header>div.md\:hidden{display:flex}.saved-mangosteen header>div.md\:hidden{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){.saved-mangosteen [data-m]{opacity:1!important;transform:none!important;clip-path:none!important}.saved-mangosteen .m-letter{transform:none!important}}
+/* Same 750ms opacity choreography as the saved page, without a second router. */
+html[data-mangosteen-transition]::view-transition-old(root){animation:none}
+html[data-mangosteen-transition]::view-transition-new(root){animation:supplied-page-in .75s cubic-bezier(.4,0,.2,1) both}
+@keyframes supplied-page-in{from{opacity:0}to{opacity:1}}
+
+/* Keep light editorial type readable over the bright food artwork. This layer
+   follows the existing copy opacity, leaving the canvas and scroll motion alone. */
+.saved-mangosteen .hero-copy{isolation:isolate}
+.saved-mangosteen .hero-copy:first-child::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse 68% 29% at 50% 53%,rgba(4,10,6,.54),rgba(4,10,6,.28) 58%,transparent 100%);
+}
+.saved-mangosteen .hero-copy .hero-glass{
+  color:#fff8eb;font-weight:400;
+  text-shadow:0 2px 3px rgba(0,0,0,.95),0 5px 20px rgba(0,0,0,.75);
+}
+.saved-mangosteen .hero-copy .hand{color:#f5ead7;font-weight:500;text-shadow:0 1px 3px #000}
+.saved-mangosteen .hero-copy:first-child .hand.text-accent-300{
+  color:#f4dfb5;font-weight:500;background:rgba(8,18,12,.9);
+  box-shadow:0 0 0 7px rgba(8,18,12,.9);text-shadow:0 1px 2px #000;
+}
+.saved-mangosteen .hero-copy p{
+  color:#fff8eb;font-weight:500;text-shadow:0 1px 3px #000;
+  background:rgba(8,18,12,.88);box-shadow:0 0 0 7px rgba(8,18,12,.88);
+}
+.saved-mangosteen .hero-copy .sticker{
+  background:#132219;color:#fff8eb;border-color:#e6cca1;
+}
+.saved-mangosteen .hero-copy .btn-poster{
+  min-height:48px;font-size:12px;letter-spacing:.12em;text-shadow:none;
+}
+.saved-mangosteen .hero-copy .btn-berry{background:#dfbd80;color:#111b13;border-color:#dfbd80}
+.saved-mangosteen .hero-copy .btn-poster:not(.btn-berry){
+  background:#112117;color:#fff8eb!important;border-color:#dfbd80;
+}
+.saved-mangosteen .hero-copy .btn-poster:not(.btn-berry):hover{background:#fff8eb;color:#112117!important}
+@media(max-width:767px){
+  .saved-mangosteen .hero-copy:first-child::before{
+    background:radial-gradient(ellipse 95% 31% at 50% 48%,rgba(4,10,6,.58),rgba(4,10,6,.3) 60%,transparent 100%);
+  }
+}
+.saved-mangosteen .cafe-location-map{position:relative}
+.saved-mangosteen .cafe-location-map-frame{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+
+/* The last carousel card is a navigation invitation, with explicit contrast
+   independent of the pale poster-card default used for individual dishes. */
+.saved-mangosteen a.menu-invitation-card{
+  display:flex;flex-direction:column;height:100%;overflow:hidden;
+  background:#17291e;color:#f8f0e2;border-color:rgba(197,165,114,.4);
+  transition:transform .3s ease,border-color .3s ease;
+}
+.saved-mangosteen .menu-invitation-photo{position:relative;height:180px;flex:0 0 180px;overflow:hidden}
+.saved-mangosteen .menu-invitation-photo img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.saved-mangosteen .menu-invitation-kicker{
+  position:absolute;top:16px;left:16px;padding:9px 12px;border:1px solid rgba(226,195,142,.65);
+  border-radius:999px;background:rgba(17,33,23,.93);color:#f4dfba;
+  font:600 10px/1.2 var(--font-body);letter-spacing:.15em;text-transform:uppercase;
+}
+.saved-mangosteen .menu-invitation-copy{display:flex;flex:1;flex-direction:column;padding:24px;min-width:0}
+.saved-mangosteen .menu-invitation-copy h3{margin:0;color:#fff6e6;font:400 34px/1.02 var(--font-heading);letter-spacing:-.02em}
+.saved-mangosteen .menu-invitation-copy h3 em{display:block;color:#e2c38e;font-weight:400}
+.saved-mangosteen .menu-invitation-copy p{margin:14px 0 24px;color:#d9e0d4;font:400 13px/1.6 var(--font-body)}
+.saved-mangosteen .menu-invitation-action{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:48px;
+  margin-top:auto;padding:13px 18px;border-radius:999px;background:#e2c38e;color:#142017;
+  font:600 12px/1.3 var(--font-body);letter-spacing:.01em;
+}
+.saved-mangosteen .menu-invitation-action svg{width:20px;height:20px;flex:none;transition:transform .3s ease}
+.saved-mangosteen a.menu-invitation-card:hover{transform:translateY(-4px);border-color:#e2c38e}
+.saved-mangosteen a.menu-invitation-card:hover .menu-invitation-photo img{transform:scale(1.04)}
+.saved-mangosteen a.menu-invitation-card:hover .menu-invitation-action svg{transform:translateX(3px)}
+@media(max-width:767px){.saved-mangosteen .menu-invitation-copy{padding:20px}.saved-mangosteen .menu-invitation-copy h3{font-size:32px}}
+@media(max-width:767px) and (max-height:680px){
+  .saved-mangosteen a.menu-invitation-card{height:calc(100svh - 230px);min-height:320px}
+  .saved-mangosteen .menu-invitation-photo{height:112px;flex-basis:112px}
+  .saved-mangosteen .menu-invitation-copy{padding:16px}
+  .saved-mangosteen .menu-invitation-copy h3{font-size:28px}
+  .saved-mangosteen .menu-invitation-copy p{font-size:12px;margin:10px 0 14px}
+  .saved-mangosteen .menu-invitation-action{min-height:44px;padding:11px 14px}
+}
+@media(prefers-reduced-motion:reduce){.saved-mangosteen a.menu-invitation-card,.saved-mangosteen .menu-invitation-photo img,.saved-mangosteen .menu-invitation-action svg{transition:none}.saved-mangosteen a.menu-invitation-card:hover,.saved-mangosteen a.menu-invitation-card:hover .menu-invitation-photo img,.saved-mangosteen a.menu-invitation-card:hover .menu-invitation-action svg{transform:none}}

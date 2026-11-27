@@ -299,10 +299,6 @@ svg {
   backdrop-filter: blur(18px);
 }
 
-.menu-toggle {
-  display: none;
-}
-
 .global-search {
   position: relative;
   width: min(420px, 42vw);
@@ -2305,10 +2301,6 @@ svg {
     margin-left: 0;
   }
 
-  .menu-toggle {
-    display: grid;
-  }
-
   .dashboard-grid,
   .feedback-layout,
   .report-layout,
@@ -2437,6 +2429,11 @@ svg {
   }
 }
 
+/* Keep the production workspace free of hosting-provider promotion. */
+#nl-badge-frame {
+  display: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -2452,7 +2449,7 @@ svg {
 .login-shell {
   display: grid;
   min-height: 100vh;
-  grid-template-columns: minmax(420px, 0.82fr) minmax(460px, 1.18fr);
+  grid-template-columns: minmax(420px, .82fr) minmax(460px, 1.18fr);
   background: #fff;
 }
 
@@ -2484,7 +2481,8 @@ svg {
 .login-demo { display: grid; gap: 4px; margin-top: 22px; padding: 15px 16px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-muted); }
 .login-demo strong { font-size: .875rem; }
 .login-demo span { color: var(--ink-2); font-size: .8rem; line-height: 1.5; }
-.login-visual { display: flex; align-items: flex-end; padding: 72px; background: radial-gradient(circle at 20% 10%, rgba(168,82,137,.56), transparent 28%), linear-gradient(145deg, #102c24 0%, #173d32 48%, #5e214a 140%); color: #fff; }
+.login-visual { position: relative; display: flex; align-items: flex-end; overflow: hidden; padding: 72px; background: #24150f url("./assets/login-poster-mangosteen.png") center / cover no-repeat; color: #fff; isolation: isolate; }
+.login-visual::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgba(22,13,9,.06) 18%, rgba(22,13,9,.34) 55%, rgba(22,13,9,.9) 100%); content: ""; }
 .login-visual > div { max-width: 650px; }
 .login-visual .eyebrow { color: #efc4df; }
 .login-visual h2 { max-width: 620px; margin: 12px 0 16px; font: 800 clamp(2.4rem, 4vw, 4.8rem)/1.06 "Manrope", sans-serif; letter-spacing: -.045em; }
@@ -2828,9 +2826,8 @@ body {
 
 .login-visual {
   background:
-    radial-gradient(circle at 20% 8%, rgba(181, 98, 61, 0.48), transparent 30%),
-    radial-gradient(circle at 92% 88%, rgba(199, 161, 106, 0.21), transparent 24%),
-    linear-gradient(145deg, #251711 0%, #3c281f 52%, #1e130f 100%);
+    linear-gradient(180deg, rgba(22, 13, 9, .04) 12%, rgba(22, 13, 9, .28) 50%, rgba(22, 13, 9, .9) 100%),
+    url("./assets/login-poster-mangosteen.png") center / cover no-repeat;
 }
 
 .login-visual .eyebrow {
@@ -3585,5 +3582,44 @@ body {
   .payment-methods span {
     min-height: 74px;
     padding: 8px;
+  }
+}
+
+/* Mangosteen signature brand lockup */
+.sidebar .brand {
+  min-height: 116px;
+  justify-content: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(240, 221, 200, 0.11);
+  background: transparent;
+}
+
+.brand-lockup {
+  display: block;
+  width: 100%;
+  max-width: 232px;
+  height: auto;
+  object-fit: contain;
+}
+
+.sidebar .brand-lockup {
+  filter: grayscale(1) brightness(0) invert(1);
+  opacity: 0.96;
+}
+
+.login-brand-lockup {
+  display: block;
+  margin-bottom: 42px;
+}
+
+.login-brand-lockup img {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+}
+
+@media (max-width: 560px) {
+  .login-brand-lockup img {
+    width: min(100%, 300px);
   }
 }
