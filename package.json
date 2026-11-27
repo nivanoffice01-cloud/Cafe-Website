@@ -9,7 +9,7 @@
     "build": "tsc -b && vite build",
     "build:vercel": "npm run build && node scripts/prepare-deploy.mjs",
     "preview": "vite preview",
-    "test": "node --experimental-vm-modules --test api/floor.test.mjs api/floor-api.test.mjs api/waitlist.test.mjs && python3 -m unittest discover -s CRM/tests -v",
+    "test": "node --experimental-vm-modules --test api/floor.test.mjs api/floor-api.test.mjs api/waitlist.test.mjs api/service.test.mjs && python3 -m unittest discover -s CRM/tests -v",
     "check": "npm run build && node --check CRM/dist/app.js && npm test"
   },
   "dependencies": {

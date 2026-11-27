@@ -67,4 +67,29 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
   bootstrap=(await request('/bootstrap')).payload
   assert.equal(bootstrap.waitlist[0].status,'Seated')
   assert.equal(bootstrap.tables.find(t=>t.id==='G1').session.waitlistId,waiting.payload.id)
+  const ownerCookie=cookie
+  const draft=await request('/orders',{table:'Table 4',items:[{menuItemId:1,quantity:1}]})
+  const orderId=draft.payload.id
+  assert.equal((await request(`/orders/${orderId}/status`,{status:'Ready'})).code,409)
+  assert.equal((await request(`/orders/${orderId}/send`,{})).code,200)
+  const kitchenLogin=await request('/auth/login',{email:'kitchen@mangosteen.local',password:'Mangosteen@123'})
+  cookie=kitchenLogin.cookie.split(';')[0]
+  assert.equal((await request('/service/alerts')).code,200)
+  assert.equal((await request(`/orders/${orderId}/status`,{status:'Preparing'})).code,200)
+  assert.equal((await request(`/orders/${orderId}/status`,{status:'Ready'})).code,200)
+  assert.equal((await request(`/service/orders/${orderId}/accept`,{})).code,403)
+  cookie=ownerCookie
+  assert.equal((await request('/users',{name:'Floor QA',email:'floorqa@example.com',role:'Floor Staff',password:'FloorDemo@123'})).code,201)
+  const floorLogin=await request('/auth/login',{email:'floorqa@example.com',password:'FloorDemo@123'})
+  cookie=floorLogin.cookie.split(';')[0]
+  const floorBootstrap=(await request('/bootstrap')).payload
+  assert.equal(floorBootstrap.customers.length,0)
+  assert(floorBootstrap.service.orders.some(o=>o.id===orderId))
+  assert.equal((await request('/export/customers.csv')).code,403)
+  assert.equal((await request('/service/settings',{prepMinutes:10,readyMinutes:4})).code,403)
+  assert.equal((await request(`/service/orders/${orderId}/accept`,{})).code,200)
+  assert.equal((await request(`/service/orders/${orderId}/served`,{})).code,200)
+  assert(!(await request('/service/alerts')).payload.orders.some(o=>o.id===orderId))
+  cookie=ownerCookie
+  assert.equal((await request(`/orders/${orderId}/status`,{status:'Ready'})).code,409)
 })

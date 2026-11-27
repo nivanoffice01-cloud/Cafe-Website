@@ -3,12 +3,13 @@ import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypt
 import { fullMenu } from './full-menu.mjs'
 import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable, keepPaidVisit, orderIsPaid } from './floor.mjs'
 import { waitlistPayload, updateWaitlist } from './waitlist.mjs'
+import { servicePayload, serviceAction, kitchenTransition, updateServiceSettings } from './service.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
-const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
+const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, 'Floor Staff': 1, Manager: 2, Owner: 3 }
 const orderTables = [
   { id: '4', label: 'Table 4', capacity: 4, columns: 2, column: 2, row: 2, zone: 'inside', zoneName: 'Cafe floor' },
 ]
@@ -259,6 +260,7 @@ function publicUser(user) {
 function bootstrap(state, user) {
   const role = user.role
   const base = {
+    service: servicePayload(state, user),
     waitlist: role === 'Kitchen' ? [] : waitlistPayload(state),
     tables: role === 'Kitchen' ? [] : floorPayload(state),
     floorStaff: role === 'Kitchen' ? [] : (state.staff || []).map(({ id, name, jobRole }) => ({ id, name, jobRole })),
@@ -283,6 +285,12 @@ function bootstrap(state, user) {
     staff: ['Owner', 'Manager'].includes(role) ? state.staff : [],
     payments: role === 'Kitchen' ? [] : state.payments,
     user: publicUser(user),
+  }
+  if (role === 'Floor Staff') {
+    for (const field of ['customers','reservations','feedback','tasks','rewards','activities','monthlyMetrics','payments','waitlist']) base[field] = []
+    base.settings = { business_name:state.settings.business_name }
+    base.tables = base.tables.map(t => ({ ...t, reservations: t.reservations.map(({ id, name, time, guests, status }) => ({ id, name, time, guests, status })) }))
+    base.orders = base.orders.filter(o => ['Kitchen','Preparing','Ready','Served'].includes(o.status)).map(({ phone, publicToken, paymentReference, ...order }) => order)
   }
   return base
 }
@@ -436,7 +444,9 @@ async function handleRequest(request) {
     }
 
     const user = requireUser(request, state)
+    if (user.role === 'Floor Staff' && path !== '/bootstrap' && path !== '/service/alerts' && !/^\/service\/orders\/\d+\/(accept|served)$/.test(path)) throw Object.assign(new Error('Floor staff access is limited to food service.'), { status:403 })
     if (request.method === 'GET' && path === '/bootstrap') return json(bootstrap(state, user))
+    if (request.method === 'GET' && path === '/service/alerts') return json(servicePayload(state, user))
 
     if (request.method === 'GET' && path === '/export/customers.csv') {
       const rows = [['Name', 'Phone', 'Email', 'Tier', 'Visits', 'Lifetime Spend', 'Points', 'Consent'], ...state.customers.map((item) => [item.name, item.phone, item.email, item.tier, item.visits, item.spend, item.points, item.consent ? 'Yes' : 'No'])]
@@ -455,6 +465,20 @@ async function handleRequest(request) {
     }
 
     if (request.method !== 'POST') return json({ error: 'API route not found' }, 404)
+
+    const serviceRoute = path.match(/^\/service\/orders\/(\d+)\/(accept|served)$/)
+    if (serviceRoute) {
+      const actor = requireRoles(request, state, ['Owner','Manager','Cashier','Host','Floor Staff'])
+      const order = serviceAction(state, Number(serviceRoute[1]), serviceRoute[2], actor, body)
+      addActivity(state, 'order', serviceRoute[2] === 'accept' ? 'Order claimed for service' : 'Order served', `#${order.id} · ${actor.name}`)
+      await saveState(state)
+      return json({ updated:true, status:order.status })
+    }
+    if (path === '/service/settings') {
+      requireRoles(request, state, ['Owner','Manager'])
+      const limits = updateServiceSettings(state, body)
+      await saveState(state); return json({ saved:true, limits })
+    }
 
     const waitingRoute = path.match(/^\/waitlist(?:\/(\d+))?$/)
     if (waitingRoute) {
@@ -506,9 +530,7 @@ async function handleRequest(request) {
       requireRoles(request, state, ['Owner', 'Manager', 'Kitchen'])
       const order = state.orders.find((item) => item.id === Number(match[1]))
       const status = String(body.status || '')
-      if (!order || !['Kitchen', 'Preparing', 'Ready'].includes(status) || order.status === 'Paid') throw new Error('Order or kitchen status is invalid')
-      order.status = status
-      if (status === 'Ready') order.readyAt = now()
+      kitchenTransition(order, status)
       await saveState(state)
       return json({ updated: true, status })
     }

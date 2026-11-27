@@ -1389,6 +1389,21 @@ svg {
 .floor-refresh-note { margin-left:auto; font-size:11px; color:var(--ink-3); }
 .floor-import-note { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center; margin-bottom:16px; padding:12px 16px; border:1px solid var(--line); border-radius:12px; font-size:12px; background:#faf5e9; }
 .floor-arrivals { display:grid; gap:10px; }
+.service-live-strip { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; padding:14px 16px; margin-bottom:24px; border:1px solid #cbdcd0; border-radius:13px; background:#f1f7f2; }
+.service-live-strip strong,.service-live-strip span { display:block; }
+.service-live-strip strong { font-size:13px; }
+.service-live-strip span { font-size:11px; color:var(--ink-3); margin-top:4px; }
+.service-live-strip.offline { background:#fff2e6; border-color:#d9ad80; }
+.service-ready-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; }
+.service-ready-grid>.empty-state { grid-column:1/-1; }
+.service-ticket.ticket-delayed { border:2px solid #c87535; box-shadow:0 3px 14px #b9581815; }
+.service-delay-label { padding:8px 10px; margin-bottom:12px; border-radius:7px; background:#fff0dd; color:#8b421d; font-size:12px; font-weight:700; }
+.service-ticket.ticket-delayed .kds-timer { color:#99441c; font-weight:800; }
+.service-kitchen-note { border-left:3px solid #bd935f; padding:8px 10px; background:#fbf4e8; white-space:pre-wrap; overflow-wrap:anywhere; font-size:12px; }
+.mini-stats.service-stats { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.service-ticket .floor-actions { margin-top:12px; }
+.service-ticket .floor-actions .btn { flex:1; }
+@media(max-width:680px) { .service-ready-grid { grid-template-columns:minmax(0,1fr); } .service-live-strip .floor-actions { width:100%; } .service-live-strip .btn { flex:1 1 42%; } .mini-stats.service-stats { gap:8px; } .service-stats .mini-stat { padding:10px; } }
 .waiting-list { display:grid; gap:14px; }
 .mini-stats.waiting-stats { grid-template-columns:repeat(4,minmax(0,1fr)); }
 @media(max-width:680px) { .mini-stats.waiting-stats { grid-template-columns:repeat(2,minmax(0,1fr)); } }

@@ -92,6 +92,7 @@ async function loadData({ quiet = false } = {}) {
   try {
     data = await api('/api/bootstrap');
     authState = 'authenticated';
+    receiveServiceSnapshot(data.service);
   } catch (error) {
     dataError = error.message;
   } finally {
@@ -235,6 +236,7 @@ const navItems = [
   { id: 'tables', label: 'Live tables', icon: 'table' },
   { id: 'waitlist', label: 'Waiting list', icon: 'users' },
   { id: 'kitchen', label: 'Kitchen display', icon: 'clock' },
+  { id: 'service', label: 'Floor service', icon: 'users' },
   { id: 'billing', label: 'Billing & closing', icon: 'wallet' },
   { id: 'stock', label: 'Inventory', icon: 'database' },
   { id: 'expenses', label: 'Expenses', icon: 'rupee' },
@@ -251,9 +253,10 @@ const navItems = [
 const rolePages = {
   Owner: navItems.map((item) => item.id),
   Manager: navItems.map((item) => item.id),
-  Cashier: ['dashboard', 'tables', 'waitlist', 'orders', 'billing', 'customers', 'reservations'],
+  Cashier: ['dashboard', 'service', 'tables', 'waitlist', 'orders', 'billing', 'customers', 'reservations'],
   Kitchen: ['kitchen'],
-  Host: ['dashboard', 'tables', 'waitlist', 'customers', 'reservations', 'feedback', 'reports'],
+  Host: ['dashboard', 'service', 'tables', 'waitlist', 'customers', 'reservations', 'feedback', 'reports'],
+  'Floor Staff': ['service'],
 };
 
 const pageSearchAliases = {
@@ -262,6 +265,7 @@ const pageSearchAliases = {
   tables: 'live tables floor board occupancy cleaning waiter seating',
   waitlist: 'waiting waitlist walk-in queue arrivals walkins',
   kitchen: 'kitchen display tickets cooking',
+  service: 'floor service waiter ready food alerts serve',
   billing: 'billing bill payment payments closing cash',
   stock: 'inventory stock ingredients supplies',
   expenses: 'expense expenses costs spending',
@@ -419,6 +423,7 @@ function shell() {
             <span><strong>Private operating workspace.</strong> ${isCloudHosted ? 'Orders, stock and guest data use the secured cloud data layer' : 'Orders, stock and guest data stay on this Mac'}; website requests arrive here as pending.</span>
             ${user.role === 'Owner' ? '<button data-action="reset-demo">Rebuild sample data</button>' : ''}
           </div>
+          <div id="service-alert-strip">${renderServiceStrip()}</div>
           <div id="page-content">${renderPage()}</div>
         </div>
       </main>
@@ -431,7 +436,8 @@ function renderPage() {
   const pages = {
     dashboard: renderDashboard,
     orders: renderOrders,
-    kitchen: renderKitchen,
+    kitchen: renderServiceKitchen,
+    service: renderFloorService,
     billing: renderBilling,
     stock: renderStock,
     expenses: renderExpenses,
@@ -1095,7 +1101,7 @@ function openAttendanceForm(id) {
 }
 
 function openStaffForm() {
-  openModal('Add login account', 'Create a secure account with only the access this teammate needs.', `<form id="staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required /></div><div class="field"><label>Email</label><input name="email" type="email" required /></div><div class="field"><label>Role</label><select name="role"><option>Host</option><option>Cashier</option><option>Kitchen</option><option>Manager</option><option>Owner</option></select></div><div class="field"><label>Temporary password</label><input name="password" type="password" minlength="10" required /></div></div><div class="role-guide"><div><strong>Cashier</strong><span>Orders, billing and guest desk.</span></div><div><strong>Kitchen</strong><span>Kitchen tickets and status only.</span></div><div><strong>Manager</strong><span>All operations except owner-only security.</span></div><div><strong>Owner</strong><span>Full access, accounts and backups.</span></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="staff-form">${icon('userPlus')} Create account</button>`);
+  openModal('Add login account', 'Give each teammate the access they need.', `<form id="staff-form"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" required /></div><div class="field"><label>Email</label><input name="email" type="email" required /></div><div class="field"><label>Role</label><select name="role">${['Host','Floor Staff','Cashier','Kitchen','Manager','Owner'].map(role=>`<option>${role}</option>`).join('')}</select></div><div class="field"><label>Temporary password</label><input name="password" type="password" minlength="10" required /></div></div><div class="role-guide"><div><strong>Floor Staff</strong><span>Ready-food alerts, collection and serving.</span></div><div><strong>Kitchen</strong><span>Preparation tickets and kitchen status.</span></div><div><strong>Cashier</strong><span>Orders, billing and guest desk.</span></div><div><strong>Owner</strong><span>Full access, accounts and backups.</span></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="staff-form">${icon('userPlus')} Create account</button>`);
 }
 
 function openPasswordForm() {
@@ -1310,7 +1316,7 @@ document.getElementById('modal-root').addEventListener('click', async (event) =>
 document.getElementById('modal-root').addEventListener('submit', async (event) => {
   event.preventDefault();
   const form = event.target;
-  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat'].includes(form.id)) return;
+  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat', 'service-settings-form'].includes(form.id)) return;
   const values = Object.fromEntries(new FormData(form).entries());
   const submit = form.closest('.modal')?.querySelector('[type="submit"]');
   if (submit) { submit.disabled = true; submit.dataset.original = submit.innerHTML; submit.textContent = 'Saving…'; }

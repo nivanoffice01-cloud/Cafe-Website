@@ -157,6 +157,46 @@ class CRMServerTests(unittest.TestCase):
         _, snapshot, _ = self.request('/api/bootstrap',cookie=cookie)
         self.assertEqual(snapshot['waitlist'],[])
 
+    def test_kitchen_alerts_and_floor_service_lifecycle(self):
+        cookie,csrf=self.login()
+        headers={'X-CSRF-Token':csrf}
+        status,created,_=self.request('/api/users',body=dict(name='Floor QA',email='floor-qa@example.com',role='Floor Staff',password='FloorDemo@123'),cookie=cookie,headers=headers)
+        self.assertEqual(status,201,created)
+        status,created,_=self.request('/api/orders',body=dict(table='Table 4',items=[dict(menuItemId=1,quantity=1)]),cookie=cookie,headers=headers)
+        self.assertEqual(status,201,created)
+        id=created['id']
+        status,result,_=self.request(f'/api/orders/{id}/send',body={},cookie=cookie,headers=headers)
+        self.assertEqual(status,200,result)
+        with crm.connect() as connection:
+            connection.execute('UPDATE orders SET sent_at=? WHERE id=?',((crm.datetime.now().astimezone()-timedelta(minutes=16)).isoformat(),id))
+            connection.commit()
+        kitchen,kcsrf=self.login('kitchen@mangosteen.local')
+        status,snapshot,_=self.request('/api/service/alerts',cookie=kitchen)
+        self.assertEqual(status,200,snapshot)
+        self.assertTrue(next(o for o in snapshot['orders'] if o['id']==id)['delayed'])
+        for state in ('Preparing','Ready'):
+            status,result,_=self.request(f'/api/orders/{id}/status',body=dict(status=state),cookie=kitchen,headers={'X-CSRF-Token':kcsrf})
+            self.assertEqual(status,200,result)
+        status,_,_=self.request(f'/api/service/orders/{id}/accept',body={},cookie=kitchen,headers={'X-CSRF-Token':kcsrf})
+        self.assertEqual(status,403)
+        floor,fcsrf=self.login('floor-qa@example.com','FloorDemo@123')
+        status,snapshot,_=self.request('/api/bootstrap',cookie=floor)
+        self.assertEqual(status,200,snapshot)
+        self.assertEqual(snapshot['customers'],[])
+        self.assertEqual(snapshot['inventory'],[])
+        self.assertTrue(any(o['id']==id for o in snapshot['service']['orders']))
+        status,_,_=self.request('/api/export/customers.csv',cookie=floor)
+        self.assertEqual(status,403)
+        status,_,_=self.request('/api/service/settings',body=dict(prepMinutes=10,readyMinutes=4),cookie=floor,headers={'X-CSRF-Token':fcsrf})
+        self.assertEqual(status,403)
+        for action in ('accept','served'):
+            status,result,_=self.request(f'/api/service/orders/{id}/{action}',body={},cookie=floor,headers={'X-CSRF-Token':fcsrf})
+            self.assertEqual(status,200,result)
+        _,snapshot,_=self.request('/api/service/alerts',cookie=floor)
+        self.assertFalse(any(o['id']==id for o in snapshot['orders']))
+        status,_,_=self.request(f'/api/orders/{id}/status',body=dict(status='Ready'),cookie=kitchen,headers={'X-CSRF-Token':kcsrf})
+        self.assertEqual(status,400)
+
     def test_public_reservation_is_validated_normalized_and_idempotent(self):
         key = "reservation-idempotency-test"
         first_status, first, _ = self.reservation(key)

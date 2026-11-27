@@ -109,6 +109,30 @@ Owner, Manager, Cashier and Host can manage the list; Kitchen cannot access it.
 Queue records use the existing cloud store in Vercel and floor metadata in local
 SQLite. New entries have retry keys and edits check record revisions.
 
+## Kitchen and service alerts
+
+Keep the CRM open on the kitchen and floor devices. Click **Enable sound** once
+after opening or refreshing each tab; browsers require this gesture before
+playing a chime. **Desktop alerts** optionally asks for browser notification
+permission. These alerts work while the CRM is open, not as push messages after
+the browser is closed. Live service data is checked every five seconds; browsers
+may slow background tabs, and returning to the tab refreshes immediately.
+
+Kitchen hears new orders and sees orange delayed tickets. Defaults are 15 minutes
+for preparation and five minutes waiting at the pass. Owner/Manager can adjust
+them using **Alert timing**. Existing backlog is highlighted on sign-in without
+playing a storm of old alerts. Events are deduplicated within the tab session.
+
+**Floor service** shows ready food, assigned table staff, any collection claim,
+and paid/prepaid status. **I’ll serve this** claims collection and **Mark served**
+removes the ticket after delivery. A claimed order is handled by that staff member
+or a manager/owner. Kitchen can prepare food but cannot mark it served.
+
+Owner can create a **Floor Staff** account in Settings → Team access. That role
+sees food service only. Existing floor staff accounts remain valid. Host/Cashier
+also receive ready-food alerts. Claims and served timestamps persist in the
+existing cloud store or local SQLite service metadata.
+
 ## Demo owner sign-in
 
 - Email: `owner@mangosteen.local`

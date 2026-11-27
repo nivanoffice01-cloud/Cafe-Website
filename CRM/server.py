@@ -12,6 +12,7 @@ from __future__ import annotations
 import csv
 import floor
 import waitlist
+import service
 from contextlib import closing, contextmanager
 import hashlib
 import hmac
@@ -49,7 +50,7 @@ SESSION_COOKIE = "mangosteen_session"
 SESSION_TTL = timedelta(hours=12)
 PUBLIC_REQUESTS: dict[str, list[datetime]] = {}
 PUBLIC_REQUESTS_LOCK = threading.Lock()
-ROLE_LEVEL = {"Kitchen": 0, "Cashier": 1, "Host": 1, "Manager": 2, "Owner": 3}
+ROLE_LEVEL = {"Kitchen": 0, "Cashier": 1, "Host": 1, "Floor Staff": 1, "Manager": 2, "Owner": 3}
 LOGIN_FAILURE_LIMIT = 5
 LOGIN_LOCKOUT = timedelta(minutes=15)
 
@@ -189,7 +190,7 @@ CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
-  role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host', 'Cashier', 'Kitchen')),
+  role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host', 'Cashier', 'Kitchen', 'Floor Staff')),
   password_hash TEXT NOT NULL,
   active INTEGER NOT NULL DEFAULT 1,
   created_at TEXT NOT NULL,
@@ -643,7 +644,7 @@ def migrate_user_roles(connection: sqlite3.Connection) -> None:
     record = connection.execute(
         "SELECT sql FROM sqlite_master WHERE type='table' AND name='users'"
     ).fetchone()
-    if not record or "'Cashier'" in (record["sql"] or ""):
+    if not record or "'Floor Staff'" in (record["sql"] or ""):
         return
     connection.commit()
     connection.execute("PRAGMA foreign_keys = OFF")
@@ -653,7 +654,7 @@ def migrate_user_roles(connection: sqlite3.Connection) -> None:
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT NOT NULL,
           email TEXT NOT NULL UNIQUE,
-          role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host', 'Cashier', 'Kitchen')),
+          role TEXT NOT NULL DEFAULT 'Host' CHECK (role IN ('Owner', 'Manager', 'Host', 'Cashier', 'Kitchen', 'Floor Staff')),
           password_hash TEXT NOT NULL,
           active INTEGER NOT NULL DEFAULT 1,
           created_at TEXT NOT NULL,
@@ -961,7 +962,7 @@ def operations_payload(connection: sqlite3.Connection, current_user: dict | None
                "paymentMethod": row["payment_method"], "createdAt": row["created_at"],
                "sentAt": row["sent_at"], "readyAt": row["ready_at"], "paidAt": row["paid_at"],
                "items": order_items.get(row["id"], [])}
-              for row in rows(connection, "SELECT * FROM orders ORDER BY created_at DESC, id DESC LIMIT 100")]
+              for row in rows(connection, "SELECT * FROM orders WHERE status IN ('Kitchen','Preparing','Ready') OR id IN (SELECT id FROM orders ORDER BY created_at DESC,id DESC LIMIT 100) ORDER BY created_at DESC,id DESC")]
     inventory = [{"id": row["id"], "name": row["name"], "unit": row["unit"],
                   "quantity": row["quantity"], "reorderLevel": row["reorder_level"],
                   "low": row["quantity"] <= row["reorder_level"]}
@@ -991,7 +992,7 @@ def operations_payload(connection: sqlite3.Connection, current_user: dict | None
     if role == "Kitchen":
         return {"menuItems": menu_items, "orders": orders, "inventory": [], "expenses": [],
                 "vendors": [], "staff": [], "payments": []}
-    if role in {"Cashier", "Host"}:
+    if role in {"Cashier", "Host", "Floor Staff"}:
         return {"menuItems": menu_items, "orders": orders, "inventory": [], "expenses": [],
                 "vendors": [], "staff": [], "payments": payments}
     return {"menuItems": menu_items, "orders": orders, "inventory": inventory,
@@ -1112,6 +1113,20 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
     else:
         result.update(tables=[], floorStaff=[], waitlist=[])
     result['settings'].pop('floor_state', None)
+    service.enrich(connection, result)
+    if (current_user or {}).get('role')=='Kitchen':
+        service_state=floor.enrich(connection, {**result, 'reservations':[]})
+    else:
+        service_state=floor_state
+    result['service']=service.payload(service_state,current_user or {'role':'Host'})
+    result['settings'].pop('floor_state',None)
+    result['settings'].pop('service_state',None)
+    if (current_user or {}).get('role')=='Floor Staff':
+        for field in ('customers','reservations','feedback','tasks','rewards','activities','monthlyMetrics','payments','waitlist'):
+            result[field]=[]
+        result['settings']={'business_name':settings.get('business_name','Mangosteen Cafe')}
+        result['tables']=[]
+        result['orders']=[o for o in result['orders'] if o['status'] in ('Kitchen','Preparing','Ready','Served')]
     return result
 
 
@@ -1378,7 +1393,13 @@ class CRMHandler(SimpleHTTPRequestHandler):
             return
         if path.startswith("/api/"):
             try:
-                user = self.require_user("Kitchen" if path == "/api/bootstrap" else "Host")
+                user = self.require_user("Kitchen" if path in ("/api/bootstrap", "/api/service/alerts") else "Host")
+                if user['role']=='Floor Staff' and path not in ('/api/bootstrap','/api/service/alerts'):
+                    raise PermissionError('Floor staff access is limited to food service.')
+                if path=='/api/service/alerts':
+                    with connect() as connection:
+                        self.send_json(bootstrap_payload(connection,user)['service'])
+                    return
                 if path == "/api/bootstrap":
                     with connect() as connection:
                         self.send_json(bootstrap_payload(connection, user))
@@ -1630,6 +1651,8 @@ class CRMHandler(SimpleHTTPRequestHandler):
 
             user = self.require_user("Kitchen")
             self.require_csrf()
+            if user['role']=='Floor Staff' and path not in ('/api/auth/logout','/api/auth/change-password') and not re.fullmatch(r'/api/service/orders/\d+/(accept|served)',path):
+                raise PermissionError('Floor staff access is limited to food service.')
             if path == "/api/auth/logout":
                 cookie = SimpleCookie(self.headers.get("Cookie", ""))
                 morsel = cookie.get(SESSION_COOKIE)
@@ -1641,6 +1664,29 @@ class CRMHandler(SimpleHTTPRequestHandler):
                 return
 
             with connect() as connection:
+                service_route=re.fullmatch(r'/api/service/orders/(\d+)/(accept|served)',path)
+                if service_route:
+                    self.require_roles('Owner','Manager','Cashier','Host','Floor Staff')
+                    connection.execute('BEGIN IMMEDIATE')
+                    snapshot=bootstrap_payload(connection,user)
+                    order=next((o for o in snapshot['orders'] if o['id']==int(service_route[1])),None)
+                    service.act(order,service_route[2],user,body)
+                    service.persist(connection,order)
+                    connection.execute('UPDATE orders SET status=? WHERE id=?',(order['status'],order['id']))
+                    connection.execute("INSERT INTO activities(kind,title,details,created_at) VALUES('order',?,?,?)",('Food service updated',f"#{order['id']} · {service_route[2]} · {user['name']}",now_iso()))
+                    connection.commit()
+                    self.send_json(dict(updated=True,status=order['status']))
+                    return
+                if path=='/api/service/settings':
+                    self.require_roles('Owner','Manager')
+                    prep,ready=float(body.get('prepMinutes',0)),float(body.get('readyMinutes',0))
+                    if not prep.is_integer() or not 1<=prep<=120 or not ready.is_integer() or not 1<=ready<=60:
+                        raise ValueError('Preparation must be 1–120 minutes and service must be 1–60 minutes.')
+                    for key,value in [('kitchen_delay_minutes',int(prep)),('service_delay_minutes',int(ready))]:
+                        connection.execute('INSERT INTO settings(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',(key,json.dumps(value)))
+                    connection.commit()
+                    self.send_json(dict(saved=True))
+                    return
                 if path == "/api/auth/change-password":
                     current_password = str(body.get("currentPassword", ""))
                     new_password = str(body.get("newPassword", ""))
@@ -1741,11 +1787,14 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     self.require_roles("Owner", "Manager", "Kitchen")
                     order_id = int(path.split("/")[3])
                     requested = str(body.get("status", "")).title()
-                    if requested not in {"Kitchen", "Preparing", "Ready"}:
-                        raise ValueError("Kitchen status must be Kitchen, Preparing or Ready")
                     record = connection.execute("SELECT id, status FROM orders WHERE id=?", (order_id,)).fetchone()
-                    if not record or record["status"] == "Paid":
-                        raise ValueError("Order is unavailable or already paid")
+                    if not record:
+                        raise ValueError('Order not found.')
+                    if record['status']==requested and requested in ('Preparing','Ready'):
+                        self.send_json(dict(updated=True,status=requested))
+                        return
+                    if requested not in {'Kitchen':('Preparing',),'Preparing':('Ready',)}.get(record['status'],()):
+                        raise ValueError('This ticket changed. Refresh the queue.')
                     ready_at = now_iso() if requested == "Ready" else None
                     connection.execute(
                         "UPDATE orders SET status=?, ready_at=COALESCE(?, ready_at) WHERE id=?",
