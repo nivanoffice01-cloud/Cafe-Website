@@ -1,0 +1,29 @@
+{
+  viewports: [
+    {
+      width: 667,
+      height: 375,
+      cardWidth: 217.5,
+      cardHeight: 145,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 1440,
+      height: 900,
+      cardWidth: 1094.390625,
+      cardHeight: 635.640625,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    }
+  ],
+  errors: []
+}

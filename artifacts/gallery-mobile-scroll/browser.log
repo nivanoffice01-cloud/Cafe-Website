@@ -1,0 +1,87 @@
+{
+  viewports: [
+    {
+      width: 320,
+      height: 568,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 375,
+      height: 667,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 390,
+      height: 844,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 430,
+      height: 932,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 768,
+      height: 1024,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 844,
+      height: 390,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 667,
+      height: 375,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 1440,
+      height: 900,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    }
+  ],
+  errors: [],
+  realTouch: { forwardX: -256, reverseX: -30.9999, nativeHorizontalOffset: 0 },
+  recording: '/Users/shekharchouhan/Documents/GitHub/Cafe-Website/artifacts/gallery-mobile-scroll/raw/page@3cedb348d1d1d68a8ed66caf357a7160.webm'
+}

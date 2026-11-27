@@ -1,0 +1,23 @@
+{
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "cardWidth": 342,
+      "cardHeight": 228,
+      "scrollDriven": true,
+      "forwardReverse": true,
+      "release": true,
+      "cardFits": true,
+      "overflow": false,
+      "reducedMotionSwipe": true
+    }
+  ],
+  "errors": [],
+  "realTouch": {
+    "forwardX": -225,
+    "reverseX": 0,
+    "nativeHorizontalOffset": 0
+  },
+  "recording": "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/artifacts/gallery-mobile-spacing/raw/page@164b00d7e59dafdfb86fff221722b1c1.webm"
+}

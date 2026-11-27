@@ -96,17 +96,20 @@ export function CafeGallery({ pauseScroll, resumeScroll }: { pauseScroll: () => 
       if (position.current) position.current.textContent = tile === galleryPreview.length ? 'VIEW ALL' : `${String(tile + 1).padStart(2, '0')} / ${String(galleryPreview.length).padStart(2, '0')}`
     }
     update(0)
-    const nativeScroll = () => update(window.scrollLeft / Math.max(1, window.scrollWidth - window.clientWidth))
+    const nativeScroll = () => {
+      if (!element.classList.contains('is-scroll-driven')) update(window.scrollLeft / Math.max(1, window.scrollWidth - window.clientWidth))
+    }
     window.addEventListener('scroll', nativeScroll, { passive: true })
     const media = gsap.matchMedia()
-    media.add('(min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference)', () => {
+    media.add('(prefers-reduced-motion: no-preference)', () => {
       element.classList.add('is-scroll-driven')
+      const finePointer = matchMedia('(pointer: fine)').matches
       const distance = () => Math.max(0, rail.scrollWidth - window.clientWidth)
       const travel = gsap.to(rail, {
         x: () => -distance(), ease: 'none',
-        scrollTrigger: { id: 'mangosteen-cafe-gallery', trigger: element, pin: true, start: 'top 90px', end: () => `+=${Math.max(distance(), 1000)}`, scrub: .65, invalidateOnRefresh: true, anticipatePin: 1, onUpdate: self => update(self.progress) },
+        scrollTrigger: { id: 'mangosteen-cafe-gallery', trigger: element, pin: true, start: 'top 90px', end: () => `+=${Math.max(distance(), 1000)}`, scrub: finePointer ? .65 : .3, invalidateOnRefresh: true, anticipatePin: 1, onUpdate: self => update(self.progress) },
       })
-      rail.querySelectorAll<HTMLElement>('.cafe-gallery-photo img').forEach(image => {
+      if (finePointer) rail.querySelectorAll<HTMLElement>('.cafe-gallery-photo img').forEach(image => {
         gsap.fromTo(image, { xPercent: -1.5 }, { xPercent: 1.5, ease: 'none', scrollTrigger: { trigger: image.closest('.cafe-gallery-photo'), containerAnimation: travel, start: 'left right', end: 'right left', scrub: true } })
       })
       const focus = (event: FocusEvent) => {
@@ -149,7 +152,7 @@ export function CafeGallery({ pauseScroll, resumeScroll }: { pauseScroll: () => 
     <GalleryGlassEntrance onExplore={explore}/>
     <div ref={spaces} className="cafe-gallery-spaces" id="cafe-spaces">
       <div className="cafe-spaces-heading"><div><span className="cafe-spaces-label">OUR SPACES</span><h3>The café, <em>in focus.</em></h3></div><span>Six glimpses. More to discover.</span></div>
-      <div ref={viewport} className="cafe-spaces-window" role="region" aria-label="Café photographs. Swipe or use arrow keys to explore." tabIndex={0}
+      <div ref={viewport} className="cafe-spaces-window" role="region" aria-label="Café photographs. Scroll down or use arrow keys to explore. Swipe when reduced motion is enabled." tabIndex={0}
         onKeyDown={event => {
           if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return
           event.preventDefault()
@@ -177,7 +180,7 @@ export function CafeGallery({ pauseScroll, resumeScroll }: { pauseScroll: () => 
           </button>
         </div>
       </div>
-      <div className="cafe-spaces-progress"><span ref={position}>01 / {String(galleryPreview.length).padStart(2, '0')}</span><div aria-hidden="true"><span ref={bar}/></div><p>Scroll or swipe to explore</p></div>
+      <div className="cafe-spaces-progress"><span ref={position}>01 / {String(galleryPreview.length).padStart(2, '0')}</span><div aria-hidden="true"><span ref={bar}/></div><p><span className="cafe-spaces-scroll-hint">Scroll down to explore</span><span className="cafe-spaces-swipe-hint">Swipe to explore</span></p></div>
     </div>
     {viewerOpen && <PhotoViewer index={active} onChange={setActive} onClose={() => setViewerOpen(false)} pauseScroll={pauseScroll} resumeScroll={resumeScroll}/>}
   </section>

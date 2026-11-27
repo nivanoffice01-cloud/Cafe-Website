@@ -1,0 +1,67 @@
+
+> cafe-website@0.1.0 check
+> npm run build && node --check CRM/dist/app.js && npm test
+
+
+> cafe-website@0.1.0 build
+> tsc -b && vite build
+
+vite v6.4.6 building for production...
+transforming...
+✓ 84 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                  1.95 kB │ gzip:  0.93 kB
+dist/assets/MenuExperiencePage-r3M_MU0D.css     53.78 kB │ gzip: 10.18 kB
+dist/assets/index-BFtfeEGA.css                  62.21 kB │ gzip: 12.22 kB
+dist/assets/SuppliedFrontendPage-B04f23py.css  305.56 kB │ gzip: 45.67 kB
+dist/assets/fullMenu-CWxHLRkq.js                15.25 kB │ gzip:  4.45 kB
+dist/assets/MenuExperiencePage-CY-SnxOf.js      78.55 kB │ gzip: 15.34 kB
+dist/assets/index-D1gpCFwU.js                  226.07 kB │ gzip: 70.46 kB
+dist/assets/SuppliedFrontendPage-BV5cY7jm.js   280.49 kB │ gzip: 93.67 kB
+✓ built in 1.91s
+
+> cafe-website@0.1.0 test
+> python3 -m unittest discover -s CRM/tests -v
+
+test_authenticated_mutations_require_csrf (test_server.CRMServerTests.test_authenticated_mutations_require_csrf) ... ok
+test_kitchen_role_cannot_write_guest_records (test_server.CRMServerTests.test_kitchen_role_cannot_write_guest_records) ... ok
+test_public_demo_order_reaches_kitchen_and_is_idempotent (test_server.CRMServerTests.test_public_demo_order_reaches_kitchen_and_is_idempotent) ... ok
+test_public_demo_order_rejects_unknown_table_qr (test_server.CRMServerTests.test_public_demo_order_rejects_unknown_table_qr) ... ok
+test_public_reservation_is_validated_normalized_and_idempotent (test_server.CRMServerTests.test_public_reservation_is_validated_normalized_and_idempotent) ... ok
+test_public_reservation_rejects_invented_or_duplicate_seats (test_server.CRMServerTests.test_public_reservation_rejects_invented_or_duplicate_seats) ... ok
+test_repeated_failed_logins_are_temporarily_locked (test_server.CRMServerTests.test_repeated_failed_logins_are_temporarily_locked) ... ok
+test_session_survives_a_separate_request (test_server.CRMServerTests.test_session_survives_a_separate_request) ... ok
+test_trusted_proxy_uses_forwarded_client_for_rate_limits (test_server.CRMServerTests.test_trusted_proxy_uses_forwarded_client_for_rate_limits) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.868s
+
+OK
+[17:36:42] "POST /api/auth/login HTTP/1.1" 200 -
+[17:36:42] "POST /api/customers HTTP/1.1" 403 -
+[17:36:42] "POST /api/auth/login HTTP/1.1" 200 -
+[17:36:42] "POST /api/customers HTTP/1.1" 403 -
+[17:36:42] "POST /api/public/orders HTTP/1.1" 201 -
+[17:36:42] "POST /api/public/orders HTTP/1.1" 200 -
+[17:36:42] "POST /api/public/orders HTTP/1.1" 400 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 200 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 400 -
+[17:36:42] "POST /api/auth/login HTTP/1.1" 401 -
+[17:36:42] "POST /api/auth/login HTTP/1.1" 401 -
+[17:36:42] "POST /api/auth/login HTTP/1.1" 401 -
+[17:36:42] "POST /api/auth/login HTTP/1.1" 401 -
+[17:36:42] "POST /api/auth/login HTTP/1.1" 401 -
+[17:36:42] "POST /api/auth/login HTTP/1.1" 429 -
+[17:36:42] "POST /api/auth/login HTTP/1.1" 200 -
+[17:36:42] "GET /api/auth/session HTTP/1.1" 200 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 201 -
+[17:36:42] "POST /api/public/reservations HTTP/1.1" 201 -

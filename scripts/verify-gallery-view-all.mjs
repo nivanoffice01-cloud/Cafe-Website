@@ -14,21 +14,21 @@ try {
   await p.goto('http://127.0.0.1:5173/');await p.locator('.cafe-gallery-spaces').scrollIntoViewIfNeeded();await p.waitForTimeout(600)
   assert.equal(await p.locator('.cafe-gallery-photo:not(.cafe-gallery-more)').count(),6)
   assert.equal(await p.getByRole('button',{name:'View all images',exact:true}).count(),1)
-  const rail=p.locator('.cafe-spaces-window');let geometry
-  if(!mobile){
+  let geometry
+  {
    assert.ok(await p.locator('.cafe-gallery-spaces').evaluate(e=>e.classList.contains('is-scroll-driven')))
    geometry=await p.locator('.cafe-gallery-spaces').evaluate(e=>({start:e.parentElement.getBoundingClientRect().top+scrollY-90,distance:e.querySelector('.cafe-gallery-track').scrollWidth-e.querySelector('.cafe-spaces-window').clientWidth}))
-   await p.evaluate(y=>scrollTo(0,y),geometry.start);await p.waitForTimeout(800);await shot(p,'desktop-start')
+   await p.evaluate(y=>scrollTo(0,y),geometry.start);await p.waitForTimeout(800);await shot(p,`${mobile?'mobile':'desktop'}-start`)
    for(let i=0;i<=42;i++){await p.evaluate(y=>scrollTo(0,y),geometry.start+geometry.distance*i/42);await p.waitForTimeout(55)}
    await p.waitForTimeout(850)
-  } else {await rail.evaluate(e=>e.scrollLeft=e.scrollWidth);await p.waitForTimeout(400)}
+  }
   await shot(p,`${mobile?'mobile':'desktop'}-view-all-card`)
   assert.equal(await p.locator('dialog').count(),0,'Scrolling to the end must not open the gallery automatically')
-  if(!mobile){
+  {
    // Ignoring the card must release the pin and expose the existing section below.
    await p.evaluate(y=>scrollTo(0,y),geometry.start+geometry.distance+900);await p.waitForTimeout(450)
    assert.ok((await p.locator('.cafe-gallery-spaces').boundingBox()).y<0)
-   await shot(p,'desktop-continue-below')
+   await shot(p,`${mobile?'mobile':'desktop'}-continue-below`)
    await p.evaluate(y=>scrollTo(0,y),geometry.start+geometry.distance);await p.waitForTimeout(850)
   }
   const scrollBefore=await p.evaluate(()=>scrollY)
