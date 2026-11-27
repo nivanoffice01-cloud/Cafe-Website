@@ -1,0 +1,35 @@
+{
+  "viewports": [
+    {
+      "width": 390,
+      "map": {
+        "x": 206,
+        "y": 720.84375,
+        "width": 165,
+        "height": 123.25
+      },
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "map": {
+        "x": 442.65625,
+        "y": 364.109375,
+        "width": 363.671875,
+        "height": 272.25
+      },
+      "overflow": false
+    }
+  ],
+  "responses": [
+    {
+      "url": "https://www.google.com/maps?q=22.706144,75.924299&z=16&output=embed",
+      "status": 301
+    },
+    {
+      "url": "https://www.google.com/maps?q=22.706144,75.924299&z=16&output=embed",
+      "status": 301
+    }
+  ],
+  "errors": []
+}

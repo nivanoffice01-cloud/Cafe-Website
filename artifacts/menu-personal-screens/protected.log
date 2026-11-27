@@ -1,0 +1,61 @@
+{
+  sourceChecks: [
+    'function Modal',
+    'const header =',
+    "{screen === 'home'",
+    'const placeOrder =',
+    '{dishOpen && <Modal',
+    'All pre-existing non-page source, styles, menu data, original photographs, reservations, APIs and CRM match their pre-task checksums'
+  ],
+  screenshots: [
+    {
+      name: 'landing',
+      width: 390,
+      pixelIdentical: true,
+      hash: 'a4514b066175642702879f7d11c1ff9539654e3c0ceac19459009ed95a0154b3'
+    },
+    {
+      name: 'all-categories',
+      width: 390,
+      pixelIdentical: true,
+      hash: '12d4ac2859044053bad0bcde03e4174977eacac1e3e8756a4d7f1857308fc374'
+    },
+    {
+      name: 'category',
+      width: 390,
+      pixelIdentical: true,
+      hash: '8741bffffa0db2c6f713353a964b53d494b8ff9de1fc2dab3361bff85a9c2def'
+    },
+    {
+      name: 'details',
+      width: 390,
+      pixelIdentical: true,
+      hash: '696a9ce7579b8a1094a8322655398ffd82eab769574a5cdb6d1af0f22a15ad4c'
+    },
+    {
+      name: 'landing',
+      width: 1440,
+      pixelIdentical: true,
+      hash: '0c2203a3aa6cf962b403f387c63c08c02d07a2549f37184b564ca3fae09734f5'
+    },
+    {
+      name: 'all-categories',
+      width: 1440,
+      pixelIdentical: true,
+      hash: 'f5b7fa6144ed6e74f3f9c9a0526c2c28993b1722afccccf9d1d80cb05e4cfff0'
+    },
+    {
+      name: 'category',
+      width: 1440,
+      pixelIdentical: true,
+      hash: '387f37039278be7560f001419b255bdd55da54e07b335a42cd5147724bd40e22'
+    },
+    {
+      name: 'details',
+      width: 1440,
+      pixelIdentical: true,
+      hash: '50c7320710e78965f3e853d44f3e42fe83a68d8ac01cb49d429758ebb604ad31'
+    }
+  ],
+  errors: []
+}

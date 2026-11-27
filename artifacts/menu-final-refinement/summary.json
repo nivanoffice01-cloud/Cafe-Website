@@ -1,0 +1,44 @@
+{
+  "checkpoint": "checkpoint/menu-final-before-28333b8",
+  "baseCommit": "28333b812bcc1919258df26169d0cd885518fb1b",
+  "localUrl": "http://localhost:5173/menu",
+  "qrUrl": "http://localhost:5173/menu?table=4",
+  "modifiedSource": [
+    "src/pages/MenuExperiencePage.tsx",
+    "src/features/digital-menu/CategoryGallery.tsx",
+    "src/features/digital-menu/refinements.css"
+  ],
+  "verificationScripts": [
+    "scripts/verify-menu-final.mjs",
+    "scripts/measure-menu-final.mjs",
+    "scripts/verify-menu-access.mjs",
+    "scripts/verify-menu-images.mjs"
+  ],
+  "build": "npm run build: passed, including TypeScript",
+  "backendTests": "npm test: all 9 passed",
+  "browserChecks": [
+    "Landing CTA reaches the horizontal gallery; all 13 categories retained; photographic category page preserves exact catalogue order",
+    "Gallery shows ~3/4/6 categories; next/previous, mouse drag without accidental activation, keyboard access to Soup, direct category switching, sticky navigation and browser back pass",
+    "All 131 exact names, prices and descriptions verified across all 13 category routes; illustrative images clearly labelled",
+    "QR Table 4 skips hero; context persists through search, favourites, details and My List; saved selections survive reload; quantities/totals and real demo API submission verified on disposable CRM",
+    "Legacy dish query links, QR alias, search empty/clear states, back/scroll restoration, drawer focus trap and Escape verified",
+    "Non-QR menu is browse-only; favourite removal and QR My List empty states verified",
+    "72 route/viewport checks: all seven requested phone widths, tablet, laptop, desktop and mobile landscape; no page overflow, broken images or duplicated navigation",
+    "Reduced-motion disables menu animation",
+    "Protected homepage opens existing reservation; unchanged seat IDs, guest controls and pending-confirmation submission work",
+    "Existing CRM authentication, order queue and reservation queue show both actual test submissions",
+    "All eight requested visual states captured at desktop and mobile dimensions",
+    "Checksums prove all pre-existing non-menu source, APIs, data, homepage, reservation, CRM and original assets unchanged"
+  ],
+  "viewportChecks": 72,
+  "errors": [],
+  "consoleErrors": [],
+  "badResponses": [],
+  "protectedSourceChanges": [],
+  "limitations": [
+    "No verified dish-to-photo matches in existing repository; original sources retained and generated/reference disclosures preserved. See photography-audit.json.",
+    "No dietary metadata; no unverified dietary labels added.",
+    "Chrome desktop and mobile emulation tested; physical-device Safari testing not performed."
+  ],
+  "deployed": false
+}

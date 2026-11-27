@@ -1,0 +1,32 @@
+{
+  "environment": "Production preview, Chrome mobile emulation 390×844 DPR 2, 4× CPU slowdown, 6 Mbps down / 80 ms latency, three cold runs. Lab measurements, not field Core Web Vitals.",
+  "runs": [
+    {
+      "run": 1,
+      "lcp": 1056,
+      "cls": 0.00015796348482047365,
+      "imagesLoaded": 13,
+      "imageNodes": 16,
+      "initialTransferBytes": 533102
+    },
+    {
+      "run": 2,
+      "lcp": 764,
+      "cls": 0.00015796348482047365,
+      "imagesLoaded": 13,
+      "imageNodes": 16,
+      "initialTransferBytes": 533102
+    },
+    {
+      "run": 3,
+      "lcp": 744,
+      "cls": 0.00015796348482047365,
+      "imagesLoaded": 13,
+      "imageNodes": 16,
+      "initialTransferBytes": 533102
+    }
+  ],
+  "checks": [
+    "Production mobile touch: dish sheet, Add, totals, My List, browser back and direct category switching retain Table 4; close remains visible when the sheet is scrolled"
+  ]
+}

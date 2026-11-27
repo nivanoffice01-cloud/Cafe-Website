@@ -1,0 +1,7 @@
+{
+  "checks": [
+    "Native horizontal touch swipe moves and snaps gallery without accidentally opening a category",
+    "Touch dish details, Add, bottom navigation and QR context work on production build; inputs remain usable",
+    "Reduced-motion sheet dismisses immediately"
+  ]
+}

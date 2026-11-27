@@ -1,0 +1,12 @@
+PASS Landing CTA reaches the horizontal gallery; all 13 categories retained; photographic category page preserves exact catalogue order
+PASS Gallery shows ~3/4/6 categories; next/previous, mouse drag without accidental activation, keyboard access to Soup, direct category switching, sticky navigation and browser back pass
+PASS All 131 exact names, prices and descriptions verified across all 13 category routes; illustrative images clearly labelled
+PASS QR Table 4 skips hero; context persists through search, favourites, details and My List; saved selections survive reload; quantities/totals and real demo API submission verified on disposable CRM
+PASS Legacy dish query links, QR alias, search empty/clear states, back/scroll restoration, drawer focus trap and Escape verified
+PASS Non-QR menu is browse-only; favourite removal and QR My List empty states verified
+PASS 72 route/viewport checks: all seven requested phone widths, tablet, laptop, desktop and mobile landscape; no page overflow, broken images or duplicated navigation
+PASS Reduced-motion disables menu animation
+PASS Protected homepage opens existing reservation; unchanged seat IDs, guest controls and pending-confirmation submission work
+PASS Existing CRM authentication, order queue and reservation queue show both actual test submissions
+PASS All eight requested visual states captured at desktop and mobile dimensions
+PASS Checksums prove all pre-existing non-menu source, APIs, data, homepage, reservation, CRM and original assets unchanged

@@ -1,0 +1,45 @@
+
+> cafe-website@0.1.0 test
+> python3 -m unittest discover -s CRM/tests -v
+
+test_authenticated_mutations_require_csrf (test_server.CRMServerTests.test_authenticated_mutations_require_csrf) ... ok
+test_kitchen_role_cannot_write_guest_records (test_server.CRMServerTests.test_kitchen_role_cannot_write_guest_records) ... ok
+test_public_demo_order_reaches_kitchen_and_is_idempotent (test_server.CRMServerTests.test_public_demo_order_reaches_kitchen_and_is_idempotent) ... ok
+test_public_demo_order_rejects_unknown_table_qr (test_server.CRMServerTests.test_public_demo_order_rejects_unknown_table_qr) ... ok
+test_public_reservation_is_validated_normalized_and_idempotent (test_server.CRMServerTests.test_public_reservation_is_validated_normalized_and_idempotent) ... ok
+test_public_reservation_rejects_invented_or_duplicate_seats (test_server.CRMServerTests.test_public_reservation_rejects_invented_or_duplicate_seats) ... ok
+test_repeated_failed_logins_are_temporarily_locked (test_server.CRMServerTests.test_repeated_failed_logins_are_temporarily_locked) ... ok
+test_session_survives_a_separate_request (test_server.CRMServerTests.test_session_survives_a_separate_request) ... ok
+test_trusted_proxy_uses_forwarded_client_for_rate_limits (test_server.CRMServerTests.test_trusted_proxy_uses_forwarded_client_for_rate_limits) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.787s
+
+OK
+[16:10:53] "POST /api/auth/login HTTP/1.1" 200 -
+[16:10:53] "POST /api/customers HTTP/1.1" 403 -
+[16:10:53] "POST /api/auth/login HTTP/1.1" 200 -
+[16:10:53] "POST /api/customers HTTP/1.1" 403 -
+[16:10:53] "POST /api/public/orders HTTP/1.1" 201 -
+[16:10:53] "POST /api/public/orders HTTP/1.1" 200 -
+[16:10:53] "POST /api/public/orders HTTP/1.1" 400 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 201 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 200 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 400 -
+[16:10:53] "POST /api/auth/login HTTP/1.1" 401 -
+[16:10:53] "POST /api/auth/login HTTP/1.1" 401 -
+[16:10:53] "POST /api/auth/login HTTP/1.1" 401 -
+[16:10:53] "POST /api/auth/login HTTP/1.1" 401 -
+[16:10:53] "POST /api/auth/login HTTP/1.1" 401 -
+[16:10:53] "POST /api/auth/login HTTP/1.1" 429 -
+[16:10:53] "POST /api/auth/login HTTP/1.1" 200 -
+[16:10:53] "GET /api/auth/session HTTP/1.1" 200 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 201 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 201 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 201 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 201 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 201 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 201 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 201 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 201 -
+[16:10:53] "POST /api/public/reservations HTTP/1.1" 201 -

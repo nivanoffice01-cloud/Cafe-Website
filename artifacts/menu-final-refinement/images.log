@@ -1,0 +1,14 @@
+{
+  checks: [
+    'All thirteen category shortcuts have loaded, labelled images; featured dish block removed at 320/390/768/1440px; no broken images or horizontal overflow',
+    'All thirteen category banners have distinct loaded images',
+    'Dish details, selection photo and QR context remain consistent; demo checkout is unchanged'
+  ],
+  errors: [],
+  viewports: [
+    { width: 320, scrollWidth: 320, broken: 0 },
+    { width: 390, scrollWidth: 390, broken: 0 },
+    { width: 768, scrollWidth: 768, broken: 0 },
+    { width: 1440, scrollWidth: 1440, broken: 0 }
+  ]
+}

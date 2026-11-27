@@ -1,0 +1,1383 @@
+{
+  "environment": "Local production preview, headless Chrome, emulated 390×844 DPR 2 mobile, 4× CPU slowdown, 6 Mbps down / 2 Mbps up / 80 ms latency. Lab measurements, not real-device or field Core Web Vitals. Current responsive WebP images retain their AI illustration / reference disclosures. Measurements include the current images, fonts and route chunks.",
+  "runs": [
+    {
+      "route": "/menu",
+      "run": 1,
+      "initialTransferBytes": 779316,
+      "initialRequests": 19,
+      "fullInteractionTransferBytes": 1226006,
+      "fullInteractionRequests": 33,
+      "initial": {
+        "lcp": 780,
+        "cls": 0.0006356226879968485,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 308
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 768
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 373.90000000037253,
+            "load": 374
+          }
+        ],
+        "resources": [
+          {
+            "name": "/fonts/lora/lora-latin-normal.woff2",
+            "transferSize": 38092,
+            "encodedBodySize": 37792,
+            "decodedBodySize": 37792
+          },
+          {
+            "name": "/assets/index-BFtfeEGA.css",
+            "transferSize": 12524,
+            "encodedBodySize": 12224,
+            "decodedBodySize": 62213
+          },
+          {
+            "name": "/assets/index-Bxxrkk_z.js",
+            "transferSize": 70755,
+            "encodedBodySize": 70455,
+            "decodedBodySize": 226069
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DSlFkLll.js",
+            "transferSize": 15361,
+            "encodedBodySize": 15061,
+            "decodedBodySize": 77148
+          },
+          {
+            "name": "/assets/fullMenu-CWxHLRkq.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/MenuExperiencePage-Dg-_IYUG.css",
+            "transferSize": 8280,
+            "encodedBodySize": 7980,
+            "decodedBodySize": 37992
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/images/authentic/story-food-960.webp",
+            "transferSize": 111362,
+            "encodedBodySize": 111062,
+            "decodedBodySize": 111062
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/fonts/lora/lora-latin-italic.woff2",
+            "transferSize": 40948,
+            "encodedBodySize": 40648,
+            "decodedBodySize": 40648
+          },
+          {
+            "name": "/images/menu-display/category-burgers-sandwiches-800.webp",
+            "transferSize": 55856,
+            "encodedBodySize": 55556,
+            "decodedBodySize": 55556
+          },
+          {
+            "name": "/images/menu-display/category-pasta-800.webp",
+            "transferSize": 59878,
+            "encodedBodySize": 59578,
+            "decodedBodySize": 59578
+          },
+          {
+            "name": "/images/menu-display/category-pizza-pide-800.webp",
+            "transferSize": 71440,
+            "encodedBodySize": 71140,
+            "decodedBodySize": 71140
+          },
+          {
+            "name": "/images/menu-display/category-mocktails-800.webp",
+            "transferSize": 51556,
+            "encodedBodySize": 51256,
+            "decodedBodySize": 51256
+          },
+          {
+            "name": "/images/menu-display/category-shakes-800.webp",
+            "transferSize": 47428,
+            "encodedBodySize": 47128,
+            "decodedBodySize": 47128
+          },
+          {
+            "name": "/images/menu-display/category-desserts-800.webp",
+            "transferSize": 68338,
+            "encodedBodySize": 68038,
+            "decodedBodySize": 68038
+          },
+          {
+            "name": "/images/menu-display/category-juice-800.webp",
+            "transferSize": 50216,
+            "encodedBodySize": 49916,
+            "decodedBodySize": 49916
+          },
+          {
+            "name": "/images/menu-display/category-iced-tea-800.webp",
+            "transferSize": 45764,
+            "encodedBodySize": 45464,
+            "decodedBodySize": 45464
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.66551388888889,
+        "p95FrameMs": 16.700000000000728,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 780,
+        "cls": 0.0006356226879968485,
+        "longTasks": [],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 24,
+            "interactionId": 5301
+          },
+          {
+            "name": "pointerup",
+            "duration": 24,
+            "interactionId": 5301
+          },
+          {
+            "name": "click",
+            "duration": 48,
+            "interactionId": 5301
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 5308
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 5308
+          },
+          {
+            "name": "click",
+            "duration": 48,
+            "interactionId": 5308
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 5315
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 5315
+          },
+          {
+            "name": "click",
+            "duration": 64,
+            "interactionId": 5315
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 5322
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 5322
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 5322
+          }
+        ]
+      }
+    },
+    {
+      "route": "/menu",
+      "run": 2,
+      "initialTransferBytes": 779316,
+      "initialRequests": 19,
+      "fullInteractionTransferBytes": 1226006,
+      "fullInteractionRequests": 33,
+      "initial": {
+        "lcp": 780,
+        "cls": 0.0006356226879968485,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 308
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 744
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 373.80000000074506,
+            "load": 374.40000000037253
+          }
+        ],
+        "resources": [
+          {
+            "name": "/fonts/lora/lora-latin-normal.woff2",
+            "transferSize": 38092,
+            "encodedBodySize": 37792,
+            "decodedBodySize": 37792
+          },
+          {
+            "name": "/assets/index-Bxxrkk_z.js",
+            "transferSize": 70755,
+            "encodedBodySize": 70455,
+            "decodedBodySize": 226069
+          },
+          {
+            "name": "/assets/index-BFtfeEGA.css",
+            "transferSize": 12524,
+            "encodedBodySize": 12224,
+            "decodedBodySize": 62213
+          },
+          {
+            "name": "/assets/fullMenu-CWxHLRkq.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DSlFkLll.js",
+            "transferSize": 15361,
+            "encodedBodySize": 15061,
+            "decodedBodySize": 77148
+          },
+          {
+            "name": "/assets/MenuExperiencePage-Dg-_IYUG.css",
+            "transferSize": 8280,
+            "encodedBodySize": 7980,
+            "decodedBodySize": 37992
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/images/authentic/story-food-960.webp",
+            "transferSize": 111362,
+            "encodedBodySize": 111062,
+            "decodedBodySize": 111062
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/fonts/lora/lora-latin-italic.woff2",
+            "transferSize": 40948,
+            "encodedBodySize": 40648,
+            "decodedBodySize": 40648
+          },
+          {
+            "name": "/images/menu-display/category-pizza-pide-800.webp",
+            "transferSize": 71440,
+            "encodedBodySize": 71140,
+            "decodedBodySize": 71140
+          },
+          {
+            "name": "/images/menu-display/category-mocktails-800.webp",
+            "transferSize": 51556,
+            "encodedBodySize": 51256,
+            "decodedBodySize": 51256
+          },
+          {
+            "name": "/images/menu-display/category-burgers-sandwiches-800.webp",
+            "transferSize": 55856,
+            "encodedBodySize": 55556,
+            "decodedBodySize": 55556
+          },
+          {
+            "name": "/images/menu-display/category-pasta-800.webp",
+            "transferSize": 59878,
+            "encodedBodySize": 59578,
+            "decodedBodySize": 59578
+          },
+          {
+            "name": "/images/menu-display/category-shakes-800.webp",
+            "transferSize": 47428,
+            "encodedBodySize": 47128,
+            "decodedBodySize": 47128
+          },
+          {
+            "name": "/images/menu-display/category-desserts-800.webp",
+            "transferSize": 68338,
+            "encodedBodySize": 68038,
+            "decodedBodySize": 68038
+          },
+          {
+            "name": "/images/menu-display/category-juice-800.webp",
+            "transferSize": 50216,
+            "encodedBodySize": 49916,
+            "decodedBodySize": 49916
+          },
+          {
+            "name": "/images/menu-display/category-iced-tea-800.webp",
+            "transferSize": 45764,
+            "encodedBodySize": 45464,
+            "decodedBodySize": 45464
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.66551388888889,
+        "p95FrameMs": 16.700000000000728,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 780,
+        "cls": 0.0006356226879968485,
+        "longTasks": [],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 8854
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 8854
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 8854
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 8861
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 8861
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 8861
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 8868
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 8868
+          },
+          {
+            "name": "click",
+            "duration": 64,
+            "interactionId": 8868
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 8875
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 8875
+          },
+          {
+            "name": "click",
+            "duration": 32,
+            "interactionId": 8875
+          }
+        ]
+      }
+    },
+    {
+      "route": "/menu",
+      "run": 3,
+      "initialTransferBytes": 779316,
+      "initialRequests": 19,
+      "fullInteractionTransferBytes": 1226006,
+      "fullInteractionRequests": 33,
+      "initial": {
+        "lcp": 780,
+        "cls": 0.0006356226879968485,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 312
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 744
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 373.90000000037253,
+            "load": 374.09999999962747
+          }
+        ],
+        "resources": [
+          {
+            "name": "/fonts/lora/lora-latin-normal.woff2",
+            "transferSize": 38092,
+            "encodedBodySize": 37792,
+            "decodedBodySize": 37792
+          },
+          {
+            "name": "/assets/index-Bxxrkk_z.js",
+            "transferSize": 70755,
+            "encodedBodySize": 70455,
+            "decodedBodySize": 226069
+          },
+          {
+            "name": "/assets/index-BFtfeEGA.css",
+            "transferSize": 12524,
+            "encodedBodySize": 12224,
+            "decodedBodySize": 62213
+          },
+          {
+            "name": "/assets/fullMenu-CWxHLRkq.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DSlFkLll.js",
+            "transferSize": 15361,
+            "encodedBodySize": 15061,
+            "decodedBodySize": 77148
+          },
+          {
+            "name": "/assets/MenuExperiencePage-Dg-_IYUG.css",
+            "transferSize": 8280,
+            "encodedBodySize": 7980,
+            "decodedBodySize": 37992
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/images/authentic/story-food-960.webp",
+            "transferSize": 111362,
+            "encodedBodySize": 111062,
+            "decodedBodySize": 111062
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/fonts/lora/lora-latin-italic.woff2",
+            "transferSize": 40948,
+            "encodedBodySize": 40648,
+            "decodedBodySize": 40648
+          },
+          {
+            "name": "/images/menu-display/category-mocktails-800.webp",
+            "transferSize": 51556,
+            "encodedBodySize": 51256,
+            "decodedBodySize": 51256
+          },
+          {
+            "name": "/images/menu-display/category-burgers-sandwiches-800.webp",
+            "transferSize": 55856,
+            "encodedBodySize": 55556,
+            "decodedBodySize": 55556
+          },
+          {
+            "name": "/images/menu-display/category-pasta-800.webp",
+            "transferSize": 59878,
+            "encodedBodySize": 59578,
+            "decodedBodySize": 59578
+          },
+          {
+            "name": "/images/menu-display/category-shakes-800.webp",
+            "transferSize": 47428,
+            "encodedBodySize": 47128,
+            "decodedBodySize": 47128
+          },
+          {
+            "name": "/images/menu-display/category-pizza-pide-800.webp",
+            "transferSize": 71440,
+            "encodedBodySize": 71140,
+            "decodedBodySize": 71140
+          },
+          {
+            "name": "/images/menu-display/category-desserts-800.webp",
+            "transferSize": 68338,
+            "encodedBodySize": 68038,
+            "decodedBodySize": 68038
+          },
+          {
+            "name": "/images/menu-display/category-juice-800.webp",
+            "transferSize": 50216,
+            "encodedBodySize": 49916,
+            "decodedBodySize": 49916
+          },
+          {
+            "name": "/images/menu-display/category-iced-tea-800.webp",
+            "transferSize": 45764,
+            "encodedBodySize": 45464,
+            "decodedBodySize": 45464
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.66597222222222,
+        "p95FrameMs": 16.799999999999727,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 780,
+        "cls": 0.0006356226879968485,
+        "longTasks": [],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6817
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6817
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 6817
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6824
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6824
+          },
+          {
+            "name": "click",
+            "duration": 48,
+            "interactionId": 6824
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6831
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6831
+          },
+          {
+            "name": "click",
+            "duration": 72,
+            "interactionId": 6831
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6838
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6838
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 6838
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6845
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6845
+          }
+        ]
+      }
+    },
+    {
+      "route": "/menu?table=4",
+      "run": 1,
+      "initialTransferBytes": 954546,
+      "initialRequests": 24,
+      "fullInteractionTransferBytes": 1114674,
+      "fullInteractionRequests": 32,
+      "initial": {
+        "lcp": 1136,
+        "cls": 0.00034207165147216614,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 308
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 720
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 371.5,
+            "load": 371.59999999962747
+          }
+        ],
+        "resources": [
+          {
+            "name": "/fonts/lora/lora-latin-normal.woff2",
+            "transferSize": 38092,
+            "encodedBodySize": 37792,
+            "decodedBodySize": 37792
+          },
+          {
+            "name": "/assets/index-Bxxrkk_z.js",
+            "transferSize": 70755,
+            "encodedBodySize": 70455,
+            "decodedBodySize": 226069
+          },
+          {
+            "name": "/assets/index-BFtfeEGA.css",
+            "transferSize": 12524,
+            "encodedBodySize": 12224,
+            "decodedBodySize": 62213
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DSlFkLll.js",
+            "transferSize": 15361,
+            "encodedBodySize": 15061,
+            "decodedBodySize": 77148
+          },
+          {
+            "name": "/assets/fullMenu-CWxHLRkq.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/MenuExperiencePage-Dg-_IYUG.css",
+            "transferSize": 8280,
+            "encodedBodySize": 7980,
+            "decodedBodySize": 37992
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/fonts/lora/lora-latin-italic.woff2",
+            "transferSize": 40948,
+            "encodedBodySize": 40648,
+            "decodedBodySize": 40648
+          },
+          {
+            "name": "/images/menu-display/category-iced-tea-800.webp",
+            "transferSize": 45764,
+            "encodedBodySize": 45464,
+            "decodedBodySize": 45464
+          },
+          {
+            "name": "/images/menu-display/category-shakes-800.webp",
+            "transferSize": 47428,
+            "encodedBodySize": 47128,
+            "decodedBodySize": 47128
+          },
+          {
+            "name": "/images/menu-display/category-juice-800.webp",
+            "transferSize": 50216,
+            "encodedBodySize": 49916,
+            "decodedBodySize": 49916
+          },
+          {
+            "name": "/images/menu-display/category-mocktails-800.webp",
+            "transferSize": 51556,
+            "encodedBodySize": 51256,
+            "decodedBodySize": 51256
+          },
+          {
+            "name": "/images/menu-display/category-salad-800.webp",
+            "transferSize": 55220,
+            "encodedBodySize": 54920,
+            "decodedBodySize": 54920
+          },
+          {
+            "name": "/images/menu-display/category-pizza-pide-800.webp",
+            "transferSize": 71440,
+            "encodedBodySize": 71140,
+            "decodedBodySize": 71140
+          },
+          {
+            "name": "/images/menu-display/category-burgers-sandwiches-800.webp",
+            "transferSize": 55856,
+            "encodedBodySize": 55556,
+            "decodedBodySize": 55556
+          },
+          {
+            "name": "/images/menu-display/category-breakfast-800.webp",
+            "transferSize": 62132,
+            "encodedBodySize": 61832,
+            "decodedBodySize": 61832
+          },
+          {
+            "name": "/images/menu-display/category-pasta-800.webp",
+            "transferSize": 59878,
+            "encodedBodySize": 59578,
+            "decodedBodySize": 59578
+          },
+          {
+            "name": "/images/menu-display/category-small-plates-800.webp",
+            "transferSize": 63094,
+            "encodedBodySize": 62794,
+            "decodedBodySize": 62794
+          },
+          {
+            "name": "/images/menu-display/category-desserts-800.webp",
+            "transferSize": 68338,
+            "encodedBodySize": 68038,
+            "decodedBodySize": 68038
+          },
+          {
+            "name": "/images/menu-display/category-soup-800.webp",
+            "transferSize": 44294,
+            "encodedBodySize": 43994,
+            "decodedBodySize": 43994
+          },
+          {
+            "name": "/images/menu-display/category-main-course-800.webp",
+            "transferSize": 61326,
+            "encodedBodySize": 61026,
+            "decodedBodySize": 61026
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.66666666666667,
+        "p95FrameMs": 16.700000000000728,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 1136,
+        "cls": 0.00034207165147216614,
+        "longTasks": [],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 3190
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 3190
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 3190
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 3197
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 3197
+          },
+          {
+            "name": "click",
+            "duration": 32,
+            "interactionId": 3197
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 3204
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 3204
+          },
+          {
+            "name": "click",
+            "duration": 72,
+            "interactionId": 3204
+          },
+          {
+            "name": "click",
+            "duration": 32,
+            "interactionId": 3211
+          }
+        ]
+      }
+    },
+    {
+      "route": "/menu?table=4",
+      "run": 2,
+      "initialTransferBytes": 954546,
+      "initialRequests": 24,
+      "fullInteractionTransferBytes": 1114674,
+      "fullInteractionRequests": 32,
+      "initial": {
+        "lcp": 1124,
+        "cls": 0.00034207165147216614,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 312
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 724
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 369.30000000074506,
+            "load": 369.40000000037253
+          }
+        ],
+        "resources": [
+          {
+            "name": "/fonts/lora/lora-latin-normal.woff2",
+            "transferSize": 38092,
+            "encodedBodySize": 37792,
+            "decodedBodySize": 37792
+          },
+          {
+            "name": "/assets/index-BFtfeEGA.css",
+            "transferSize": 12524,
+            "encodedBodySize": 12224,
+            "decodedBodySize": 62213
+          },
+          {
+            "name": "/assets/index-Bxxrkk_z.js",
+            "transferSize": 70755,
+            "encodedBodySize": 70455,
+            "decodedBodySize": 226069
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DSlFkLll.js",
+            "transferSize": 15361,
+            "encodedBodySize": 15061,
+            "decodedBodySize": 77148
+          },
+          {
+            "name": "/assets/fullMenu-CWxHLRkq.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/MenuExperiencePage-Dg-_IYUG.css",
+            "transferSize": 8280,
+            "encodedBodySize": 7980,
+            "decodedBodySize": 37992
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/fonts/lora/lora-latin-italic.woff2",
+            "transferSize": 40948,
+            "encodedBodySize": 40648,
+            "decodedBodySize": 40648
+          },
+          {
+            "name": "/images/menu-display/category-shakes-800.webp",
+            "transferSize": 47428,
+            "encodedBodySize": 47128,
+            "decodedBodySize": 47128
+          },
+          {
+            "name": "/images/menu-display/category-iced-tea-800.webp",
+            "transferSize": 45764,
+            "encodedBodySize": 45464,
+            "decodedBodySize": 45464
+          },
+          {
+            "name": "/images/menu-display/category-juice-800.webp",
+            "transferSize": 50216,
+            "encodedBodySize": 49916,
+            "decodedBodySize": 49916
+          },
+          {
+            "name": "/images/menu-display/category-mocktails-800.webp",
+            "transferSize": 51556,
+            "encodedBodySize": 51256,
+            "decodedBodySize": 51256
+          },
+          {
+            "name": "/images/menu-display/category-salad-800.webp",
+            "transferSize": 55220,
+            "encodedBodySize": 54920,
+            "decodedBodySize": 54920
+          },
+          {
+            "name": "/images/menu-display/category-pizza-pide-800.webp",
+            "transferSize": 71440,
+            "encodedBodySize": 71140,
+            "decodedBodySize": 71140
+          },
+          {
+            "name": "/images/menu-display/category-burgers-sandwiches-800.webp",
+            "transferSize": 55856,
+            "encodedBodySize": 55556,
+            "decodedBodySize": 55556
+          },
+          {
+            "name": "/images/menu-display/category-breakfast-800.webp",
+            "transferSize": 62132,
+            "encodedBodySize": 61832,
+            "decodedBodySize": 61832
+          },
+          {
+            "name": "/images/menu-display/category-pasta-800.webp",
+            "transferSize": 59878,
+            "encodedBodySize": 59578,
+            "decodedBodySize": 59578
+          },
+          {
+            "name": "/images/menu-display/category-small-plates-800.webp",
+            "transferSize": 63094,
+            "encodedBodySize": 62794,
+            "decodedBodySize": 62794
+          },
+          {
+            "name": "/images/menu-display/category-desserts-800.webp",
+            "transferSize": 68338,
+            "encodedBodySize": 68038,
+            "decodedBodySize": 68038
+          },
+          {
+            "name": "/images/menu-display/category-soup-800.webp",
+            "transferSize": 44294,
+            "encodedBodySize": 43994,
+            "decodedBodySize": 43994
+          },
+          {
+            "name": "/images/menu-display/category-main-course-800.webp",
+            "transferSize": 61326,
+            "encodedBodySize": 61026,
+            "decodedBodySize": 61026
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.66597222222222,
+        "p95FrameMs": 16.799999999999727,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 1124,
+        "cls": 0.00034207165147216614,
+        "longTasks": [],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6536
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6536
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 6536
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6543
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6543
+          },
+          {
+            "name": "click",
+            "duration": 32,
+            "interactionId": 6543
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6550
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6550
+          },
+          {
+            "name": "click",
+            "duration": 72,
+            "interactionId": 6550
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6557
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6557
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 6557
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 6564
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 6564
+          }
+        ]
+      }
+    },
+    {
+      "route": "/menu?table=4",
+      "run": 3,
+      "initialTransferBytes": 954546,
+      "initialRequests": 24,
+      "fullInteractionTransferBytes": 1114674,
+      "fullInteractionRequests": 32,
+      "initial": {
+        "lcp": 1136,
+        "cls": 0.00034207165147216614,
+        "longTasks": [],
+        "events": [],
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 312
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 724
+          }
+        ],
+        "navigation": [
+          {
+            "domContentLoaded": 377.40000000037253,
+            "load": 377.69999999925494
+          }
+        ],
+        "resources": [
+          {
+            "name": "/fonts/lora/lora-latin-normal.woff2",
+            "transferSize": 38092,
+            "encodedBodySize": 37792,
+            "decodedBodySize": 37792
+          },
+          {
+            "name": "/assets/index-Bxxrkk_z.js",
+            "transferSize": 70755,
+            "encodedBodySize": 70455,
+            "decodedBodySize": 226069
+          },
+          {
+            "name": "/assets/index-BFtfeEGA.css",
+            "transferSize": 12524,
+            "encodedBodySize": 12224,
+            "decodedBodySize": 62213
+          },
+          {
+            "name": "/assets/MenuExperiencePage-DSlFkLll.js",
+            "transferSize": 15361,
+            "encodedBodySize": 15061,
+            "decodedBodySize": 77148
+          },
+          {
+            "name": "/assets/fullMenu-CWxHLRkq.js",
+            "transferSize": 4750,
+            "encodedBodySize": 4450,
+            "decodedBodySize": 15248
+          },
+          {
+            "name": "/assets/MenuExperiencePage-Dg-_IYUG.css",
+            "transferSize": 8280,
+            "encodedBodySize": 7980,
+            "decodedBodySize": 37992
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          },
+          {
+            "name": "/supplied-frontend/assets/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+            "transferSize": 24736,
+            "encodedBodySize": 24436,
+            "decodedBodySize": 24436
+          },
+          {
+            "name": "/fonts/lora/lora-latin-italic.woff2",
+            "transferSize": 40948,
+            "encodedBodySize": 40648,
+            "decodedBodySize": 40648
+          },
+          {
+            "name": "/images/menu-display/category-iced-tea-800.webp",
+            "transferSize": 45764,
+            "encodedBodySize": 45464,
+            "decodedBodySize": 45464
+          },
+          {
+            "name": "/images/menu-display/category-shakes-800.webp",
+            "transferSize": 47428,
+            "encodedBodySize": 47128,
+            "decodedBodySize": 47128
+          },
+          {
+            "name": "/images/menu-display/category-juice-800.webp",
+            "transferSize": 50216,
+            "encodedBodySize": 49916,
+            "decodedBodySize": 49916
+          },
+          {
+            "name": "/images/menu-display/category-mocktails-800.webp",
+            "transferSize": 51556,
+            "encodedBodySize": 51256,
+            "decodedBodySize": 51256
+          },
+          {
+            "name": "/images/menu-display/category-salad-800.webp",
+            "transferSize": 55220,
+            "encodedBodySize": 54920,
+            "decodedBodySize": 54920
+          },
+          {
+            "name": "/images/menu-display/category-pizza-pide-800.webp",
+            "transferSize": 71440,
+            "encodedBodySize": 71140,
+            "decodedBodySize": 71140
+          },
+          {
+            "name": "/images/menu-display/category-burgers-sandwiches-800.webp",
+            "transferSize": 55856,
+            "encodedBodySize": 55556,
+            "decodedBodySize": 55556
+          },
+          {
+            "name": "/images/menu-display/category-breakfast-800.webp",
+            "transferSize": 62132,
+            "encodedBodySize": 61832,
+            "decodedBodySize": 61832
+          },
+          {
+            "name": "/images/menu-display/category-pasta-800.webp",
+            "transferSize": 59878,
+            "encodedBodySize": 59578,
+            "decodedBodySize": 59578
+          },
+          {
+            "name": "/images/menu-display/category-small-plates-800.webp",
+            "transferSize": 63094,
+            "encodedBodySize": 62794,
+            "decodedBodySize": 62794
+          },
+          {
+            "name": "/images/menu-display/category-desserts-800.webp",
+            "transferSize": 68338,
+            "encodedBodySize": 68038,
+            "decodedBodySize": 68038
+          },
+          {
+            "name": "/images/menu-display/category-main-course-800.webp",
+            "transferSize": 61326,
+            "encodedBodySize": 61026,
+            "decodedBodySize": 61026
+          },
+          {
+            "name": "/images/menu-display/category-soup-800.webp",
+            "transferSize": 44294,
+            "encodedBodySize": 43994,
+            "decodedBodySize": 43994
+          },
+          {
+            "name": "/favicon.svg",
+            "transferSize": 689,
+            "encodedBodySize": 389,
+            "decodedBodySize": 389
+          }
+        ]
+      },
+      "animation": {
+        "sampledFrames": 144,
+        "meanFrameMs": 16.665972222222226,
+        "p95FrameMs": 16.700000000000728,
+        "intervalsOver33ms": 0
+      },
+      "interactions": {
+        "lcp": 1136,
+        "cls": 0.00034207165147216614,
+        "longTasks": [],
+        "events": [
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 3952
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 3952
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 3952
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 3959
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 3959
+          },
+          {
+            "name": "click",
+            "duration": 32,
+            "interactionId": 3959
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 3966
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 3966
+          },
+          {
+            "name": "click",
+            "duration": 72,
+            "interactionId": 3966
+          },
+          {
+            "name": "pointerdown",
+            "duration": 16,
+            "interactionId": 3973
+          },
+          {
+            "name": "pointerup",
+            "duration": 16,
+            "interactionId": 3973
+          },
+          {
+            "name": "click",
+            "duration": 40,
+            "interactionId": 3973
+          }
+        ]
+      }
+    }
+  ]
+}

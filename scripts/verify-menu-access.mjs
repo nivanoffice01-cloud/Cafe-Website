@@ -4,7 +4,8 @@ import { spawn } from 'node:child_process'
 import fs from 'node:fs/promises'
 import assert from 'node:assert/strict'
 import { fullMenu } from '../api/full-menu.mjs'
-const dir='artifacts/menu-access-modes'
+const dir=process.env.MENU_ACCESS_REVIEW_DIR || 'artifacts/menu-access-modes'
+const base=process.env.REVIEW_URL || 'http://127.0.0.1:5173'
 await fs.mkdir(dir,{recursive:true})
 const fixture=spawn('python3',['-u','-c',`
 import sys, tempfile, signal
@@ -31,7 +32,7 @@ try {
  const context=await browser.newContext({viewport:{width:390,height:844}})
  await context.route('**/crm-api/**',async route=>{const r=route.request();if(r.method()==='POST')report.orders.push(r.postDataJSON());const response=await context.request.fetch(`http://127.0.0.1:${port}`+new URL(r.url()).pathname.replace('/crm-api',''),{method:r.method(),headers:r.headers(),data:r.postData()});await route.fulfill({response})})
  const page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));page.on('console',m=>{if(m.type()==='error')report.errors.push(m.text())})
- const goto=async path=>{await page.goto('http://127.0.0.1:5173'+path);await page.locator('.dm-menu').waitFor()}
+ const goto=async path=>{await page.goto(base+path);await page.locator('.dm-menu').waitFor()}
  const preview=async()=>{assert.equal(await page.locator('.dm-add,.dm-quantity,.dm-selection-peek,.dm-order-form,.dm-table-context').count(),0);assert.equal(await page.getByRole('button',{name:/My List/}).count(),0);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth))}
  // An old QR cart must neither appear nor be erased during website browsing.
  const dish={...fullMenu.find(c=>c.name==='Pizza & Pide').items.find(d=>d.name==='Margarita'),category:'Pizza & Pide',quantity:1}

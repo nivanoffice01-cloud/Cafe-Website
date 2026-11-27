@@ -1,0 +1,598 @@
+{
+  "checks": [
+    "Landing CTA reaches the horizontal gallery; all 13 categories retained; photographic category page preserves exact catalogue order",
+    "Gallery shows ~3/4/6 categories; next/previous, mouse drag without accidental activation, keyboard access to Soup, direct category switching, sticky navigation and browser back pass",
+    "All 131 exact names, prices and descriptions verified across all 13 category routes; illustrative images clearly labelled",
+    "QR Table 4 skips hero; context persists through search, favourites, details and My List; saved selections survive reload; quantities/totals and real demo API submission verified on disposable CRM",
+    "Legacy dish query links, QR alias, search empty/clear states, back/scroll restoration, drawer focus trap and Escape verified",
+    "Non-QR menu is browse-only; favourite removal and QR My List empty states verified",
+    "72 route/viewport checks: all seven requested phone widths, tablet, laptop, desktop and mobile landscape; no page overflow, broken images or duplicated navigation",
+    "Reduced-motion disables menu animation",
+    "Protected homepage opens existing reservation; unchanged seat IDs, guest controls and pending-confirmation submission work",
+    "Existing CRM authentication, order queue and reservation queue show both actual test submissions",
+    "All eight requested visual states captured at desktop and mobile dimensions",
+    "Checksums prove all pre-existing non-menu source, APIs, data, homepage, reservation, CRM and original assets unchanged"
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "badResponses": [],
+  "viewports": [
+    {
+      "path": "/menu",
+      "height": 568,
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 568,
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 568,
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 568,
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 568,
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 568,
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 800,
+      "width": 360,
+      "scrollWidth": 360,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 800,
+      "width": 360,
+      "scrollWidth": 360,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 800,
+      "width": 360,
+      "scrollWidth": 360,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 800,
+      "width": 360,
+      "scrollWidth": 360,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 800,
+      "width": 360,
+      "scrollWidth": 360,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 800,
+      "width": 360,
+      "scrollWidth": 360,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 667,
+      "width": 375,
+      "scrollWidth": 375,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 667,
+      "width": 375,
+      "scrollWidth": 375,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 667,
+      "width": 375,
+      "scrollWidth": 375,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 667,
+      "width": 375,
+      "scrollWidth": 375,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 667,
+      "width": 375,
+      "scrollWidth": 375,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 667,
+      "width": 375,
+      "scrollWidth": 375,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 844,
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 844,
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 844,
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 844,
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 844,
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 844,
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 852,
+      "width": 393,
+      "scrollWidth": 393,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 852,
+      "width": 393,
+      "scrollWidth": 393,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 852,
+      "width": 393,
+      "scrollWidth": 393,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 852,
+      "width": 393,
+      "scrollWidth": 393,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 852,
+      "width": 393,
+      "scrollWidth": 393,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 852,
+      "width": 393,
+      "scrollWidth": 393,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 896,
+      "width": 414,
+      "scrollWidth": 414,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 896,
+      "width": 414,
+      "scrollWidth": 414,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 896,
+      "width": 414,
+      "scrollWidth": 414,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 896,
+      "width": 414,
+      "scrollWidth": 414,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 896,
+      "width": 414,
+      "scrollWidth": 414,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 896,
+      "width": 414,
+      "scrollWidth": 414,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 932,
+      "width": 430,
+      "scrollWidth": 430,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 932,
+      "width": 430,
+      "scrollWidth": 430,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 932,
+      "width": 430,
+      "scrollWidth": 430,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 932,
+      "width": 430,
+      "scrollWidth": 430,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 932,
+      "width": 430,
+      "scrollWidth": 430,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 932,
+      "width": 430,
+      "scrollWidth": 430,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 1024,
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 1024,
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 1024,
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 1024,
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 1024,
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 1024,
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 768,
+      "width": 1024,
+      "scrollWidth": 1024,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 768,
+      "width": 1024,
+      "scrollWidth": 1024,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 768,
+      "width": 1024,
+      "scrollWidth": 1024,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 768,
+      "width": 1024,
+      "scrollWidth": 1024,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 768,
+      "width": 1024,
+      "scrollWidth": 1024,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 768,
+      "width": 1024,
+      "scrollWidth": 1024,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 1000,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 1000,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 1000,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 1000,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 1000,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 1000,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 1080,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 1080,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 1080,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 1080,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 1080,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 1080,
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu",
+      "height": 390,
+      "width": 844,
+      "scrollWidth": 844,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/browse",
+      "height": 390,
+      "width": 844,
+      "scrollWidth": 844,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/category/pizza-and-pide",
+      "height": 390,
+      "width": 844,
+      "scrollWidth": 844,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/search",
+      "height": 390,
+      "width": 844,
+      "scrollWidth": 844,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/favourites",
+      "height": 390,
+      "width": 844,
+      "scrollWidth": 844,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    },
+    {
+      "path": "/menu/selection",
+      "height": 390,
+      "width": 844,
+      "scrollWidth": 844,
+      "brokenImages": 0,
+      "bottomNavCount": 1
+    }
+  ],
+  "protectedSourceChanges": []
+}

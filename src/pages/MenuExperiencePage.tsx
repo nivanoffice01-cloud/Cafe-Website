@@ -5,7 +5,11 @@ import { categoryPhoto, dishPhoto, landingCategories } from '../features/digital
 import { orderTableFor } from '../data/seating'
 import { submitGuestOrder, type GuestOrderReceipt } from '../lib/orders'
 import '../features/supplied-frontend/fonts.css'
+import { CategoryGallery, CategoryNavigation } from '../features/digital-menu/CategoryGallery'
 import '../features/digital-menu/menu.css'
+import '../features/digital-menu/refinements.css'
+import '../features/digital-menu/catalogue.css'
+import '../features/digital-menu/personal-screens.css'
 
 type Dish = MenuItem & { category: string }
 type CartLine = Dish & { quantity: number }
@@ -38,13 +42,21 @@ function MenuPhoto({ dish, category, className = '', priority = false }: { dish?
   const [failed, setFailed] = useState(false)
   useEffect(() => setFailed(false), [photo?.src])
   return <span className={`dm-photo ${className}${!photo || failed ? ' is-pending' : ''}`}>
-    {photo && !failed ? <><img src={photo.src} srcSet={photo.srcSet} sizes={priority ? '(min-width: 900px) 600px, 100vw' : dish ? '(min-width: 900px) 160px, 120px' : '(min-width: 900px) 320px, 180px'} style={{ objectPosition: photo.position }} width="400" height="400" alt={photo.alt} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} onError={() => setFailed(true)}/>{photo.kind && photo.kind !== 'genuine' && <small className="dm-image-label">{photo.kind === 'generated' ? 'AI illustration' : 'Reference photo'}</small>}</> : <><span className="dm-photo-monogram" aria-hidden="true">m.</span><small>Photo to follow</small></>}
+    {photo && !failed ? <><img draggable={false} src={photo.src} srcSet={photo.srcSet} sizes={priority ? '(min-width: 900px) 600px, 100vw' : dish ? '(min-width: 900px) 160px, 120px' : '(min-width: 900px) 320px, 180px'} style={{ objectPosition: photo.position }} width="400" height="400" alt={photo.alt} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} onError={() => setFailed(true)}/>{photo.kind && photo.kind !== 'genuine' && <small className="dm-image-label">{photo.kind === 'generated' ? 'AI illustration' : 'Reference photo'}</small>}</> : <><span className="dm-photo-monogram" aria-hidden="true">m.</span><small>Photo to follow</small></>}
   </span>
 }
 
-function Modal({ title, kind, onClose, children }: { title: string; kind: string; onClose: () => void; children: ReactNode }) {
+function Modal({ title, kind, onClose, children }: { title: string; kind: string; onClose: () => void; children: ReactNode | ((close: () => void) => ReactNode) }) {
   const ref = useRef<HTMLDialogElement>(null)
   const closeRef = useRef(onClose)
+  const [closing, setClosing] = useState(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const requestClose = () => {
+    if (closeTimer.current) return
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { closeRef.current(); return }
+    setClosing(true)
+    closeTimer.current = setTimeout(() => closeRef.current(), 180)
+  }
   closeRef.current = onClose
   useEffect(() => {
     const dialog = ref.current!
@@ -52,11 +64,12 @@ function Modal({ title, kind, onClose, children }: { title: string; kind: string
     const overflow = document.body.style.overflow
     dialog.showModal(); document.body.style.overflow = 'hidden'
     return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current)
       dialog.close(); document.body.style.overflow = overflow
       if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true })
     }
   }, [])
-  return <dialog ref={ref} className={`dm-modal dm-${kind}`} aria-labelledby={title}
+  return <dialog ref={ref} className={`dm-modal dm-${kind}${closing ? ' is-closing' : ''}`} aria-labelledby={title}
     onKeyDown={event => {
       if (event.key !== 'Tab') return
       const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), textarea:not(:disabled), [tabindex="0"]'))
@@ -64,9 +77,9 @@ function Modal({ title, kind, onClose, children }: { title: string; kind: string
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
     }}
-    onCancel={event => { event.preventDefault(); closeRef.current() }}
-    onClick={event => { if (event.target === event.currentTarget) closeRef.current() }}>
-    <div className="dm-modal-content"><button type="button" className="dm-close" aria-label={kind === 'sheet' ? 'Close dish details' : 'Close menu navigation'} onClick={onClose}><Icon name="close"/></button>{children}</div>
+    onCancel={event => { event.preventDefault(); requestClose() }}
+    onClick={event => { if (event.target === event.currentTarget) requestClose() }}>
+    <div className="dm-modal-content">{kind === 'sheet' ? <div className="dm-sheet-chrome"><span className="dm-sheet-handle" aria-hidden="true"/><button type="button" className="dm-close" aria-label="Close dish details" onClick={requestClose}><Icon name="close"/></button></div> : <button type="button" className="dm-close" aria-label="Close menu navigation" onClick={requestClose}><Icon name="close"/></button>}{typeof children === 'function' ? children(requestClose) : children}</div>
   </dialog>
 }
 
@@ -94,6 +107,7 @@ export function MenuExperiencePage() {
     return (current === '/menu' || current === '/m') && table ? '/menu/browse' : current
   })
   const [query, setQuery] = useState('')
+  const searchInput = useRef<HTMLInputElement>(null)
   const [dishOpen, setDishOpen] = useState<Dish | null>(() => {
     const categoryName = initialUrl.searchParams.get('category'); const dishName = initialUrl.searchParams.get('dish')
     const item = fullMenu.find((entry) => entry.name === categoryName)?.items.find((entry) => entry.name === dishName)
@@ -120,6 +134,7 @@ export function MenuExperiencePage() {
   const screen: Screen = activeCategory ? 'category' : path === '/menu/browse' ? 'categories' : path === '/menu/all' ? 'all' : path === '/menu/search' ? 'search' : path === '/menu/favourites' ? 'favourites' : path === '/menu/selection' ? 'selection' : 'home'
   const normalizedQuery = query.trim().toLowerCase()
   const results = useMemo(() => normalizedQuery ? allDishes.filter((dish) => `${dish.name} ${dish.description || ''} ${dish.category}`.toLowerCase().includes(normalizedQuery)) : [], [allDishes, normalizedQuery])
+  const matchingCategories = useMemo(() => normalizedQuery ? fullMenu.filter(category => category.name.toLowerCase().includes(normalizedQuery)) : [], [normalizedQuery])
   const favouriteDishes = useMemo(() => allDishes.filter((dish) => favourites.includes(keyFor(dish))), [allDishes, favourites])
   const itemCount = cart.reduce((sum, line) => sum + line.quantity, 0)
   const subtotal = cart.reduce((sum, line) => sum + line.price * line.quantity, 0)
@@ -137,7 +152,6 @@ export function MenuExperiencePage() {
     setPath(nextPath)
     setDrawer(false)
     setDishOpen(null)
-    setQuery('')
     setReceipt(null)
   }
   const goBack = () => {
@@ -171,7 +185,7 @@ export function MenuExperiencePage() {
       if (!table && nextPath === '/menu/selection') { nextPath = '/menu/browse'; history.replaceState({ menu: true }, '', nextPath) }
       currentPath.current = nextPath
       pendingScroll.current = scrollPositions.current[nextPath] || 0
-      setPath(nextPath); setQuery(''); setDishOpen(null); setDrawer(false)
+      setPath(nextPath); setDishOpen(null); setDrawer(false)
     }
     addEventListener('popstate', onPop)
     return () => { removeEventListener('popstate', onPop); history.scrollRestoration = previousRestoration }
@@ -213,22 +227,39 @@ export function MenuExperiencePage() {
           <div className="dm-hero-copy"><p className="dm-eyebrow">THE DIGITAL MENU</p><h1 ref={heading} tabIndex={-1}>A little taste of<br/><em>something<br/><span>extraordinary.</span></em></h1><p>From comfort classics to café favourites, explore a menu crafted with fresh ingredients and care.</p><button className="dm-primary dm-gold" type="button" onClick={() => document.getElementById('browse-categories')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' })}>Explore the Menu <Icon name="arrow"/></button></div>
           <svg className="dm-curve" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 15Q250 125 500 65T1000 25V100H0Z"/></svg>
         </section>
-        <section className="dm-browse" id="browse-categories"><p className="dm-eyebrow">DISCOVER YOUR NEXT FAVOURITE</p><h2>Browse by <em>Category</em></h2><div className="dm-category-circles">{landingCategories.filter(([name]) => fullMenu.some(entry => entry.name === name)).map(([name, label]) => <button type="button" key={name} onClick={() => chooseCategory(name)} aria-label={`Browse ${name}`}><MenuPhoto category={name}/><strong>{label}</strong></button>)}</div></section>
+        <section className="dm-browse" id="browse-categories"><p className="dm-eyebrow">DISCOVER YOUR NEXT FAVOURITE</p><h2>What are you <em>craving?</em></h2><CategoryGallery categories={landingCategories} photo={name => <MenuPhoto category={name}/>} onChoose={chooseCategory} onExplore={() => navigate('/menu/browse')}/></section>
       </>}
       {screen === 'categories' && <section className="dm-categories-page"><div className="dm-page-title"><h1 ref={heading} tabIndex={-1}><em>All Categories</em></h1><p>{fullMenu.length} categories · {fullMenuCount} dishes</p></div><div className="dm-category-banners">{fullMenu.map(entry => <button className="dm-category-banner" key={entry.name} type="button" onClick={() => chooseCategory(entry.name)}><MenuPhoto category={entry.name}/><span className="dm-banner-copy"><strong>{entry.name}</strong><small>{entry.items.length} dishes to explore</small></span><span className="dm-circle-arrow"><Icon name="arrow"/></span></button>)}</div><button className="dm-primary dm-gold" type="button" onClick={() => navigate('/menu/all')}>Explore all {fullMenuCount} dishes <Icon name="arrow"/></button></section>}
       {screen === 'category' && activeCategory && <>
         <section className="dm-category-hero"><MenuPhoto category={activeCategory.name} priority/><div><p className="dm-eyebrow">THE MANGOSTEEN MENU</p><h1 ref={heading} tabIndex={-1}>{activeCategory.name}</h1><p>{activeCategory.items.length} dishes. Find something you love.</p></div></section>
-        <div className="dm-filter-bar"><span className="dm-filter-selected">All {activeCategory.name}</span><button type="button" onClick={() => navigate('/menu/browse')}><Icon name="categories"/>Change category</button><button type="button" className="dm-filter-search" onClick={() => navigate('/menu/search')} aria-label="Search menu"><Icon name="search"/></button></div>
+        <CategoryNavigation categories={fullMenu} active={activeCategory.name} onChoose={chooseCategory} onSearch={() => navigate('/menu/search')}/><div className="dm-filter-bar"><span>{activeCategory.items.length} dishes to explore</span><button type="button" onClick={() => navigate('/menu/browse')}><Icon name="categories"/>All categories</button></div>
         {renderDishList(activeCategory.items.map(item => ({ ...item, category: activeCategory.name })))}<p className="dm-pricing-note">Prices shown are indicative. Please confirm current prices with the café.</p>
       </>}
       {screen === 'all' && <><div className="dm-page-title"><p className="dm-eyebrow">THE COMPLETE MENU</p><h1 ref={heading} tabIndex={-1}>All <em>{fullMenuCount} dishes.</em></h1></div>{renderDishList(allDishes)}</>}
-      {screen === 'search' && <><div className="dm-page-title"><p className="dm-eyebrow">SEARCH THE MENU</p><h1 ref={heading} tabIndex={-1}>Find your <em>favourite.</em></h1></div><div className="dm-search-wrap"><label className="dm-search"><Icon name="search"/><input autoFocus value={query} onChange={event => setQuery(event.target.value)} placeholder="Dish, ingredient or category" aria-label="Search all dishes" type="search"/><button type="button" onClick={() => setQuery('')} aria-label="Clear search" disabled={!query}><Icon name="close"/></button></label><p role="status">{query ? `${results.length} ${results.length === 1 ? 'dish' : 'dishes'} found` : `Search all ${fullMenuCount} dishes`}</p></div>{query ? results.length ? renderDishList(results) : empty('search', 'No dishes found', 'Try another dish, ingredient or category.') : empty('search', 'What sounds good?', 'Search by dish name, description or category.')}</>}
-      {screen === 'favourites' && <><div className="dm-page-title"><p className="dm-eyebrow">SAVED FOR LATER</p><h1 ref={heading} tabIndex={-1}>Your <em>favourites.</em></h1><p>Saved on this device, ready when you are.</p></div>{favouriteDishes.length ? renderDishList(favouriteDishes) : empty('favourites', 'Nothing saved yet', 'Tap the heart on a dish to keep it close.')}</>}
-      {table && screen === 'selection' && <><div className="dm-page-title"><p className="dm-eyebrow">{table ? table.label.toUpperCase() : 'YOUR SHORTLIST'}</p><h1 ref={heading} tabIndex={-1}>My <em>List.</em></h1><p>{table ? 'Review your dishes before sending your demo order.' : 'A personal shortlist to share with café staff.'}</p></div>{cart.length ? <div className="dm-selection-layout"><section><div className="dm-selection-lines">{cart.map(line => <article key={keyFor(line)}><button type="button" className="dm-list-photo" onClick={() => setDishOpen(line)} aria-label={`View ${line.name}`}><MenuPhoto dish={line}/></button><div><strong>{line.name}</strong><small>{line.category}</small><b className="dm-price">{money(line.price * line.quantity)}</b><button className="dm-remove" type="button" onClick={() => remove(line)} aria-label={`Remove ${line.name} from My List`}>Remove</button></div><div className="dm-quantity"><button type="button" onClick={() => change(line, -1)} aria-label={`Remove one ${line.name}`}>−</button><output>{line.quantity}</output><button type="button" onClick={() => add(line)} disabled={line.quantity >= 10} aria-label={`Add another ${line.name}`}>+</button></div></article>)}</div><button className="dm-text-button" type="button" onClick={() => setCart([])}>Clear list</button></section><aside className="dm-order-summary"><h2>Your <em>selection.</em></h2><dl><dt>{itemCount} {itemCount === 1 ? 'item' : 'items'}</dt><dd>{money(subtotal)}</dd><dt>5% demo service charge</dt><dd>{money(Math.round(subtotal * .05))}</dd><dt>Estimated total</dt><dd className="dm-price">{money(total)}</dd></dl><p>{table ? 'Demo payment only. No money is collected.' : 'Show this shortlist to café staff. Prices are indicative.'}</p>{table && <form className="dm-order-form" onSubmit={event => { event.preventDefault(); void placeOrder() }}><label>Guest name<input required minLength={2} autoComplete="name" value={guestName} onChange={event => setGuestName(event.target.value)} placeholder="Name for this order"/></label><label>Mobile number <small>Optional</small><input type="tel" autoComplete="tel" value={phone} onChange={event => setPhone(event.target.value)} placeholder="For order updates"/></label><label>Kitchen note <small>Optional</small><textarea value={notes} onChange={event => setNotes(event.target.value)} placeholder="Less spicy, allergy note…"/></label>{error && <p className="dm-error" role="alert">{error}</p>}<button className="dm-primary" type="submit" disabled={submitting}>{submitting ? 'Sending…' : 'Demo pay & place order'}</button></form>}</aside></div> : empty('selection', 'Your list is empty', 'Add dishes while browsing, then return here to review them.')}</>}
+      {screen === 'search' && <>
+        <div className="dm-page-title"><p className="dm-eyebrow">SEARCH THE MENU</p><h1 ref={heading} tabIndex={-1}>Find your <em>favourite.</em></h1><p>Something in mind? Search all {fullMenuCount} dishes.</p></div>
+        <div className="dm-search-wrap">
+          <label className="dm-search"><Icon name="search"/><input ref={searchInput} autoFocus value={query} onChange={event => setQuery(event.target.value)} placeholder="Dish, ingredient or category" aria-label="Search all dishes" type="search" enterKeyHint="search" autoComplete="off"/><button type="button" onClick={() => { setQuery(''); searchInput.current?.focus() }} aria-label="Clear search" disabled={!query}><Icon name="close"/></button></label>
+          <p role="status" aria-atomic="true">{normalizedQuery ? `${results.length} ${results.length === 1 ? 'dish' : 'dishes'} found` : `Search all ${fullMenuCount} dishes`}</p>
+        </div>
+        {matchingCategories.length > 0 && <section className="dm-search-categories" aria-label="Matching categories"><p className="dm-eyebrow">CATEGORIES</p><div>{matchingCategories.map(category => <button key={category.name} type="button" onClick={() => chooseCategory(category.name)}><span>{category.name}<small>{category.items.length} dishes</small></span><Icon name="arrow"/></button>)}</div></section>}
+        {normalizedQuery ? results.length ? renderDishList(results) : empty('search', 'No dishes found', 'Try another dish, ingredient or category.') : empty('search', 'What sounds good?', 'Search by dish name, description or category.')}
+      </>}
+      {screen === 'favourites' && <><div className="dm-page-title"><p className="dm-eyebrow">SAVED FOR LATER</p><h1 ref={heading} tabIndex={-1}>Your <em>favourites.</em></h1><p>{favouriteDishes.length ? `${favouriteDishes.length} saved ${favouriteDishes.length === 1 ? 'dish' : 'dishes'} · Stored on this device.` : 'Saved on this device, ready when you are.'}</p></div>{favouriteDishes.length ? renderDishList(favouriteDishes) : empty('favourites', 'Nothing saved yet', 'Tap the heart on a dish to keep it close.')}</>}
+      {table && screen === 'selection' && <><div className="dm-page-title"><p className="dm-eyebrow">{table ? table.label.toUpperCase() : 'YOUR SHORTLIST'}</p><h1 ref={heading} tabIndex={-1}>My <em>List.</em></h1><p>Your list is saved on this device. It has not been sent to the café.</p></div>{cart.length ? <div className="dm-selection-layout"><section aria-label="Selected dishes"><div className="dm-list-status"><span aria-hidden="true"/><p>Not submitted <small>Your selection for {table.label}</small></p></div><div className="dm-selection-lines">{cart.map(line => <article key={keyFor(line)}><button type="button" className="dm-list-photo" onClick={() => setDishOpen(line)} aria-label={`View ${line.name}`}><MenuPhoto dish={line}/></button><div className="dm-list-copy"><small>{line.category}</small><strong className="dm-list-name">{line.name}</strong><div className="dm-list-prices"><b className="dm-price">{money(line.price * line.quantity)}</b>{line.quantity > 1 && <small>{money(line.price)} each</small>}</div></div><div className="dm-list-controls"><div className="dm-quantity"><button type="button" onClick={() => change(line, -1)} aria-label={`Remove one ${line.name}`}>−</button><output aria-label={`Quantity of ${line.name}`}>{line.quantity}</output><button type="button" onClick={() => add(line)} disabled={line.quantity >= 10} aria-label={`Add another ${line.name}`}>+</button></div><button className="dm-remove" type="button" onClick={() => remove(line)} aria-label={`Remove ${line.name} from My List`}>Remove</button></div></article>)}</div><button className="dm-text-button" type="button" onClick={() => setCart([])}>Clear list</button></section><aside className="dm-order-summary"><h2>Your <em>selection.</em></h2><dl><dt>{itemCount} {itemCount === 1 ? 'item' : 'items'}</dt><dd>{money(subtotal)}</dd><dt>5% demo service charge</dt><dd>{money(Math.round(subtotal * .05))}</dd><dt>Estimated total</dt><dd className="dm-price">{money(total)}</dd></dl><p>This is your shortlist, not a submitted order. The demo action below sends it to the café. No money is collected.</p>{table && <form className="dm-order-form" onSubmit={event => { event.preventDefault(); void placeOrder() }}><label>Guest name<input required minLength={2} autoComplete="name" value={guestName} onChange={event => setGuestName(event.target.value)} placeholder="Name for this order"/></label><label>Mobile number <small>Optional</small><input type="tel" autoComplete="tel" value={phone} onChange={event => setPhone(event.target.value)} placeholder="For order updates"/></label><label>Kitchen note <small>Optional</small><textarea value={notes} onChange={event => setNotes(event.target.value)} placeholder="Less spicy, allergy note…"/></label>{error && <p className="dm-error" role="alert">{error}</p>}<button className="dm-primary" type="submit" disabled={submitting}>{submitting ? 'Sending…' : 'Demo pay & place order'}</button></form>}</aside></div> : empty('selection', 'Your list is empty', 'Add dishes while browsing, then return here to review them.')}</>}
     </main>
     {table && itemCount > 0 && screen !== 'selection' && <button className="dm-selection-peek" type="button" onClick={() => navigate('/menu/selection')} aria-label={`View My List, ${itemCount} items, ${money(subtotal)} before service charge`}><Icon name="bag"/><span>{itemCount} {itemCount === 1 ? 'item' : 'items'} <strong>{money(subtotal)}</strong></span><span>My List <Icon name="arrow"/></span></button>}
     <p className="dm-announcement" role="status" aria-live="polite">{announcement}</p>
     {drawer && <Modal title="dm-drawer-title" kind="drawer" onClose={() => setDrawer(false)}><p className="dm-eyebrow">MANGOSTEEN · CAFÉ INDORE</p><h2 id="dm-drawer-title">{table ? <>At your <em>table.</em></> : <>Explore the <em>menu.</em></>}</h2><nav aria-label="Menu drawer navigation">{navItems()}</nav><a href="/">Back to Mangosteen <Icon name="arrow"/></a>{table && <p className="dm-drawer-table">Ordering for {table.label}</p>}</Modal>}
-    {dishOpen && <Modal title="dm-dish-title" kind="sheet" onClose={() => setDishOpen(null)}><MenuPhoto dish={dishOpen} priority/><div className="dm-sheet-copy"><p className="dm-eyebrow">{dishOpen.category}</p><h2 id="dm-dish-title">{dishOpen.name}</h2><strong className="dm-price">{money(dishOpen.price)}</strong>{dishOpen.description && <p>{dishOpen.description}</p>}<div className="dm-sheet-actions"><button type="button" className="dm-save" aria-pressed={favourites.includes(keyFor(dishOpen))} onClick={() => toggleFavourite(dishOpen)}><Icon name="favourites" filled={favourites.includes(keyFor(dishOpen))}/>{favourites.includes(keyFor(dishOpen)) ? 'Saved' : 'Favourite'}</button>{table && <button type="button" className="dm-primary" onClick={() => { add(dishOpen); setDishOpen(null) }}>Add to My List</button>}</div>{dishPhoto(dishOpen)?.kind === 'generated' ? <p className="dm-photo-note">AI-generated illustration. Actual presentation at Mangosteen may differ.</p> : dishPhoto(dishOpen)?.kind === 'reference' ? <p className="dm-photo-note">Illustrative reference image. Mangosteen’s presentation may differ.</p> : !dishPhoto(dishOpen) && <p className="dm-photo-note">A verified photograph of this dish is not yet available.</p>}</div></Modal>}
+    {dishOpen && <Modal title="dm-dish-title" kind="sheet" onClose={() => setDishOpen(null)}>{close => <>
+      <MenuPhoto dish={dishOpen} priority/>
+      <div className="dm-sheet-copy">
+        <p className="dm-eyebrow">{dishOpen.category}</p>
+        <div className="dm-sheet-heading"><h2 id="dm-dish-title">{dishOpen.name}</h2><strong className="dm-price">{money(dishOpen.price)}</strong></div>
+        {dishOpen.description && <p className="dm-sheet-description">{dishOpen.description}</p>}
+        {dishPhoto(dishOpen)?.kind === 'generated' ? <p className="dm-photo-note">AI-generated illustration. Actual presentation at Mangosteen may differ.</p> : dishPhoto(dishOpen)?.kind === 'reference' ? <p className="dm-photo-note">Illustrative reference image. Mangosteen’s presentation may differ.</p> : !dishPhoto(dishOpen) && <p className="dm-photo-note">A verified photograph of this dish is not yet available.</p>}
+        <div className="dm-sheet-actions"><button type="button" className="dm-save" aria-pressed={favourites.includes(keyFor(dishOpen))} onClick={() => toggleFavourite(dishOpen)}><Icon name="favourites" filled={favourites.includes(keyFor(dishOpen))}/>{favourites.includes(keyFor(dishOpen)) ? 'Saved' : 'Favourite'}</button>{table && <button type="button" className="dm-primary" onClick={() => { add(dishOpen); close() }}>Add to My List</button>}</div>
+      </div>
+    </>}</Modal>}
   </div>
 }

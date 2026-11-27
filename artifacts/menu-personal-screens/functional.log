@@ -1,0 +1,238 @@
+{
+  checks: [
+    'Actual name/description/category search results, category suggestions/counts, category navigation and back/query retention; no-results, clear-focus and whitespace states verified',
+    'Favourites persist through reload, remove individually and expose the existing empty-state action; QR selections retain actual unit/line prices, quantities, totals, reload persistence and removal',
+    '320/375/390/430/768/1440px, populated and empty screens: no horizontal overflow or broken images; correct fixed navigation; website access stays browse-only'
+  ],
+  viewports: [
+    {
+      width: 320,
+      screen: 'search-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 320,
+      screen: 'search-no-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 320,
+      screen: 'favourites',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 320,
+      screen: 'favourites-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    { width: 320, screen: 'my-list', overflow: false, brokenImages: 0 },
+    {
+      width: 320,
+      screen: 'my-list-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 320,
+      screen: 'website-preview-search',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 375,
+      screen: 'search-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 375,
+      screen: 'search-no-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 375,
+      screen: 'favourites',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 375,
+      screen: 'favourites-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    { width: 375, screen: 'my-list', overflow: false, brokenImages: 0 },
+    {
+      width: 375,
+      screen: 'my-list-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 375,
+      screen: 'website-preview-search',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 390,
+      screen: 'search-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 390,
+      screen: 'search-no-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 390,
+      screen: 'favourites',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 390,
+      screen: 'favourites-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    { width: 390, screen: 'my-list', overflow: false, brokenImages: 0 },
+    {
+      width: 390,
+      screen: 'my-list-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 390,
+      screen: 'website-preview-search',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 430,
+      screen: 'search-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 430,
+      screen: 'search-no-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 430,
+      screen: 'favourites',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 430,
+      screen: 'favourites-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    { width: 430, screen: 'my-list', overflow: false, brokenImages: 0 },
+    {
+      width: 430,
+      screen: 'my-list-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 430,
+      screen: 'website-preview-search',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 768,
+      screen: 'search-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 768,
+      screen: 'search-no-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 768,
+      screen: 'favourites',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 768,
+      screen: 'favourites-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    { width: 768, screen: 'my-list', overflow: false, brokenImages: 0 },
+    {
+      width: 768,
+      screen: 'my-list-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 768,
+      screen: 'website-preview-search',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 1440,
+      screen: 'search-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 1440,
+      screen: 'search-no-results',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 1440,
+      screen: 'favourites',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 1440,
+      screen: 'favourites-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 1440,
+      screen: 'my-list',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 1440,
+      screen: 'my-list-empty',
+      overflow: false,
+      brokenImages: 0
+    },
+    {
+      width: 1440,
+      screen: 'website-preview-search',
+      overflow: false,
+      brokenImages: 0
+    }
+  ],
+  errors: [],
+  mutations: []
+}

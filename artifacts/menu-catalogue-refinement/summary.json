@@ -1,0 +1,33 @@
+{
+  "checkpoint": {
+    "commit": "4eb9317265eca1ff204a0bc8ad4ca05145adff63",
+    "branch": "checkpoint/menu-catalogue-before-4eb9317"
+  },
+  "sourceChanges": [
+    "src/pages/MenuExperiencePage.tsx",
+    "src/features/digital-menu/catalogue.css"
+  ],
+  "build": "npm run build: passed, including TypeScript",
+  "backendTests": "npm test: 9 passed",
+  "browserViewportChecks": 72,
+  "browserErrors": [],
+  "consoleErrors": [],
+  "badResponses": [],
+  "protectedSourceChanges": [],
+  "visualChecks": [
+    "Approved landing/gallery and All Categories screens are pixel-identical with matching decoded image variants to the pre-task Git checkpoint at mobile and desktop sizes",
+    "320/375/390/430/1440px: enlarged photos, no page overflow, price/quantity separation, sheet fits viewport, focus trap and close focus restoration"
+  ],
+  "productionTouchChecks": [
+    "Production mobile touch: dish sheet, Add, totals, My List, browser back and direct category switching retain Table 4; close remains visible when the sheet is scrolled"
+  ],
+  "newCategoryWidths": [
+    320,
+    375,
+    390,
+    430,
+    1440
+  ],
+  "photographyLimitation": "No verified individual-dish/category matches are registered. Original venue photos remain intact; existing AI-generated and reference imagery remains disclosed. No dietary information has been invented.",
+  "deployment": "Not performed"
+}

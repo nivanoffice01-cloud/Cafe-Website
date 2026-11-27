@@ -9,7 +9,7 @@ const page = await context.newPage()
 const report = { checks:[], errors:[], viewports:[] }
 page.on('pageerror',e=>report.errors.push(e.message))
 page.on('console',e=>{if(e.type()==='error')report.errors.push(e.text())})
-const base='http://127.0.0.1:5173'
+const base=process.env.REVIEW_URL || 'http://127.0.0.1:5173'
 const ready=async()=>{await page.locator('.dm-menu').waitFor();await page.evaluate(()=>document.fonts.ready)}
 const decode=async selector=>{await page.locator(selector).evaluateAll(async nodes=>{await Promise.all(nodes.map(i=>i.decode()))})}
 try {
@@ -17,7 +17,8 @@ try {
     await page.setViewportSize({width,height:width===1440?1000:844})
     await page.goto(base+'/menu');await ready()
     await page.locator('.dm-browse').scrollIntoViewIfNeeded()
-    await decode('.dm-category-circles img')
+    for (const image of await page.locator('.dm-category-circles img').all()) { await image.scrollIntoViewIfNeeded(); await image.evaluate(i => i.decode()) }
+    await page.locator('.dm-category-circles').evaluate(el => { el.scrollLeft = 0 })
     assert.equal(await page.locator('.dm-category-circles img').count(),13)
     assert.equal(await page.locator('.dm-category-circles .dm-image-label').count(),13)
     assert.equal(await page.locator('.dm-home-dishes').count(),0)

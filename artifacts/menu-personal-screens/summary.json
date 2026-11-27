@@ -1,0 +1,85 @@
+{
+  "checkpoint": {
+    "commit": "3138fd7b2bb6df97079adc2afb8c3363760bd286",
+    "branch": "checkpoint/menu-personal-before-3138fd7"
+  },
+  "localPreview": "http://127.0.0.1:5173/menu/search?table=4",
+  "changedApplicationFiles": [
+    "src/pages/MenuExperiencePage.tsx",
+    "src/features/digital-menu/personal-screens.css"
+  ],
+  "build": "npm run build passed, including TypeScript",
+  "backendTests": "npm test: 9 passed",
+  "generalRouteViewportChecks": 72,
+  "personalScreenRouteViewportChecks": 42,
+  "errors": [],
+  "consoleErrors": [],
+  "badResponses": [],
+  "protectedSourceChanges": [],
+  "protectedVisualComparisons": [
+    {
+      "name": "landing",
+      "width": 390,
+      "pixelIdentical": true,
+      "hash": "a4514b066175642702879f7d11c1ff9539654e3c0ceac19459009ed95a0154b3"
+    },
+    {
+      "name": "all-categories",
+      "width": 390,
+      "pixelIdentical": true,
+      "hash": "12d4ac2859044053bad0bcde03e4174977eacac1e3e8756a4d7f1857308fc374"
+    },
+    {
+      "name": "category",
+      "width": 390,
+      "pixelIdentical": true,
+      "hash": "8741bffffa0db2c6f713353a964b53d494b8ff9de1fc2dab3361bff85a9c2def"
+    },
+    {
+      "name": "details",
+      "width": 390,
+      "pixelIdentical": true,
+      "hash": "696a9ce7579b8a1094a8322655398ffd82eab769574a5cdb6d1af0f22a15ad4c"
+    },
+    {
+      "name": "landing",
+      "width": 1440,
+      "pixelIdentical": true,
+      "hash": "0c2203a3aa6cf962b403f387c63c08c02d07a2549f37184b564ca3fae09734f5"
+    },
+    {
+      "name": "all-categories",
+      "width": 1440,
+      "pixelIdentical": true,
+      "hash": "f5b7fa6144ed6e74f3f9c9a0526c2c28993b1722afccccf9d1d80cb05e4cfff0"
+    },
+    {
+      "name": "category",
+      "width": 1440,
+      "pixelIdentical": true,
+      "hash": "387f37039278be7560f001419b255bdd55da54e07b335a42cd5147724bd40e22"
+    },
+    {
+      "name": "details",
+      "width": 1440,
+      "pixelIdentical": true,
+      "hash": "50c7320710e78965f3e853d44f3e42fe83a68d8ac01cb49d429758ebb604ad31"
+    }
+  ],
+  "medianInputToResultsMs": 52.299999999813735,
+  "performanceEnvironment": "Local production preview, 390\u00d7844 DPR 2 Chrome touch emulation, 4\u00d7 CPU slowdown, 6 Mbps / 80 ms latency. Three cold sessions. Automation input-to-results timing includes tool overhead; not field INP.",
+  "preserved": [
+    "131 dishes / 13 categories / actual catalogue descriptions and prices",
+    "Existing local favourites and My List storage keys",
+    "Website browse-only access / table QR ordering context",
+    "Existing demo-order submission and confirmation; no new payment or checkout workflow",
+    "Homepage, reservation, category gallery, individual dish pages and dish sheets, CRM and backend"
+  ],
+  "notes": [
+    "Search query now survives in-app category navigation and Back.",
+    "My List is clearly marked as not submitted until the existing explicit demo-order action succeeds.",
+    "Existing photo provenance disclosures retained.",
+    "Chrome desktop and mobile emulation tested; no physical-device Safari testing."
+  ],
+  "deployment": "Not performed"
+}

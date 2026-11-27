@@ -1,0 +1,1189 @@
+{
+  "genuineHero": "Retained venue photograph; dish identity unconfirmed. Preserved as general menu imagery.",
+  "verifiedDishMatches": 0,
+  "generated": 126,
+  "references": 5,
+  "categoryIllustrations": 13,
+  "notes": "No new verified matches in the existing repository. Existing original photography remains intact; all generated/reference labels retained. No dietary metadata supplied; no dietary claims added.",
+  "dishes": [
+    {
+      "id": "Shakes|Berries shakes",
+      "name": "Berries shakes",
+      "category": "Shakes",
+      "price": 360,
+      "displayed": "/images/menu-dishes/berries-shakes-9d2c4902-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Shakes|Nutella & biscoff",
+      "name": "Nutella & biscoff",
+      "category": "Shakes",
+      "price": 360,
+      "displayed": "/images/menu-dishes/nutella-biscoff-d7c98957-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Shakes|Fresh Fruit Shake",
+      "name": "Fresh Fruit Shake",
+      "category": "Shakes",
+      "price": 300,
+      "displayed": "/images/menu-dishes/fresh-fruit-shake-44e70d41-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Shakes|Oreo Shake",
+      "name": "Oreo Shake",
+      "category": "Shakes",
+      "price": 300,
+      "displayed": "/images/menu-dishes/oreo-shake-d8917a8e-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Shakes|Kit-kat shake",
+      "name": "Kit-kat shake",
+      "category": "Shakes",
+      "price": 300,
+      "displayed": "/images/menu-dishes/kit-kat-shake-7ebff217-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Juice|Cheffy favorites",
+      "name": "Cheffy favorites",
+      "category": "Juice",
+      "price": 225,
+      "displayed": "/images/menu-dishes/cheffy-favorites-152b56c7-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Juice|Mangosteen Special",
+      "name": "Mangosteen Special",
+      "category": "Juice",
+      "price": 225,
+      "displayed": "/images/menu-dishes/mangosteen-special-08325f5c-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Juice|Weightlessness",
+      "name": "Weightlessness",
+      "category": "Juice",
+      "price": 225,
+      "displayed": "/images/menu-dishes/weightlessness-9c9af96f-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Juice|Wake up call",
+      "name": "Wake up call",
+      "category": "Juice",
+      "price": 225,
+      "displayed": "/images/menu-dishes/wake-up-call-fbb9dca6-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Juice|Good Moving",
+      "name": "Good Moving",
+      "category": "Juice",
+      "price": 225,
+      "displayed": "/images/menu-dishes/good-moving-635b2058-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Juice|Cooler",
+      "name": "Cooler",
+      "category": "Juice",
+      "price": 225,
+      "displayed": "/images/menu-dishes/cooler-ec77fbe2-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Juice|Abc",
+      "name": "Abc",
+      "category": "Juice",
+      "price": 225,
+      "displayed": "/images/menu-dishes/abc-bced90f8-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Juice|Orange Juice",
+      "name": "Orange Juice",
+      "category": "Juice",
+      "price": 225,
+      "displayed": "/images/menu-dishes/orange-juice-b84a62bb-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Juice|Pineapple Juice",
+      "name": "Pineapple Juice",
+      "category": "Juice",
+      "price": 225,
+      "displayed": "/images/menu-dishes/pineapple-juice-999bb764-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Mocktail & Coolers|Cola gola",
+      "name": "Cola gola",
+      "category": "Mocktail & Coolers",
+      "price": 210,
+      "displayed": "/images/menu-dishes/cola-gola-3ab65912-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Mocktail & Coolers|Cuban Mojito",
+      "name": "Cuban Mojito",
+      "category": "Mocktail & Coolers",
+      "price": 300,
+      "displayed": "/images/menu-dishes/cuban-mojito-e6d23f3b-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Mocktail & Coolers|Virgin mojito",
+      "name": "Virgin mojito",
+      "category": "Mocktail & Coolers",
+      "price": 250,
+      "displayed": "/images/menu-display/dish-virgin-mojito-800.webp",
+      "kind": "reference",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Mocktail & Coolers|Tikhi peru",
+      "name": "Tikhi peru",
+      "category": "Mocktail & Coolers",
+      "price": 250,
+      "displayed": "/images/menu-dishes/tikhi-peru-0b60f632-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Mocktail & Coolers|Kiwi mojito",
+      "name": "Kiwi mojito",
+      "category": "Mocktail & Coolers",
+      "price": 250,
+      "displayed": "/images/menu-dishes/kiwi-mojito-52f4bbac-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Mocktail & Coolers|Watermelon mojito",
+      "name": "Watermelon mojito",
+      "category": "Mocktail & Coolers",
+      "price": 250,
+      "displayed": "/images/menu-dishes/watermelon-mojito-5bac9815-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Mocktail & Coolers|Malta mojito",
+      "name": "Malta mojito",
+      "category": "Mocktail & Coolers",
+      "price": 250,
+      "displayed": "/images/menu-dishes/malta-mojito-94e02a46-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Iced Tea|Peach Iced Tea",
+      "name": "Peach Iced Tea",
+      "category": "Iced Tea",
+      "price": 249,
+      "displayed": "/images/menu-dishes/peach-iced-tea-f4d69671-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Iced Tea|Lemon Iced Tea",
+      "name": "Lemon Iced Tea",
+      "category": "Iced Tea",
+      "price": 229,
+      "displayed": "/images/menu-dishes/lemon-iced-tea-a401eaed-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Salad|Burrata & tomato salad",
+      "name": "Burrata & tomato salad",
+      "category": "Salad",
+      "price": 570,
+      "displayed": "/images/menu-dishes/burrata-tomato-salad-59b4263b-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Salad|Greek salad",
+      "name": "Greek salad",
+      "category": "Salad",
+      "price": 410,
+      "displayed": "/images/menu-dishes/greek-salad-6f687cf8-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Salad|Beetroot Tabbouleh",
+      "name": "Beetroot Tabbouleh",
+      "category": "Salad",
+      "price": 420,
+      "displayed": "/images/menu-dishes/beetroot-tabbouleh-aca78558-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Salad|Classic Caesar",
+      "name": "Classic Caesar",
+      "category": "Salad",
+      "price": 410,
+      "displayed": "/images/menu-dishes/classic-caesar-633b14b2-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Salad|Organic quinoa",
+      "name": "Organic quinoa",
+      "category": "Salad",
+      "price": 420,
+      "displayed": "/images/menu-dishes/organic-quinoa-eb93f3ff-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Salad|Sprout Salad",
+      "name": "Sprout Salad",
+      "category": "Salad",
+      "price": 270,
+      "displayed": "/images/menu-dishes/sprout-salad-43427578-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Peri-Peri Paneer",
+      "name": "Peri-Peri Paneer",
+      "category": "Pizza & Pide",
+      "price": 610,
+      "displayed": "/images/menu-dishes/peri-peri-paneer-7bc4bd30-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Burrata pizza",
+      "name": "Burrata pizza",
+      "category": "Pizza & Pide",
+      "price": 695,
+      "displayed": "/images/menu-dishes/burrata-pizza-7cb15c42-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|4 Cheese Pizza",
+      "name": "4 Cheese Pizza",
+      "category": "Pizza & Pide",
+      "price": 630,
+      "displayed": "/images/menu-dishes/4-cheese-pizza-cd037c50-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Sicilia",
+      "name": "Sicilia",
+      "category": "Pizza & Pide",
+      "price": 499,
+      "displayed": "/images/menu-dishes/sicilia-1665a87f-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Pesto pizza",
+      "name": "Pesto pizza",
+      "category": "Pizza & Pide",
+      "price": 499,
+      "displayed": "/images/menu-dishes/pesto-pizza-b89761a1-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Creamy Spinach pizza",
+      "name": "Creamy Spinach pizza",
+      "category": "Pizza & Pide",
+      "price": 499,
+      "displayed": "/images/menu-dishes/creamy-spinach-pizza-cd27b8c1-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Mediterranean pizza",
+      "name": "Mediterranean pizza",
+      "category": "Pizza & Pide",
+      "price": 595,
+      "displayed": "/images/menu-dishes/mediterranean-pizza-db073f87-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Ortolano",
+      "name": "Ortolano",
+      "category": "Pizza & Pide",
+      "price": 499,
+      "displayed": "/images/menu-dishes/ortolano-fe8d7a31-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Di Bianca",
+      "name": "Di Bianca",
+      "category": "Pizza & Pide",
+      "price": 570,
+      "displayed": "/images/menu-dishes/di-bianca-705f6c5f-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Margarita",
+      "name": "Margarita",
+      "category": "Pizza & Pide",
+      "price": 499,
+      "displayed": "/images/menu-display/dish-margarita-pizza-800.webp",
+      "kind": "reference",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Chicken pepperoni",
+      "name": "Chicken pepperoni",
+      "category": "Pizza & Pide",
+      "price": 549,
+      "displayed": "/images/menu-dishes/chicken-pepperoni-f727acd6-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Chicken Keema",
+      "name": "Chicken Keema",
+      "category": "Pizza & Pide",
+      "price": 650,
+      "displayed": "/images/menu-dishes/chicken-keema-d5fd395d-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Farm Fresh",
+      "name": "Farm Fresh",
+      "category": "Pizza & Pide",
+      "price": 499,
+      "displayed": "/images/menu-dishes/farm-fresh-8ea55ad8-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Smok Chicken Pizza",
+      "name": "Smok Chicken Pizza",
+      "category": "Pizza & Pide",
+      "price": 549,
+      "displayed": "/images/menu-dishes/smok-chicken-pizza-5d5ea23f-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pizza & Pide|Chicken Makhani Pizza",
+      "name": "Chicken Makhani Pizza",
+      "category": "Pizza & Pide",
+      "price": 549,
+      "displayed": "/images/menu-dishes/chicken-makhani-pizza-cafc3b9d-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Hummus and saute vegetable sandwich",
+      "name": "Hummus and saute vegetable sandwich",
+      "category": "Burger & sandwich",
+      "price": 330,
+      "displayed": "/images/menu-dishes/hummus-and-saute-vegetable-sandwich-cbc3147a-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Bbq Chicken Sendwich",
+      "name": "Bbq Chicken Sendwich",
+      "category": "Burger & sandwich",
+      "price": 379,
+      "displayed": "/images/menu-dishes/bbq-chicken-sendwich-47c9cb3d-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Mexican veg burger",
+      "name": "Mexican veg burger",
+      "category": "Burger & sandwich",
+      "price": 450,
+      "displayed": "/images/menu-dishes/mexican-veg-burger-253cf2c2-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Mangosteen chicken burger",
+      "name": "Mangosteen chicken burger",
+      "category": "Burger & sandwich",
+      "price": 399,
+      "displayed": "/images/menu-dishes/mangosteen-chicken-burger-cd23aac8-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Pulled chicken burger",
+      "name": "Pulled chicken burger",
+      "category": "Burger & sandwich",
+      "price": 520,
+      "displayed": "/images/menu-dishes/pulled-chicken-burger-28621f68-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Add cheese",
+      "name": "Add cheese",
+      "category": "Burger & sandwich",
+      "price": 70,
+      "displayed": "/images/menu-dishes/add-cheese-f3b5598a-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Avocado Open Sendwich",
+      "name": "Avocado Open Sendwich",
+      "category": "Burger & sandwich",
+      "price": 349,
+      "displayed": "/images/menu-dishes/avocado-open-sendwich-190c077d-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Veg Cheese Burger",
+      "name": "Veg Cheese Burger",
+      "category": "Burger & sandwich",
+      "price": 349,
+      "displayed": "/images/menu-display/dish-veg-cheese-burger-800.webp",
+      "kind": "reference",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Herb Avocado Bruschetta",
+      "name": "Herb Avocado Bruschetta",
+      "category": "Burger & sandwich",
+      "price": 399,
+      "displayed": "/images/menu-dishes/herb-avocado-bruschetta-592709a6-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Cold Bruschetta",
+      "name": "Cold Bruschetta",
+      "category": "Burger & sandwich",
+      "price": 379,
+      "displayed": "/images/menu-dishes/cold-bruschetta-61f4f410-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Classic Bruschetta",
+      "name": "Classic Bruschetta",
+      "category": "Burger & sandwich",
+      "price": 349,
+      "displayed": "/images/menu-dishes/classic-bruschetta-dd8e6dbb-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Bbq Chicken Burger",
+      "name": "Bbq Chicken Burger",
+      "category": "Burger & sandwich",
+      "price": 379,
+      "displayed": "/images/menu-dishes/bbq-chicken-burger-4ac9d8f8-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Burger & sandwich|Classic Chicken Sendwich",
+      "name": "Classic Chicken Sendwich",
+      "category": "Burger & sandwich",
+      "price": 379,
+      "displayed": "/images/menu-dishes/classic-chicken-sendwich-2c8b642c-v2-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Breakfast|Garlic bread",
+      "name": "Garlic bread",
+      "category": "Breakfast",
+      "price": 299,
+      "displayed": "/images/menu-dishes/garlic-bread-c9855a97-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Breakfast|Sprout moonglet",
+      "name": "Sprout moonglet",
+      "category": "Breakfast",
+      "price": 275,
+      "displayed": "/images/menu-dishes/sprout-moonglet-8155a4b0-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Breakfast|Acai Bowl",
+      "name": "Acai Bowl",
+      "category": "Breakfast",
+      "price": 395,
+      "displayed": "/images/menu-dishes/acai-bowl-8513bdab-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Breakfast|Chia seed pudding",
+      "name": "Chia seed pudding",
+      "category": "Breakfast",
+      "price": 390,
+      "displayed": "/images/menu-dishes/chia-seed-pudding-88053996-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Breakfast|Cheese omelette",
+      "name": "Cheese omelette",
+      "category": "Breakfast",
+      "price": 280,
+      "displayed": "/images/menu-dishes/cheese-omelette-673f0592-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Breakfast|Egg white omelette",
+      "name": "Egg white omelette",
+      "category": "Breakfast",
+      "price": 260,
+      "displayed": "/images/menu-dishes/egg-white-omelette-a8054adf-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Breakfast|Masala omelette",
+      "name": "Masala omelette",
+      "category": "Breakfast",
+      "price": 250,
+      "displayed": "/images/menu-dishes/masala-omelette-ad466529-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Breakfast|Spanish omelette",
+      "name": "Spanish omelette",
+      "category": "Breakfast",
+      "price": 270,
+      "displayed": "/images/menu-dishes/spanish-omelette-a892a22d-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|French fries salted",
+      "name": "French fries salted",
+      "category": "Small Plates",
+      "price": 280,
+      "displayed": "/images/menu-dishes/french-fries-salted-ed87126b-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Peri Peri Fries",
+      "name": "Peri Peri Fries",
+      "category": "Small Plates",
+      "price": 299,
+      "displayed": "/images/menu-dishes/peri-peri-fries-0d31eb6e-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Mangosteen loaded Nachosss",
+      "name": "Mangosteen loaded Nachosss",
+      "category": "Small Plates",
+      "price": 430,
+      "displayed": "/images/menu-dishes/mangosteen-loaded-nachosss-3cd70d3a-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Arabic Mezze",
+      "name": "Arabic Mezze",
+      "category": "Small Plates",
+      "price": 449,
+      "displayed": "/images/menu-dishes/arabic-mezze-72721c32-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Quesadilla",
+      "name": "Quesadilla",
+      "category": "Small Plates",
+      "price": 399,
+      "displayed": "/images/menu-dishes/quesadilla-a769b676-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Falafel roll",
+      "name": "Falafel roll",
+      "category": "Small Plates",
+      "price": 390,
+      "displayed": "/images/menu-dishes/falafel-roll-3966daa9-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Chicken karaage",
+      "name": "Chicken karaage",
+      "category": "Small Plates",
+      "price": 430,
+      "displayed": "/images/menu-dishes/chicken-karaage-c9732803-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Hummus and chicken",
+      "name": "Hummus and chicken",
+      "category": "Small Plates",
+      "price": 450,
+      "displayed": "/images/menu-dishes/hummus-and-chicken-ae635b69-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Chimichuri chicken skewer",
+      "name": "Chimichuri chicken skewer",
+      "category": "Small Plates",
+      "price": 449,
+      "displayed": "/images/menu-dishes/chimichuri-chicken-skewer-9b30fd61-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Mangosteen Special Fries",
+      "name": "Mangosteen Special Fries",
+      "category": "Small Plates",
+      "price": 349,
+      "displayed": "/images/menu-dishes/mangosteen-special-fries-b140ff70-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Mangosteen Grilled Chicken",
+      "name": "Mangosteen Grilled Chicken",
+      "category": "Small Plates",
+      "price": 499,
+      "displayed": "/images/menu-dishes/mangosteen-grilled-chicken-33d8184e-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Classic Nachos",
+      "name": "Classic Nachos",
+      "category": "Small Plates",
+      "price": 349,
+      "displayed": "/images/menu-dishes/classic-nachos-9e1cefdf-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Small Plates|Mamngosteen Grilled Chicken",
+      "name": "Mamngosteen Grilled Chicken",
+      "category": "Small Plates",
+      "price": 499,
+      "displayed": "/images/menu-dishes/mamngosteen-grilled-chicken-4df8f1cd-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pasta|Aglio olio peperoncino",
+      "name": "Aglio olio peperoncino",
+      "category": "Pasta",
+      "price": 450,
+      "displayed": "/images/menu-dishes/aglio-olio-peperoncino-a16cfc96-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pasta|Arrabiata sauce",
+      "name": "Arrabiata sauce",
+      "category": "Pasta",
+      "price": 460,
+      "displayed": "/images/menu-dishes/arrabiata-sauce-df07baf4-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pasta|Alfredo sauce (white)",
+      "name": "Alfredo sauce (white)",
+      "category": "Pasta",
+      "price": 490,
+      "displayed": "/images/menu-dishes/alfredo-sauce-white-15a33c66-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pasta|Pesto cream Pasta",
+      "name": "Pesto cream Pasta",
+      "category": "Pasta",
+      "price": 499,
+      "displayed": "/images/menu-display/dish-pesto-pasta-800.webp",
+      "kind": "reference",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pasta|Pink sauce",
+      "name": "Pink sauce",
+      "category": "Pasta",
+      "price": 480,
+      "displayed": "/images/menu-dishes/pink-sauce-2f7fd7ce-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pasta|Mushroom Ragu",
+      "name": "Mushroom Ragu",
+      "category": "Pasta",
+      "price": 520,
+      "displayed": "/images/menu-dishes/mushroom-ragu-b9cbe83c-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pasta|Persian gnocchi",
+      "name": "Persian gnocchi",
+      "category": "Pasta",
+      "price": 449,
+      "displayed": "/images/menu-dishes/persian-gnocchi-9b7c430d-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pasta|Baked Mac & Cheese",
+      "name": "Baked Mac & Cheese",
+      "category": "Pasta",
+      "price": 449,
+      "displayed": "/images/menu-dishes/baked-mac-cheese-6f591320-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pasta|Risotto",
+      "name": "Risotto",
+      "category": "Pasta",
+      "price": 449,
+      "displayed": "/images/menu-dishes/risotto-aea8df23-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Pasta|Lasagna",
+      "name": "Lasagna",
+      "category": "Pasta",
+      "price": 499,
+      "displayed": "/images/menu-dishes/lasagna-fb0435bf-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Desserts|Duo chocolate cheese cake",
+      "name": "Duo chocolate cheese cake",
+      "category": "Desserts",
+      "price": 399,
+      "displayed": "/images/menu-dishes/duo-chocolate-cheese-cake-91e8bc0e-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Desserts|Pizzokie",
+      "name": "Pizzokie",
+      "category": "Desserts",
+      "price": 430,
+      "displayed": "/images/menu-dishes/pizzokie-16c2136a-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Desserts|Brownie With Icecream",
+      "name": "Brownie With Icecream",
+      "category": "Desserts",
+      "price": 275,
+      "displayed": "/images/menu-dishes/brownie-with-icecream-53376b47-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Desserts|Chocolate Cheesecake",
+      "name": "Chocolate Cheesecake",
+      "category": "Desserts",
+      "price": 390,
+      "displayed": "/images/menu-display/dish-chocolate-cheesecake-800.webp",
+      "kind": "reference",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Desserts|Tres Leches",
+      "name": "Tres Leches",
+      "category": "Desserts",
+      "price": 395,
+      "displayed": "/images/menu-dishes/tres-leches-3330d1bc-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Thai green curry (Veg)",
+      "name": "Thai green curry (Veg)",
+      "category": "Main Course",
+      "price": 530,
+      "displayed": "/images/menu-dishes/thai-green-curry-veg-6907ead8-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Phad Thai (Veg)",
+      "name": "Phad Thai (Veg)",
+      "category": "Main Course",
+      "price": 510,
+      "displayed": "/images/menu-dishes/phad-thai-veg-eff1a954-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Saute exotic Paneer",
+      "name": "Saute exotic Paneer",
+      "category": "Main Course",
+      "price": 520,
+      "displayed": "/images/menu-dishes/saute-exotic-paneer-80afd9f3-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Saute exotic vegetable",
+      "name": "Saute exotic vegetable",
+      "category": "Main Course",
+      "price": 470,
+      "displayed": "/images/menu-dishes/saute-exotic-vegetable-9ec815c9-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Burrito Bowl",
+      "name": "Burrito Bowl",
+      "category": "Main Course",
+      "price": 520,
+      "displayed": "/images/menu-dishes/burrito-bowl-6094909a-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Grilled Fish",
+      "name": "Grilled Fish",
+      "category": "Main Course",
+      "price": 499,
+      "displayed": "/images/menu-dishes/grilled-fish-eafb985b-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Herb Grilled Chicken",
+      "name": "Herb Grilled Chicken",
+      "category": "Main Course",
+      "price": 610,
+      "displayed": "/images/menu-dishes/herb-grilled-chicken-0cd01e8e-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Phad Thai ( Chicken)",
+      "name": "Phad Thai ( Chicken)",
+      "category": "Main Course",
+      "price": 550,
+      "displayed": "/images/menu-dishes/phad-thai-chicken-6d65ef31-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Thai green curry (Chicken)",
+      "name": "Thai green curry (Chicken)",
+      "category": "Main Course",
+      "price": 630,
+      "displayed": "/images/menu-dishes/thai-green-curry-chicken-4036c6cb-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Thai green curry (Prawn)",
+      "name": "Thai green curry (Prawn)",
+      "category": "Main Course",
+      "price": 750,
+      "displayed": "/images/menu-dishes/thai-green-curry-prawn-e09f3e47-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Chicken Ghee Roast ( MANGOSTEEN)",
+      "name": "Chicken Ghee Roast ( MANGOSTEEN)",
+      "category": "Main Course",
+      "price": 499,
+      "displayed": "/images/menu-dishes/chicken-ghee-roast-mangosteen-7c07926b-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Water Chestnut",
+      "name": "Water Chestnut",
+      "category": "Main Course",
+      "price": 449,
+      "displayed": "/images/menu-dishes/water-chestnut-b148a7e9-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Crispy Lotus Stem",
+      "name": "Crispy Lotus Stem",
+      "category": "Main Course",
+      "price": 399,
+      "displayed": "/images/menu-dishes/crispy-lotus-stem-58695a44-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Andhra Chilli Chicken",
+      "name": "Andhra Chilli Chicken",
+      "category": "Main Course",
+      "price": 499,
+      "displayed": "/images/menu-dishes/andhra-chilli-chicken-c0ce57bf-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Chilli Chicken",
+      "name": "Chilli Chicken",
+      "category": "Main Course",
+      "price": 499,
+      "displayed": "/images/menu-dishes/chilli-chicken-197d66a6-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Thai Grilled Chicken",
+      "name": "Thai Grilled Chicken",
+      "category": "Main Course",
+      "price": 580,
+      "displayed": "/images/menu-dishes/thai-grilled-chicken-0a81fa74-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Butter Khichdi",
+      "name": "Butter Khichdi",
+      "category": "Main Course",
+      "price": 390,
+      "displayed": "/images/menu-dishes/butter-khichdi-5236de32-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Veg Hakka Noodles",
+      "name": "Veg Hakka Noodles",
+      "category": "Main Course",
+      "price": 399,
+      "displayed": "/images/menu-dishes/veg-hakka-noodles-9a343f0d-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Schezwan Noodles",
+      "name": "Schezwan Noodles",
+      "category": "Main Course",
+      "price": 399,
+      "displayed": "/images/menu-dishes/schezwan-noodles-f7a25988-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Chilli Garlic Noodles",
+      "name": "Chilli Garlic Noodles",
+      "category": "Main Course",
+      "price": 399,
+      "displayed": "/images/menu-dishes/chilli-garlic-noodles-05ebd2fb-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Veg Biryani",
+      "name": "Veg Biryani",
+      "category": "Main Course",
+      "price": 399,
+      "displayed": "/images/menu-dishes/veg-biryani-db4aec88-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Veg Fried Rice",
+      "name": "Veg Fried Rice",
+      "category": "Main Course",
+      "price": 399,
+      "displayed": "/images/menu-dishes/veg-fried-rice-0f58f488-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Chicken Biryani",
+      "name": "Chicken Biryani",
+      "category": "Main Course",
+      "price": 499,
+      "displayed": "/images/menu-dishes/chicken-biryani-2f9f3483-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Lahsuni Palak",
+      "name": "Lahsuni Palak",
+      "category": "Main Course",
+      "price": 399,
+      "displayed": "/images/menu-dishes/lahsuni-palak-e9aa8671-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Chicken Kadhai",
+      "name": "Chicken Kadhai",
+      "category": "Main Course",
+      "price": 399,
+      "displayed": "/images/menu-dishes/chicken-kadhai-403f45bd-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Paneer Makhani",
+      "name": "Paneer Makhani",
+      "category": "Main Course",
+      "price": 449,
+      "displayed": "/images/menu-dishes/paneer-makhani-f4f0d73b-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Chicken Makhanwala",
+      "name": "Chicken Makhanwala",
+      "category": "Main Course",
+      "price": 449,
+      "displayed": "/images/menu-dishes/chicken-makhanwala-8fe7540d-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Chicken Curry",
+      "name": "Chicken Curry",
+      "category": "Main Course",
+      "price": 449,
+      "displayed": "/images/menu-dishes/chicken-curry-d8fc5c66-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Butter Pav Bhaji",
+      "name": "Butter Pav Bhaji",
+      "category": "Main Course",
+      "price": 449,
+      "displayed": "/images/menu-dishes/butter-pav-bhaji-77756622-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Paneer Lababdar.",
+      "name": "Paneer Lababdar.",
+      "category": "Main Course",
+      "price": 449,
+      "displayed": "/images/menu-dishes/paneer-lababdar-fb4c3d4a-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Dal Makhani",
+      "name": "Dal Makhani",
+      "category": "Main Course",
+      "price": 399,
+      "displayed": "/images/menu-dishes/dal-makhani-f21a8ba7-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Classic Mix Veg",
+      "name": "Classic Mix Veg",
+      "category": "Main Course",
+      "price": 399,
+      "displayed": "/images/menu-dishes/classic-mix-veg-506b2a6b-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Extra Paratha",
+      "name": "Extra Paratha",
+      "category": "Main Course",
+      "price": 39,
+      "displayed": "/images/menu-dishes/extra-paratha-fb647354-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Main Course|Andhra Chilli Paneer",
+      "name": "Andhra Chilli Paneer",
+      "category": "Main Course",
+      "price": 449,
+      "displayed": "/images/menu-dishes/andhra-chilli-paneer-0c4dee70-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Soup|Classic Tomato & Fennel",
+      "name": "Classic Tomato & Fennel",
+      "category": "Soup",
+      "price": 270,
+      "displayed": "/images/menu-dishes/classic-tomato-fennel-c30b7f74-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Soup|Thai coconut soup (Veg)",
+      "name": "Thai coconut soup (Veg)",
+      "category": "Soup",
+      "price": 310,
+      "displayed": "/images/menu-dishes/thai-coconut-soup-veg-bb2ec8d7-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Soup|Mushroom & artichoke soup",
+      "name": "Mushroom & artichoke soup",
+      "category": "Soup",
+      "price": 310,
+      "displayed": "/images/menu-dishes/mushroom-artichoke-soup-77a98d0c-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    },
+    {
+      "id": "Soup|Thai coconut soup ( Chicken)",
+      "name": "Thai coconut soup ( Chicken)",
+      "category": "Soup",
+      "price": 410,
+      "displayed": "/images/menu-dishes/thai-coconut-soup-chicken-33ffb6ee-800.webp",
+      "kind": "generated",
+      "genuineReplacementRequired": true
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "environment": "Local production preview, 390×844 DPR 2 Chrome touch emulation, 4× CPU slowdown, 6 Mbps / 80 ms latency. Three cold sessions. Automation input-to-results timing includes tool overhead; not field INP.",
+  "runs": [
+    {
+      "run": 1,
+      "initial": {
+        "lcp": 740,
+        "cls": 0.0009262590860320023,
+        "bytes": 220445
+      },
+      "inputToResultsMs": 52.299999999813735,
+      "fullFlowBytes": 255841,
+      "touchFlow": "Search → favourite → Add → Favourites → My List → quantity adjustment, Table 4 retained"
+    },
+    {
+      "run": 2,
+      "initial": {
+        "lcp": 720,
+        "cls": 0.0009262590860320023,
+        "bytes": 220445
+      },
+      "inputToResultsMs": 50.8000000002794,
+      "fullFlowBytes": 255841,
+      "touchFlow": "Search → favourite → Add → Favourites → My List → quantity adjustment, Table 4 retained"
+    },
+    {
+      "run": 3,
+      "initial": {
+        "lcp": 724,
+        "cls": 0.0009262590860320023,
+        "bytes": 220445
+      },
+      "inputToResultsMs": 58.200000000186265,
+      "fullFlowBytes": 255841,
+      "touchFlow": "Search → favourite → Add → Favourites → My List → quantity adjustment, Table 4 retained"
+    }
+  ],
+  "errors": []
+}

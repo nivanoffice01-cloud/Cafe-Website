@@ -1,0 +1,80 @@
+{
+  "protectedPixels": [
+    {
+      "name": "landing",
+      "width": 390,
+      "identical": true,
+      "sha256": "a4514b066175642702879f7d11c1ff9539654e3c0ceac19459009ed95a0154b3"
+    },
+    {
+      "name": "all-categories",
+      "width": 390,
+      "identical": true,
+      "sha256": "12d4ac2859044053bad0bcde03e4174977eacac1e3e8756a4d7f1857308fc374"
+    },
+    {
+      "name": "landing",
+      "width": 1440,
+      "identical": true,
+      "sha256": "0c2203a3aa6cf962b403f387c63c08c02d07a2549f37184b564ca3fae09734f5"
+    },
+    {
+      "name": "all-categories",
+      "width": 1440,
+      "identical": true,
+      "sha256": "f5b7fa6144ed6e74f3f9c9a0526c2c28993b1722afccccf9d1d80cb05e4cfff0"
+    }
+  ],
+  "checks": [
+    "Approved landing/gallery and All Categories screens are pixel-identical with matching decoded image variants to the pre-task Git checkpoint at mobile and desktop sizes",
+    "320/375/390/430/1440px: enlarged photos, no page overflow, price/quantity separation, sheet fits viewport, focus trap and close focus restoration"
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "category": true,
+      "details": true,
+      "photoWidth": 94,
+      "priceQuantityOverlap": false,
+      "dialogFits": true,
+      "focusRestored": true
+    },
+    {
+      "width": 375,
+      "category": true,
+      "details": true,
+      "photoWidth": 114,
+      "priceQuantityOverlap": false,
+      "dialogFits": true,
+      "focusRestored": true
+    },
+    {
+      "width": 390,
+      "category": true,
+      "details": true,
+      "photoWidth": 114,
+      "priceQuantityOverlap": false,
+      "dialogFits": true,
+      "focusRestored": true
+    },
+    {
+      "width": 430,
+      "category": true,
+      "details": true,
+      "photoWidth": 114,
+      "priceQuantityOverlap": false,
+      "dialogFits": true,
+      "focusRestored": true
+    },
+    {
+      "width": 1440,
+      "category": true,
+      "details": true,
+      "photoWidth": 144,
+      "priceQuantityOverlap": false,
+      "dialogFits": true,
+      "focusRestored": true
+    }
+  ],
+  "errors": []
+}
