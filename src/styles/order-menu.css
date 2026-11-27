@@ -166,10 +166,10 @@
   .order-menu-tools { top: 4.55rem; padding: .8rem .85rem 0; }
   .order-table-warning { margin: 0 .85rem 1rem; align-items: flex-start; }
   .order-search { height: 3rem; }
-  .order-filter-row { align-items: center; gap: .55rem; margin-top: .6rem; padding-bottom: .75rem; }
-  .order-categories { margin-right: -.85rem; padding-right: .85rem; }
-  .order-diet-filter { align-items: center; border-radius: .75rem; }
-  .order-diet-filter button { min-width: 2.7rem; padding: 0 .55rem; font-size: .875rem; }
+  .order-filter-row { display: grid; grid-template-columns: minmax(0,1fr); gap: .6rem; margin-top: .6rem; padding-bottom: .75rem; }
+  .order-categories { width: calc(100% + .85rem); box-sizing: border-box; margin-right: -.85rem; padding-right: .85rem; }
+  .order-diet-filter { width: 100%; box-sizing: border-box; align-items: center; justify-content: space-between; border-radius: .75rem; }
+  .order-diet-filter button { min-width: 2.7rem; flex: 1; padding: 0 .55rem; font-size: .875rem; }
   .order-diet-filter button:last-child { min-width: 4.5rem; }
   .order-menu-content { padding: 1.5rem .85rem 7rem; scroll-margin-top: 8rem; }
   .order-category > header h2 { font-size: 2.6rem; }
@@ -186,10 +186,6 @@
 @media (max-width: 430px) {
   .order-menu-intro { min-height: max(37rem,calc(100svh - 4.6rem)); padding-right: 1rem; padding-left: 1rem; }
   .order-menu-intro h1 { font-size: clamp(3.45rem,16.5vw,4.4rem); }
-  .order-filter-row { flex-wrap: wrap; }
-  .order-categories { flex-basis: calc(100% + .85rem); order: 2; }
-  .order-diet-filter { width: 100%; box-sizing: border-box; justify-content: space-between; }
-  .order-diet-filter button { flex: 1; }
   .order-dish-card.has-photo { grid-template-columns: 6.1rem minmax(0,1fr); }
   .order-dish-card > img { width: 6.1rem; height: 6.1rem; min-height: 0; align-self: start; }
   .order-cart-line { grid-template-columns: minmax(0,1fr) auto; }

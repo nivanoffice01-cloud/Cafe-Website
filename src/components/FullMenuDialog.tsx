@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { fullMenu, type MenuCategory, type MenuItem } from '../data/fullMenu'
-import { menuPhotoFor } from '../data/menuPhotos'
+import { dishPhotoFor, menuPhotoFor } from '../data/menuPhotos'
 import { responsivePhotoSrcSet } from '../data/responsivePhoto'
 import { fallbackPublicMenu, getPublicMenu } from '../lib/menu'
 
@@ -138,7 +138,7 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
                   {!query && <p className="menu-chapter-note">{categoryNotes[category.name] ?? 'Take your time. There is always room for one more.'}</p>}
                   <div className="menu-dish-list">
                     {category.items.map((item) => {
-                      const photo = menuPhotoFor(category.name, item.name)
+                      const photo = dishPhotoFor(category.name, item.name)
                       const photoKey = `${category.name}|${item.name}`
                       const content = <>
                         {photo && <img className="menu-dish-thumb" src={photo.src} alt="" loading="lazy" decoding="async" />}
@@ -174,12 +174,12 @@ export function FullMenuDialog({ onClose, initialSelection }: Props) {
           <aside className="menu-food-side" aria-label="Selected dish and photography">
             <img className="menu-food-photo" key={selectedPhoto?.src ?? 'cafe-photo'} src={selectedPhoto?.src ?? '/images/highres/mangosteen_original_2_8k.jpg'} srcSet={selectedPhoto ? undefined : responsivePhotoSrcSet('/images/highres/mangosteen_original_2_8k.jpg')} sizes="(max-width: 1100px) 36vw, 33vw" alt={selectedPhoto?.alt ?? 'A plated dish photographed at Mangosteen Café'} decoding="async" />
             <div className="menu-food-caption">
-              <p>{selectedDish.category.toUpperCase()} · FROM THE MENU</p>
+              <p>{selectedDish.category.toUpperCase()} · {selectedPhoto?.kind === 'dish' ? 'DISH PORTRAIT' : 'CHAPTER PORTRAIT'}</p>
               <h3>{selectedDish.name}</h3>
               {selectedDish.description && <span className="menu-food-description">{selectedDish.description}</span>}
               <span>₹{selectedDish.price}</span>
             </div>
-            <p className="menu-photo-note">{selectedPhoto ? 'Illustrative food photo; presentation at Mangosteen may differ.' : 'Photographed at Mangosteen Café. This is not the selected dish.'}</p>
+            <p className="menu-photo-note">{selectedPhoto?.kind === 'dish' ? 'Illustrative dish portrait; presentation at Mangosteen may differ.' : selectedPhoto ? `Illustrative ${selectedDish.category} chapter portrait; not a photograph of this dish.` : 'Photographed at Mangosteen Café. This is not the selected dish.'}</p>
           </aside>
         </div>
       </section>
