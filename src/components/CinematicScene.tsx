@@ -123,10 +123,6 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
     let foodTimeout = 0
     let callbackFired = false
     let dialogWasOpen = false
-    let pointerTargetX = 0
-    let pointerTargetY = 0
-    let pointerX = 0
-    let pointerY = 0
 
     const sampleCamera = (value: number) => {
       const next = cameraFrames.findIndex((keyframe) => keyframe.at > value)
@@ -176,13 +172,6 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       chapterVisible = !document.hidden && window.scrollY >= section.offsetTop - window.innerHeight && window.scrollY <= section.offsetTop + section.offsetHeight
       if ((chapterVisible || seatStarted) && !frame) frame = requestAnimationFrame(animate)
     }
-    const readPointer = (event: PointerEvent) => {
-      if (reducedMotion || event.pointerType === 'touch') return
-      pointerTargetX = (event.clientX / Math.max(1, window.innerWidth) - .5) * 2
-      pointerTargetY = (event.clientY / Math.max(1, window.innerHeight) - .5) * 2
-      if (chapterVisible && !frame) frame = requestAnimationFrame(animate)
-    }
-    const resetPointer = () => { pointerTargetX = 0; pointerTargetY = 0 }
     const resize = () => {
       const width = Math.max(1, window.innerWidth)
       const height = Math.max(1, window.innerHeight)
@@ -206,15 +195,11 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       const dt = lastFrame ? Math.min((time - lastFrame) / 1000, .05) : 1 / 60
       lastFrame = time
       progress = reducedMotion ? targetProgress : THREE.MathUtils.damp(progress, targetProgress, 3.4, dt)
-      pointerX = THREE.MathUtils.damp(pointerX, pointerTargetX, 2.2, dt)
-      pointerY = THREE.MathUtils.damp(pointerY, pointerTargetY, 2.2, dt)
       const shot = sampleCamera(progress)
       const mobile = window.innerWidth < 700
       camera.fov = shot.fov + (mobile ? 9 : 0)
       camera.updateProjectionMatrix()
-      camera.position.set(shot.x + (mobile ? -.12 : pointerX * .055), shot.y - (mobile ? 0 : pointerY * .035), shot.z)
-      exterior.mesh.rotation.y = mobile ? 0 : pointerX * .006
-      exterior.mesh.rotation.x = mobile ? 0 : -pointerY * .004
+      camera.position.set(shot.x + (mobile ? -.12 : 0), shot.y, shot.z)
       if (seatStarted) {
         const push = THREE.MathUtils.smoothstep((time - seatStarted) / 900, 0, 1)
         camera.position.lerpVectors(seatFrom, seatTo, push)
@@ -226,7 +211,7 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       // The cuts conceal changes between different real photographs.
       const firstCut = .76 * (1 - THREE.MathUtils.smoothstep(Math.abs(progress - .4), 0, .032))
       const secondCut = .76 * (1 - THREE.MathUtils.smoothstep(Math.abs(progress - .7), 0, .032))
-      const openingDarkness = .28 * (1 - THREE.MathUtils.smoothstep(progress, .01, .18))
+      const openingDarkness = 1 - THREE.MathUtils.smoothstep(progress, .01, .18)
       const push = seatStarted ? THREE.MathUtils.clamp((time - seatStarted) / 900, 0, 1) : 0
       const reveal = foodRevealStarted ? THREE.MathUtils.clamp((time - foodRevealStarted) / 950, 0, 1) : 0
       const seatCut = seatStarted ? THREE.MathUtils.smoothstep(push, .4, .95) * (1 - THREE.MathUtils.smoothstep(reveal, .14, .55)) * .94 : 0
@@ -267,8 +252,6 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
 
     window.addEventListener('resize', resize)
     window.addEventListener('scroll', readScroll, { passive: true })
-    window.addEventListener('pointermove', readPointer, { passive: true })
-    document.documentElement.addEventListener('pointerleave', resetPointer)
     document.addEventListener('visibilitychange', readScroll)
     window.addEventListener('mangosteen:take-seat', takeSeat)
     resize()
@@ -278,8 +261,6 @@ export function CinematicScene({ menuOpen = false, onOpenMenu, onReady }: Props)
       window.clearTimeout(foodTimeout)
       window.removeEventListener('resize', resize)
       window.removeEventListener('scroll', readScroll)
-      window.removeEventListener('pointermove', readPointer)
-      document.documentElement.removeEventListener('pointerleave', resetPointer)
       document.removeEventListener('visibilitychange', readScroll)
       window.removeEventListener('mangosteen:take-seat', takeSeat)
       if (foodImage) { foodImage.onload = null; foodImage.onerror = null }

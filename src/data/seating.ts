@@ -11,14 +11,11 @@ export type SeatCluster = {
 
 // Schematic positions inspired by the supplied café photographs. These are not
 // live inventory or a surveyed floor plan; replace them with owner-verified data.
-export const seatingPlans: Record<SeatingZone, { name: string; orientation: string; entry: string; description: string; image: string; imageAlt: string; clusters: SeatCluster[] }> = {
+export const seatingPlans: Record<SeatingZone, { name: string; orientation: string; entry: string; clusters: SeatCluster[] }> = {
   rooftop: {
     name: 'The rooftop',
     orientation: 'OPEN EDGE · PLANTS & EVENING LIGHT',
     entry: 'ENTRY FROM INSIDE',
-    description: 'Open-air tables among greenery, with the softest light near sunset.',
-    image: '/images/gallery/cafe-06.png',
-    imageAlt: 'Rattan chairs and a timber table on Mangosteen Café’s planted rooftop',
     clusters: [
       { id: 'R1', label: 'Railside 01', capacity: 2, columns: 2, column: 1, row: 1 },
       { id: 'R2', label: 'Railside 02', capacity: 2, columns: 2, column: 2, row: 1 },
@@ -34,9 +31,6 @@ export const seatingPlans: Record<SeatingZone, { name: string; orientation: stri
     name: 'Inside Mangosteen',
     orientation: 'WINDOWS · WOVEN LIGHTS',
     entry: 'ENTRY / SERVICE',
-    description: 'A sheltered dining room with woven pendants, broad windows and warm timber tables.',
-    image: '/images/gallery/cafe-07.jpg',
-    imageAlt: 'The light-filled interior dining room at Mangosteen Café',
     clusters: [
       { id: 'W1', label: 'Window 01', capacity: 4, columns: 2, column: 1, row: 1 },
       { id: 'W2', label: 'Window 02', capacity: 4, columns: 2, column: 1, row: 2 },
