@@ -1,0 +1,32 @@
+[
+  {
+    "key": "rooftop-stone-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-2b9716e4-0ee0-41bc-8818-07d3177b4462.png",
+    "alpha": false
+  },
+  {
+    "key": "rooftop-table-long-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-55dbf777-34cd-47b0-9f83-5625d6ec2df4.png",
+    "alpha": true
+  },
+  {
+    "key": "rooftop-table-square-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3228dd5c-db34-477d-ab6a-07cb38fb6c61.png",
+    "alpha": true
+  },
+  {
+    "key": "rooftop-chair-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-9fbf534f-359e-4052-a119-3a54df66ae00.png",
+    "alpha": true
+  },
+  {
+    "key": "rooftop-planter-trough-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3ef93a54-6ce0-4543-aafe-1bb4c53aafbb.png",
+    "alpha": true
+  },
+  {
+    "key": "rooftop-planter-square-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3a7b7b37-b80e-4af5-bf32-9103bc0d8e40.png",
+    "alpha": true
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "checks": [
+    "Five viewport widths: unchanged eight rooftop groups / 28 seats and exact transforms; all planter footprints clear of table/chair targets and entry; forest-green/ivory selection; no page overflow or image failures",
+    "Reservation page/styles, booking controls, seating/layout config, menu, marketing, API and backend hashes unchanged; complete map state/interaction/animation code before JSX unchanged"
+  ],
+  "errors": [],
+  "layouts": [
+    {
+      "width": 320,
+      "pageWidth": 320,
+      "mapWidth": 800
+    },
+    {
+      "width": 390,
+      "pageWidth": 390,
+      "mapWidth": 800
+    },
+    {
+      "width": 768,
+      "pageWidth": 768,
+      "mapWidth": 704.546875
+    },
+    {
+      "width": 1440,
+      "pageWidth": 1440,
+      "mapWidth": 743.65625
+    },
+    {
+      "width": 1920,
+      "pageWidth": 1920,
+      "mapWidth": 877.703125
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "key": "rooftop-stone-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-2b9716e4-0ee0-41bc-8818-07d3177b4462.png",
+    "alpha": false,
+    "output": "public/images/reservation/rooftop-stone-v4.webp",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "bytes": 328738,
+    "sha256": "53d9e0e71da6dd60336c174d866f7777c1e2c21010f35c37631c9f600c7bb554"
+  },
+  {
+    "key": "rooftop-table-long-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-55dbf777-34cd-47b0-9f83-5625d6ec2df4.png",
+    "alpha": true,
+    "output": "public/images/reservation/rooftop-table-long-v4.webp",
+    "dimensions": [
+      778,
+      307
+    ],
+    "bytes": 56756,
+    "sha256": "faf865b2ef32d0160160dcaa41d7002da128009e6729ca340d647c94282e77cc"
+  },
+  {
+    "key": "rooftop-table-square-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3228dd5c-db34-477d-ab6a-07cb38fb6c61.png",
+    "alpha": true,
+    "output": "public/images/reservation/rooftop-table-square-v4.webp",
+    "dimensions": [
+      458,
+      457
+    ],
+    "bytes": 47032,
+    "sha256": "ccc65d612d6694e4df056b341520479b40e2e4323f364c296a4eaa8cbbc9dff4"
+  },
+  {
+    "key": "rooftop-chair-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-9fbf534f-359e-4052-a119-3a54df66ae00.png",
+    "alpha": true,
+    "output": "public/images/reservation/rooftop-chair-v4.webp",
+    "dimensions": [
+      330,
+      360
+    ],
+    "bytes": 50774,
+    "sha256": "482144c824b2ebfd846410c758798f7e73f7a08d05239581ecd75e4fff04f97b"
+  },
+  {
+    "key": "rooftop-planter-trough-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3ef93a54-6ce0-4543-aafe-1bb4c53aafbb.png",
+    "alpha": true,
+    "output": "public/images/reservation/rooftop-planter-trough-v4.webp",
+    "dimensions": [
+      650,
+      215
+    ],
+    "bytes": 62206,
+    "sha256": "3be79c851580fdefbcce6f079546a86e5645bbaa418f87829221831352e2def8"
+  },
+  {
+    "key": "rooftop-planter-square-v4",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-3a7b7b37-b80e-4af5-bf32-9103bc0d8e40.png",
+    "alpha": true,
+    "output": "public/images/reservation/rooftop-planter-square-v4.webp",
+    "dimensions": [
+      394,
+      436
+    ],
+    "bytes": 87892,
+    "sha256": "c4fe593c63737776bd73d0bd549a2769c5636afb6f42ae64ede9669147fb0e53"
+  }
+]
