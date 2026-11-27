@@ -1,0 +1,99 @@
+{
+  "checks": [
+    "Only gallery files changed; original PhotoViewer source, homepage hero/navbar, menu, reservations, CRM, APIs, data, package dependencies and genuine photographs are unchanged",
+    "Seven widths: no horizontal page overflow, bounded Canvas resolution, all five images, keyboard skip and reduced-motion fallback verified"
+  ],
+  "desktop": {
+    "partialCoverage": 0.092,
+    "autoRevealCoverage": 0.413,
+    "erasedAlpha": 0,
+    "alphaAfterResize": 0,
+    "canvasPixelBudget": null,
+    "scrollDistance": 4240,
+    "reversible": true,
+    "pinRelease": true,
+    "fullscreenPreserved": true,
+    "spaStatePersists": true,
+    "noDuplicatePin": true
+  },
+  "mobile": {
+    "verticalGesturePageScroll": 242,
+    "verticalGestureCleared": 0,
+    "autoRevealCoverage": 0.401,
+    "nativeHorizontalScroll": 354,
+    "verticalGalleryScroll": true,
+    "noForcedPin": true
+  },
+  "viewports": [
+    {
+      "width": 320,
+      "pageOverflow": false,
+      "canvasPixels": 158188,
+      "photos": 5,
+      "keyboardSkip": true,
+      "reducedMotionStatic": true
+    },
+    {
+      "width": 375,
+      "pageOverflow": false,
+      "canvasPixels": 188823,
+      "photos": 5,
+      "keyboardSkip": true,
+      "reducedMotionStatic": true
+    },
+    {
+      "width": 390,
+      "pageOverflow": false,
+      "canvasPixels": 197178,
+      "photos": 5,
+      "keyboardSkip": true,
+      "reducedMotionStatic": true
+    },
+    {
+      "width": 430,
+      "pageOverflow": false,
+      "canvasPixels": 219458,
+      "photos": 5,
+      "keyboardSkip": true,
+      "reducedMotionStatic": true
+    },
+    {
+      "width": 768,
+      "pageOverflow": false,
+      "canvasPixels": 445440,
+      "photos": 5,
+      "keyboardSkip": true,
+      "reducedMotionStatic": true
+    },
+    {
+      "width": 1440,
+      "pageOverflow": false,
+      "canvasPixels": 849920,
+      "photos": 5,
+      "keyboardSkip": true,
+      "reducedMotionStatic": true
+    },
+    {
+      "width": 1920,
+      "pageOverflow": false,
+      "canvasPixels": 694400,
+      "photos": 5,
+      "keyboardSkip": true,
+      "reducedMotionStatic": true
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "recordings": [
+    {
+      "label": "Desktop wipe, automatic reveal and forward/reverse gallery",
+      "source": "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/artifacts/cafe-cinematic-gallery/recordings/raw/page@ad86b52fd4041c99b1ef48a2f9a9394f.webm",
+      "output": "artifacts/cafe-cinematic-gallery/recordings/desktop-gallery.mp4"
+    },
+    {
+      "label": "Mobile touch wiping and native gallery swiping",
+      "source": "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/artifacts/cafe-cinematic-gallery/recordings/raw/page@cb7e96d89ed0ba9307a0d4098b42b3f6.webm",
+      "output": "artifacts/cafe-cinematic-gallery/recordings/mobile-gallery.mp4"
+    }
+  ]
+}

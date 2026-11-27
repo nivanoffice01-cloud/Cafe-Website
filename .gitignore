@@ -21,3 +21,6 @@ artifacts/mangosteen-architectural-3d-review/recordings/
 artifacts/mangosteen-architectural-3d-review/*.webm
 artifacts/mangosteen-architectural-3d-review/**/recordings/
 artifacts/mangosteen-architectural-3d-review/**/*.webm
+artifacts/cafe-cinematic-gallery/recordings/raw/
+artifacts/gallery-view-all/raw/
+artifacts/gallery-4k/flow/raw/

@@ -1,0 +1,14 @@
+[
+  {
+    "mobile": false,
+    "swipes": 7,
+    "priorCoverage": 0.624,
+    "revealCoverage": 0.658
+  },
+  {
+    "mobile": true,
+    "swipes": 10,
+    "priorCoverage": 0.64,
+    "revealCoverage": 0.66
+  }
+]

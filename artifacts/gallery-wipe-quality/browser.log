@@ -1,0 +1,38 @@
+{
+  viewports: [
+    { width: 320, overflow: false, skip: true },
+    { width: 375, overflow: false, skip: true },
+    { width: 390, overflow: false, skip: true },
+    { width: 430, overflow: false, skip: true },
+    { width: 768, overflow: false, skip: true },
+    { width: 1440, overflow: false, skip: true },
+    { width: 1920, overflow: false, skip: true }
+  ],
+  errors: [],
+  desktop: {
+    coverageAfterThree: 0.575,
+    finalCoverage: 0.98,
+    photo: {
+      url: 'http://127.0.0.1:5173/images/cafe-gallery/story-dining-1920.webp',
+      naturalWidth: 1920,
+      naturalHeight: 1279,
+      slotWidth: 1808,
+      slotHeight: 691
+    },
+    images: [ [Object], [Object], [Object], [Object], [Object] ],
+    viewer: true
+  },
+  mobile: {
+    coverageAfterThree: 0.357,
+    finalCoverage: 0.982,
+    photo: {
+      url: 'http://127.0.0.1:5173/images/cafe-gallery/story-dining-1920.webp',
+      naturalWidth: 844,
+      naturalHeight: 562,
+      slotWidth: 354,
+      slotHeight: 557
+    },
+    images: [ [Object], [Object], [Object], [Object], [Object] ],
+    viewer: true
+  }
+}

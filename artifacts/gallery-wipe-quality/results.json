@@ -1,0 +1,118 @@
+{
+  "viewports": [
+    {
+      "width": 320,
+      "overflow": false,
+      "skip": true
+    },
+    {
+      "width": 375,
+      "overflow": false,
+      "skip": true
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "skip": true
+    },
+    {
+      "width": 430,
+      "overflow": false,
+      "skip": true
+    },
+    {
+      "width": 768,
+      "overflow": false,
+      "skip": true
+    },
+    {
+      "width": 1440,
+      "overflow": false,
+      "skip": true
+    },
+    {
+      "width": 1920,
+      "overflow": false,
+      "skip": true
+    }
+  ],
+  "errors": [],
+  "desktop": {
+    "coverageAfterThree": 0.575,
+    "finalCoverage": 0.98,
+    "photo": {
+      "url": "http://127.0.0.1:5173/images/cafe-gallery/story-dining-1920.webp",
+      "naturalWidth": 1920,
+      "naturalHeight": 1279,
+      "slotWidth": 1808,
+      "slotHeight": 691
+    },
+    "images": [
+      {
+        "url": "http://127.0.0.1:5173/images/cafe-gallery/story-dining-1280.webp",
+        "width": 1259,
+        "height": 839
+      },
+      {
+        "url": "http://127.0.0.1:5173/images/cafe-gallery/rooftop-evening-1280.webp",
+        "width": 1259,
+        "height": 840
+      },
+      {
+        "url": "http://127.0.0.1:5173/images/cafe-gallery/counter-1280.webp",
+        "width": 1259,
+        "height": 840
+      },
+      {
+        "url": "http://127.0.0.1:5173/images/cafe-gallery/facade-1280.webp",
+        "width": 1274,
+        "height": 715
+      },
+      {
+        "url": "http://127.0.0.1:5173/images/cafe-gallery/menu-invitation-1280.webp",
+        "width": 1259,
+        "height": 839
+      }
+    ],
+    "viewer": true
+  },
+  "mobile": {
+    "coverageAfterThree": 0.357,
+    "finalCoverage": 0.982,
+    "photo": {
+      "url": "http://127.0.0.1:5173/images/cafe-gallery/story-dining-1920.webp",
+      "naturalWidth": 844,
+      "naturalHeight": 562,
+      "slotWidth": 354,
+      "slotHeight": 557
+    },
+    "images": [
+      {
+        "url": "http://127.0.0.1:5173/images/cafe-gallery/story-dining-1920.webp",
+        "width": 894,
+        "height": 595
+      },
+      {
+        "url": "http://127.0.0.1:5173/images/cafe-gallery/rooftop-evening-1453.webp",
+        "width": 886,
+        "height": 591
+      },
+      {
+        "url": "http://127.0.0.1:5173/images/cafe-gallery/counter-1545.webp",
+        "width": 886,
+        "height": 590
+      },
+      {
+        "url": "http://127.0.0.1:5173/images/cafe-gallery/facade-2560.webp",
+        "width": 1054,
+        "height": 592
+      },
+      {
+        "url": "http://127.0.0.1:5173/images/cafe-gallery/menu-invitation-1600.webp",
+        "width": 894,
+        "height": 596
+      }
+    ],
+    "viewer": true
+  }
+}

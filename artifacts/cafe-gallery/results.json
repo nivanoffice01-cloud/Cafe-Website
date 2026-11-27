@@ -1,0 +1,53 @@
+{
+  "checks": [
+    "Five genuine retained photos replace only the burger anatomy section; viewer image containment, keyboard arrows, previous/next wrap, focus trap, Escape, scroll restoration and existing reservation opening verified at all five widths"
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "photos": 5,
+      "overflow": false,
+      "viewerContained": true,
+      "keyboardAndWrap": true,
+      "focusRestored": true,
+      "reservationOpens": true
+    },
+    {
+      "width": 390,
+      "photos": 5,
+      "overflow": false,
+      "viewerContained": true,
+      "keyboardAndWrap": true,
+      "focusRestored": true,
+      "reservationOpens": true
+    },
+    {
+      "width": 768,
+      "photos": 5,
+      "overflow": false,
+      "viewerContained": true,
+      "keyboardAndWrap": true,
+      "focusRestored": true,
+      "reservationOpens": true
+    },
+    {
+      "width": 1440,
+      "photos": 5,
+      "overflow": false,
+      "viewerContained": true,
+      "keyboardAndWrap": true,
+      "focusRestored": true,
+      "reservationOpens": true
+    },
+    {
+      "width": 1920,
+      "photos": 5,
+      "overflow": false,
+      "viewerContained": true,
+      "keyboardAndWrap": true,
+      "focusRestored": true,
+      "reservationOpens": true
+    }
+  ],
+  "errors": []
+}
