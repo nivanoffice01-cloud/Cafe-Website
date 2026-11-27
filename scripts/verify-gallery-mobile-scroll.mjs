@@ -21,10 +21,7 @@ try{
   const firstCard=await p.locator('.cafe-gallery-photo').first().boundingBox()
   if(phone){
    const ratio=firstCard.width/firstCard.height
-   if(width<768&&height>500&&height>width)assert.ok(ratio>=0.66&&ratio<1,'Portrait phone cards must grow into the pinned height (portrait, max 2:3)')
-   else assert.ok(ratio>1.45&&ratio<1.55,'Landscape/tablet cards must keep a 3:2 composition')
-   const gap=height-(await p.locator('.cafe-spaces-progress').boundingBox()).y
-   if(width<768&&height>500&&height>width)assert.ok(gap<130,`Pinned gallery leaves ${Math.round(gap)}px of empty space below the progress bar`)
+   assert.ok(ratio>1.45&&ratio<1.55,'Mobile and tablet cards must keep a 3:2 landscape composition')
   }
   assert.ok((await p.locator('.cafe-spaces-progress').boundingBox()).y+30<=height)
   if(record){
@@ -42,6 +39,14 @@ try{
   if(record)await p.screenshot({path:`${dir}/mobile-middle.png`})
   await p.evaluate(y=>scrollTo(0,y),g.start+g.scrollLength);await p.waitForTimeout(750)
   assert.ok(Math.abs(await x(p)+g.distance)<4)
+  if(phone){
+   const flowGap=await p.locator('.cafe-gallery-spaces').evaluate(e=>{
+    const progress=e.querySelector('.cafe-spaces-progress').getBoundingClientRect()
+    const next=e.closest('.cafe-gallery').nextElementSibling?.getBoundingClientRect()
+    return next ? next.top-progress.bottom : 0
+   })
+   assert.ok(flowGap<110,`Gallery leaves ${Math.round(flowGap)}px before the next section`)
+  }
   const card=p.getByRole('button',{name:'View all images',exact:true})
   const fit=await card.evaluate(e=>{const r=e.getBoundingClientRect();return [...e.children].filter(n=>getComputedStyle(n).display!=='none').every(n=>{const b=n.getBoundingClientRect();return b.top>=r.top-1&&b.bottom<=r.bottom+1})})
   assert.ok(fit,`Terminal card content clipped at ${width}x${height}`)
