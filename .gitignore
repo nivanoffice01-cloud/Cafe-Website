@@ -11,4 +11,3 @@ dist
 # Local Vercel project metadata
 .vercel
 .env*
-.vite/
