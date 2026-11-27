@@ -73,6 +73,54 @@ class CRMServerTests(unittest.TestCase):
             "occasion": "Regular visit", "specialRequests": "", "consent": False, "website": "",
         })
 
+    def test_floor_reservation_lifecycle_persistence_and_conflicts(self):
+        cookie, csrf = self.login()
+        headers = {'X-CSRF-Token': csrf}
+        day = (date.today() + timedelta(days=3)).isoformat()
+        body = dict(name='Floor Test Guest', phone='9876543210', date=day, time='19:00', guests=2, tableId='R3', status='Confirmed', duration=90)
+        status, created, _ = self.request('/api/reservations', body=body, cookie=cookie, headers=headers)
+        self.assertEqual(status, 200, created)
+        id = created['id']
+        status, result, _ = self.request('/api/reservations', body={**body, 'time': '19:30'}, cookie=cookie, headers=headers)
+        self.assertEqual(status, 400, result)
+        self.assertIn('overlaps', result['error'])
+        status, result, _ = self.request(f'/api/reservations/{id}/edit', body={**body, 'tableId': 'R2', 'time': '18:00'}, cookie=cookie, headers=headers)
+        self.assertEqual(status, 200, result)
+        _, snapshot, _ = self.request('/api/bootstrap', cookie=cookie)
+        saved = next(r for r in snapshot['reservations'] if r['id'] == id)
+        self.assertEqual(saved['tableId'], 'R2')
+        self.assertEqual(saved['time'], '18:00')
+        self.assertEqual(len(saved['history']), 2)
+        status, result, _ = self.request(f'/api/reservations/{id}/status', body={'status':'Checked in'}, cookie=cookie, headers=headers)
+        self.assertEqual(status, 400, result)
+        status, result, _ = self.request(f'/api/reservations/{id}/status', body={'status':'Cancelled'}, cookie=cookie, headers=headers)
+        self.assertEqual(status, 200, result)
+        status, result, _ = self.request(f'/api/reservations/{id}/status', body={'status':'Confirmed'}, cookie=cookie, headers=headers)
+        self.assertEqual(status, 400, result)
+
+    def test_floor_walkin_cleaning_and_capacity(self):
+        cookie, csrf = self.login()
+        headers = {'X-CSRF-Token': csrf}
+        path = '/api/tables/B1'
+        status, result, _ = self.request(path, body={'action':'seat', 'name':'Walk In', 'guests':3}, cookie=cookie, headers=headers)
+        self.assertEqual(status, 400, result)
+        status, result, _ = self.request(path, body={'action':'seat', 'name':'Walk In', 'guests':2}, cookie=cookie, headers=headers)
+        self.assertEqual(status, 200, result)
+        _, snapshot, _ = self.request('/api/bootstrap', cookie=cookie)
+        table = next(t for t in snapshot['tables'] if t['id'] == 'B1')
+        self.assertEqual(table['displayStatus'], 'Occupied')
+        self.assertEqual(table['session']['name'], 'Walk In')
+        for action, expected in [('checkout','Cleaning'), ('available','Available')]:
+            status, result, _ = self.request(path, body={'action':action}, cookie=cookie, headers=headers)
+            self.assertEqual(status, 200, result)
+            _, snapshot, _ = self.request('/api/bootstrap', cookie=cookie)
+            self.assertEqual(next(t for t in snapshot['tables'] if t['id'] == 'B1')['displayStatus'], expected)
+
+    def test_kitchen_cannot_manage_floor(self):
+        cookie, csrf = self.login('kitchen@mangosteen.local')
+        status, _, _ = self.request('/api/tables/B1', body={'action':'seat', 'name':'Forbidden', 'guests':2}, cookie=cookie, headers={'X-CSRF-Token':csrf})
+        self.assertEqual(status, 403)
+
     def test_public_reservation_is_validated_normalized_and_idempotent(self):
         key = "reservation-idempotency-test"
         first_status, first, _ = self.reservation(key)

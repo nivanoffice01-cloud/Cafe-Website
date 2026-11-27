@@ -1,9 +1,11 @@
-import { get, put } from '@vercel/blob'
+import { get, put, BlobPreconditionFailedError } from '@vercel/blob'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
 import { fullMenu } from './full-menu.mjs'
+import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable } from './floor.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
+const stateVersions = new WeakMap()
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
 const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, Manager: 2, Owner: 3 }
@@ -19,20 +21,25 @@ const store = () => ({
     const result = await get(blobPath(key), { access: 'private', useCache: false })
     if (!result?.stream) return null
     const value = await new Response(result.stream).text()
-    if (options.type === 'json') return JSON.parse(value)
+    if (options.type === 'json') {
+      const parsed = JSON.parse(value)
+      if (key === STORE_KEY && result.blob?.etag) stateVersions.set(parsed, result.blob.etag)
+      return parsed
+    }
     return value
   },
-  async set(key, value) {
-    await put(blobPath(key), value, {
+  async set(key, value, options = {}) {
+    return put(blobPath(key), value, {
       access: 'private',
       addRandomSuffix: false,
       allowOverwrite: true,
       cacheControlMaxAge: 60,
       contentType: 'application/json; charset=utf-8',
+      ...options,
     })
   },
-  async setJSON(key, value) {
-    await this.set(key, JSON.stringify(value))
+  async setJSON(key, value, options = {}) {
+    return this.set(key, JSON.stringify(value), options)
   },
 })
 const now = () => new Date().toISOString()
@@ -200,11 +207,13 @@ async function loadState() {
     state = createSeedState()
     await target.setJSON(STORE_KEY, state)
   }
-  return state
+  return ensureFloor(state)
 }
 
 async function saveState(state) {
-  await store().setJSON(STORE_KEY, state)
+  const version = stateVersions.get(state)
+  const result = await store().setJSON(STORE_KEY, state, version ? { ifMatch: version } : {})
+  if (result?.etag) stateVersions.set(state, result.etag)
 }
 
 function json(payload, status = 200, headers = {}) {
@@ -257,6 +266,8 @@ function publicUser(user) {
 function bootstrap(state, user) {
   const role = user.role
   const base = {
+    tables: role === 'Kitchen' ? [] : floorPayload(state),
+    floorStaff: role === 'Kitchen' ? [] : (state.staff || []).map(({ id, name, jobRole }) => ({ id, name, jobRole })),
     customers: role === 'Kitchen' ? [] : state.customers,
     reservations: role === 'Kitchen' ? [] : state.reservations,
     feedback: role === 'Kitchen' ? [] : state.feedback,
@@ -451,6 +462,20 @@ async function handleRequest(request) {
 
     if (request.method !== 'POST') return json({ error: 'API route not found' }, 404)
 
+    const floorRoute = path.match(/^\/(tables|reservations)(?:\/(\w[\w-]*))?(?:\/(status|edit))?$/)
+    if (floorRoute) {
+      const actor = requireRoles(request, state, ['Owner', 'Manager', 'Cashier', 'Host'])
+      const [, kind, id, action] = floorRoute
+      let result
+      if (kind === 'tables' && id) result = changeTable(state, id, body, actor)
+      else if (kind === 'reservations' && id && action === 'status') result = changeReservation(state, Number(id), body, actor)
+      else if (kind === 'reservations' && (!id || action === 'edit')) result = saveReservation(state, body, actor, id ? Number(id) : null)
+      else return json({ error: 'Unknown table or reservation action' }, 404)
+      addActivity(state, 'reservation', kind === 'tables' ? `Table ${body.action}` : `Reservation ${body.status || (id ? 'updated' : 'created')}`, `${actor.name} · ${result.name || result.label || id}`)
+      await saveState(state)
+      return json({ updated: true, id: result.id, status: result.status })
+    }
+
     if (path === '/orders') {
       requireRoles(request, state, ['Owner', 'Manager', 'Cashier'])
       const items = (Array.isArray(body.items) ? body.items : []).map((requested) => {
@@ -632,6 +657,7 @@ async function handleRequest(request) {
     }
     return json({ error: 'API route not found' }, 404)
   } catch (error) {
+    if (error instanceof BlobPreconditionFailedError) return json({ error: 'Another team member updated the CRM. Refresh, review the latest details and try again.' }, 409)
     console.error('Mangosteen API error', error)
     return json({ error: error.message || 'The CRM could not complete this request.' }, error.status || 400)
   }

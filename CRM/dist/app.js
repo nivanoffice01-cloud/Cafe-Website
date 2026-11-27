@@ -232,6 +232,7 @@ let state = {
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: 'grid' },
   { id: 'orders', label: 'Orders & POS', icon: 'coffee' },
+  { id: 'tables', label: 'Live tables', icon: 'table' },
   { id: 'kitchen', label: 'Kitchen display', icon: 'clock' },
   { id: 'billing', label: 'Billing & closing', icon: 'wallet' },
   { id: 'stock', label: 'Inventory', icon: 'database' },
@@ -249,14 +250,15 @@ const navItems = [
 const rolePages = {
   Owner: navItems.map((item) => item.id),
   Manager: navItems.map((item) => item.id),
-  Cashier: ['dashboard', 'orders', 'billing', 'customers', 'reservations'],
+  Cashier: ['dashboard', 'tables', 'orders', 'billing', 'customers', 'reservations'],
   Kitchen: ['kitchen'],
-  Host: ['dashboard', 'customers', 'reservations', 'feedback', 'reports'],
+  Host: ['dashboard', 'tables', 'customers', 'reservations', 'feedback', 'reports'],
 };
 
 const pageSearchAliases = {
   dashboard: 'home overview summary',
   orders: 'order orders pos table takeaway menu',
+  tables: 'live tables floor board occupancy cleaning waiter seating',
   kitchen: 'kitchen display tickets cooking',
   billing: 'billing bill payment payments closing cash',
   stock: 'inventory stock ingredients supplies',
@@ -393,6 +395,7 @@ function shell() {
       <div class="mobile-overlay ${state.sidebarOpen ? 'open' : ''}" data-action="close-sidebar"></div>
       <main class="main-shell">
         <div class="topbar">
+          <select class="crm-mobile-page" aria-label="Open CRM page">${visibleNav.map(item => `<option value="${item.id}" ${state.page === item.id ? 'selected' : ''}>${escapeHtml(item.label)}</option>`).join('')}</select>
           <div class="global-search">
             ${icon('search')}
             <input id="global-search" type="search" placeholder="Search pages, guests, orders, stock…" aria-label="Global search" />
@@ -433,7 +436,8 @@ function renderPage() {
     vendors: renderVendors,
     staff: renderStaff,
     customers: renderCustomers,
-    reservations: renderReservations,
+    reservations: renderFloorReservations,
+    tables: renderTableBoard,
     loyalty: renderLoyalty,
     feedback: renderFeedback,
     reports: renderReports,
@@ -939,6 +943,8 @@ function refreshPage() {
   const content = document.getElementById('page-content');
   if (content) content.innerHTML = renderPage();
   document.querySelectorAll('.nav-item').forEach((item) => item.classList.toggle('active', item.dataset.page === state.page));
+  const mobilePage = document.querySelector('.crm-mobile-page');
+  if (mobilePage) mobilePage.value = state.page;
 }
 
 async function syncAndRender() {
@@ -1045,7 +1051,7 @@ function openPointsAdjustment() {
 function openOrderForm() {
   const groups = [...new Set((data.menuItems || []).map((item) => item.category))];
   const menu = groups.map((category) => `<section class="menu-group"><h3>${escapeHtml(category)}</h3><div class="menu-picker">${data.menuItems.filter((item) => item.category === category && item.active).map((item) => `<label class="menu-pick"><span><strong>${escapeHtml(item.name)}</strong><small>${inr(item.price)}</small></span><input name="qty_${item.id}" type="number" min="0" max="20" value="0" aria-label="Quantity for ${escapeHtml(item.name)}" /></label>`).join('')}</div></section>`).join('');
-  openModal('Create table order', 'Choose the table and add menu quantities. The order remains editable until sent to the kitchen.', `<form id="order-form"><div class="field"><label>Table / service reference</label><input name="table" required placeholder="Table 5" maxlength="40" /></div><div class="menu-scroll">${menu}</div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="order-form">${icon('check')} Create order</button>`);
+  openModal('Create table order', 'Choose the table and add menu quantities. The order remains editable until sent to the kitchen.', `<form id="order-form"><div class="field"><label>Table / service reference</label><input name="table" list="order-table-options" required placeholder="Choose a table or enter takeaway" maxlength="40" /><datalist id="order-table-options">${(data.tables || []).map(t => `<option value="${escapeHtml(t.label)}"></option>`).join('')}<option value="Takeaway"></option></datalist></div><div class="menu-scroll">${menu}</div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="order-form">${icon('check')} Create order</button>`);
 }
 
 function openPaymentForm(orderId) {
@@ -1170,7 +1176,7 @@ document.getElementById('app').addEventListener('click', async (event) => {
     else if (action === 'refresh-operations') { target.disabled = true; await syncAndRender(); showToast('Live operating data refreshed.'); }
     else if (action === 'add-customer') openAddCustomer();
     else if (action === 'view-customer') openCustomerProfile(target.dataset.id || target.closest('[data-id]')?.dataset.id);
-    else if (action === 'add-reservation') openReservationForm();
+    else if (action === 'add-reservation') openBookingEditor();
     else if (action === 'notifications') openNotifications();
     else if (action === 'retry-data') { await loadData(); renderApp(); }
     else if (action === 'reset-demo') { if (!window.confirm('Reset all CRM demo records? A safety backup will not be created by this action.')) return; target.disabled = true; await api('/api/reset', { method: 'POST', body: '{}' }); await syncAndRender(); showToast('Sample database has been rebuilt.'); }
@@ -1210,7 +1216,7 @@ document.getElementById('app').addEventListener('click', async (event) => {
     else if (action === 'edit-tiers') { state.page = 'settings'; state.settingsTab = 'loyalty'; refreshPage(); }
     else if (action === 'reply-feedback') openMessageComposer(null, target.dataset.id);
     else if (action === 'create-qr') openFeedbackLink();
-    else if (action === 'reservation-detail') openReservationDetail(target.dataset.id);
+    else if (action === 'reservation-detail') openBookingDetail(target.dataset.id);
     else if (action === 'import-customers') openImportCustomers();
     else if (action === 'invite-staff') openStaffForm();
     else if (action === 'toggle-user') { target.disabled = true; await api(`/api/users/${target.dataset.id}/toggle`, { method: 'POST', body: '{}' }); await syncAndRender(); showToast('Staff access updated.'); }
@@ -1301,6 +1307,7 @@ document.getElementById('modal-root').addEventListener('click', async (event) =>
 document.getElementById('modal-root').addEventListener('submit', async (event) => {
   event.preventDefault();
   const form = event.target;
+  if (['booking-editor', 'table-editor'].includes(form.id)) return;
   const values = Object.fromEntries(new FormData(form).entries());
   const submit = form.closest('.modal')?.querySelector('[type="submit"]');
   if (submit) { submit.disabled = true; submit.dataset.original = submit.innerHTML; submit.textContent = 'Saving…'; }

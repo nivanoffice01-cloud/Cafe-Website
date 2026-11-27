@@ -62,6 +62,31 @@ copy the CRM client into `dist/crm`. The hosted adapter stores demo records,
 sessions and backups in a private Vercel Blob store. Local development
 continues to use the Python/SQLite server.
 
+## Live tables and reservations
+
+Use **Live tables** to view the existing website seating groups and the published
+Table 4 QR. The board refreshes every 15 seconds and shows Available, Reserved,
+Occupied, and Cleaning, assigned roster staff, guest counts, and open bills.
+Select a known table name when creating a POS order to link its running bill.
+Older orders with other free-text table names remain visible under Orders and
+are called out above the board.
+
+Under **Reservations**, create or edit a booking, change its date/time/table,
+confirm, cancel, check in, mark a no-show, or check out. The default duration is
+90 minutes and can be changed. Confirmation rejects table capacity violations
+and overlapping confirmed visits. Pending website requests do not hold a table.
+Legacy free-text preferences can be assigned to a table through Edit before
+confirmation. Every change records the staff member and time in booking history.
+
+Check-in occupies the assigned table. Checkout requires settled table bills and
+moves the table to Cleaning; **Mark available** finishes the cleaning cycle.
+No-show is allowed after the arrival time, and terminal bookings are retained.
+Calendar/List views, date navigation, and status filters are supported. On mobile,
+use the page selector in the top bar. Customer message automation is separate.
+
+The hosted API uses conditional Vercel Blob writes to reject concurrent stale
+updates. Local SQLite uses a write transaction for each table/booking change.
+
 ## Demo owner sign-in
 
 - Email: `owner@mangosteen.local`
