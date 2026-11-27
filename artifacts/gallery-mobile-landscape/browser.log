@@ -1,0 +1,88 @@
+AssertionError [ERR_ASSERTION]: false == true
+    at file:///Users/shekharchouhan/Documents/GitHub/Cafe-Website/scripts/verify-gallery-mobile-scroll.mjs:34:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '=='
+}
+{
+  viewports: [
+    {
+      width: 320,
+      height: 568,
+      cardWidth: 272,
+      cardHeight: 181.328125,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 375,
+      height: 667,
+      cardWidth: 327,
+      cardHeight: 218,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 390,
+      height: 844,
+      cardWidth: 342,
+      cardHeight: 228,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 430,
+      height: 932,
+      cardWidth: 382,
+      cardHeight: 254.65625,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 768,
+      height: 1024,
+      cardWidth: 652.796875,
+      cardHeight: 435.1875,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    },
+    {
+      width: 844,
+      height: 390,
+      cardWidth: 240,
+      cardHeight: 160,
+      scrollDriven: true,
+      forwardReverse: true,
+      release: true,
+      cardFits: true,
+      overflow: false,
+      reducedMotionSwipe: true
+    }
+  ],
+  errors: [],
+  realTouch: { forwardX: -225, reverseX: 0, nativeHorizontalOffset: 0 },
+  recording: '/Users/shekharchouhan/Documents/GitHub/Cafe-Website/artifacts/gallery-mobile-landscape/raw/page@6782c65f78b364b902d377b6afdb3a3e.webm',
+  failure: 'AssertionError [ERR_ASSERTION]: false == true'
+}

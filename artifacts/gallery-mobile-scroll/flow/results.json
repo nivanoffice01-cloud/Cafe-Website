@@ -1,0 +1,55 @@
+{
+  "checks": [
+    "Desktop: six preview photos plus terminal card; nine-photo in-site grid; full photo, keyboard arrows, list position, focus trap, close and original page position preserved",
+    "Mobile: six preview photos plus terminal card; nine-photo in-site grid; full photo, keyboard arrows, list position, focus trap, close and original page position preserved"
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "page": true,
+      "dialog": true,
+      "grid": true
+    },
+    {
+      "width": 375,
+      "page": true,
+      "dialog": true,
+      "grid": true
+    },
+    {
+      "width": 390,
+      "page": true,
+      "dialog": true,
+      "grid": true
+    },
+    {
+      "width": 430,
+      "page": true,
+      "dialog": true,
+      "grid": true
+    },
+    {
+      "width": 768,
+      "page": true,
+      "dialog": true,
+      "grid": true
+    },
+    {
+      "width": 1440,
+      "page": true,
+      "dialog": true,
+      "grid": true
+    },
+    {
+      "width": 1920,
+      "page": true,
+      "dialog": true,
+      "grid": true
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "desktopVideo": "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/artifacts/gallery-mobile-scroll/flow/raw/page@6ea04d48d6f4c3a8b6e79c52bb94ab5b.webm",
+  "mobileVideo": "/Users/shekharchouhan/Documents/GitHub/Cafe-Website/artifacts/gallery-mobile-scroll/flow/raw/page@3952e1d931dce030cc90fd8125956027.webm",
+  "protectedCount": 553
+}
