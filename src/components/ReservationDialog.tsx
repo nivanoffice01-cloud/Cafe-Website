@@ -259,7 +259,7 @@ export function ReservationDialog({ onClose, initialSelection, navigation }: Pro
               <div className="reservation-map-caption"><p><i/> Your choice <span>·</span> Muted groups are too small for your party.</p><p>Illustrated schematic. Physical positions have not been verified.</p></div>
             </div>
             <aside className="reservation-summary">
-              <div className="reservation-area-photo" key={zone}><img {...areaPhoto} alt={areaPhoto.alt} sizes="(max-width: 767px) 100vw, 32vw" decoding="async"/><span>Area preview · not the exact table</span></div>
+              <div className="reservation-area-photo" key={zone}><img {...areaPhoto} alt={areaPhoto.alt} sizes="(max-width: 600px) 100vw, (max-width: 900px) 48vw, 42vw" decoding="async"/><span>Area preview · not the exact table</span></div>
               <div className="reservation-preview-copy">
                 <p className="reservation-eyebrow">YOUR PREFERRED SPOT</p><h3>{chosenCluster?.label ?? 'A place for you.'}</h3>
                 <div className="reservation-preview-meta"><span><ReservationIcon name="guests"/>{chosenCluster ? `${chosenCluster.capacity} seats` : `${guests} guests`}</span><span><ReservationIcon name="pin"/>{plan.name}</span></div>
@@ -269,7 +269,7 @@ export function ReservationDialog({ onClose, initialSelection, navigation }: Pro
               </div>
             </aside>
           </div>
-          <div className="reservation-mobile-sticky"><span>{seatsComplete ? chosenCluster?.label : 'Choose your preferred seats'}<small>{selectedSeats.length} of {guests} selected · {time}</small></span><button type="button" className="reservation-save" disabled={!seatsComplete} onClick={() => setStage('details')}>Continue <ReservationIcon name="arrow"/></button></div>
+          <div className="reservation-mobile-sticky"><span>{seatsComplete ? chosenCluster?.label : 'Choose your seats'}<small>{selectedSeats.length} of {guests} selected · {time}</small></span><button type="button" className="reservation-save" disabled={!seatsComplete} onClick={() => setStage('details')}>Continue to Details <ReservationIcon name="arrow"/></button></div>
         </> : <div className="reservation-details reservation-reveal">
           <aside className="reservation-details-recap"><div className="reservation-details-photo"><img {...detailsPhoto} alt={detailsPhoto.alt} sizes="(max-width: 767px) 100vw, 45vw"/><span>A moment at Mangosteen.</span></div><div className="reservation-recap-copy"><p className="reservation-eyebrow">YOUR EVENING, AT A GLANCE</p>{summary}<p>These seats are your preference, not an exclusive whole-table booking. Our team will confirm availability.</p></div></aside>
           <div className="reservation-details-form"><button ref={backRef} type="button" disabled={submissionState === 'submitting'} className="reservation-back" onClick={() => setStage('seats')}><ReservationIcon name="back"/> Change seats or arrival</button><p className="reservation-eyebrow">THE FINAL DETAILS</p><h2 id="reservation-title">Make it <em>yours.</em></h2><p>Leave your details. We’ll take care of the next part.</p><details className="reservation-mobile-recap"><summary>{chosenCluster?.label} · {guests} guests · {time}<span>Review ↓</span></summary>{summary}</details><form className="reservation-contact" aria-busy={submissionState === 'submitting'} onSubmit={sendReservation}>

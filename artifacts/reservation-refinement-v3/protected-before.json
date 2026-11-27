@@ -1,0 +1,16 @@
+{
+  "checkpoint": "7cc78fc872adcdac4239032a9de49cd861936b00",
+  "protected": {
+    "src/data/seating.ts": "b46c9fb8897f64c599fa556b060f26d6486e7016deab4a1fbe16f175eec2e0ec",
+    "src/features/reservations/layout.ts": "9dfd377bba8740197d5680f4151bdd323bc4d59908bfd94b51a548ef78d90b67",
+    "src/lib/crm.ts": "019ab4f4201a7b0c2d4944be37799d350d0c51d5d901fdeefbd0aa4ef14bdbaf",
+    "src/features/reservations/BookingControls.tsx": "e18b226b00ede7dea64be4640cfae372c9511db5786fe0646181d6725a73e472",
+    "src/pages/MenuExperiencePage.tsx": "3b2158e4aa9f2f15d7395f20bfeafcf6dc4acdabb52113a5d76a2808401a8b7c",
+    "src/features/digital-menu/photography.ts": "550ee34a8fd01a2a5598610d154b7874c6de71fc0dee77d9f3036cd10e10fc74",
+    "src/features/supplied-frontend/SuppliedDesign.tsx": "2fc2aa4dc89f9775b6689f3466e359f658c9c8bdfd92ef024f3d1add16c3eb8f",
+    "src/features/supplied-frontend/SuppliedFrontendPage.tsx": "a25940d32e4686558b7cd599c6be1c8d89d2e22775ae575c54f05636e936f942",
+    "src/styles/typography.css": "7aa539696d1ddb3c26c7fd3ba9f52ddb99a19d7b9eb741a1519cc4755bed2790",
+    "CRM/server.py": "162c42ca72c69842d6b17d70b86a4abb78b1978ecdd6fbbca556ea1a44f89722",
+    "api/full-menu.mjs": "c4d8c5f1418d2f3774501915cb76afb635b671229b7c556e70bef9b567b2185d"
+  }
+}

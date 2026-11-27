@@ -266,3 +266,50 @@
 @media(max-width:600px){.reservation-dialog .booking-trigger{height:52px;font-size:14px}.booking-picker{left:14px;right:14px;top:auto;bottom:calc(12px + env(safe-area-inset-bottom));width:auto;max-width:none;max-height:calc(100dvh - 104px - env(safe-area-inset-bottom));padding:22px;border-radius:20px}.booking-picker::backdrop{background:#13261a38}.booking-picker-heading h3{font-size:34px}.booking-area-options>button{min-height:88px}.booking-area-options strong{font-size:14px}.booking-area-options small{font-size:11px}.booking-calendar-grid>button{height:44px;font-size:14px}.booking-month>strong{font-size:14px}.booking-arrival button{min-height:48px;font-size:14px}.booking-party-counter>button{width:50px;height:50px}.booking-picker .reservation-save{min-height:50px;font-size:14px}}
 @media(max-width:360px){.booking-picker{padding:18px}.booking-calendar-grid{gap:2px}.reservation-dialog .booking-trigger{gap:7px;padding-inline:11px;font-size:13px}}
 @media(prefers-reduced-motion:reduce){.booking-picker[open],.booking-control-value{animation:none}.booking-trigger,.booking-chevron{transition:none}}
+
+/* Material-led reservation refinement. No changes to the site/navigation styles. */
+.reservation-plan{border-color:#d9d5c8;background:#efebe1;box-shadow:0 16px 40px #2530230b}
+.reservation-plan-toolbar{min-height:48px;background:#f2eee3}
+.reservation-map-hint,.reservation-map-overview{display:none}
+.reservation-table:hover{transform:translateY(-1.5px)}
+.reservation-table-ring{stroke-width:1.5;transition:opacity .25s,stroke .25s}
+.reservation-table-marker circle{fill:#faf5e8;stroke:#60725b;stroke-width:.5}
+.reservation-furniture.is-active .reservation-table-marker circle{fill:#284b34;stroke:#eee6d1}
+.reservation-map-controls button{min-width:44px;min-height:44px}
+.reservation-area-photo{aspect-ratio:1.6;border-radius:10px;animation:none;box-shadow:0 16px 34px #22332312}
+.reservation-area-photo img{object-position:60% 54%}
+.reservation-area-photo>span{font-size:10px;max-width:calc(100% - 28px);background:#15291ee8}
+.reservation-preview-copy{padding-top:24px}
+.reservation-preview-meta{gap:12px;font-size:13px;padding-bottom:16px}
+.reservation-seat-preferences{margin-block:18px}
+.reservation-seat-preferences>div:first-child{font-size:12px}
+.reservation-seat-preferences output{font-size:11px}
+.reservation-seat-preferences p{font-size:12px;line-height:1.65}
+.reservation-stage-action p{font-size:11px;line-height:1.6}
+@media(min-width:1200px){.reservation-content{grid-template-columns:minmax(0,1.6fr) minmax(360px,1.15fr);gap:clamp(28px,3vw,48px)}}
+@media(min-width:601px) and (max-width:900px){.reservation-area-photo{aspect-ratio:1;min-height:360px}.reservation-summary{align-items:stretch}}
+@media(max-width:600px){
+  .reservation-plan{--reservation-map-min-width:800px;border-radius:10px}
+  .reservation-plan.is-overview{--reservation-map-min-width:0px}
+  .reservation-plan-toolbar{padding:12px;flex-wrap:wrap;gap:5px}
+  .reservation-plan-toolbar>span:last-child{font-size:10px;line-height:1.4}
+  .reservation-map-hint{display:block;margin:0;padding:8px 12px;background:#f2eee3;color:#65705e;font-size:10px;line-height:1.5;border-bottom:1px solid #ddd8c9}
+  .reservation-map-scroll{touch-action:pan-x pan-y;scrollbar-width:thin;min-height:0}
+  .reservation-map-controls{padding:4px 8px;gap:4px}
+  .reservation-map-controls .reservation-map-overview{display:block;margin-right:auto;min-width:72px;padding-inline:10px;font-size:11px}
+  .reservation-table-list summary{font-size:12px;line-height:1.4}
+  .reservation-table-list button{min-height:64px}
+  .reservation-table-list button small{font-size:11px}
+  .reservation-map-caption{font-size:11px;line-height:1.5}
+  .reservation-area-photo{aspect-ratio:1.25;min-height:0}
+  .reservation-preview-copy{padding-top:20px}
+  .reservation-mobile-sticky{gap:8px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -3px 18px #2430240a}
+  .reservation-mobile-sticky>span{flex:1;min-width:0;max-width:none;font-size:11px;line-height:1.35}
+  .reservation-mobile-sticky small{font-size:10px;line-height:1.4}
+  .reservation-mobile-sticky .reservation-save{flex:none;width:174px;min-width:0;min-height:46px;padding:10px 12px;gap:8px;font-size:11px}
+  .reservation-mobile-sticky .reservation-save svg{width:16px;height:16px}
+  .reservation-page{padding-bottom:calc(105px + env(safe-area-inset-bottom))}
+}
+@media(max-width:360px){.reservation-mobile-sticky{padding-inline:14px}.reservation-mobile-sticky .reservation-save{width:158px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.reservation-table:hover{transform:none}.reservation-area-photo{animation:none}}
+@media(max-width:600px){.reservation-map-scroll{overscroll-behavior-x:contain;overscroll-behavior-y:auto}}

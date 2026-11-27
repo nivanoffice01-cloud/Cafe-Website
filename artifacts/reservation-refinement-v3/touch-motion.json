@@ -1,0 +1,21 @@
+{
+  "checks": [
+    "Real emulated touch swipes pan the map horizontally and scroll the booking page vertically without gesture trapping",
+    "Non-reduced-motion area switch visibly progresses through GSAP photographic mask and opacity states, finishing with fully visible indoor map/photo"
+  ],
+  "errors": [],
+  "touch": {
+    "horizontalPan": 324,
+    "verticalPageScroll": 265
+  },
+  "motion": {
+    "running": {
+      "opacity": 0.6348,
+      "clip": "inset(0% 0% 2.6083%)"
+    },
+    "complete": {
+      "opacity": 1,
+      "clip": "none"
+    }
+  }
+}

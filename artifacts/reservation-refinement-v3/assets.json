@@ -1,0 +1,62 @@
+[
+  {
+    "key": "table-long-v3",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-5b9190b5-11e6-4023-97ac-ffc6abfb3402.png",
+    "output": "public/images/reservation/table-long-v3.webp",
+    "dimensions": [
+      780,
+      351
+    ],
+    "alpha": true,
+    "bytes": 39756,
+    "sha256": "c1b4674bdf0938279546783921c38a1215f71707dc40f5374a1d22cdbaadedfb"
+  },
+  {
+    "key": "table-square-v3",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-65fb859d-b78a-40db-b298-b212ba421bea.png",
+    "output": "public/images/reservation/table-square-v3.webp",
+    "dimensions": [
+      460,
+      459
+    ],
+    "alpha": true,
+    "bytes": 36966,
+    "sha256": "aec8a8a8c43764ace8750d5f24b98ad05fce88378046e80af537db74c3e16112"
+  },
+  {
+    "key": "cane-chair-v3",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-9c0aa1bb-caa9-44cd-af80-94aeeeefcaf1.png",
+    "output": "public/images/reservation/cane-chair-v3.webp",
+    "dimensions": [
+      332,
+      364
+    ],
+    "alpha": true,
+    "bytes": 47158,
+    "sha256": "aa18ab58626e502edc2b99c071c34a02f87383c19fa6e9736243fcf3aa5735a9"
+  },
+  {
+    "key": "planter-areca-v3",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-940616aa-4b21-4ead-8978-6554e5a4ae9e.png",
+    "output": "public/images/reservation/planter-areca-v3.webp",
+    "dimensions": [
+      396,
+      365
+    ],
+    "alpha": true,
+    "bytes": 76534,
+    "sha256": "3ab07f71c0a21c56dadb1669d854e31b1a6873eb59e82a318db37e784792f92b"
+  },
+  {
+    "key": "planter-leafy-v3",
+    "source": "/Users/shekharchouhan/.codex/generated_images/01a207c6-7599-7bc2-beec-56c5d8fbf653/exec-630e82a4-2180-4f5a-9824-c66a9f97455d.png",
+    "output": "public/images/reservation/planter-leafy-v3.webp",
+    "dimensions": [
+      332,
+      312
+    ],
+    "alpha": true,
+    "bytes": 26354,
+    "sha256": "46675aa7de1110907fb2b43b3d2afa545b07ad53457ac94abbbab6204eef23e1"
+  }
+]
