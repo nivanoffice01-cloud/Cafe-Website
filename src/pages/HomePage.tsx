@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { PointerEvent as ReactPointerEvent } from 'react'
 import { Reveal } from '../components/Reveal'
 import { FullMenuDialog } from '../components/FullMenuDialog'
 import { GalleryDialog } from '../components/GalleryDialog'
@@ -27,14 +26,6 @@ const lifestyleMoments = [
   { title: 'Golden hour', note: 'The rooftop changes as the last light settles in.', src: '/images/gallery/cafe-18.jpeg', alt: 'Rooftop tables surrounded by greenery at Mangosteen Café' },
   { title: 'Dinner after dark', note: 'Warm light, open air and an unhurried final course.', src: '/images/gallery/cafe-19.jpg', alt: 'Warm pendant lights above the evening dining room at Mangosteen Café' },
 ]
-
-type Atmosphere = 'morning' | 'golden' | 'night'
-
-const atmospheres: Record<Atmosphere, { label: string; note: string; image: string; alt: string }> = {
-  morning: { label: 'Slow Morning', note: 'Coffee, soft daylight and room to pause.', image: '/images/gallery/cafe-14.png', alt: 'Mangosteen rooftop seating in soft daylight' },
-  golden: { label: 'Golden Hour', note: 'The café in its warmest light.', image: '/images/highres/mangosteen_original_1_8k.jpg', alt: 'Mangosteen interior glowing beneath woven pendant lights' },
-  night: { label: 'After Dark', note: 'Pendant light, open air and an unhurried evening.', image: '/images/experience/mangosteen-arrival-enhanced.jpg', alt: 'Mangosteen Café illuminated after dark' },
-}
 
 function LeafMark() {
   return <svg className="lux-leaf" viewBox="0 0 38 38" aria-hidden="true"><path d="M29.8 7.8C19.1 7.5 10.2 10.4 8.1 18.1c-1.5 5.4 2.5 9.7 7.3 8.4 8-2.2 10.8-11.2 14.4-18.7Z" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M10.1 28.8c4.1-6.4 8.9-10.6 15.7-14.8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
@@ -81,10 +72,6 @@ export function HomePage() {
   const [galleryIndex, setGalleryIndex] = useState(0)
   const [hasEntered, setHasEntered] = useState(false)
   const [mapReady, setMapReady] = useState(false)
-  const [atmosphere, setAtmosphere] = useState<Atmosphere>(() => {
-    const hour = new Date().getHours()
-    return hour >= 7 && hour < 15 ? 'morning' : hour >= 15 && hour < 19 ? 'golden' : 'night'
-  })
   const closeMenu = useCallback(() => setMenuOpen(false), [])
   const closeGallery = useCallback(() => setGalleryOpen(false), [])
   const openMenu = useCallback(() => {
@@ -97,16 +84,6 @@ export function HomePage() {
     setMenuOpen(true)
   }
   const openGallery = (index = 0) => { setGalleryIndex(index); setGalleryOpen(true) }
-  const moveHeroDepth = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === 'touch') return
-    const rect = event.currentTarget.getBoundingClientRect()
-    event.currentTarget.style.setProperty('--pointer-x', String((event.clientX - rect.left) / rect.width - .5))
-    event.currentTarget.style.setProperty('--pointer-y', String((event.clientY - rect.top) / rect.height - .5))
-  }
-  const resetHeroDepth = (event: ReactPointerEvent<HTMLDivElement>) => {
-    event.currentTarget.style.setProperty('--pointer-x', '0')
-    event.currentTarget.style.setProperty('--pointer-y', '0')
-  }
 
   useEffect(() => {
     if (!mobileMenuOpen) return
@@ -144,29 +121,32 @@ export function HomePage() {
       </header>
 
       <main id="main-content">
-        <section className="film-journey" id="top" aria-labelledby="film-title">
-          <div className="film-sticky" id="cinematic-journey" data-atmosphere={atmosphere} onPointerMove={moveHeroDepth} onPointerLeave={resetHeroDepth}>
-            <nav className="hero-nav" aria-label="Hero navigation">
-              <a className="hero-nav-brand" href="#top" aria-label="Mangosteen Cafe home"><LeafMark/><span>MANGOSTEEN<small>CAFE · INDORE</small></span></a>
-              <div className="hero-nav-links"><a href="#story">The experience</a><button type="button" onClick={openMenu}>Menu</button><a href="#gallery">Gallery</a><a href="#visit">Visit</a></div>
-              <button className="hero-nav-reserve" type="button" onClick={() => setReservationOpen(true)}>Reserve a Table</button>
+        <section className="plate-journey" id="top" aria-labelledby="film-title">
+          <div className="plate-hero" id="cinematic-journey">
+            <nav className="plate-nav" aria-label="Hero navigation">
+              <a className="plate-brand" href="#top" aria-label="Mangosteen Cafe home">
+                <img src="/images/branding/mangosteen-lockup.png" alt="Mangosteen"/>
+                <small>CAFÉ · INDORE</small>
+              </a>
+              <div className="plate-nav-links">
+                <button type="button" onClick={openMenu}>Menu</button>
+                <a href="#story">Our Story</a>
+                <a href="#gallery">The Café</a>
+                <a href="#visit">Contact</a>
+              </div>
+              <button className="plate-reserve" type="button" onClick={() => setReservationOpen(true)}>Reserve a Table</button>
             </nav>
-            <div className="hero-architecture">
-              <img key={`background-${atmosphere}`} src={atmospheres[atmosphere].image} srcSet={responsivePhotoSrcSet(atmospheres[atmosphere].image)} sizes="100vw" alt={atmospheres[atmosphere].alt} fetchPriority="high" />
+            <div className="plate-stage">
+              <p className="plate-kicker">The finish</p>
+              <h1 id="film-title" aria-label="Your burger, plated.">
+                <span className="plate-word plate-word-your">Your</span>
+                <span className="plate-word plate-word-burger">burger,</span>
+                <span className="plate-word plate-word-plated">plated.</span>
+              </h1>
+              <img className="plate-burger" src="/images/hero/burger-plated-v1.png" alt="A premium double-stack Mangosteen burger" fetchPriority="high"/>
+              <p className="plate-note">More smoke. More heat. More<br/>of everything.</p>
+              <div className="plate-progress" aria-hidden="true"><i/><i/><i/><i className="is-active"/></div>
             </div>
-            <div className="hero-ambient-light" aria-hidden="true"/>
-            <div className="hero-midground" aria-hidden="true"><img key={`midground-${atmosphere}`} src={atmospheres[atmosphere].image} srcSet={responsivePhotoSrcSet(atmospheres[atmosphere].image)} sizes="100vw" alt="" /></div>
-            <div className="film-giant-word" aria-hidden="true">MANGOSTEEN</div>
-            <img className="hero-botanical hero-botanical-upper" src="/images/hero/botanical-upper-left.png" alt="" aria-hidden="true"/>
-            <img className="hero-botanical hero-botanical-lower-left" src="/images/hero/botanical-lower-left.png" alt="" aria-hidden="true"/>
-            <img className="hero-botanical hero-botanical-lower-right" src="/images/hero/botanical-lower-right.png" alt="" aria-hidden="true"/>
-            <div className="film-opening">
-              <p>A ROOFTOP ESCAPE · INDORE</p>
-              <h1 id="film-title">Above the city.<br/><em>Beyond the ordinary.</em></h1>
-              <span className="film-opening-line">Good food. Golden evenings. Moments worth staying for.</span>
-              <div className="film-opening-actions"><button type="button" onClick={openMenu}>Explore the Menu</button><button type="button" onClick={() => setReservationOpen(true)}>Reserve a Table</button></div>
-            </div>
-            <div className="film-atmosphere" aria-label="Choose the café atmosphere"><span>{atmospheres[atmosphere].note}</span><div>{(Object.keys(atmospheres) as Atmosphere[]).map((mode) => <button key={mode} type="button" aria-pressed={atmosphere === mode} className={atmosphere === mode ? 'is-active' : ''} onClick={() => setAtmosphere(mode)}>{atmospheres[mode].label}</button>)}</div></div>
           </div>
         </section>
 
