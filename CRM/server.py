@@ -15,6 +15,7 @@ import waitlist
 import service
 import corrections
 import cash_drawer
+import food_costing
 import reservation_whatsapp
 from contextlib import closing, contextmanager
 import hashlib
@@ -268,6 +269,21 @@ CREATE TABLE IF NOT EXISTS recipes (
   PRIMARY KEY(menu_item_id, inventory_item_id),
   FOREIGN KEY(menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE,
   FOREIGN KEY(inventory_item_id) REFERENCES inventory_items(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ingredient_costs (
+  ingredient_id INTEGER PRIMARY KEY REFERENCES inventory_items(id) ON DELETE CASCADE,
+  unit_cost INTEGER NOT NULL CHECK (unit_cost >= 0)
+);
+
+CREATE TABLE IF NOT EXISTS public_dish_recipes (
+  dish_id TEXT PRIMARY KEY,
+  recipe TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS food_waste (
+  id TEXT PRIMARY KEY,
+  payload TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS orders (
@@ -1126,6 +1142,8 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
     entries = corrections.records(connection)
     if role in cash_drawer.ROLES:
         result['cashDrawer'] = cash_drawer.payload(connection, entries)
+    if role in food_costing.ROLES:
+        result['foodCosting'] = food_costing.payload(connection)
     corrections.enrich(result['orders'], entries)
     result['corrections'] = [r for r in entries if role in corrections.ROLES and
                              (role != 'Cashier' or r['requestedBy']['id'] == current_user['id']
@@ -1694,6 +1712,19 @@ class CRMHandler(SimpleHTTPRequestHandler):
                 return
 
             with connect() as connection:
+                food_route = re.fullmatch(r'/api/food-costing/(ingredient|recipe|waste)', path)
+                if food_route:
+                    self.require_roles(*food_costing.ROLES)
+                    connection.execute('BEGIN IMMEDIATE')
+                    action = food_route[1]
+                    if action == 'waste':
+                        result = food_costing.record_waste(connection, body, user)
+                    else:
+                        save = food_costing.save_ingredient if action == 'ingredient' else food_costing.save_recipe
+                        result = save(connection, body)
+                    connection.commit()
+                    self.send_json(result)
+                    return
                 drawer_route = re.fullmatch(r'/api/cash-drawer/(open|movement|close|reopen)', path)
                 if drawer_route:
                     action = drawer_route[1]
@@ -1848,6 +1879,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
 
                 if path.startswith("/api/orders/") and path.endswith("/send"):
                     self.require_roles("Owner", "Manager", "Cashier")
+                    connection.execute('BEGIN IMMEDIATE')
                     order_id = int(path.split("/")[3])
                     send_order_to_kitchen(connection, order_id, user["id"])
                     connection.commit()
@@ -1916,6 +1948,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
 
                 if path.startswith("/api/inventory/") and path.endswith("/adjust"):
                     self.require_roles("Owner", "Manager")
+                    connection.execute('BEGIN IMMEDIATE')
                     inventory_id = int(path.split("/")[3])
                     quantity = float(body.get("quantity", 0))
                     reason = str(body.get("reason", "Manual stock adjustment")).strip()[:120]
@@ -2276,7 +2309,8 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     self.require_user("Owner")
                     for table in ("public_order_submissions", "public_submissions", "communications", "point_ledger", "payments", "order_corrections", "cash_drawers",
                                   "inventory_movements", "order_items", "attendance", "expenses",
-                                  "recipes", "orders", "staff", "vendors", "inventory_items", "menu_items",
+                                  "food_waste", "ingredient_costs", "public_dish_recipes", "recipes",
+                                  "orders", "staff", "vendors", "inventory_items", "menu_items",
                                   "reservations", "feedback", "tasks", "campaigns", "rewards",
                                   "activities", "monthly_metrics", "customers", "settings"):
                         connection.execute(f"DELETE FROM {table}")

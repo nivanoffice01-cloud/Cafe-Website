@@ -276,7 +276,7 @@ const pageSearchAliases = {
   service: 'floor service waiter ready food alerts serve',
   billing: 'billing bill payment payments closing cash',
   corrections: 'approvals corrections refunds discounts cancel items void',
-  stock: 'inventory stock ingredients supplies',
+  stock: 'inventory stock ingredients supplies waste spoilage dish margins recipe food cost',
   expenses: 'expense expenses costs spending',
   vendors: 'vendor vendors supplier suppliers',
   staff: 'staff team employee employees attendance roster',
@@ -648,11 +648,29 @@ function renderBilling() {
 
 function renderStock() {
   const operations = calculateOperations();
+  const view = data.foodCosting ? state.foodView || 'stock' : 'stock';
+  const actions = `<button class="btn" data-action="refresh-operations">${icon('refresh')} Refresh</button>`
+    + (view === 'stock' ? '<button class="btn btn-primary" data-food-action="ingredient">Add ingredient</button>'
+      : view === 'waste' ? '<button class="btn btn-primary" data-food-action="waste">Record waste</button>' : '');
+  const header = pageHeader('Stock control', 'Inventory', 'Manage ingredient stock, waste, and dish costs.', actions) + renderFoodInventoryTabs(view);
+  if (view === 'waste') return header + renderFoodWaste();
+  if (view === 'margins') return header + renderDishMargins();
+  const costs = new Map((data.foodCosting?.inventory || []).map(item => [item.id, item.unitCostPaise]));
   return `
-    ${pageHeader('Stock control', 'Inventory', 'Recipe-linked stock is deducted automatically when an order reaches the kitchen.', `<button class="btn" data-action="refresh-operations">${icon('refresh')} Refresh stock</button>`)}
-    ${operations.lowStock.length ? `<div class="stock-alert">${icon('alert')}<div><strong>${operations.lowStock.length} ingredient${operations.lowStock.length === 1 ? '' : 's'} need attention</strong><span>${operations.lowStock.map((item) => item.name).join(', ')}</span></div></div>` : ''}
-    <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Ingredient ledger</h2><p>Current balance and reorder threshold</p></div><span class="status active">${data.inventory.length} ingredients</span></div><div class="panel-body stock-list">
-      ${(data.inventory || []).map((item) => { const max = Math.max(item.quantity, item.reorderLevel * 2, 1); const width = Math.min(100, item.quantity / max * 100); return `<div class="stock-row ${item.low ? 'low' : ''}"><div class="stock-copy"><strong>${escapeHtml(item.name)}</strong><span>Reorder at ${item.reorderLevel} ${escapeHtml(item.unit)}</span></div><div class="stock-quantity"><strong>${Number(item.quantity).toLocaleString('en-IN')} ${escapeHtml(item.unit)}</strong><div class="stock-meter"><i style="width:${width}%"></i></div></div><div>${item.low ? statusPill('Low') : statusPill('Healthy')}<button class="btn btn-small" data-action="adjust-stock" data-id="${item.id}">Adjust</button></div></div>`; }).join('')}
+    ${header}
+    ${operations.lowStock.length ? `<div class="stock-alert">${icon('alert')}<div><strong>${operations.lowStock.length} ingredient${operations.lowStock.length === 1 ? '' : 's'} need attention</strong><span>${operations.lowStock.map((item) => escapeHtml(item.name)).join(', ')}</span></div></div>` : ''}
+    <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Ingredient ledger</h2><p>Stock levels, reorder thresholds, and unit costs.</p></div><span class="status active">${data.inventory.length} ingredients</span></div><div class="panel-body stock-list">
+      ${(data.inventory || []).map(item => {
+        const width = Math.min(100, item.quantity / Math.max(item.quantity, item.reorderLevel * 2, 1) * 100);
+        const cost = costs.get(item.id);
+        return `<div class="stock-row ${item.low ? 'low' : ''}">
+          <div class="stock-copy"><strong>${escapeHtml(item.name)}</strong><span>Reorder at ${foodQty.format(item.reorderLevel)} ${escapeHtml(item.unit)}</span>
+            <span>${cost == null ? 'Cost needed' : `${foodAmount(cost)} / ${escapeHtml(item.unit)}`}</span></div>
+          <div class="stock-quantity"><strong>${foodQty.format(item.quantity)} ${escapeHtml(item.unit)}</strong><div class="stock-meter"><i style="width:${width}%"></i></div></div>
+          <div class="food-stock-actions">${statusPill(item.low ? 'Low' : 'Healthy')}
+            <button class="btn btn-small" data-food-action="ingredient" data-id="${item.id}">Set cost</button>
+            <button class="btn btn-small" data-action="adjust-stock" data-id="${item.id}">Adjust</button></div></div>`;
+      }).join('')}
     </div></article>`;
 }
 
@@ -1090,7 +1108,7 @@ function openPaymentForm(orderId) {
 function openInventoryAdjustment(id) {
   const item = data.inventory.find((entry) => String(entry.id) === String(id));
   if (!item) return;
-  openModal(`Adjust ${escapeHtml(item.name)}`, `Current stock: ${item.quantity} ${escapeHtml(item.unit)} · use a negative number for wastage.`, `<form id="inventory-form"><input type="hidden" name="id" value="${item.id}" /><div class="form-grid"><div class="field"><label>Quantity change (${escapeHtml(item.unit)})</label><input name="quantity" type="number" step="0.01" required placeholder="e.g. 5 or -1" /></div><div class="field"><label>Reason</label><select name="reason"><option>Purchase received</option><option>Manual correction</option><option>Wastage</option><option>Stock count</option></select></div></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="inventory-form">Save adjustment</button>`);
+  openModal(`Adjust ${escapeHtml(item.name)}`, `Current stock: ${foodQty.format(item.quantity)} ${escapeHtml(item.unit)}`, `<form id="inventory-form"><input type="hidden" name="id" value="${item.id}" /><div class="form-grid"><div class="field"><label>Quantity change (${escapeHtml(item.unit)})</label><input name="quantity" type="number" step="0.000001" required placeholder="e.g. 5 or -1" /></div><div class="field"><label>Reason</label><select name="reason"><option>Purchase received</option><option>Manual correction</option><option>Stock count</option></select></div></div><p class="floor-note">Use Waste log for spoilage or preparation waste.</p></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="inventory-form">Save adjustment</button>`);
 }
 
 function openExpenseForm() {
@@ -1334,7 +1352,7 @@ document.getElementById('modal-root').addEventListener('click', async (event) =>
 document.getElementById('modal-root').addEventListener('submit', async (event) => {
   event.preventDefault();
   const form = event.target;
-  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat', 'service-settings-form', 'correction-form', 'correction-review', 'cash-drawer-form'].includes(form.id)) return;
+  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat', 'service-settings-form', 'correction-form', 'correction-review', 'cash-drawer-form', 'food-costing-form'].includes(form.id)) return;
   const values = Object.fromEntries(new FormData(form).entries());
   const submit = form.closest('.modal')?.querySelector('[type="submit"]');
   if (submit) { submit.disabled = true; submit.dataset.original = submit.innerHTML; submit.textContent = 'Saving…'; }

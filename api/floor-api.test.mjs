@@ -34,6 +34,9 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
     if (id === '@vercel/blob' || id === 'node:crypto') {
       const exports = id === '@vercel/blob' ? blob : crypto
       module = new vm.SyntheticModule(Object.keys(exports), function () { for (const [key, value] of Object.entries(exports)) this.setExport(key, value) }, { context, identifier: id })
+    } else if (id.endsWith('.json')) {
+      const data = JSON.parse(await readFile(new URL(id), 'utf8'))
+      module = new vm.SyntheticModule(['default'], function () { this.setExport('default', data) }, { context, identifier:id })
     } else module = new vm.SourceTextModule(await readFile(new URL(id), 'utf8'), { context, identifier: id })
     cache.set(id, module)
     await module.link((specifier, source) => load(specifier.startsWith('.') ? new URL(specifier, source.identifier).href : specifier))
@@ -216,4 +219,36 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
   cookie = kitchenLogin.cookie.split(';')[0]
   assert.equal((await request('/bootstrap')).payload.cashDrawer, undefined)
   assert.equal((await action('close', closing)).code, 403)
+
+  const saveFood = (name, body) => request(`/food-costing/${name}`, body)
+  assert.equal((await request('/bootstrap')).payload.foodCosting, undefined)
+  assert.equal((await saveFood('ingredient', { name:'Hidden cost', unit:'kg' })).code, 403)
+  cookie = managerCookie
+  const ingredient = await saveFood('ingredient', { name:'QA fruit', unit:'kg', quantity:'2.75', unitCost:'120.50' })
+  assert.equal(ingredient.code, 200)
+  const ingredientId = ingredient.payload.id
+  assert.equal((await saveFood('ingredient', {name:'qa fruit',unit:'kg'})).code,409)
+  const food = async () => (await request('/bootstrap')).payload.foodCosting
+  const item = (await food()).dishes.find(d => d.id === 'qr:Shakes|Berries shakes')
+  assert.equal(item.costPaise, null)
+  const recipe = { dishId:item.id, revision:item.revision, ingredients:[{ inventoryItemId:ingredientId,quantity:'.5' }] }
+  assert.equal((await saveFood('recipe', recipe)).code, 200)
+  assert.equal((await saveFood('recipe', recipe)).code, 409)
+  const costed = (await food()).dishes.find(d => d.id === item.id)
+  assert.equal(costed.costPaise, 6025)
+  assert.equal(costed.grossPaise, 29975)
+  assert.equal(costed.margin, 29975 / 36000 * 100)
+  const waste = { ingredientId, kind:'Spoilage', quantity:'.125', reason:'Failed quality check', requestKey:'waste-ingredient-test' }
+  assert.equal((await saveFood('waste', waste)).code, 200)
+  assert.equal((await saveFood('waste', waste)).code, 200)
+  assert.equal((await saveFood('waste', { ...waste, requestKey:'waste-insufficient-test', quantity:'99' })).code, 409)
+  assert.equal((await saveFood('waste', { ...waste, requestKey:'waste-prep-test',
+    kind:'Preparation waste', quantity:'0.5', alreadyDeducted:true })).code, 200)
+  const wasteSnapshot = (await request('/bootstrap')).payload
+  assert.equal(wasteSnapshot.inventory.find(i => i.id === ingredientId).quantity, 2.625)
+  assert.equal(wasteSnapshot.foodCosting.waste.length, 2)
+  assert.equal(wasteSnapshot.foodCosting.waste.find(entry => entry.id === waste.requestKey).lossPaise, 1506)
+  await saveFood('ingredient', { id:ingredientId, unitCost:'10' })
+  assert.equal((await food()).waste.find(entry => entry.id === waste.requestKey).lossPaise, 1506)
+  assert.equal((await food()).dishes.find(d => d.id === item.id).costPaise, 500)
 })

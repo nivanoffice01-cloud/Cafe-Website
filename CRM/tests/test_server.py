@@ -195,6 +195,42 @@ class CRMServerTests(unittest.TestCase):
         self.assertEqual([r['amount'] for r in snapshot['refunds']], [25.25])
         self.assertEqual(next(o for o in snapshot['orders'] if o['id']==oid)['total'],169.5)
 
+    def test_food_costing_tracks_waste_and_costs_the_recipe(self):
+        manager, csrf = self.login('manager@mangosteen.local')
+
+        def post(path, body):
+            return self.request(path, body=body, cookie=manager, headers={'X-CSRF-Token': csrf})[:2]
+
+        def snapshot():
+            return self.request('/api/bootstrap', cookie=manager)[1]
+
+        status, created = post('/api/food-costing/ingredient', dict(name='Test coffee blend', unit='kg', quantity='3', unitCost='451.20'))
+        self.assertEqual(status, 200, created)
+        item = created['id']
+        costing = snapshot()['foodCosting']
+        dish = next(d for d in costing['dishes'] if d['channel'] == 'POS' and d['name'] == 'Cold Coffee')
+        self.assertIsNone(dish['costPaise'])
+        self.assertGreater(len(costing['dishes']), 100)
+        recipe = dict(dishId=dish['id'], revision=dish['revision'], ingredients=[dict(inventoryItemId=item, quantity='.025')])
+        self.assertEqual(post('/api/food-costing/recipe', recipe)[0], 200)
+        costed = next(d for d in snapshot()['foodCosting']['dishes'] if d['id'] == dish['id'])
+        self.assertEqual(costed['costPaise'], 1128)
+        self.assertEqual(costed['grossPaise'], 16872)
+        _, order = post('/api/orders', dict(table='Recipe stock test', items=[dict(menuItemId=int(dish['id'][4:]), quantity=2)]))
+        self.assertEqual(post(f"/api/orders/{order['id']}/send", {})[0], 200)
+        raw = dict(ingredientId=item, kind='Spoilage', quantity='.1', reason='Damaged package', requestKey='waste-local-test')
+        self.assertEqual(post('/api/food-costing/waste', raw)[0], 200)
+        self.assertEqual(post('/api/food-costing/waste', raw)[0], 200)
+        prep = dict(raw, kind='Preparation waste', alreadyDeducted=True, quantity='.05', requestKey='prep-local-test')
+        self.assertEqual(post('/api/food-costing/waste', prep)[0], 200)
+        data = snapshot()
+        balance = next(i['quantity'] for i in data['inventory'] if i['id'] == item)
+        self.assertAlmostEqual(balance, 2.85)
+        entries = data['foodCosting']['waste']
+        self.assertEqual(len(entries), 2)
+        self.assertEqual(next(e for e in entries if e['id'] == raw['requestKey'])['lossPaise'], 4512)
+        self.assertTrue(next(e for e in entries if e['id'] == prep['requestKey'])['alreadyDeducted'])
+
     def test_floor_walkin_cleaning_and_capacity(self):
         cookie, csrf = self.login()
         headers = {'X-CSRF-Token': csrf}

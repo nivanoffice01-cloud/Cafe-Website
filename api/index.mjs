@@ -7,6 +7,7 @@ import { servicePayload, serviceAction, kitchenTransition, updateServiceSettings
 import { correctionRoles, activeCorrection, requestCorrection, reviewCorrection } from './corrections.mjs'
 import { whatsappConfig, prepareConfirmation, sendConfirmation } from './reservation-whatsapp.mjs'
 import { drawerRoles, reopenRoles, drawerPayload, ensureDrawerNotClosed, updateDrawer } from './cash-drawer.mjs'
+import { foodRoles, foodPayload, saveIngredient, saveRecipe, recordWaste } from './food-costing.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
@@ -300,6 +301,7 @@ function bootstrap(state, user) {
   const role = user.role
   const base = {
     ...(drawerRoles.includes(role) ? { cashDrawer: drawerPayload(state) } : {}),
+    ...(foodRoles.includes(role) ? { foodCosting: foodPayload(state, PUBLIC_MENU) } : {}),
     corrections: correctionRoles.includes(role) ? (state.corrections || []).filter(r => role !== 'Cashier' || r.requestedBy.id === user.id || (r.type === 'refund' && r.status === 'Approved')) : [],
     refunds: ['Kitchen','Floor Staff'].includes(role) ? [] : (state.corrections || []).filter(r => r.status === 'Refund recorded').map(r => ({ amount:r.amount, method:r.method, createdAt:r.recordedAt })),
     service: servicePayload(state, user),
@@ -511,6 +513,17 @@ async function handleRequest(request) {
     }
 
     if (request.method !== 'POST') return json({ error: 'API route not found' }, 404)
+
+    const foodRoute = path.match(/^\/food-costing\/(ingredient|recipe|waste)$/)
+    if (foodRoute) {
+      const manager = requireRoles(request, state, foodRoles)
+      const action = foodRoute[1]
+      const result = action === 'ingredient' ? saveIngredient(state, body)
+        : action === 'recipe' ? saveRecipe(state, PUBLIC_MENU, body)
+        : recordWaste(state, body, manager)
+      await saveState(state)
+      return json(result)
+    }
 
     const drawerRoute = path.match(/^\/cash-drawer\/(open|movement|close|reopen)$/)
     if (drawerRoute) {
