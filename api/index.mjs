@@ -1,7 +1,7 @@
 import { get, put } from '@vercel/blob'
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
 import { fullMenu } from './full-menu.mjs'
-import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable, keepPaidVisit, orderIsPaid } from './floor.mjs'
+import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable, keepPaidVisit, orderIsPaid, isDemoPrepaid } from './floor.mjs'
 import { waitlistPayload, updateWaitlist } from './waitlist.mjs'
 import { servicePayload, serviceAction, kitchenTransition, updateServiceSettings } from './service.mjs'
 import { correctionRoles, activeCorrection, requestCorrection, reviewCorrection } from './corrections.mjs'
@@ -325,7 +325,8 @@ function bootstrap(state, user) {
     orders: state.orders.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 100).map(order => {
       const pending = activeCorrection(state, order.id)
       const { customerId, visitKey, visitAt, visitTable, guestLinkReviewed, ...publicOrder } = order
-      return { ...publicOrder, ...(matchPhone ? guestFields(order, matchPhone) : {}), correctionPending: pending?.status === 'Pending' && pending.type !== 'refund' }
+      return { ...publicOrder, ...(isDemoPrepaid(order) ? { paymentStatus:'Paid' } : {}),
+        ...(matchPhone ? guestFields(order, matchPhone) : {}), correctionPending: pending?.status === 'Pending' && pending.type !== 'refund' }
     }),
     inventory: ['Owner', 'Manager'].includes(role) ? state.inventory : [],
     expenses: ['Owner', 'Manager'].includes(role) ? state.expenses : [],

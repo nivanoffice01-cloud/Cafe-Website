@@ -63,8 +63,13 @@ def orders(state, t):
     return [o for o in state.get('orders', []) if not o.get('floorClosedAt') and o['status'] not in ('Paid', 'Cancelled') and (o.get('table', '').lower() in names or str(o.get('tableCode')) == t['id'] or o.get('tableId') == t['id'])]
 
 
+def demo_prepaid(method):
+    return method in ('Demo UPI', 'Demo card')
+
+
 def paid(order):
-    return bool(order.get('paidAt') or order['status'] == 'Paid' or order.get('paymentStatus') == 'Paid')
+    return bool(order.get('paidAt') or order['status'] == 'Paid' or order.get('paymentStatus') == 'Paid'
+                or demo_prepaid(order.get('paymentMethod')))
 
 
 def keep_paid_visit(state, order_id):

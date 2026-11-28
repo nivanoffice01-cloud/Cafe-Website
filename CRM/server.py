@@ -997,6 +997,7 @@ def operations_payload(connection: sqlite3.Connection, current_user: dict | None
                "paymentMethod": row["payment_method"], "createdAt": row["created_at"],
                "sentAt": row["sent_at"], "readyAt": row["ready_at"], "paidAt": row["paid_at"],
                "items": order_items.get(row["id"], []),
+               **({"paymentStatus":"Paid"} if floor.demo_prepaid(row["payment_method"]) else {}),
                **(floor.qr_order_fields(row["table_name"]) if row["qr_order"] else {})}
               for row in rows(connection, """SELECT orders.*,
                   EXISTS(SELECT 1 FROM public_order_submissions q WHERE q.order_id=orders.id) AS qr_order
@@ -1963,7 +1964,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     order = connection.execute("SELECT * FROM orders WHERE id=?", (order_id,)).fetchone()
                     if not order:
                         raise ValueError("Order not found")
-                    if order["status"] == "Paid" or order["paid_at"]:
+                    if order["status"] == "Paid" or order["paid_at"] or floor.demo_prepaid(order["payment_method"]):
                         raise ValueError("Order is already paid")
                     if order["status"] in ("Cancelled","Draft"):
                         raise ValueError("This order cannot be paid.")

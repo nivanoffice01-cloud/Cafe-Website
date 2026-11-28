@@ -63,7 +63,7 @@ def refund_details(connection, order, entries, excluding=None):
 def validate(connection, order, entries, record):
     if not order or order['status'] == 'Cancelled':
         raise ValueError('This order is no longer eligible for a correction.')
-    paid = order['paid_at'] or order['status'] == 'Paid'
+    paid = order['paid_at'] or order['status'] == 'Paid' or floor.demo_prepaid(order['payment_method'])
     if record['type'] == 'refund':
         if not paid:
             raise ValueError('Only paid orders can be refunded.')

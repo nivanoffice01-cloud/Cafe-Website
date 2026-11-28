@@ -72,7 +72,7 @@ function serviceTicket(order, kitchen = false) {
   const age = order.status === 'Ready' ? order.readyMinutes : order.ageMinutes;
   const claimed = order.acceptedBy;
   const mine = !claimed || claimed.id === data.user?.id || ['Owner','Manager'].includes(data.user?.role);
-  return `<article class="kds-card service-ticket ${order.delayed ? 'ticket-delayed' : ''}" data-service-order="${order.id}"><div class="kds-ticket-head"><div><span>Order #${String(order.id).padStart(3,'0')}${order.paid ? ' · PREPAID' : ''}</span><strong>${escapeHtml(order.table)}</strong></div><div class="kds-timer">${age} min</div></div>
+  return `<article class="kds-card service-ticket ${order.delayed ? 'ticket-delayed' : ''}" data-service-order="${order.id}"><div class="kds-ticket-head"><div><span>Order #${String(order.id).padStart(3,'0')}${order.demoPrepaid ? ' · DEMO PREPAID' : order.paid ? ' · PREPAID' : ''}</span><strong>${escapeHtml(order.table)}</strong></div><div class="kds-timer">${age} min</div></div>
     ${order.delayed ? `<div class="service-delay-label">${order.status === 'Ready' ? 'Waiting at the pass' : 'Preparation delayed'} · ${age} min</div>` : ''}
     <ul>${order.items.map(i=>`<li><strong>${i.quantity}×</strong> ${escapeHtml(i.name)}</li>`).join('')}</ul>${order.cancelledItems?.length ? `<p class="service-delay-label">Cancelled: ${order.cancelledItems.map(i=>`${i.quantity} × ${escapeHtml(i.name)}`).join(', ')}</p>` : ''}${order.notes ? `<p class="service-kitchen-note">${escapeHtml(order.notes)}</p>` : ''}
     ${order.assignedTo ? `<p class="floor-note">Table staff: ${escapeHtml(order.assignedTo)}</p>` : ''}

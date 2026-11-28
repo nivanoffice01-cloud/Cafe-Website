@@ -35,7 +35,8 @@ def payload(state, user):
         ready = elapsed(o.get('readyAt') or o.get('sentAt') or o['createdAt']) if o['status']=='Ready' else 0
         result.append(dict(id=o['id'],table=o.get('tableLabel') or o['table'],status=o['status'],createdAt=o['createdAt'],sentAt=o.get('sentAt') or o['createdAt'],readyAt=o.get('readyAt'),ageMinutes=age,readyMinutes=ready,
           delayed=ready>=settings['readyMinutes'] if o['status']=='Ready' else age>=settings['prepMinutes'],assignedTo=(staff or {}).get('name',''),acceptedAt=o.get('serviceAcceptedAt'),acceptedBy=o.get('serviceAcceptedBy'),
-          items=[dict(name=i['name'],quantity=i['quantity']) for i in o.get('items',[])], cancelledItems=o.get('cancelledItems',[]), notes=str(o.get('notes','')),paid=floor.paid(o)))
+          items=[dict(name=i['name'],quantity=i['quantity']) for i in o.get('items',[])], cancelledItems=o.get('cancelledItems',[]),
+          notes=str(o.get('notes','')), paid=floor.paid(o), demoPrepaid=floor.demo_prepaid(o.get('paymentMethod'))))
     return dict(serverTime=clock.isoformat(),limits=settings,orders=sorted(result,key=lambda o:o['sentAt']))
 
 

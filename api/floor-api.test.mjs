@@ -322,7 +322,16 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
   for (const [code, id] of demoIds) {
     const kitchenTicket = qrBootstrap.service.orders.find(order => order.id === id)
     assert.equal(kitchenTicket.table, `Table ${code}`)
+    assert.equal(kitchenTicket.demoPrepaid, true)
     const table = qrBootstrap.tables.find(table => table.id === code)
     assert(table.openOrders.some(order => order.id === id))
+    assert.equal(table.runningBill, 0)
+    assert.equal(qrBootstrap.payments.some(payment => payment.orderId === id), false)
   }
+  const demoOrder = demoIds.get('2')
+  assert.equal((await request(`/orders/${demoOrder}/pay`, { method:'Cash' })).code, 400)
+  assert.equal((await request(`/orders/${demoOrder}/status`, { status:'Preparing' })).code, 200)
+  assert.equal((await request(`/orders/${demoOrder}/status`, { status:'Ready' })).code, 200)
+  assert.equal((await request(`/service/orders/${demoOrder}/served`, {})).code, 200)
+  assert.equal((await request('/tables/2', { action:'checkout' })).code, 200)
 })

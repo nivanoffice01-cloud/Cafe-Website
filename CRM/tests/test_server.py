@@ -432,13 +432,25 @@ class CRMServerTests(unittest.TestCase):
                 self.assertEqual(status, 201, receipt)
                 self.assertEqual(receipt['paymentLabel'], 'Demo UPI')
                 order_ids[table] = receipt['id']
-        cookie, _ = self.login()
+        cookie, csrf = self.login()
         _, data, _ = self.request('/api/bootstrap', cookie=cookie)
         for code, order_id in order_ids.items():
             table = next(t for t in data['tables'] if t['id'] == code)
             ticket = next(order for order in data['service']['orders'] if order['id'] == order_id)
             self.assertEqual(ticket['table'], f'Table {code}')
-            self.assertIn(order_id, [order['id'] for order in table['openOrders']])
+            self.assertTrue(ticket['demoPrepaid'])
+            entry = next(order for order in table['openOrders'] if order['id'] == order_id)
+            self.assertTrue(entry['paid'])
+            self.assertEqual(table['runningBill'], sum(order['total'] for order in table['openOrders'] if not order['paid']))
+            self.assertNotIn(order_id, [payment['orderId'] for payment in data['payments']])
+        def post(path, body):
+            return self.request(path, body=body, cookie=cookie, headers={'X-CSRF-Token': csrf})[0]
+        order_id = order_ids['2']
+        self.assertEqual(post(f'/api/orders/{order_id}/pay', dict(method='Cash')), 400)
+        self.assertEqual(post(f'/api/orders/{order_id}/status', dict(status='Preparing')), 200)
+        self.assertEqual(post(f'/api/orders/{order_id}/status', dict(status='Ready')), 200)
+        self.assertEqual(post(f'/api/service/orders/{order_id}/served', {}), 200)
+        self.assertEqual(post('/api/tables/2', dict(action='checkout')), 200)
 
     def test_trusted_proxy_uses_forwarded_client_for_rate_limits(self):
         previous = os.environ.get("MANGOSTEEN_TRUSTED_PROXIES")

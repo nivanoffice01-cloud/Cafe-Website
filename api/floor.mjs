@@ -127,7 +127,8 @@ export function tableOrders(state, t) {
     (o.tableId === t.id || String(o.tableCode) === t.id || key(o.table) === key(t.label) || key(o.table) === key(t.id) ||
     (t.id === '4' && key(o.table) === 't-04')))
 }
-export const orderIsPaid = (order) => Boolean(order.paidAt || order.status === 'Paid' || order.paymentStatus === 'Paid')
+export const isDemoPrepaid = order => ['Demo UPI','Demo card'].includes(order.paymentMethod)
+export const orderIsPaid = order => Boolean(order.paidAt || order.status === 'Paid' || order.paymentStatus === 'Paid' || isDemoPrepaid(order))
 export function keepPaidVisit(state, order) {
   ensureFloor(state)
   const table = state.tables.find(t => tableOrders(state, t).some(o => o.id === order.id))
