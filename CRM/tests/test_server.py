@@ -1,3 +1,4 @@
+import io
 import json
 import os
 import sys
@@ -9,6 +10,7 @@ from http.server import ThreadingHTTPServer
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
+from unittest.mock import patch
 
 
 CRM_ROOT = Path(__file__).resolve().parents[1]
@@ -97,6 +99,37 @@ class CRMServerTests(unittest.TestCase):
         self.assertEqual(status, 200, result)
         status, result, _ = self.request(f'/api/reservations/{id}/status', body={'status':'Confirmed'}, cookie=cookie, headers=headers)
         self.assertEqual(status, 400, result)
+
+    def test_confirmation_submits_whatsapp_template_for_opted_in_guest(self):
+        cookie, csrf = self.login('manager@mangosteen.local')
+        headers = {'X-CSRF-Token': csrf}
+        day = (date.today() + timedelta(days=4)).isoformat()
+        website = dict(name='WhatsApp Booking', phone='+91 98765 43210', date=day,
+                       time='19:00', guests=2, table='Railside 01', area='The rooftop',
+                       seats=['R1-1','R1-2'], whatsappConsent=True)
+        credentials = dict(MANGOSTEEN_WHATSAPP_PHONE_ID='123456', MANGOSTEEN_WHATSAPP_TOKEN='test-token',
+                           MANGOSTEEN_WHATSAPP_RESERVATION_TEMPLATE='reservation_confirmed')
+        with patch.dict(os.environ, credentials), patch.object(crm.reservation_whatsapp, 'urlopen') as provider:
+            provider.return_value = io.BytesIO(b'{"messages":[{"id":"wamid.local-test"}]}')
+            status, pending, _ = self.request('/api/public/reservations', body=website,
+                                              headers={'Idempotency-Key':'test-whatsapp-local-1'})
+            self.assertEqual(status, 201, pending)
+            provider.assert_not_called()
+            path = f"/api/reservations/{pending['id']}"
+            status, confirmed, _ = self.request(path+'/status', body=dict(status='Confirmed'), cookie=cookie, headers=headers)
+            self.assertEqual(status, 200, confirmed)
+            self.assertEqual(confirmed['whatsappConfirmation']['status'], 'submitted')
+            request = provider.call_args.args[0]
+            payload = json.loads(request.data)
+            self.assertEqual(payload['to'], '919876543210')
+            self.assertEqual(payload['template']['components'][0]['parameters'][4]['text'], pending['reference'])
+            _, snapshot, _ = self.request('/api/bootstrap', cookie=cookie)
+            booking = next(r for r in snapshot['reservations'] if r['id'] == pending['id'])
+            self.assertEqual(booking['whatsappConfirmation']['messageId'], 'wamid.local-test')
+            self.assertTrue(booking['whatsappConsent'])
+            _, repeated, _ = self.request(path+'/whatsapp-confirmation', body={}, cookie=cookie, headers=headers)
+            self.assertEqual(repeated['whatsappConfirmation']['status'], 'submitted')
+            provider.assert_called_once()
 
     def test_correction_approval_billing_and_refund_history(self):
         c,csrf=self.login('cashier@mangosteen.local')

@@ -57,7 +57,19 @@ function openBookingEditor(id) {
     <div class="field"><label>Date *</label><input type="date" name="date" required min="${localDateKey()}" value="${r?.date || bookingDate()}"></div><div class="field"><label>Arrival time *</label><input type="time" name="time" required value="${r?.time || '19:00'}"></div>
     <div class="field"><label>Guests *</label><input name="guests" type="number" min="1" max="30" required value="${r?.guests || 2}"></div><div class="field"><label>Visit duration (minutes)</label><input name="duration" type="number" min="15" max="480" required value="${r?.duration || 90}"></div>
     <div class="field"><label>Table</label><select name="tableId"><option value="">Assign later</option>${options}</select></div><div class="field"><label>${r ? 'Current status' : 'Status'}</label>${r ? `<input readonly value="${escapeHtml(r.status)}">` : '<select name="status"><option>Pending</option><option>Confirmed</option></select>'}</div>
-    <div class="field full"><label>Occasion</label><input name="occasion" value="${escapeHtml(r?.occasion || 'Regular visit')}"></div><div class="field full"><label>Special requests / notes</label><textarea name="specialRequests">${escapeHtml(r?.specialRequests || '')}</textarea></div></div><p class="form-error" id="booking-form-error" role="alert" hidden></p></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button type="submit" form="booking-editor" class="btn btn-primary">Save reservation</button>`);
+    <div class="field full"><label>Occasion</label><input name="occasion" value="${escapeHtml(r?.occasion || 'Regular visit')}"></div><div class="field full"><label>Special requests / notes</label><textarea name="specialRequests">${escapeHtml(r?.specialRequests || '')}</textarea></div></div><label class="check-row"><input type="checkbox" name="whatsappConsent" ${r?.whatsappConsent ? 'checked' : ''}> Guest agreed to receive this booking confirmation on WhatsApp</label><p class="form-error" id="booking-form-error" role="alert" hidden></p></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button type="submit" form="booking-editor" class="btn btn-primary">Save reservation</button>`);
+}
+
+function bookingWhatsAppStatus(confirmation) {
+  return {
+    no_consent: 'Guest opt-in needed.',
+    invalid_phone: 'Update the guest’s WhatsApp number.',
+    not_configured: 'WhatsApp Business setup required.',
+    sending: 'Submission status pending.',
+    submitted: 'Submitted to WhatsApp.',
+    failed: 'WhatsApp rejected the message. Check the sender and template before retrying.',
+    unverified: 'Submission could not be verified. Contact the guest to confirm receipt.',
+  }[confirmation?.status];
 }
 
 function openBookingDetail(id) {
@@ -65,7 +77,14 @@ function openBookingDetail(id) {
   if (!r) return;
   const actions = { Pending: ['Confirmed','Cancelled'], Confirmed: ['Checked in','No-show','Cancelled'], 'Checked in': ['Completed'] }[r.status] || [];
   const labels = { Confirmed: 'Confirm reservation', 'Checked in': 'Check in guests', 'No-show': 'Mark no-show', Cancelled: 'Cancel booking', Completed: 'Check out guests' };
-  openModal('Reservation details', `${displayDate(r.date)} · ${displayTime(r.time)} · MG-${String(r.id).padStart(6,'0')}`, `<div class="profile-facts">${[['Guest',r.name],['Phone',r.phone],['Party',`${r.guests} guests`],['Table',r.table],['Duration',`${r.duration || 90} minutes`],['Status',r.status]].map(([label,value]) => `<div class="profile-fact"><span>${label}</span><strong>${escapeHtml(String(value || '—'))}</strong></div>`).join('')}</div><div class="insight-card"><strong>Special requests</strong><p>${escapeHtml(r.specialRequests || 'None')}</p></div><div class="floor-detail-actions">${['Pending','Confirmed'].includes(r.status) ? floorButton('Edit / reschedule', 'edit', r.id) : ''}${actions.map(status => `<button class="btn ${['Confirmed','Checked in','Completed'].includes(status) ? 'btn-primary' : ''}" data-floor-action="status" data-status="${status}" data-id="${r.id}" data-revision="${r.revision}">${labels[status]}</button>`).join('')}</div>${r.history?.length ? `<details class="booking-history"><summary>Booking history</summary>${r.history.slice().reverse().map(h => `<p><strong>${escapeHtml(h.action)}</strong> · ${escapeHtml(h.by)}<br><small>${escapeHtml(new Date(h.at).toLocaleString('en-IN'))}</small>${h.note ? `<br>${escapeHtml(h.note)}` : ''}</p>`).join('')}</details>` : ''}`, '<button class="btn" data-action="close-modal">Close</button>');
+  const confirmation = r.whatsappConfirmation;
+  const copy = bookingWhatsAppStatus(confirmation)
+    || (r.whatsappConsent ? 'Guest opted in for a confirmation.' : 'Guest opt-in needed.');
+  const retry = r.status === 'Confirmed' && r.whatsappConsent
+    && Date.parse(`${r.date}T${r.time}:00+05:30`) > Date.now()
+    && (!confirmation || ['failed','no_consent','invalid_phone','not_configured'].includes(confirmation.status));
+  const whatsapp = `<div class="insight-card"><strong>WhatsApp confirmation</strong><p>${copy}</p>${retry ? floorButton('Send confirmation', 'whatsapp-confirmation', r.id) : ''}</div>`;
+  openModal('Reservation details', `${displayDate(r.date)} · ${displayTime(r.time)} · MG-${String(r.id).padStart(6,'0')}`, `<div class="profile-facts">${[['Guest',r.name],['Phone',r.phone],['Party',`${r.guests} guests`],['Table',r.table],['Duration',`${r.duration || 90} minutes`],['Status',r.status]].map(([label,value]) => `<div class="profile-fact"><span>${label}</span><strong>${escapeHtml(String(value || '—'))}</strong></div>`).join('')}</div><div class="insight-card"><strong>Special requests</strong><p>${escapeHtml(r.specialRequests || 'None')}</p></div>${whatsapp}<div class="floor-detail-actions">${['Pending','Confirmed'].includes(r.status) ? floorButton('Edit / reschedule', 'edit', r.id) : ''}${actions.map(status => `<button class="btn ${['Confirmed','Checked in','Completed'].includes(status) ? 'btn-primary' : ''}" data-floor-action="status" data-status="${status}" data-id="${r.id}" data-revision="${r.revision}">${labels[status]}</button>`).join('')}</div>${r.history?.length ? `<details class="booking-history"><summary>Booking history</summary>${r.history.slice().reverse().map(h => `<p><strong>${escapeHtml(h.action)}</strong> · ${escapeHtml(h.by)}<br><small>${escapeHtml(new Date(h.at).toLocaleString('en-IN'))}</small>${h.note ? `<br>${escapeHtml(h.note)}` : ''}</p>`).join('')}</details>` : ''}`, '<button class="btn" data-action="close-modal">Close</button>');
 }
 
 function openTableAction(id, action) {
@@ -92,8 +111,15 @@ document.addEventListener('click', async event => {
       const status = button.dataset.status;
       if (['Cancelled','No-show'].includes(status) && !window.confirm(`Mark this booking ${status.toLowerCase()}?`)) return;
       button.disabled = true;
-      await api(`/api/reservations/${id}/status`, { method: 'POST', body: JSON.stringify({ status, revision: Number(button.dataset.revision) }) });
-      closeModal(); await syncAndRender(); showToast(`Reservation ${status.toLowerCase()}.`); return;
+      const result = await api(`/api/reservations/${id}/status`, { method: 'POST', body: JSON.stringify({ status, revision: Number(button.dataset.revision) }) });
+      const message = bookingWhatsAppStatus(result.whatsappConfirmation);
+      closeModal(); await syncAndRender(); showToast(`Reservation ${status.toLowerCase()}.${message ? ` ${message}` : ''}`); return;
+    }
+    if (action === 'whatsapp-confirmation') {
+      button.disabled = true;
+      const result = await api(`/api/reservations/${id}/whatsapp-confirmation`, { method:'POST', body:'{}' });
+      await syncAndRender(); openBookingDetail(id);
+      showToast(bookingWhatsAppStatus(result.whatsappConfirmation)); return;
     }
     if (action === 'refresh') { button.disabled = true; await syncAndRender(); } else refreshPage();
   } catch (error) { button.disabled = false; showToast(error.message, 'error'); }
@@ -105,6 +131,10 @@ document.addEventListener('change', event => {
   if (mapping[event.target.id] && event.target.value !== undefined) { state[mapping[event.target.id]] = event.target.value; refreshPage(); }
 });
 
+document.addEventListener('input', event => {
+  if (event.target.matches('#booking-editor [name="phone"]')) event.target.form.elements.whatsappConsent.checked = false;
+});
+
 document.addEventListener('submit', async event => {
   const form = event.target;
   if (!['booking-editor','table-editor'].includes(form.id)) return;
@@ -114,11 +144,14 @@ document.addEventListener('submit', async event => {
   try {
     const values = Object.fromEntries(new FormData(form));
     const booking = form.id === 'booking-editor';
+    if (booking) values.whatsappConsent = form.elements.whatsappConsent.checked;
     if (booking && form.dataset.revision) values.revision = Number(form.dataset.revision);
     const path = booking ? `/api/reservations${form.dataset.id ? `/${form.dataset.id}/edit` : ''}` : `/api/tables/${form.dataset.id}`;
     if (!booking) values.action = form.dataset.action;
-    await api(path, { method: 'POST', body: JSON.stringify(values) });
-    closeModal(); await syncAndRender(); showToast(booking ? 'Reservation saved.' : 'Table updated.');
+    const result = await api(path, { method: 'POST', body: JSON.stringify(values) });
+    const message = bookingWhatsAppStatus(result.whatsappConfirmation);
+    closeModal(); await syncAndRender();
+    showToast(booking ? `Reservation saved.${message ? ` ${message}` : ''}` : 'Table updated.');
   } catch (error) { const alert = document.getElementById('booking-form-error'); alert.hidden = false; alert.textContent = error.message; button.disabled = false; }
 });
 

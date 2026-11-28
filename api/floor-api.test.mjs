@@ -6,18 +6,27 @@ import * as crypto from 'node:crypto'
 import { dayInIndia } from './floor.mjs'
 
 test('hosted routes authenticate, persist visits and validate conflicts and stale edits', async () => {
-  let stored = null, version = 0
-  class BlobPreconditionFailedError extends Error {}
+  const blobs = new Map()
   const blob = {
-    BlobPreconditionFailedError,
-    get: async () => stored ? { stream: new Response(stored).body, blob: { etag: String(version) } } : null,
+    get: async path => blobs.has(path) ? { stream: new Response(blobs.get(path)).body } : null,
     put: async (path, value, options) => {
-      if (options.ifMatch && options.ifMatch !== String(version)) throw new BlobPreconditionFailedError()
-      stored = value; version++
-      return { etag: String(version) }
+      if (!options.allowOverwrite && blobs.has(path)) throw new Error('Blob already exists')
+      blobs.set(path, value)
     },
   }
-  const context = vm.createContext({ console: { error() {} }, Request, Response, Headers, URL, Buffer })
+  const env = {}, messages = []
+  let providerStatus = 200
+  const context = vm.createContext({ console: { error() {} }, Request, Response, Headers, URL, Buffer, AbortSignal, process: { env },
+    fetch: async (url, options) => {
+      const payload = JSON.parse(options.body)
+      messages.push({ url, payload })
+      const reference = payload.template.components[0].parameters[4].text
+      const id = Number(reference.slice(3))
+      const stored = JSON.parse(blobs.get('mangosteen-crm/production-state-v1.json'))
+      assert.equal(stored.reservations.find(r => r.id === id).status, 'Confirmed')
+      return Response.json(providerStatus === 200 ? { messages:[{ id:'wamid.test-confirmation' }] } : { error:{ code:132001 } }, { status:providerStatus })
+    },
+  })
   const cache = new Map()
   async function load(id) {
     if (cache.has(id)) return cache.get(id)
@@ -74,6 +83,38 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
 
   const managerLogin = await request('/auth/login', { email:'manager@mangosteen.local', password:'Mangosteen@123' })
   const managerCookie = managerLogin.cookie.split(';')[0]
+  const tomorrow = new Date(Date.parse(`${dayInIndia()}T00:00:00Z`) + 86400000).toISOString().slice(0, 10)
+  const website = { name:'WhatsApp Guest', phone:'09876543210', date:tomorrow, time:'19:00', guests:2,
+    table:'Railside 01', area:'Rooftop', seats:['1','2'], requestKey:'whatsapp-test-1', whatsappConsent:true }
+  const booking = await request('/public/reservations', website, false)
+  const bookingPath = `/reservations/${booking.payload.id}`
+  assert.equal(booking.payload.status, 'Pending')
+  assert.equal(messages.length, 0)
+  assert.equal((await request(`${bookingPath}/whatsapp-confirmation`, {})).code, 409)
+  cookie = managerCookie
+  const setupRequired = await request(`${bookingPath}/status`, { status:'Confirmed', revision:1 })
+  assert.equal(setupRequired.payload.whatsappConfirmation.status, 'not_configured')
+  assert.equal(messages.length, 0)
+  Object.assign(env, { MANGOSTEEN_WHATSAPP_PHONE_ID:'123456', MANGOSTEEN_WHATSAPP_TOKEN:'mock-token', MANGOSTEEN_WHATSAPP_RESERVATION_TEMPLATE:'reservation_confirmed' })
+  providerStatus = 400
+  assert.equal((await request(`${bookingPath}/whatsapp-confirmation`, {})).payload.whatsappConfirmation.status, 'failed')
+  providerStatus = 200
+  assert.equal((await request(`${bookingPath}/whatsapp-confirmation`, {})).payload.whatsappConfirmation.status, 'submitted')
+  assert.equal((await request(`${bookingPath}/whatsapp-confirmation`, {})).payload.whatsappConfirmation.status, 'submitted')
+  assert.equal((await request(`${bookingPath}/status`, { status:'Confirmed', revision:1 })).code, 409)
+  assert.equal(messages.length, 2)
+  assert.equal(messages[1].url, 'https://graph.facebook.com/v25.0/123456/messages')
+  assert.equal(messages[1].payload.to, '919876543210')
+  assert.equal(messages[1].payload.template.name, 'reservation_confirmed')
+  assert.equal(messages[1].payload.template.components[0].parameters[4].text, booking.payload.reference)
+  assert.equal((await request('/bootstrap')).payload.reservations.find(r => r.id === booking.payload.id).whatsappConfirmation.status, 'submitted')
+  const noOptIn = await request('/public/reservations', { ...website, requestKey:'whatsapp-test-2',
+    whatsappConsent:false, consent:true, table:'Railside 02' }, false)
+  assert.equal((await request(`/reservations/${noOptIn.payload.id}/status`, { status:'Confirmed', revision:1 })).payload.whatsappConfirmation.status, 'no_consent')
+  const automatic = await request('/public/reservations', { ...website, requestKey:'whatsapp-test-3', table:'Railside 03' }, false)
+  assert.equal((await request(`/reservations/${automatic.payload.id}/status`, { status:'Confirmed', revision:1 })).payload.whatsappConfirmation.status, 'submitted')
+  assert.equal(messages.length, 3)
+  cookie = ownerCookie
   const order = await request('/orders', { table:'Correction test', items:[{menuItemId:1,quantity:2}] })
   await request(`/orders/${order.payload.id}/send`, {})
   const sold = (await request('/bootstrap')).payload.orders.find(o => o.id === order.payload.id)

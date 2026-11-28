@@ -180,3 +180,34 @@ export MANGOSTEEN_WHATSAPP_TOKEN="..."
 Do not commit real credentials. Local Python development binds to `127.0.0.1`.
 The hosted client demo uses HTTPS and a private Vercel Blob store, but real customer data still
 requires managed secrets, monitoring, rate limiting and an infrastructure review.
+
+### WhatsApp reservation confirmations
+
+When staff confirm a reservation, the CRM submits a WhatsApp utility template if
+the guest opted in for that booking. The website collects this separately from
+offers. For phone bookings, staff can record the guest's choice in the reservation
+editor. The confirmation includes the date, time in IST, party size and booking
+reference.
+
+Create a **Utility** template in WhatsApp Manager, for example
+`mangosteen_reservation_confirmed`, with five positional body variables and no
+header or button variables. Use a body like:
+
+> Hi {{1}}, your reservation at Mangosteen Café, Indore is confirmed for {{2}} at {{3}} IST for {{4}} guests. Your booking reference is {{5}}. We look forward to seeing you!
+
+Once Meta approves the template, set these server-side variables in the Vercel
+project's Production environment and redeploy. For the standalone Python CRM,
+export the same variables before starting the server.
+
+| Variable | Value |
+| --- | --- |
+| `MANGOSTEEN_WHATSAPP_PHONE_ID` | Meta's sending **Phone Number ID** |
+| `MANGOSTEEN_WHATSAPP_TOKEN` | A token for the sender with `whatsapp_business_messaging` |
+| `MANGOSTEEN_WHATSAPP_RESERVATION_TEMPLATE` | Approved template name |
+| `MANGOSTEEN_WHATSAPP_TEMPLATE_LANGUAGE` | Approved language code, defaults to `en` |
+| `MANGOSTEEN_WHATSAPP_GRAPH_VERSION` | Optional Graph API version, defaults to `v25.0` |
+
+Open the reservation details to see the submission status. **Submitted to
+WhatsApp** means Meta accepted the request. Use **Send confirmation** on an
+upcoming confirmed booking after correcting the phone or completing setup.
+For an unverified submission, check with the guest before sending again.

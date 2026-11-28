@@ -55,6 +55,7 @@ export function ReservationDialog({ onClose, initialSelection, navigation }: Pro
   const [occasion, setOccasion] = useState('Regular visit')
   const [specialRequests, setSpecialRequests] = useState('')
   const [consent, setConsent] = useState(false)
+  const [whatsappConsent, setWhatsappConsent] = useState(false)
   const [submissionState, setSubmissionState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [reference, setReference] = useState('')
   const requestKeyRef = useRef(crypto.randomUUID())
@@ -205,6 +206,7 @@ export function ReservationDialog({ onClose, initialSelection, navigation }: Pro
         occasion,
         specialRequests: specialRequests.trim(),
         consent,
+        whatsappConsent,
         website: '',
       })
       setReference(receipt.reference)
@@ -278,7 +280,8 @@ export function ReservationDialog({ onClose, initialSelection, navigation }: Pro
             <label><span>Email</span><input disabled={submissionState === 'submitting'} type="email" autoComplete="email" maxLength={120} value={email} onChange={event => { setEmail(event.target.value); markDirty() }} placeholder="Optional"/></label>
             <label><span>Occasion</span><select disabled={submissionState === 'submitting'} value={occasion} onChange={event => { setOccasion(event.target.value); markDirty() }}><option>Regular visit</option><option>Birthday</option><option>Anniversary</option><option>Business meeting</option><option>Celebration</option></select></label>
             <label className="reservation-contact-wide"><span>Special requests</span><textarea disabled={submissionState === 'submitting'} maxLength={500} value={specialRequests} onChange={event => { setSpecialRequests(event.target.value); markDirty() }} placeholder="Allergies, accessibility or seating notes"/></label>
-            <label className="reservation-consent"><input disabled={submissionState === 'submitting'} type="checkbox" checked={consent} onChange={event => { setConsent(event.target.checked); markDirty() }}/><span>I would like occasional Mangosteen offers. Reservation updates do not require marketing consent.</span></label>
+            <label className="reservation-consent"><input disabled={submissionState === 'submitting'} type="checkbox" checked={whatsappConsent} onChange={event => { setWhatsappConsent(event.target.checked); markDirty() }}/><span>Send my booking confirmation on WhatsApp at this number.</span></label>
+            <label className="reservation-consent"><input disabled={submissionState === 'submitting'} type="checkbox" checked={consent} onChange={event => { setConsent(event.target.checked); markDirty() }}/><span>I would like occasional Mangosteen offers.</span></label>
             <div className="reservation-summary-bottom"><p>Your request will be pending until the café confirms it.</p><button className="reservation-save" type="submit" disabled={!seatsComplete || !name.trim() || phone.trim().length < 7 || submissionState === 'submitting'}>{submissionState === 'submitting' ? 'Sending securely…' : 'Request My Reservation'}<ReservationIcon name="arrow"/></button><button className="reservation-copy" type="button" onClick={copySelection}>Copy request details</button>{submissionState === 'error' && <button className="reservation-copy" type="button" onClick={saveSelection}>{saved ? 'Saved on this device' : 'Save request on this device'}</button>}{saved && <button className="reservation-copy" type="button" onClick={clearStoredDetails}>Remove saved details from this device</button>}<p className={`reservation-notice is-${submissionState}`} role="status" aria-live="polite">{notice || 'Requests reach the café CRM as pending and require staff confirmation.'}</p></div>
           </form></div>
         </div>}

@@ -12,6 +12,7 @@ export type WebsiteReservation = {
   occasion: string
   specialRequests: string
   consent: boolean
+  whatsappConsent: boolean
   website: string
 }
 

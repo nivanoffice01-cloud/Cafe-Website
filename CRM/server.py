@@ -14,6 +14,7 @@ import floor
 import waitlist
 import service
 import corrections
+import reservation_whatsapp
 from contextlib import closing, contextmanager
 import hashlib
 import hmac
@@ -932,6 +933,7 @@ def integration_status() -> dict:
     return {
         "email": {"mode": "Live" if email_ready else "Demo", "provider": "SMTP" if email_ready else "Local outbox"},
         "whatsapp": {"mode": "Live" if whatsapp_ready else "Demo", "provider": "Meta Cloud API" if whatsapp_ready else "Local outbox"},
+        "reservationWhatsapp": {"mode": "Configured" if reservation_whatsapp.config() else "Setup required", "provider": "Meta Cloud API"},
         "pos": {"mode": "Ready", "provider": "CSV import"},
     }
 
@@ -1533,6 +1535,10 @@ class CRMHandler(SimpleHTTPRequestHandler):
                          table_name, occasion or "Regular visit", request_notes, now_iso()),
                     )
                     reservation_id = cursor.lastrowid
+                    if body.get('whatsappConsent') is True:
+                        consent_path = f'$.bookings."{reservation_id}".whatsappConsent'
+                        connection.execute("""INSERT INTO settings(key,value) VALUES('floor_state', json_set('{}', ?, json('true')))
+                            ON CONFLICT(key) DO UPDATE SET value=json_set(value, ?, json('true'))""", (consent_path, consent_path))
                     reference = f"MG-{reservation_id:06d}"
                     connection.execute(
                         "INSERT INTO public_submissions (request_key, reservation_id, created_at) VALUES (?, ?, ?)",
@@ -1741,7 +1747,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     self.send_json(dict(id=entry['id'], status=entry['status']))
                     return
 
-                floor_route = re.fullmatch(r"/api/(tables|reservations)(?:/([\w-]+))?(?:/(status|edit))?", path)
+                floor_route = re.fullmatch(r"/api/(tables|reservations)(?:/([\w-]+))?(?:/(status|edit|whatsapp-confirmation))?", path)
                 if floor_route:
                     self.require_roles("Owner", "Manager", "Cashier", "Host")
                     connection.execute('BEGIN IMMEDIATE')
@@ -1751,14 +1757,33 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     kind, item_id, action = floor_route.groups()
                     if kind == 'tables' and item_id:
                         result = floor.table_action(floor_state, item_id, body, user)
+                    elif kind == 'reservations' and item_id and action == 'whatsapp-confirmation':
+                        result = next((r for r in floor_state['reservations'] if str(r['id']) == item_id), None)
+                        if not result or result['status'] != 'Confirmed' or floor.start(result) <= datetime.now(floor.IST):
+                            raise ValueError('An upcoming confirmed reservation is required.')
                     elif kind == 'reservations' and (not item_id or action in ('edit', 'status')):
                         result = floor.reservation_action(floor_state, int(item_id) if item_id else None, body, user, edit=action == 'edit')
                     else:
                         raise ValueError('Unknown table or reservation action.')
+                    notify = kind == 'reservations' and result['status'] == 'Confirmed' and action != 'edit'
+                    credentials = reservation_whatsapp.config() if notify else None
+                    to = reservation_whatsapp.prepare(result, credentials) if notify else ''
                     floor.persist(connection, floor_state)
-                    connection.execute("INSERT INTO activities(kind,title,details,created_at) VALUES('reservation',?,?,?)", ('Floor / booking updated', f"{user['name']} · {result.get('name', result.get('label', ''))}", now_iso()))
+                    if action != 'whatsapp-confirmation':
+                        connection.execute("INSERT INTO activities(kind,title,details,created_at) VALUES('reservation',?,?,?)", ('Floor / booking updated', f"{user['name']} · {result.get('name', result.get('label', ''))}", now_iso()))
                     connection.commit()
-                    self.send_json(dict(updated=True, id=result['id'], status=result.get('status')))
+                    response = dict(updated=True, id=result['id'], status=result.get('status'))
+                    if notify:
+                        outcome = result['whatsappConfirmation']
+                        if to:
+                            outcome = reservation_whatsapp.deliver(result, to, credentials)
+                            field = f'$.bookings."{result["id"]}".whatsappConfirmation'
+                            connection.execute("""UPDATE settings SET value=json_set(value, ?, json(?)) WHERE key='floor_state'
+                                AND json_extract(value, ?)='sending' AND json_extract(value, ?)=?""",
+                                (field, json.dumps(outcome), f'{field}.status', f'{field}.attempt', outcome['attempt']))
+                            connection.commit()
+                        response['whatsappConfirmation'] = outcome
+                    self.send_json(response)
                     return
 
                 if path == "/api/orders":

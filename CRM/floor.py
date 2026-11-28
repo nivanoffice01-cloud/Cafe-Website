@@ -100,6 +100,8 @@ def reservation_action(state, id, body, user, edit=False):
         if r['status'] not in ('Pending', 'Confirmed') or r['date'] < today():
             raise ValueError('Choose today or a future date and Pending or Confirmed status.')
         r['table'] = next((t['label'] for t in state['tables'] if t['id'] == r['tableId']), 'Best available')
+        r['whatsappConsent'] = (body['whatsappConsent'] is True if 'whatsappConsent' in body
+                                else bool(original and original.get('whatsappConsent') and original['phone'] == r['phone']))
         validate(state, r)
         record(r, user, 'Booking updated / rescheduled' if original else 'Booking created', f"{original['date']} {original['time']} → {r['date']} {r['time']}" if original else '')
         if original:
@@ -205,7 +207,7 @@ def persist(connection, state):
         connection.execute('''INSERT INTO reservations (id,reservation_date,reservation_time,customer_id,name,phone,guests,table_name,occasion,status,special_requests,created_at)
           VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET reservation_date=excluded.reservation_date,reservation_time=excluded.reservation_time,name=excluded.name,phone=excluded.phone,guests=excluded.guests,table_name=excluded.table_name,occasion=excluded.occasion,status=excluded.status,special_requests=excluded.special_requests''',
           (r['id'],r['date'],r['time'],r.get('customerId'),r['name'],r['phone'],r['guests'],r['table'],r['occasion'],r['status'],r.get('specialRequests',''),r['createdAt']))
-    metadata = {str(r['id']): {k: r[k] for k in ('duration','tableId','history','revision','updatedAt','checkedInAt','completedAt') if k in r} for r in state['reservations']}
+    metadata = {str(r['id']): {k: r[k] for k in ('duration','tableId','history','revision','updatedAt','checkedInAt','completedAt','whatsappConsent','whatsappConfirmation') if k in r} for r in state['reservations']}
     # Only canonical table state is persisted, not derived bookings and bills.
     tables = [{k:v for k,v in t.items() if k not in ('displayStatus','reservations','openOrders','runningBill')} for t in state['tables']]
     previous = connection.execute("SELECT value FROM settings WHERE key='floor_state'").fetchone()

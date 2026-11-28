@@ -78,6 +78,9 @@ export function saveReservation(state, body, user, id = null) {
     tableId: String(body.tableId || ''), occasion: String(body.occasion || 'Regular visit').slice(0, 100),
     specialRequests: String(body.specialRequests ?? body.notes ?? '').slice(0, 2000),
     status: original?.status || String(body.status || 'Pending'), createdAt: original?.createdAt || stamp() }
+  r.whatsappConsent = body.whatsappConsent === undefined
+    ? Boolean(original?.whatsappConsent && original.phone === r.phone)
+    : body.whatsappConsent === true
   if (!['Pending', 'Confirmed'].includes(r.status)) fail('New reservations must be Pending or Confirmed.')
   r.table = state.tables.find(t => t.id === r.tableId)?.label || 'Best available'
   if (r.date < dayInIndia()) fail('Choose today or a future date.')

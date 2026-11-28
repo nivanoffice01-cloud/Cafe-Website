@@ -5,6 +5,7 @@ import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTa
 import { waitlistPayload, updateWaitlist } from './waitlist.mjs'
 import { servicePayload, serviceAction, kitchenTransition, updateServiceSettings } from './service.mjs'
 import { correctionRoles, activeCorrection, requestCorrection, reviewCorrection } from './corrections.mjs'
+import { whatsappConfig, prepareConfirmation, sendConfirmation } from './reservation-whatsapp.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
@@ -26,11 +27,11 @@ const store = () => ({
     if (options.type === 'json') return JSON.parse(value)
     return value
   },
-  async set(key, value) {
+  async set(key, value, allowOverwrite = true) {
     await put(blobPath(key), value, {
       access: 'private',
       addRandomSuffix: false,
-      allowOverwrite: true,
+      allowOverwrite,
       cacheControlMaxAge: 60,
       contentType: 'application/json; charset=utf-8',
     })
@@ -211,6 +212,42 @@ async function saveState(state) {
   await store().setJSON(STORE_KEY, state)
 }
 
+async function deliverReservationConfirmation(reservation, delivery, config) {
+  const storage = store()
+  const sending = reservation.whatsappConfirmation
+  try {
+    await storage.set(delivery.key, JSON.stringify(sending), false)
+  } catch {
+    const previous = await storage.get(delivery.key, { type:'json' }).catch(() => null)
+    if (previous) return previous
+    console.error('WhatsApp confirmation claim failed', reservation.id)
+    return { ...sending, status:'unverified' }
+  }
+
+  const outcome = { ...sending, ...(await sendConfirmation(reservation, delivery.to, config)), at: now() }
+  await storage.setJSON(delivery.key, outcome).catch(() => console.error('WhatsApp result could not be saved', reservation.id))
+  return outcome
+}
+
+async function saveAndNotifyReservation(state, reservation) {
+  const config = whatsappConfig()
+  const delivery = prepareConfirmation(reservation, config)
+  await saveState(state)
+  if (!delivery) return reservation.whatsappConfirmation
+  const outcome = await deliverReservationConfirmation(reservation, delivery, config)
+  try {
+    const latest = await loadState()
+    const booking = latest.reservations.find(r => r.id === reservation.id && r.createdAt === reservation.createdAt)
+    if (booking?.whatsappConfirmation?.attempt === outcome.attempt && booking.whatsappConfirmation.status === 'sending') {
+      booking.whatsappConfirmation = outcome
+      await saveState(latest)
+    }
+  } catch {
+    console.error('WhatsApp status could not be attached to reservation', reservation.id)
+  }
+  return outcome
+}
+
 function json(payload, status = 200, headers = {}) {
   return new Response(JSON.stringify(payload), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers } })
 }
@@ -279,7 +316,7 @@ function bootstrap(state, user) {
     communications: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.communications : [],
     pointLedger: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? state.pointLedger : [],
     backups: role === 'Owner' ? state.backups : [],
-    integrations: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? { email: { mode: 'Demo', provider: 'Vercel outbox' }, whatsapp: { mode: 'Demo', provider: 'Vercel outbox' }, pos: { mode: 'Ready', provider: 'CSV import' } } : {},
+    integrations: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? { email: { mode: 'Demo', provider: 'Vercel outbox' }, whatsapp: { mode: 'Demo', provider: 'Vercel outbox' }, reservationWhatsapp: { mode: whatsappConfig() ? 'Configured' : 'Setup required', provider: 'Meta Cloud API' }, pos: { mode: 'Ready', provider: 'CSV import' } } : {},
     menuItems: state.menuItems,
     orders: state.orders.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 100).map(order => {
       const pending = activeCorrection(state, order.id)
@@ -351,6 +388,7 @@ async function handlePublicReservation(request, state, body) {
   }
   const id = nextId(state.reservations)
   const reservation = { id, date: String(body.date), time: String(body.time), customerId: customer.id, name: customer.name, phone: customer.phone, guests, table: String(body.table || body.area || 'Best available'), occasion: String(body.occasion || 'Regular visit'), status: 'Pending', specialRequests: `Website request · Area: ${body.area || 'Best available'} · Seats: ${body.seats.join(', ')}${body.specialRequests ? ` · Guest note: ${body.specialRequests}` : ''}`, createdAt: now() }
+  reservation.whatsappConsent = body.whatsappConsent === true
   state.reservations.push(reservation)
   const receipt = { id, reference: `MG-${String(id).padStart(6, '0')}`, status: 'Pending' }
   state.publicSubmissions[key] = receipt
@@ -504,6 +542,17 @@ async function handleRequest(request) {
       return json({ id: entry.id, status: entry.status })
     }
 
+    const notificationRoute = path.match(/^\/reservations\/(\d+)\/whatsapp-confirmation$/)
+    if (notificationRoute) {
+      requireRoles(request, state, ['Owner', 'Manager', 'Cashier', 'Host'])
+      const booking = state.reservations.find(r => r.id === Number(notificationRoute[1]))
+      if (!booking || booking.status !== 'Confirmed' || !(Date.parse(`${booking.date}T${booking.time}:00+05:30`) > Date.now())) {
+        return json({ error:'An upcoming confirmed reservation is required.' }, 409)
+      }
+      const confirmation = await saveAndNotifyReservation(state, booking)
+      return json({ status:booking.status, whatsappConfirmation:confirmation })
+    }
+
     const floorRoute = path.match(/^\/(tables|reservations)(?:\/(\w[\w-]*))?(?:\/(status|edit))?$/)
     if (floorRoute) {
       const actor = requireRoles(request, state, ['Owner', 'Manager', 'Cashier', 'Host'])
@@ -514,6 +563,10 @@ async function handleRequest(request) {
       else if (kind === 'reservations' && (!id || action === 'edit')) result = saveReservation(state, body, actor, id ? Number(id) : null)
       else return json({ error: 'Unknown table or reservation action' }, 404)
       addActivity(state, 'reservation', kind === 'tables' ? `Table ${body.action}` : `Reservation ${body.status || (id ? 'updated' : 'created')}`, `${actor.name} · ${result.name || result.label || id}`)
+      if (kind === 'reservations' && result.status === 'Confirmed' && action !== 'edit') {
+        const confirmation = await saveAndNotifyReservation(state, result)
+        return json({ updated: true, id: result.id, status: result.status, whatsappConfirmation:confirmation })
+      }
       await saveState(state)
       return json({ updated: true, id: result.id, status: result.status })
     }
