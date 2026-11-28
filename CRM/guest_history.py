@@ -91,7 +91,8 @@ def add_pos_context(connection, order_id, table_name, at, body):
 def keep_visit_context(connection, order_id, table_name, at, state):
     customer_id, context = context_for(connection, order_id)
     if not context.get('visitKey'):
-        visit, _ = visit_context(connection, table_name, at, metadata=state)
+        table_code = next((order.get('tableCode') for order in state['orders'] if order['id'] == order_id), None)
+        visit, _ = visit_context(connection, table_name, at, table_code=table_code, metadata=state)
         if visit:
             save_context(connection, order_id, customer_id, dict(context, **visit))
 

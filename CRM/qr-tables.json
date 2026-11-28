@@ -1,0 +1,7 @@
+[
+  { "id": "1", "label": "Table 1", "capacity": 4, "columns": 2, "column": 1, "row": 1, "zone": "inside", "zoneName": "Cafe floor" },
+  { "id": "2", "label": "Table 2", "capacity": 4, "columns": 2, "column": 2, "row": 1, "zone": "inside", "zoneName": "Cafe floor" },
+  { "id": "3", "label": "Table 3", "capacity": 4, "columns": 2, "column": 1, "row": 2, "zone": "inside", "zoneName": "Cafe floor" },
+  { "id": "4", "label": "Table 4", "capacity": 4, "columns": 2, "column": 2, "row": 2, "zone": "inside", "zoneName": "Cafe floor" },
+  { "id": "5", "label": "Table 5", "capacity": 4, "columns": 2, "column": 1, "row": 3, "zone": "inside", "zoneName": "Cafe floor" }
+]

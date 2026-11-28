@@ -73,10 +73,12 @@ test('existing bookings get table links without changing their details', () => {
   assert.equal(s.reservations[0].name, 'Existing')
 })
 test('existing QR table configuration is preserved and normalized without exposing access keys', () => {
-  const s = { tables: [{ id: '1', label: 'Table 01', capacity: 2, zoneName: 'Cafe floor', active: true, accessKey: 'private-key' }], reservations: [], orders: [], staff: [] }
+  const s = { tables: [{ id: 1, label: 'Table 01', capacity: 2, zoneName: 'Cafe floor', active: false, accessKey: 'private-key' }], reservations: [], orders: [], staff: [] }
   ensureFloor(s)
   const tables = floorPayload(s)
-  assert.equal(tables.length, 1)
+  assert.deepEqual(tables.map(t => t.id), ['1','2','3','4','5'])
+  assert.equal(tables[0].capacity, 2)
+  assert.equal(tables[0].label, 'Table 01')
   assert.equal(tables[0].displayStatus, 'Available')
   assert.equal(tables[0].zone, 'Cafe floor')
   assert.equal(tables[0].accessKey, undefined)

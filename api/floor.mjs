@@ -1,4 +1,6 @@
 // Shared reservation rules for the hosted API. Existing bookings are migrated in memory.
+import qrTables from '../CRM/qr-tables.json' with { type:'json' }
+
 export const statuses = ['Pending', 'Confirmed', 'Checked in', 'Completed', 'No-show', 'Cancelled']
 const active = ['Confirmed', 'Checked in']
 const stamp = () => new Date().toISOString()
@@ -13,7 +15,6 @@ export function ensureFloor(state) {
     ['L1', 'Lounge 01', 4, 'Rooftop'], ['L2', 'Lounge 02', 4, 'Rooftop'],
     ['W1', 'Window 01', 4, 'Inside'], ['W2', 'Window 02', 4, 'Inside'], ['D1', 'Dining 01', 6, 'Inside'],
     ['D2', 'Dining 02', 4, 'Inside'], ['S1', 'Sofa 01', 4, 'Inside'], ['S2', 'Sofa 02', 2, 'Inside'], ['B1', 'Bar side', 2, 'Inside'],
-    ['4', 'Table 4', 4, 'Cafe floor'],
   ].map(([id, label, capacity, zone]) => ({ id, label, capacity, zone, status: 'Available', waiterId: '', session: null }))
   for (const table of state.tables) {
     table.id = String(table.id)
@@ -22,6 +23,11 @@ export function ensureFloor(state) {
     table.status ||= 'Available'
     table.waiterId ||= ''
     table.session ||= null
+  }
+  for (const { id, label, capacity, zoneName } of qrTables) {
+    const saved = state.tables.find(table => table.id === id)
+    if (saved) saved.active = true
+    else state.tables.push({ id, label, capacity, zone:zoneName, status:'Available', waiterId:'', session:null })
   }
   for (const r of state.reservations) {
     let table = state.tables.find(t => t.id === r.tableId || key(t.label) === key(r.table) || key(t.id) === key(r.table))

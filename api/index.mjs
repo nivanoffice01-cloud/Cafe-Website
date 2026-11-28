@@ -9,15 +9,13 @@ import { whatsappConfig, prepareConfirmation, sendConfirmation } from './reserva
 import { drawerRoles, reopenRoles, drawerPayload, ensureDrawerNotClosed, updateDrawer } from './cash-drawer.mjs'
 import { foodRoles, foodPayload, saveIngredient, saveRecipe, recordWaste } from '../CRM/food-costing.mjs'
 import { historyRoles, linkRoles, phoneMatcher, visitContext, guestFields, updateOrderGuest, updatePreferences, customerHistory } from '../CRM/guest-history.mjs'
+import orderTables from '../CRM/qr-tables.json' with { type:'json' }
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
 const SESSION_COOKIE = 'mangosteen_session'
 const SESSION_TTL = 12 * 60 * 60 * 1000
 const ROLE_LEVEL = { Kitchen: 0, Cashier: 1, Host: 1, 'Floor Staff': 1, Manager: 2, Owner: 3 }
-const orderTables = [
-  { id: '4', label: 'Table 4', capacity: 4, columns: 2, column: 2, row: 2, zone: 'inside', zoneName: 'Cafe floor' },
-]
 const PUBLIC_MENU = new Map(fullMenu.flatMap((category) => category.items.map((item) => [`${category.name}|${item.name}`, { ...item, category: category.name }])))
 const PUBLIC_TABLES = new Map(orderTables.map((table) => [table.id, table]))
 

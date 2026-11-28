@@ -1,3 +1,5 @@
+import qrTables from '../../CRM/qr-tables.json'
+
 export type SeatingZone = 'rooftop' | 'inside'
 
 export type SeatCluster = {
@@ -48,10 +50,7 @@ export const seatsFor = (cluster: SeatCluster) => Array.from({ length: cluster.c
 export type OrderTable = SeatCluster & { zone: SeatingZone; zoneName: string }
 
 // QR ordering is intentionally separate from the reservation floor-plan model.
-// Only codes physically printed and placed by the cafe belong in this list.
-export const orderTables: OrderTable[] = [
-  { id: '4', label: 'Table 4', capacity: 4, columns: 2, column: 2, row: 2, zone: 'inside', zoneName: 'Cafe floor' },
-]
+export const orderTables = qrTables as OrderTable[]
 
 export const orderTableFor = (code: string | null | undefined) => {
   const normalized = String(code || '').trim().toUpperCase()

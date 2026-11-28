@@ -1,10 +1,12 @@
 """SQLite adapter for table visits and reservation management in local demos."""
 import json
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 IST = timezone(timedelta(hours=5, minutes=30))
 ACTIVE = ('Confirmed', 'Checked in')
 STATUSES = ('Pending', 'Confirmed', 'Checked in', 'Completed', 'No-show', 'Cancelled')
+QR_TABLES = {table['id']: table for table in json.loads(Path(__file__).with_name('qr-tables.json').read_text(encoding='utf-8'))}
 
 
 def today():
@@ -25,8 +27,19 @@ def ensure(state):
                  ('G1', 'Garden 01', 4), ('G2', 'Garden 02', 4), ('C1', 'Canopy 01', 6),
                  ('L1', 'Lounge 01', 4), ('L2', 'Lounge 02', 4), ('W1', 'Window 01', 4),
                  ('W2', 'Window 02', 4), ('D1', 'Dining 01', 6), ('D2', 'Dining 02', 4),
-                 ('S1', 'Sofa 01', 4), ('S2', 'Sofa 02', 2), ('B1', 'Bar side', 2), ('4', 'Table 4', 4)]
-        state['tables'] = [dict(id=id, label=label, capacity=capacity, zone='Rooftop' if i < 8 else 'Inside' if i < 15 else 'Cafe floor', status='Available', waiterId='', session=None) for i, (id, label, capacity) in enumerate(specs)]
+                 ('S1', 'Sofa 01', 4), ('S2', 'Sofa 02', 2), ('B1', 'Bar side', 2)]
+        state['tables'] = [dict(id=id, label=label, capacity=capacity, zone='Rooftop' if i < 8 else 'Inside',
+                                status='Available', waiterId='', session=None)
+                           for i, (id, label, capacity) in enumerate(specs)]
+    for table in state['tables']:
+        table['id'] = str(table['id'])
+    saved = {table['id']: table for table in state['tables']}
+    for code, config in QR_TABLES.items():
+        if code in saved:
+            saved[code]['active'] = True
+        else:
+            state['tables'].append(dict(id=code, label=config['label'], capacity=config['capacity'], zone=config['zoneName'],
+                                        status='Available', waiterId='', session=None))
     for r in state['reservations']:
         t = next((t for t in state['tables'] if t['id'] == r.get('tableId') or r.get('table', '').lower() in (t['id'].lower(), t['label'].lower())), None)
         r['tableId'] = t['id'] if t else ''
@@ -34,6 +47,13 @@ def ensure(state):
         r.setdefault('revision', 1)
         r.setdefault('history', [])
     return state
+
+
+def qr_order_fields(table_name):
+    prefix = table_name.split(' · ', 1)[0]
+    code = prefix.removeprefix('QR ') if prefix.startswith('QR ') else ''
+    table = QR_TABLES.get(code)
+    return dict(tableCode=code, tableLabel=table['label']) if table else {}
 
 
 def orders(state, t):

@@ -74,11 +74,6 @@ PUBLIC_SEATING = {
         "Bar side": ("B1", 2),
     },
 }
-ORDER_TABLES = {
-    "4": "Table 4",
-}
-
-
 SCHEMA = """
 PRAGMA foreign_keys = ON;
 
@@ -244,6 +239,7 @@ CREATE TABLE IF NOT EXISTS public_order_submissions (
   created_at TEXT NOT NULL,
   FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE
 );
+CREATE INDEX IF NOT EXISTS idx_public_order_submission_order ON public_order_submissions(order_id);
 
 CREATE TABLE IF NOT EXISTS menu_items (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -1000,8 +996,13 @@ def operations_payload(connection: sqlite3.Connection, current_user: dict | None
                "subtotal": row["subtotal"], "total": row["total"],
                "paymentMethod": row["payment_method"], "createdAt": row["created_at"],
                "sentAt": row["sent_at"], "readyAt": row["ready_at"], "paidAt": row["paid_at"],
-               "items": order_items.get(row["id"], [])}
-              for row in rows(connection, "SELECT * FROM orders WHERE status IN ('Kitchen','Preparing','Ready') OR id IN (SELECT id FROM orders ORDER BY created_at DESC,id DESC LIMIT 100) ORDER BY created_at DESC,id DESC")]
+               "items": order_items.get(row["id"], []),
+               **(floor.qr_order_fields(row["table_name"]) if row["qr_order"] else {})}
+              for row in rows(connection, """SELECT orders.*,
+                  EXISTS(SELECT 1 FROM public_order_submissions q WHERE q.order_id=orders.id) AS qr_order
+                  FROM orders WHERE status IN ('Kitchen','Preparing','Ready')
+                  OR id IN (SELECT id FROM orders ORDER BY created_at DESC,id DESC LIMIT 100)
+                  ORDER BY created_at DESC,id DESC""")]
     inventory = [{"id": row["id"], "name": row["name"], "unit": row["unit"],
                   "quantity": row["quantity"], "reorderLevel": row["reorder_level"],
                   "low": row["quantity"] <= row["reorder_level"]}
@@ -1621,13 +1622,13 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         return
 
                     table_code = str(body.get("table", "")).strip().upper()
-                    table_label = ORDER_TABLES.get(table_code)
+                    table = floor.QR_TABLES.get(table_code)
                     guest_name = str(body.get("guestName", "")).strip()[:60]
                     phone = str(body.get("phone", "")).strip()[:20]
                     requested_items = body.get("items", [])
                     payment_key = str(body.get("paymentMethod", ""))
                     payment_label = "Demo card" if payment_key == "demo-card" else "Demo UPI" if payment_key == "demo-upi" else ""
-                    if not table_label:
+                    if not table:
                         raise ValueError("This order did not come from a recognized table QR")
                     if len(guest_name) < 2:
                         raise ValueError("Please enter the guest name for this order")
@@ -1655,7 +1656,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     service_charge = round(subtotal * 0.05)
                     total = subtotal + service_charge
                     timestamp = floor.stamp()
-                    display_table = f"QR {table_code} · {table_label} · {guest_name}"[:40]
+                    display_table = f"QR {table_code} · {table['label']} · {guest_name}"[:40]
                     cursor = connection.execute(
                         """INSERT INTO orders (table_name, status, subtotal, total, payment_method, created_at, sent_at)
                            VALUES (?, 'Kitchen', ?, ?, ?, ?, ?)""",

@@ -422,6 +422,24 @@ class CRMServerTests(unittest.TestCase):
         self.assertEqual(status, 400)
         self.assertIn("recognized table QR", payload["error"])
 
+    def test_public_demo_orders_route_to_each_numbered_table(self):
+        order_ids = {}
+        with patch.object(crm.CRMHandler, 'client_ip', return_value='203.0.113.55'):
+            for table in ('1', '2', '3', '4', '5'):
+                status, receipt, _ = self.request('/api/public/orders', headers={'Idempotency-Key': f'qr-table-local-{table}'},
+                    body=dict(table=table, guestName='Demo Guest', paymentMethod='demo-upi',
+                              items=[dict(name='Margarita', quantity=1, unitPrice=499)]))
+                self.assertEqual(status, 201, receipt)
+                self.assertEqual(receipt['paymentLabel'], 'Demo UPI')
+                order_ids[table] = receipt['id']
+        cookie, _ = self.login()
+        _, data, _ = self.request('/api/bootstrap', cookie=cookie)
+        for code, order_id in order_ids.items():
+            table = next(t for t in data['tables'] if t['id'] == code)
+            ticket = next(order for order in data['service']['orders'] if order['id'] == order_id)
+            self.assertEqual(ticket['table'], f'Table {code}')
+            self.assertIn(order_id, [order['id'] for order in table['openOrders']])
+
     def test_trusted_proxy_uses_forwarded_client_for_rate_limits(self):
         previous = os.environ.get("MANGOSTEEN_TRUSTED_PROXIES")
         os.environ["MANGOSTEEN_TRUSTED_PROXIES"] = "127.0.0.1"

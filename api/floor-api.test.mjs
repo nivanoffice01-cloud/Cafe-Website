@@ -28,8 +28,11 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
     },
   })
   const cache = new Map()
-  async function load(id) {
-    if (cache.has(id)) return cache.get(id)
+  function load(id) {
+    if (!cache.has(id)) cache.set(id, createModule(id))
+    return cache.get(id)
+  }
+  async function createModule(id) {
     let module
     if (id === '@vercel/blob' || id === 'node:crypto') {
       const exports = id === '@vercel/blob' ? blob : crypto
@@ -38,11 +41,10 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
       const data = JSON.parse(await readFile(new URL(id), 'utf8'))
       module = new vm.SyntheticModule(['default'], function () { this.setExport('default', data) }, { context, identifier:id })
     } else module = new vm.SourceTextModule(await readFile(new URL(id), 'utf8'), { context, identifier: id })
-    cache.set(id, module)
-    await module.link((specifier, source) => load(specifier.startsWith('.') ? new URL(specifier, source.identifier).href : specifier))
     return module
   }
   const module = await load(new URL('./index.mjs', import.meta.url).href)
+  await module.link((specifier, source) => load(specifier.startsWith('.') ? new URL(specifier, source.identifier).href : specifier))
   await module.evaluate()
   const handle = module.namespace.default.fetch
   let cookie = ''
@@ -305,4 +307,22 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
   cookie = kitchenLogin.cookie.split(';')[0]
   assert.equal((await request(historyPath)).code, 403)
   assert.equal((await request(`/orders/${qrId}/customer`, { customerId:personId,expectedCustomerId:null })).code, 403)
+
+  const demoIds = new Map()
+  for (const table of ['1','2','3','4','5']) {
+    const result = await request('/public/orders', { requestKey:`qr-table-smoke-${table}`, table,
+      guestName:'QR Demo Guest', paymentMethod:'demo-upi',
+      items:[{ name:'Berries shakes', category:'Shakes', quantity:1 }] }, false)
+    assert.equal(result.code, 201)
+    assert.equal(result.payload.paymentLabel, 'Demo UPI')
+    demoIds.set(table, result.payload.id)
+  }
+  cookie = ownerCookie
+  const qrBootstrap = (await request('/bootstrap')).payload
+  for (const [code, id] of demoIds) {
+    const kitchenTicket = qrBootstrap.service.orders.find(order => order.id === id)
+    assert.equal(kitchenTicket.table, `Table ${code}`)
+    const table = qrBootstrap.tables.find(table => table.id === code)
+    assert(table.openOrders.some(order => order.id === id))
+  }
 })
