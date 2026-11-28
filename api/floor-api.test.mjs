@@ -167,4 +167,53 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
   assert(!(await request('/service/alerts')).payload.orders.some(o=>o.id===orderId))
   cookie=ownerCookie
   assert.equal((await request(`/orders/${orderId}/status`,{status:'Ready'})).code,409)
+
+  const cashierLogin = await request('/auth/login', { email:'cashier@mangosteen.local', password:'Mangosteen@123' })
+  const cashierCookie = cashierLogin.cookie.split(';')[0]
+  cookie = cashierCookie
+  const getDrawer = async () => (await request('/bootstrap')).payload.cashDrawer.days[0]
+  const day = (await getDrawer()).day
+  const action = (name, body) => request(`/cash-drawer/${name}`, { day, ...body })
+  const first = await action('open', { amount:'1000.25', requestKey:'drawer-opening' })
+  assert.equal(first.code, 200)
+  assert.equal(first.payload.opening, 100025)
+  const cashIn = { amount:'50.10', direction:'in', reason:'Change added', revision:1, requestKey:'drawer-cash-in' }
+  assert.equal((await action('movement', cashIn)).payload.totals.cashIn, 5010)
+  assert.equal((await action('movement', cashIn)).payload.movements.length, 1)
+  assert.equal((await action('movement', { ...cashIn, requestKey:'drawer-stale-movement' })).code, 409)
+  const afterOut = (await action('movement', { amount:'20.35', direction:'out', reason:'Bank deposit',
+    revision:2, requestKey:'drawer-cash-out' })).payload
+  assert.equal(afterOut.totals.cashOut, 2035)
+  const sale = await request(`/orders/${orderId}/pay`, { method:'Cash' })
+  assert.equal(sale.code, 200)
+  const cashRefund = await request('/corrections', { orderId, type:'refund', amount:'10.50', reason:'Test refund' })
+  cookie = managerCookie
+  assert.equal((await request(`/corrections/${cashRefund.payload.id}/approve`, {})).code, 200)
+  cookie = cashierCookie
+  assert.equal((await request(`/corrections/${cashRefund.payload.id}/record`, { confirmed:true })).code, 200)
+  const latest = await getDrawer()
+  assert.equal(latest.totals.expected, afterOut.totals.expected + Math.round(sale.payload.amount * 100) - 1050)
+  assert.equal(latest.totals.cashRefunds, 1050)
+  const closing = { revision:3, amount:((latest.totals.expected - 125) / 100).toFixed(2), requestKey:'drawer-close' }
+  assert.equal((await action('close', { ...closing, expected:afterOut.totals.expected })).code, 409)
+  assert.equal((await action('close', { ...closing, expected:latest.totals.expected })).payload.closing.variance, -125)
+  assert.equal((await getDrawer()).status, 'Closed')
+  const newOrder = (await request('/orders', { table:'Drawer test', items:[{ menuItemId:1, quantity:1 }] })).payload
+  await request(`/orders/${newOrder.id}/send`, {})
+  assert.equal((await request(`/orders/${newOrder.id}/pay`, { method:'Cash' })).code, 409)
+  assert.equal((await request(`/orders/${newOrder.id}/pay`, { method:'Card' })).code, 200)
+  const nextRefund = await request('/corrections', { orderId, type:'refund', amount:'1', reason:'Another cash refund' })
+  const reopening = { revision:4, reason:'Correcting the cash count', requestKey:'drawer-reopen' }
+  assert.equal((await action('reopen', reopening)).code, 403)
+  cookie = managerCookie
+  assert.equal((await request(`/corrections/${nextRefund.payload.id}/approve`, {})).code, 200)
+  assert.equal((await request(`/corrections/${nextRefund.payload.id}/record`, { confirmed:true })).code, 409)
+  const reopened = (await action('reopen', reopening)).payload
+  assert.equal(reopened.previousClosings[0].variance, -125)
+  const second = await action('close', { revision:5, expected:reopened.totals.expected,
+    amount:((reopened.totals.expected + 250) / 100).toFixed(2), requestKey:'drawer-reclose' })
+  assert.equal(second.payload.closing.variance, 250)
+  cookie = kitchenLogin.cookie.split(';')[0]
+  assert.equal((await request('/bootstrap')).payload.cashDrawer, undefined)
+  assert.equal((await action('close', closing)).code, 403)
 })

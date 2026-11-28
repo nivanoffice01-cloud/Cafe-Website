@@ -14,6 +14,7 @@ import floor
 import waitlist
 import service
 import corrections
+import cash_drawer
 import reservation_whatsapp
 from contextlib import closing, contextmanager
 import hashlib
@@ -298,6 +299,11 @@ CREATE TABLE IF NOT EXISTS order_items (
 CREATE TABLE IF NOT EXISTS order_corrections (
   id TEXT PRIMARY KEY,
   created_at TEXT NOT NULL,
+  payload TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS cash_drawers (
+  day TEXT PRIMARY KEY,
   payload TEXT NOT NULL
 );
 
@@ -1118,6 +1124,8 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
             "user": current_user}
     role = (current_user or {}).get('role')
     entries = corrections.records(connection)
+    if role in cash_drawer.ROLES:
+        result['cashDrawer'] = cash_drawer.payload(connection, entries)
     corrections.enrich(result['orders'], entries)
     result['corrections'] = [r for r in entries if role in corrections.ROLES and
                              (role != 'Cashier' or r['requestedBy']['id'] == current_user['id']
@@ -1686,12 +1694,25 @@ class CRMHandler(SimpleHTTPRequestHandler):
                 return
 
             with connect() as connection:
+                drawer_route = re.fullmatch(r'/api/cash-drawer/(open|movement|close|reopen)', path)
+                if drawer_route:
+                    action = drawer_route[1]
+                    self.require_roles(*(cash_drawer.REOPEN_ROLES if action == 'reopen' else cash_drawer.ROLES))
+                    connection.execute('BEGIN IMMEDIATE')
+                    drawer = cash_drawer.update(connection, action, body, user, corrections.records(connection))
+                    connection.commit()
+                    self.send_json(drawer)
+                    return
                 correction_route = re.fullmatch(r'/api/corrections(?:/([a-f0-9-]+)/(approve|reject|record))?', path)
                 if correction_route:
                     item_id, action = correction_route.groups()
                     self.require_roles(*(corrections.ROLES if not item_id or action == 'record' else ('Owner','Manager')))
                     connection.execute('BEGIN IMMEDIATE')
+                    prior = connection.execute('SELECT payload FROM order_corrections WHERE id=?', (item_id,)).fetchone() if action == 'record' else None
                     record = corrections.mutate(connection, body, user, item_id, action)
+                    if (action == 'record' and record.get('method') == 'Cash' and record['status'] == 'Refund recorded'
+                            and prior and json.loads(prior['payload'])['status'] != record['status']):
+                        cash_drawer.ensure_not_closed(connection, record['recordedAt'])
                     connection.commit()
                     self.send_json(dict(id=record['id'], status=record['status']), HTTPStatus.OK if item_id else HTTPStatus.CREATED)
                     return
@@ -1875,10 +1896,12 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     if expected is not None:
                         if not re.fullmatch(r'[0-9]+(\.[0-9]{1,2})?', str(expected)) or corrections.paise(expected) != corrections.paise(order['total']):
                             raise ValueError('The bill changed. Reopen payment to see the latest total.')
+                    timestamp = now_iso()
+                    if method == 'Cash':
+                        cash_drawer.ensure_not_closed(connection, timestamp)
                     floor_state = floor.enrich(connection, bootstrap_payload(connection, user))
                     floor.keep_paid_visit(floor_state, order_id)
                     floor.persist(connection, floor_state)
-                    timestamp = now_iso()
                     connection.execute(
                         "INSERT INTO payments (order_id, method, amount, created_by, created_at) VALUES (?, ?, ?, ?, ?)",
                         (order_id, method, order["total"], user["id"], timestamp),
@@ -2055,6 +2078,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     create_backup("before-restore")
                     check.backup(connection)
                     check.close()
+                    connection.executescript(SCHEMA)
                     connection.commit()
                     self.send_json({"restored": True})
                     return
@@ -2250,7 +2274,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
                 if path == "/api/reset":
                     self.require_user("Owner")
-                    for table in ("public_order_submissions", "public_submissions", "communications", "point_ledger", "payments", "order_corrections",
+                    for table in ("public_order_submissions", "public_submissions", "communications", "point_ledger", "payments", "order_corrections", "cash_drawers",
                                   "inventory_movements", "order_items", "attendance", "expenses",
                                   "recipes", "orders", "staff", "vendors", "inventory_items", "menu_items",
                                   "reservations", "feedback", "tasks", "campaigns", "rewards",

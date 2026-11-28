@@ -100,6 +100,39 @@ class CRMServerTests(unittest.TestCase):
         status, result, _ = self.request(f'/api/reservations/{id}/status', body={'status':'Confirmed'}, cookie=cookie, headers=headers)
         self.assertEqual(status, 400, result)
 
+    def test_cash_drawer_tracks_money_and_closing_snapshots(self):
+        cashier, csrf = self.login('cashier@mangosteen.local')
+        manager, manager_csrf = self.login('manager@mangosteen.local')
+        _, snapshot, _ = self.request('/api/bootstrap', cookie=cashier)
+        day = snapshot['cashDrawer']['today']
+
+        def action(name, manager_action=False, **values):
+            return self.request(f'/api/cash-drawer/{name}', body=dict(day=day, **values),
+                                cookie=manager if manager_action else cashier,
+                                headers={'X-CSRF-Token': manager_csrf if manager_action else csrf})[:2]
+
+        self.assertEqual(action('open', amount='-5', requestKey='cash-open-invalid')[0], 400)
+        status, opened = action('open', amount='1000.00', requestKey='cash-open-local')
+        self.assertEqual(status, 200, opened)
+        movement = dict(amount='15.25', direction='out', reason='Bank deposit', revision=1, requestKey='cash-out-local')
+        status, updated = action('movement', **movement)
+        self.assertEqual(status, 200, updated)
+        self.assertEqual(updated['totals']['expected'], opened['totals']['expected'] - 1525)
+        self.assertEqual(len(action('movement', **movement)[1]['movements']), 1)
+        counted = dict(amount=f"{(updated['totals']['expected'] + 50)/100:.2f}", revision=2, requestKey='cash-close-local')
+        self.assertEqual(action('close', expected=opened['totals']['expected'], **counted)[0], 400)
+        status, closed = action('close', expected=updated['totals']['expected'], **counted)
+        self.assertEqual(status, 200, closed)
+        self.assertEqual(closed['closing']['variance'], 50)
+        _, snapshot, _ = self.request('/api/bootstrap', cookie=cashier)
+        self.assertEqual(snapshot['cashDrawer']['days'][0]['closing'], closed['closing'])
+        reopening = dict(revision=3, reason='Recount requested', requestKey='cash-reopen-local')
+        self.assertEqual(action('reopen', **reopening)[0], 403)
+        status, reopened = action('reopen', manager_action=True, **reopening)
+        self.assertEqual(status, 200, reopened)
+        self.assertEqual(reopened['previousClosings'][0]['variance'], 50)
+        self.assertEqual(reopened['status'], 'Open')
+
     def test_confirmation_submits_whatsapp_template_for_opted_in_guest(self):
         cookie, csrf = self.login('manager@mangosteen.local')
         headers = {'X-CSRF-Token': csrf}

@@ -6,6 +6,7 @@ import { waitlistPayload, updateWaitlist } from './waitlist.mjs'
 import { servicePayload, serviceAction, kitchenTransition, updateServiceSettings } from './service.mjs'
 import { correctionRoles, activeCorrection, requestCorrection, reviewCorrection } from './corrections.mjs'
 import { whatsappConfig, prepareConfirmation, sendConfirmation } from './reservation-whatsapp.mjs'
+import { drawerRoles, reopenRoles, drawerPayload, ensureDrawerNotClosed, updateDrawer } from './cash-drawer.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
@@ -298,6 +299,7 @@ function publicUser(user) {
 function bootstrap(state, user) {
   const role = user.role
   const base = {
+    ...(drawerRoles.includes(role) ? { cashDrawer: drawerPayload(state) } : {}),
     corrections: correctionRoles.includes(role) ? (state.corrections || []).filter(r => role !== 'Cashier' || r.requestedBy.id === user.id || (r.type === 'refund' && r.status === 'Approved')) : [],
     refunds: ['Kitchen','Floor Staff'].includes(role) ? [] : (state.corrections || []).filter(r => r.status === 'Refund recorded').map(r => ({ amount:r.amount, method:r.method, createdAt:r.recordedAt })),
     service: servicePayload(state, user),
@@ -510,11 +512,24 @@ async function handleRequest(request) {
 
     if (request.method !== 'POST') return json({ error: 'API route not found' }, 404)
 
+    const drawerRoute = path.match(/^\/cash-drawer\/(open|movement|close|reopen)$/)
+    if (drawerRoute) {
+      const action = drawerRoute[1]
+      const cashier = requireRoles(request, state, action === 'reopen' ? reopenRoles : drawerRoles)
+      const drawer = updateDrawer(state, action, body, cashier)
+      await saveState(state)
+      return json(drawer)
+    }
+
     const correctionRoute = path.match(/^\/corrections(?:\/([a-f0-9-]+)\/(approve|reject|record))?$/)
     if (correctionRoute) {
       const [, id, action] = correctionRoute
       const actor = requireRoles(request, state, !id || action === 'record' ? correctionRoles : ['Owner','Manager'])
+      const priorStatus = action === 'record' ? (state.corrections || []).find(r => r.id === id)?.status : null
       const record = id ? reviewCorrection(state, id, action, body, actor) : requestCorrection(state, body, actor)
+      if (action === 'record' && record.method === 'Cash' && record.status === 'Refund recorded' && priorStatus !== record.status) {
+        ensureDrawerNotClosed(state, record.recordedAt)
+      }
       await saveState(state)
       return json({ id:record.id, status:record.status }, id ? 200 : 201)
     }
@@ -611,8 +626,10 @@ async function handleRequest(request) {
       if (order.status === 'Cancelled' || order.status === 'Draft') throw new Error('This order cannot be paid.')
       if (activeCorrection(state, order.id)) return json({ error:'Resolve the pending correction before collecting payment.' }, 409)
       if (body.expectedTotal != null && Number(body.expectedTotal) !== order.total) return json({ error:'The bill changed. Reopen payment to see the latest total.' }, 409)
+      const paidAt = now()
+      if (method === 'Cash') ensureDrawerNotClosed(state, paidAt)
       keepPaidVisit(state, order)
-      order.status = 'Paid'; order.paymentMethod = method; order.paidAt = now()
+      order.status = 'Paid'; order.paymentMethod = method; order.paidAt = paidAt
       state.payments.unshift({ id: nextId(state.payments), orderId: order.id, method, amount: order.total, createdAt: order.paidAt })
       await saveState(state)
       return json({ paid: true, method, amount: order.total })

@@ -3363,6 +3363,75 @@ body {
   font-size: 18px;
 }
 
+.cash-drawer {
+  margin: 18px 0;
+}
+
+.cash-drawer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cash-drawer-toolbar .field {
+  min-width: min(210px, 100%);
+}
+
+.cash-drawer-toolbar .floor-actions {
+  margin: 0;
+}
+
+.cash-drawer-totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 135px), 1fr));
+  gap: 10px;
+  margin: 16px 0 10px;
+}
+
+.cash-drawer-totals > div, .cash-drawer-result {
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface, #fff);
+  border-radius: 12px;
+}
+
+.cash-drawer-totals > div:last-child, .cash-drawer-result {
+  background: var(--green-soft, #eaf3ee);
+}
+
+.cash-drawer-totals dt, .cash-drawer-result span {
+  display: block;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.cash-drawer-totals dd, .cash-drawer-result strong {
+  display: block;
+  margin: 4px 0 0;
+  font-size: 17px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.cash-drawer-result {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.cash-drawer-result p {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.payment-methods input:disabled + span {
+  opacity: .48;
+  cursor: not-allowed;
+}
+
 .stock-alert {
   display: flex;
   align-items: center;

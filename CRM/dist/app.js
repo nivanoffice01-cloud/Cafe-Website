@@ -635,11 +635,12 @@ function renderBilling() {
       <article><span>Net collection today</span><strong>${inr(operations.todaySales)}</strong><small>${operations.todayPaymentCount} settled bills</small></article>
       ${['Cash', 'UPI', 'Card'].map((method) => `<article><span>${method}</span><strong>${inr(operations.paymentTotals[method])}</strong><div class="payment-bar"><i style="width:${Math.max(0, Math.min(100, operations.paymentTotals[method] / total * 100))}%"></i></div></article>`).join('')}
     </section>
+    ${renderCashDrawer()}
     <div class="ops-grid two">
       <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Open bills</h2><p>Ready and in-service tables</p></div><span class="status active">${unpaid.length} open</span></div><div class="panel-body bill-list">
         ${unpaid.map(order => `<div class="bill-row"><div><strong>${escapeHtml(order.table)} · #${String(order.id).padStart(3, '0')}</strong><span>${order.items.map(item => `${item.quantity}× ${escapeHtml(item.name)}`).join(', ')}</span></div><div><strong>${inr(order.total)}</strong>${order.correctionPending ? '<span>Awaiting correction approval</span>' : `<button class="btn btn-small btn-primary" data-action="take-payment" data-id="${order.id}">Collect</button>`}${correctionButton(order)}</div></div>`).join('') || '<div class="empty-state compact"><p>All current bills are settled.</p></div>'}
       </div></article>
-      <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Day closing</h2><p>${todayLabel()}</p></div>${statusPill('Live')}</div><div class="panel-body closing-list">
+      <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Sales summary</h2><p>${todayLabel()}</p></div>${statusPill('Live')}</div><div class="panel-body closing-list">
         <div><span>Gross sales</span><strong>${inr(operations.todayGross)}</strong></div><div><span>Refunds recorded</span><strong>− ${inr(operations.todayRefunded)}</strong></div><div><span>Operating expenses</span><strong>− ${inr(operations.todayExpenseTotal)}</strong></div><div class="closing-total"><span>Net operating result</span><strong>${inr(operations.todayProfit)}</strong></div>
       </div></article>
     </div>`;
@@ -1080,7 +1081,9 @@ function openPaymentForm(orderId) {
   const order = data.orders.find((item) => String(item.id) === String(orderId));
   if (!order) return;
   if (order.correctionPending) { showToast('Resolve the pending correction first.', 'error'); return; }
-  openModal(`Settle ${escapeHtml(order.table)}`, `Order #${String(order.id).padStart(3, '0')} · ${inr(order.total)}`, `<form id="payment-form"><input type="hidden" name="orderId" value="${order.id}" /><div class="payment-methods">${['Cash', 'UPI', 'Card'].map((method, index) => `<label><input type="radio" name="method" value="${method}" ${index === 0 ? 'checked' : ''} /><span>${icon(method === 'Cash' ? 'rupee' : method === 'UPI' ? 'phone' : 'wallet')}<strong>${method}</strong></span></label>`).join('')}</div><div class="order-total modal-total"><span>Amount to collect</span><strong>${inr(order.total)}</strong></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="payment-form">${icon('wallet')} Confirm payment</button>`);
+  const cashClosed = currentCashDrawerClosed();
+  const defaultMethod = cashClosed ? 'UPI' : 'Cash';
+  openModal(`Settle ${escapeHtml(order.table)}`, `Order #${String(order.id).padStart(3, '0')} · ${inr(order.total)}`, `<form id="payment-form"><input type="hidden" name="orderId" value="${order.id}" /><div class="payment-methods">${['Cash', 'UPI', 'Card'].map((method) => `<label><input type="radio" name="method" value="${method}" ${method === defaultMethod ? 'checked' : ''} ${cashClosed && method === 'Cash' ? 'disabled' : ''} /><span>${icon(method === 'Cash' ? 'rupee' : method === 'UPI' ? 'phone' : 'wallet')}<strong>${method}</strong></span></label>`).join('')}</div>${cashClosed ? '<p class="form-notice">Ask a manager to reopen the drawer to accept cash.</p>' : ''}<div class="order-total modal-total"><span>Amount to collect</span><strong>${inr(order.total)}</strong></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="payment-form">${icon('wallet')} Confirm payment</button>`);
   document.getElementById('payment-form').dataset.expectedTotal = order.total;
 }
 
@@ -1331,7 +1334,7 @@ document.getElementById('modal-root').addEventListener('click', async (event) =>
 document.getElementById('modal-root').addEventListener('submit', async (event) => {
   event.preventDefault();
   const form = event.target;
-  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat', 'service-settings-form', 'correction-form', 'correction-review'].includes(form.id)) return;
+  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat', 'service-settings-form', 'correction-form', 'correction-review', 'cash-drawer-form'].includes(form.id)) return;
   const values = Object.fromEntries(new FormData(form).entries());
   const submit = form.closest('.modal')?.querySelector('[type="submit"]');
   if (submit) { submit.disabled = true; submit.dataset.original = submit.innerHTML; submit.textContent = 'Saving…'; }

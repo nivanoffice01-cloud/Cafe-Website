@@ -65,6 +65,10 @@ function updateCorrectionForm(form) {
 
 function openCorrectionReview(record, action) {
   const recordPayout = action === 'record';
+  if (recordPayout && record.method === 'Cash' && !record.demo && currentCashDrawerClosed()) {
+    showToast('Ask a manager to reopen the drawer before paying a cash refund.', 'error');
+    return;
+  }
   const title = recordPayout ? (record.demo ? 'Record demo refund' : 'Record refund payout') : action === 'approve' ? 'Approve correction' : 'Reject correction';
   const acknowledgement = record.demo ? 'I confirm this is a simulated refund.' : 'I confirm the customer has received the refund.';
   const fields = recordPayout ? `${record.method !== 'Cash' && !record.demo ? '<label class="field">Refund reference<input name="reference" required minlength="3" maxlength="100"></label>' : ''}<label class="check-row"><input type="checkbox" name="confirmed" required> ${acknowledgement}</label>`
