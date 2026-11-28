@@ -7,7 +7,7 @@ import { servicePayload, serviceAction, kitchenTransition, updateServiceSettings
 import { correctionRoles, activeCorrection, requestCorrection, reviewCorrection } from './corrections.mjs'
 import { whatsappConfig, prepareConfirmation, sendConfirmation } from './reservation-whatsapp.mjs'
 import { drawerRoles, reopenRoles, drawerPayload, ensureDrawerNotClosed, updateDrawer } from './cash-drawer.mjs'
-import { foodRoles, foodPayload, saveIngredient, saveRecipe, recordWaste } from './food-costing.mjs'
+import { foodRoles, foodPayload, saveIngredient, saveRecipe, recordWaste } from '../CRM/food-costing.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
