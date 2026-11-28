@@ -251,4 +251,58 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
   await saveFood('ingredient', { id:ingredientId, unitCost:'10' })
   assert.equal((await food()).waste.find(entry => entry.id === waste.requestKey).lossPaise, 1506)
   assert.equal((await food()).dishes.find(d => d.id === item.id).costPaise, 500)
+
+  const person = (await request('/customers', { name:'History QA', phone:'+91 90123 45679' })).payload
+  const personId = person.id
+  const historyPath = `/customers/${personId}/history`
+  const history = async () => (await request(historyPath)).payload
+  const reservation = (await request('/reservations', { name:'History QA', phone:'9012345679', date:dayInIndia(),
+    time:'18:00', guests:2, tableId:'L2', status:'Confirmed' })).payload
+  assert.equal((await history()).visitCount, 0)
+  assert.equal((await request(`/reservations/${reservation.id}/status`, { status:'Checked in' })).code, 200)
+  const orderIDs = []
+  for (const quantity of [1, 2]) {
+    const draft = await request('/orders', { table:'Lounge 02', items:[{ menuItemId:1, quantity }] })
+    assert.equal(draft.code, 201)
+    orderIDs.push(draft.payload.id)
+    const order = (await request('/bootstrap')).payload.orders.find(o => o.id === draft.payload.id)
+    assert.equal(order.customerId, personId)
+    assert.equal((await request(`/orders/${order.id}/send`, {})).code, 200)
+    assert.equal((await request(`/orders/${order.id}/pay`, { method:'Card' })).code, 200)
+  }
+  assert.equal((await request('/tables/L2', { action:'checkout' })).code, 200)
+  let tracked = await history()
+  assert.equal(tracked.visitCount, 1)
+  assert.equal(tracked.visits[0].orders.length, 2)
+  assert.equal(tracked.spentPaise, 54000)
+  assert.equal(tracked.favourites[0].quantity, 3)
+  const actualRefund = (await request('/corrections', { orderId:orderIDs[0], type:'refund', amount:'20.25', reason:'History refund' })).payload
+  cookie = ownerCookie
+  assert.equal((await request(`/corrections/${actualRefund.id}/approve`, {})).code, 200)
+  assert.equal((await request(`/corrections/${actualRefund.id}/record`, { confirmed:true,reference:'HISTORY-REF-1' })).code, 200)
+  assert.equal((await history()).spentPaise, 51975)
+  assert.equal((await request(`/customers/${personId}/preferences`, { notes:'Prefers window seating',expectedNotes:'' })).code, 200)
+  assert.equal((await request(`/customers/${personId}/preferences`, { notes:'Stale change',expectedNotes:'' })).code, 409)
+
+  const qr = await request('/public/orders', { requestKey:'history-qr-demo-test', table:'4', guestName:'History QA',
+    phone:'09012345679', paymentMethod:'demo-upi', items:[{ name:'Berries shakes',category:'Shakes',quantity:1 }] }, false)
+  assert.equal(qr.code, 201)
+  const qrId = qr.payload.id
+  const suggested = (await request('/bootstrap')).payload.orders.find(o => o.id === qrId)
+  assert.equal(suggested.suggestedCustomerId, personId)
+  assert.equal(suggested.customerId, null)
+  assert.equal((await request(`/orders/${qrId}/customer`, { customerId:personId,expectedCustomerId:null })).code, 200)
+  assert.equal((await request(`/orders/${qrId}/status`, { status:'Preparing' })).code, 200)
+  assert.equal((await request(`/orders/${qrId}/status`, { status:'Ready' })).code, 200)
+  assert.equal((await request(`/service/orders/${qrId}/served`, {})).code, 200)
+  tracked = await history()
+  assert.equal(tracked.visits.find(v => v.orders.some(o => o.id === qrId)).orders[0].demo, true)
+  assert.equal(tracked.visitCount, 1)
+  assert.equal(tracked.spentPaise, 51975)
+  assert.equal(tracked.favourites.length, 1)
+  assert.equal((await request(`/orders/${qrId}/customer`, { customerId:null,expectedCustomerId:personId })).code, 200)
+  assert.equal((await request('/bootstrap')).payload.orders.find(o => o.id === qrId).suggestedCustomerId, null)
+  cookie = kitchenLogin.cookie.split(';')[0]
+  assert.equal((await request(historyPath)).code, 403)
+  assert.equal((await request(`/orders/${qrId}/customer`, { customerId:personId,expectedCustomerId:null })).code, 403)
 })

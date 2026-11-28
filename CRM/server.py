@@ -16,6 +16,7 @@ import service
 import corrections
 import cash_drawer
 import food_costing
+import guest_history
 import reservation_whatsapp
 from contextlib import closing, contextmanager
 import hashlib
@@ -38,7 +39,7 @@ from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import quote, urlparse
+from urllib.parse import parse_qs, quote, urlparse
 from urllib.request import Request, urlopen
 from typing import Iterator
 
@@ -317,6 +318,13 @@ CREATE TABLE IF NOT EXISTS order_corrections (
   created_at TEXT NOT NULL,
   payload TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS order_guest_context (
+  order_id INTEGER PRIMARY KEY REFERENCES orders(id) ON DELETE CASCADE,
+  customer_id INTEGER REFERENCES customers(id) ON DELETE SET NULL,
+  payload TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_guest_context_customer ON order_guest_context(customer_id);
 
 CREATE TABLE IF NOT EXISTS cash_drawers (
   day TEXT PRIMARY KEY,
@@ -1139,6 +1147,8 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
             **operations,
             "user": current_user}
     role = (current_user or {}).get('role')
+    if role in guest_history.LINK_ROLES:
+        guest_history.add_guest_fields(connection, result['orders'], customers)
     entries = corrections.records(connection)
     if role in cash_drawer.ROLES:
         result['cashDrawer'] = cash_drawer.payload(connection, entries)
@@ -1448,6 +1458,18 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     with connect() as connection:
                         self.send_json(bootstrap_payload(connection, user))
                     return
+                history_route = re.fullmatch(r'/api/customers/([0-9]+)/history', path)
+                if history_route:
+                    self.require_roles(*guest_history.HISTORY_ROLES)
+                    offset = parse_qs(urlparse(self.path).query).get('offset', ['0'])[0]
+                    if not re.fullmatch(r'[0-9]{1,12}', offset):
+                        self.send_json({"error": "Invalid visit history page."}, HTTPStatus.BAD_REQUEST)
+                        return
+                    with connect() as connection:
+                        history = guest_history.history(connection, int(history_route[1]), int(offset), corrections.records(connection))
+                    self.send_json(history if history is not None else {"error": "Customer not found."},
+                                   HTTPStatus.OK if history is not None else HTTPStatus.NOT_FOUND)
+                    return
                 if path == "/api/export/customers.csv":
                     with connect() as connection:
                         output = io.StringIO()
@@ -1586,6 +1608,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                 if not 8 <= len(request_key) <= 128 or not re.fullmatch(r"[A-Za-z0-9._:-]+", request_key):
                     raise ValueError("A valid order request key is required")
                 with connect() as connection:
+                    connection.execute('BEGIN IMMEDIATE')
                     previous = connection.execute(
                         "SELECT order_id FROM public_order_submissions WHERE request_key=?", (request_key,)
                     ).fetchone()
@@ -1631,7 +1654,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         raise ValueError("A QR order can contain up to 30 dishes")
                     service_charge = round(subtotal * 0.05)
                     total = subtotal + service_charge
-                    timestamp = now_iso()
+                    timestamp = floor.stamp()
                     display_table = f"QR {table_code} · {table_label} · {guest_name}"[:40]
                     cursor = connection.execute(
                         """INSERT INTO orders (table_name, status, subtotal, total, payment_method, created_at, sent_at)
@@ -1639,6 +1662,8 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         (display_table, subtotal, total, payment_label, timestamp, timestamp),
                     )
                     order_id = cursor.lastrowid
+                    visit, _ = guest_history.visit_context(connection, display_table, timestamp, table_code=table_code)
+                    guest_history.save_context(connection, order_id, None, dict(visit, phone=phone))
                     connection.executemany(
                         """INSERT INTO order_items (order_id, menu_item_id, item_name, quantity, unit_price)
                            VALUES (?, NULL, ?, ?, ?)""",
@@ -1713,6 +1738,22 @@ class CRMHandler(SimpleHTTPRequestHandler):
 
             with connect() as connection:
                 food_route = re.fullmatch(r'/api/food-costing/(ingredient|recipe|waste)', path)
+                guest_route = re.fullmatch(r'/api/orders/([0-9]+)/customer', path)
+                if guest_route:
+                    self.require_roles(*guest_history.LINK_ROLES)
+                    connection.execute('BEGIN IMMEDIATE')
+                    result = guest_history.update_order_guest(connection, int(guest_route[1]), body)
+                    connection.commit()
+                    self.send_json(result)
+                    return
+                preference_route = re.fullmatch(r'/api/customers/([0-9]+)/preferences', path)
+                if preference_route:
+                    self.require_roles(*guest_history.HISTORY_ROLES)
+                    connection.execute('BEGIN IMMEDIATE')
+                    result = guest_history.update_preferences(connection, int(preference_route[1]), body)
+                    connection.commit()
+                    self.send_json(result)
+                    return
                 if food_route:
                     self.require_roles(*food_costing.ROLES)
                     connection.execute('BEGIN IMMEDIATE')
@@ -1840,6 +1881,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
 
                 if path == "/api/orders":
                     self.require_roles("Owner", "Manager", "Cashier")
+                    connection.execute('BEGIN IMMEDIATE')
                     table_name = str(body.get("table", "")).strip()[:40]
                     requested_items = body.get("items", [])
                     if not table_name or not isinstance(requested_items, list):
@@ -1860,12 +1902,14 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         normalized_items.append((menu_item, quantity))
                     if not normalized_items:
                         raise ValueError("Add at least one item to the order")
+                    created_at = floor.stamp()
                     cursor = connection.execute(
                         """INSERT INTO orders (table_name, status, subtotal, total, created_by, created_at)
                            VALUES (?, 'Draft', ?, ?, ?, ?)""",
-                        (table_name, total, total, user["id"], now_iso()),
+                        (table_name, total, total, user["id"], created_at),
                     )
                     order_id = cursor.lastrowid
+                    guest_history.add_pos_context(connection, order_id, table_name, created_at, body)
                     connection.executemany(
                         """INSERT INTO order_items
                            (order_id, menu_item_id, item_name, quantity, unit_price)
@@ -1933,6 +1977,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                         cash_drawer.ensure_not_closed(connection, timestamp)
                     floor_state = floor.enrich(connection, bootstrap_payload(connection, user))
                     floor.keep_paid_visit(floor_state, order_id)
+                    guest_history.keep_visit_context(connection, order_id, order['table_name'], order['created_at'], floor_state)
                     floor.persist(connection, floor_state)
                     connection.execute(
                         "INSERT INTO payments (order_id, method, amount, created_by, created_at) VALUES (?, ?, ?, ?, ?)",
@@ -2308,7 +2353,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                 if path == "/api/reset":
                     self.require_user("Owner")
                     for table in ("public_order_submissions", "public_submissions", "communications", "point_ledger", "payments", "order_corrections", "cash_drawers",
-                                  "inventory_movements", "order_items", "attendance", "expenses",
+                                  "inventory_movements", "order_items", "order_guest_context", "attendance", "expenses",
                                   "food_waste", "ingredient_costs", "public_dish_recipes", "recipes",
                                   "orders", "staff", "vendors", "inventory_items", "menu_items",
                                   "reservations", "feedback", "tasks", "campaigns", "rewards",

@@ -195,6 +195,48 @@ class CRMServerTests(unittest.TestCase):
         self.assertEqual([r['amount'] for r in snapshot['refunds']], [25.25])
         self.assertEqual(next(o for o in snapshot['orders'] if o['id']==oid)['total'],169.5)
 
+    def test_guest_history_counts_linked_visits_and_net_spending(self):
+        cashier, csrf = self.login('cashier@mangosteen.local')
+        manager, manager_csrf = self.login('manager@mangosteen.local')
+
+        def post(path, body, review=False):
+            return self.request(path, body=body, cookie=manager if review else cashier,
+                                headers={'X-CSRF-Token':manager_csrf if review else csrf})[:2]
+
+        code, customer = post('/api/customers', dict(name='Customer history QA', phone='9012345679'))
+        self.assertEqual(code, 201, customer)
+        cid = customer['id']
+        path = f'/api/customers/{cid}/history'
+        code, booking = post('/api/reservations', dict(name='Customer history QA', phone='+91 90123 45679', date=crm.floor.today(),
+                             time='18:00', guests=2, tableId='L2', status='Confirmed'))
+        self.assertEqual(code, 200, booking)
+        self.assertEqual(post(f"/api/reservations/{booking['id']}/status", dict(status='Checked in'))[0], 200)
+        identifiers = []
+        for qty in (1, 2):
+            code, order = post('/api/orders', dict(table='Lounge 02', items=[dict(menuItemId=1, quantity=qty)]))
+            self.assertEqual(code, 201, order)
+            identifiers.append(order['id'])
+            self.assertEqual(post(f"/api/orders/{order['id']}/send", {})[0], 200)
+            self.assertEqual(post(f"/api/orders/{order['id']}/pay", dict(method='Card'))[0], 200)
+        self.assertEqual(post('/api/tables/L2', dict(action='checkout'))[0], 200)
+        code, history, _ = self.request(path, cookie=cashier)
+        self.assertEqual(code, 200, history)
+        self.assertEqual(history['visitCount'], 1)
+        self.assertEqual(len(history['visits'][0]['orders']), 2)
+        self.assertEqual(history['spentPaise'], 54000)
+        self.assertEqual(history['favourites'][0]['quantity'], 3)
+        code, refund = post('/api/corrections', dict(orderId=identifiers[0], type='refund', amount='20.25', reason='Visit history QA'))
+        self.assertEqual(code, 201, refund)
+        self.assertEqual(post(f"/api/corrections/{refund['id']}/approve", {}, review=True)[0], 200)
+        self.assertEqual(post(f"/api/corrections/{refund['id']}/record", dict(confirmed=True, reference='VISIT-REF-LOCAL'))[0], 200)
+        self.assertEqual(self.request(path, cookie=cashier)[1]['spentPaise'], 51975)
+        self.assertEqual(post(f'/api/customers/{cid}/preferences', dict(notes='Window seating', expectedNotes=''))[0], 200)
+        self.assertEqual(post(f'/api/customers/{cid}/preferences', dict(notes='Old version', expectedNotes=''))[0], 400)
+        self.assertEqual(post(f'/api/orders/{identifiers[1]}/customer', dict(customerId=None, expectedCustomerId=cid))[0], 200)
+        remaining = self.request(path, cookie=cashier)[1]
+        self.assertEqual(remaining['spentPaise'], 15975)
+        self.assertEqual(remaining['visitCount'], 1)
+
     def test_food_costing_tracks_waste_and_costs_the_recipe(self):
         manager, csrf = self.login('manager@mangosteen.local')
 

@@ -3799,6 +3799,79 @@ body {
   }
 }
 
+.guest-picker {
+  margin: 12px 0;
+}
+
+.order-guest, .guest-visit-heading, .guest-visit-order summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.order-guest {
+  margin: 10px 0 0;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.order-guest button {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.guest-profile .guest-stats {
+  margin: 12px 0;
+}
+
+.guest-profile .guest-preference-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.guest-favourites, .guest-visit-history {
+  margin-top: 12px;
+}
+
+.guest-visit-history h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+.guest-visit {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 12px;
+}
+
+.guest-visit-heading span {
+  display: block;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.guest-visit-order {
+  font-size: 13px;
+  border-top: 1px solid var(--line);
+  margin-top: 10px;
+  padding-top: 8px;
+}
+
+.guest-visit-order summary {
+  cursor: pointer;
+}
+
+.guest-visit-order summary span::before {
+  content: '▸ ';
+}
+
+.guest-visit-order[open] summary span::before {
+  content: '▾ ';
+}
+
 /* Mangosteen signature brand lockup */
 .sidebar .brand {
   min-height: 116px;

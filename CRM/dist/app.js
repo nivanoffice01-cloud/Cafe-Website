@@ -597,6 +597,7 @@ function renderOrders() {
         <div class="order-meta"><span>${relativeTime(order.createdAt)} ago</span>${order.paymentMethod ? `<span>${escapeHtml(order.paymentMethod)}</span>` : ''}</div>
         ${order.status === 'Draft' ? `<button class="btn btn-primary btn-block" data-action="send-order" data-id="${order.id}">${icon('send')} Send to kitchen</button>` : ''}
         ${order.status === 'Ready' && !order.paidAt && order.paymentStatus !== 'Paid' && !order.correctionPending ? `<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
+        ${orderGuestActions(order)}
         ${correctionButton(order)}
       </article>`).join('') || '<div class="empty-state"><div><h3>No orders yet</h3><p>Create the first table order to begin service.</p></div></div>'}
     </div>`;
@@ -1025,13 +1026,7 @@ function openAddCustomer() {
 }
 
 function openCustomerProfile(id) {
-  const customer = data.customers.find((item) => item.id === Number(id));
-  if (!customer) return;
-  openModal('Customer profile', 'A complete guest relationship view.', `
-    <div class="customer-profile-head"><span class="avatar" style="--avatar:${customer.avatar}">${initials(customer.name)}</span><div><h3>${escapeHtml(customer.name)}</h3><p>${escapeHtml(customer.phone)} · ${escapeHtml(customer.email)}</p><div class="tags"><span class="tier ${customer.tier.toLowerCase()}">${customer.tier}</span>${customer.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div></div></div>
-    <div class="profile-facts"><div class="profile-fact"><span>Lifetime spend</span><strong>${inr(customer.spend)}</strong></div><div class="profile-fact"><span>Total visits</span><strong>${customer.visits}</strong></div><div class="profile-fact"><span>Loyalty points</span><strong>${customer.points.toLocaleString('en-IN')}</strong></div><div class="profile-fact"><span>Last visit</span><strong>${displayDate(customer.lastVisit)}</strong></div><div class="profile-fact"><span>Birthday</span><strong>${customer.birthday || 'Not provided'}</strong></div><div class="profile-fact"><span>Marketing consent</span><strong>${customer.consent ? 'Opted in' : 'Not recorded'}</strong></div></div>
-    <div class="insight-card"><div class="insight-top"><strong>Guest notes</strong><span class="status ${customer.notes ? 'active' : 'draft'}">${customer.notes ? 'Recorded' : 'Empty'}</span></div><p>${escapeHtml(customer.notes || 'No preferences, allergies or service notes have been recorded yet.')}</p></div>
-    <div class="task-list" style="margin-top:12px"><div class="task-item"><span class="activity-icon">${icon('coffee')}</span><div class="task-copy"><strong>Relationship summary</strong><p>${customer.visits} visits · ${inr(customer.monthSpend || 0)} linked this month · ${customer.points} points available</p></div></div><div class="task-item"><span class="activity-icon" style="--soft:#f7ece6;--accent:#b5623d">${icon('shield')}</span><div class="task-copy"><strong>Communication status</strong><p>${customer.consent ? 'Marketing opt-in is recorded.' : 'Only transactional communication is allowed.'}</p></div></div></div>`, `<button class="btn" data-action="close-modal">Close</button><button class="btn btn-primary" data-action="message-customer" data-id="${customer.id}">${icon('whatsapp')} Message guest</button>`);
+  return showGuestProfile(id);
 }
 
 function openReservationForm() {
@@ -1092,7 +1087,7 @@ function openPointsAdjustment() {
 function openOrderForm() {
   const groups = [...new Set((data.menuItems || []).map((item) => item.category))];
   const menu = groups.map((category) => `<section class="menu-group"><h3>${escapeHtml(category)}</h3><div class="menu-picker">${data.menuItems.filter((item) => item.category === category && item.active).map((item) => `<label class="menu-pick"><span><strong>${escapeHtml(item.name)}</strong><small>${inr(item.price)}</small></span><input name="qty_${item.id}" type="number" min="0" max="20" value="0" aria-label="Quantity for ${escapeHtml(item.name)}" /></label>`).join('')}</div></section>`).join('');
-  openModal('Create table order', 'Choose the table and add menu quantities. The order remains editable until sent to the kitchen.', `<form id="order-form"><div class="field"><label>Table / service reference</label><input name="table" list="order-table-options" required placeholder="Choose a table or enter takeaway" maxlength="40" /><datalist id="order-table-options">${(data.tables || []).map(t => `<option value="${escapeHtml(t.label)}"></option>`).join('')}<option value="Takeaway"></option></datalist></div><div class="menu-scroll">${menu}</div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="order-form">${icon('check')} Create order</button>`);
+  openModal('Create table order', 'Choose the table and add menu quantities. The order remains editable until sent to the kitchen.', `<form id="order-form"><div class="field"><label>Table / service reference</label><input name="table" list="order-table-options" required placeholder="Choose a table or enter takeaway" maxlength="40" /><datalist id="order-table-options">${(data.tables || []).map(t => `<option value="${escapeHtml(t.label)}"></option>`).join('')}<option value="Takeaway"></option></datalist></div>${guestSelect()}<div class="menu-scroll">${menu}</div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="order-form">${icon('check')} Create order</button>`);
 }
 
 function openPaymentForm(orderId) {
@@ -1352,14 +1347,16 @@ document.getElementById('modal-root').addEventListener('click', async (event) =>
 document.getElementById('modal-root').addEventListener('submit', async (event) => {
   event.preventDefault();
   const form = event.target;
-  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat', 'service-settings-form', 'correction-form', 'correction-review', 'cash-drawer-form', 'food-costing-form'].includes(form.id)) return;
+  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat', 'service-settings-form', 'correction-form', 'correction-review', 'cash-drawer-form', 'food-costing-form', 'order-guest-form', 'guest-preferences-form'].includes(form.id)) return;
   const values = Object.fromEntries(new FormData(form).entries());
   const submit = form.closest('.modal')?.querySelector('[type="submit"]');
   if (submit) { submit.disabled = true; submit.dataset.original = submit.innerHTML; submit.textContent = 'Saving…'; }
   try {
     if (form.id === 'order-form') {
       const items = (data.menuItems || []).map((item) => ({ menuItemId: item.id, quantity: Number(values[`qty_${item.id}`] || 0) })).filter((item) => item.quantity > 0);
-      await api('/api/orders', { method: 'POST', body: JSON.stringify({ table: values.table, items }) });
+      const order = { table: values.table, items };
+      if (values.customerId) order.customerId = values.customerId === 'none' ? null : Number(values.customerId);
+      await api('/api/orders', { method: 'POST', body: JSON.stringify(order) });
       closeModal();
       state.page = 'orders';
       await syncAndRender();

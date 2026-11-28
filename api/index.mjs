@@ -8,6 +8,7 @@ import { correctionRoles, activeCorrection, requestCorrection, reviewCorrection 
 import { whatsappConfig, prepareConfirmation, sendConfirmation } from './reservation-whatsapp.mjs'
 import { drawerRoles, reopenRoles, drawerPayload, ensureDrawerNotClosed, updateDrawer } from './cash-drawer.mjs'
 import { foodRoles, foodPayload, saveIngredient, saveRecipe, recordWaste } from '../CRM/food-costing.mjs'
+import { historyRoles, linkRoles, phoneMatcher, visitContext, guestFields, updateOrderGuest, updatePreferences, customerHistory } from '../CRM/guest-history.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
@@ -299,6 +300,7 @@ function publicUser(user) {
 
 function bootstrap(state, user) {
   const role = user.role
+  const matchPhone = linkRoles.includes(role) ? phoneMatcher(state.customers) : null
   const base = {
     ...(drawerRoles.includes(role) ? { cashDrawer: drawerPayload(state) } : {}),
     ...(foodRoles.includes(role) ? { foodCosting: foodPayload(state, PUBLIC_MENU) } : {}),
@@ -324,7 +326,8 @@ function bootstrap(state, user) {
     menuItems: state.menuItems,
     orders: state.orders.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 100).map(order => {
       const pending = activeCorrection(state, order.id)
-      return { ...order, correctionPending: pending?.status === 'Pending' && pending.type !== 'refund' }
+      const { customerId, visitKey, visitAt, visitTable, guestLinkReviewed, ...publicOrder } = order
+      return { ...publicOrder, ...(matchPhone ? guestFields(order, matchPhone) : {}), correctionPending: pending?.status === 'Pending' && pending.type !== 'refund' }
     }),
     inventory: ['Owner', 'Manager'].includes(role) ? state.inventory : [],
     expenses: ['Owner', 'Manager'].includes(role) ? state.expenses : [],
@@ -440,6 +443,7 @@ async function handlePublicOrder(request, state, body) {
     subtotal, serviceCharge, total, paymentMethod: paymentLabel, paymentDemo: true, notes,
     guestName, phone, createdAt, sentAt: createdAt, readyAt: null, paidAt: null, items,
   }
+  visitContext(state, order)
   state.orders.unshift(order)
   const receipt = { id: order.id, reference: `QR-${String(order.id).padStart(6, '0')}`, status: 'Kitchen', total, paymentLabel }
   state.publicSubmissions[key] = receipt
@@ -495,6 +499,11 @@ async function handleRequest(request) {
     if (user.role === 'Floor Staff' && path !== '/bootstrap' && path !== '/service/alerts' && !/^\/service\/orders\/\d+\/(accept|served)$/.test(path)) throw Object.assign(new Error('Floor staff access is limited to food service.'), { status:403 })
     if (request.method === 'GET' && path === '/bootstrap') return json(bootstrap(state, user))
     if (request.method === 'GET' && path === '/service/alerts') return json(servicePayload(state, user))
+    const historyRoute = path.match(/^\/customers\/(\d+)\/history$/)
+    if (request.method === 'GET' && historyRoute) {
+      requireRoles(request, state, historyRoles)
+      return json(customerHistory(state, Number(historyRoute[1]), Number(url.searchParams.get('offset') || 0)))
+    }
 
     if (request.method === 'GET' && path === '/export/customers.csv') {
       const rows = [['Name', 'Phone', 'Email', 'Tier', 'Visits', 'Lifetime Spend', 'Points', 'Consent'], ...state.customers.map((item) => [item.name, item.phone, item.email, item.tier, item.visits, item.spend, item.points, item.consent ? 'Yes' : 'No'])]
@@ -513,6 +522,22 @@ async function handleRequest(request) {
     }
 
     if (request.method !== 'POST') return json({ error: 'API route not found' }, 404)
+
+    const guestRoute = path.match(/^\/orders\/(\d+)\/customer$/)
+    if (guestRoute) {
+      requireRoles(request, state, linkRoles)
+      const updated = updateOrderGuest(state, Number(guestRoute[1]), body)
+      await saveState(state)
+      return json(updated)
+    }
+    const preferenceRoute = path.match(/^\/customers\/(\d+)\/preferences$/)
+    if (preferenceRoute) {
+      requireRoles(request, state, historyRoles)
+      const customer = state.customers.find(item => item.id === Number(preferenceRoute[1]))
+      const updated = updatePreferences(customer, body)
+      await saveState(state)
+      return json(updated)
+    }
 
     const foodRoute = path.match(/^\/food-costing\/(ingredient|recipe|waste)$/)
     if (foodRoute) {
@@ -609,6 +634,7 @@ async function handleRequest(request) {
       if (!String(body.table || '').trim() || !items.length) throw new Error('Table and at least one menu item are required')
       const total = items.reduce((sum, item) => sum + item.lineTotal, 0)
       const order = { id: nextId(state.orders), table: String(body.table).trim().slice(0, 40), status: 'Draft', subtotal: total, total, paymentMethod: null, createdAt: now(), sentAt: null, readyAt: null, paidAt: null, items }
+      visitContext(state, order, { assignGuest:true, selectedId:body.customerId })
       state.orders.unshift(order)
       await saveState(state)
       return json({ id: order.id, total }, 201)
@@ -642,6 +668,7 @@ async function handleRequest(request) {
       const paidAt = now()
       if (method === 'Cash') ensureDrawerNotClosed(state, paidAt)
       keepPaidVisit(state, order)
+      visitContext(state, order)
       order.status = 'Paid'; order.paymentMethod = method; order.paidAt = paidAt
       state.payments.unshift({ id: nextId(state.payments), orderId: order.id, method, amount: order.total, createdAt: order.paidAt })
       await saveState(state)
