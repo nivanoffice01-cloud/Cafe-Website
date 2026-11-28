@@ -182,17 +182,22 @@ function calculateAnalytics() {
 }
 
 function calculateOperations() {
-  const today = localDateKey();
+  const dateFormat = new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Kolkata', year:'numeric', month:'2-digit', day:'2-digit' });
+  const businessDate = value => value ? dateFormat.format(new Date(value)) : '';
+  const today = businessDate(new Date());
   const month = today.slice(0, 7);
   const orders = data.orders || [];
   const payments = data.payments || [];
   const expenses = data.expenses || [];
-  const todayPayments = payments.filter((item) => (item.createdAt || '').slice(0, 10) === today);
-  const monthPayments = payments.filter((item) => (item.createdAt || '').slice(0, 7) === month);
+  const todayPayments = payments.filter(item => businessDate(item.createdAt) === today);
+  const monthPayments = payments.filter(item => businessDate(item.createdAt).slice(0, 7) === month);
+  const todayRefunds = (data.refunds || []).filter(item => businessDate(item.createdAt) === today);
+  const monthRefunds = (data.refunds || []).filter(item => businessDate(item.createdAt).slice(0, 7) === month);
   const todayExpenses = expenses.filter((item) => item.date === today);
   const monthExpenses = expenses.filter((item) => (item.date || '').slice(0, 7) === month);
   const paymentTotals = { Cash: 0, UPI: 0, Card: 0 };
   todayPayments.forEach((item) => { paymentTotals[item.method] = (paymentTotals[item.method] || 0) + Number(item.amount || 0); });
+  todayRefunds.forEach(item => { paymentTotals[item.method] = (paymentTotals[item.method] || 0) - Number(item.amount); });
   const itemSales = {};
   orders.filter((order) => order.status === 'Paid').forEach((order) => order.items.forEach((item) => {
     itemSales[item.name] = (itemSales[item.name] || 0) + Number(item.quantity || 0);
@@ -200,8 +205,10 @@ function calculateOperations() {
   const topItem = Object.entries(itemSales).sort((a, b) => b[1] - a[1])[0] || ['No paid orders yet', 0];
   const categoryExpenses = {};
   monthExpenses.forEach((item) => { categoryExpenses[item.category] = (categoryExpenses[item.category] || 0) + Number(item.amount || 0); });
-  const todaySales = todayPayments.reduce((sum, item) => sum + Number(item.amount || 0), 0);
-  const monthSales = monthPayments.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const todayGross = todayPayments.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const todayRefunded = todayRefunds.reduce((sum, item) => sum + Number(item.amount), 0);
+  const todaySales = todayGross - todayRefunded;
+  const monthSales = monthPayments.reduce((sum, item) => sum + Number(item.amount || 0), 0) - monthRefunds.reduce((sum,item) => sum + Number(item.amount), 0);
   const todayExpenseTotal = todayExpenses.reduce((sum, item) => sum + Number(item.amount || 0), 0);
   const monthExpenseTotal = monthExpenses.reduce((sum, item) => sum + Number(item.amount || 0), 0);
   return {
@@ -209,7 +216,7 @@ function calculateOperations() {
     kitchenOrders: orders.filter((item) => ['Kitchen', 'Preparing', 'Ready'].includes(item.status)),
     unpaidOrders: orders.filter((item) => item.status !== 'Paid'),
     paidOrders: orders.filter((item) => item.status === 'Paid'),
-    todaySales, monthSales, todayExpenseTotal, monthExpenseTotal, todayPaymentCount: todayPayments.length,
+    todaySales, todayGross, todayRefunded, monthSales, todayExpenseTotal, monthExpenseTotal, todayPaymentCount: todayPayments.length,
     todayProfit: todaySales - todayExpenseTotal,
     monthProfit: monthSales - monthExpenseTotal,
     paymentTotals,
@@ -238,6 +245,7 @@ const navItems = [
   { id: 'kitchen', label: 'Kitchen display', icon: 'clock' },
   { id: 'service', label: 'Floor service', icon: 'users' },
   { id: 'billing', label: 'Billing & closing', icon: 'wallet' },
+  { id: 'corrections', label: 'Approvals', icon: 'checkCircle' },
   { id: 'stock', label: 'Inventory', icon: 'database' },
   { id: 'expenses', label: 'Expenses', icon: 'rupee' },
   { id: 'vendors', label: 'Vendors', icon: 'building' },
@@ -253,7 +261,7 @@ const navItems = [
 const rolePages = {
   Owner: navItems.map((item) => item.id),
   Manager: navItems.map((item) => item.id),
-  Cashier: ['dashboard', 'service', 'tables', 'waitlist', 'orders', 'billing', 'customers', 'reservations'],
+  Cashier: ['dashboard', 'service', 'tables', 'waitlist', 'orders', 'billing', 'corrections', 'customers', 'reservations'],
   Kitchen: ['kitchen'],
   Host: ['dashboard', 'service', 'tables', 'waitlist', 'customers', 'reservations', 'feedback', 'reports'],
   'Floor Staff': ['service'],
@@ -267,6 +275,7 @@ const pageSearchAliases = {
   kitchen: 'kitchen display tickets cooking',
   service: 'floor service waiter ready food alerts serve',
   billing: 'billing bill payment payments closing cash',
+  corrections: 'approvals corrections refunds discounts cancel items void',
   stock: 'inventory stock ingredients supplies',
   expenses: 'expense expenses costs spending',
   vendors: 'vendor vendors supplier suppliers',
@@ -340,7 +349,7 @@ function initials(name) {
 }
 
 function inr(value) {
-  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(value);
 }
 
 function todayLabel() {
@@ -439,6 +448,7 @@ function renderPage() {
     kitchen: renderServiceKitchen,
     service: renderFloorService,
     billing: renderBilling,
+    corrections: renderCorrections,
     stock: renderStock,
     expenses: renderExpenses,
     vendors: renderVendors,
@@ -568,23 +578,26 @@ function orderItemsMarkup(order) {
 
 function renderOrders() {
   const operations = calculateOperations();
-  const orders = (data.orders || []).filter((order) => order.items.length);
+  const orders = (data.orders || []).filter(order => order.items.length || order.cancelledItems?.length);
   const actions = `<button class="btn" data-page="kitchen">${icon('clock')} Kitchen display</button><button class="btn btn-primary" data-action="new-order">${icon('plus')} New table order</button>`;
   return `
     ${pageHeader('Point of sale', 'Orders & tables', 'Build a table order, send it to the kitchen, and follow every preparation stage.', actions)}
     <section class="ops-stat-grid">
       <article class="ops-stat"><span>Open tables</span><strong>${operations.activeOrders.length}</strong><small>Live service</small></article>
       <article class="ops-stat"><span>Kitchen queue</span><strong>${operations.kitchenOrders.length}</strong><small>Preparing or ready</small></article>
-      <article class="ops-stat"><span>Paid today</span><strong>${inr(operations.todaySales)}</strong><small>${(data.payments || []).filter((item) => (item.createdAt || '').slice(0, 10) === localDateKey()).length} bills</small></article>
+      <article class="ops-stat"><span>Net sales today</span><strong>${inr(operations.todaySales)}</strong><small>${operations.todayPaymentCount} bills</small></article>
     </section>
     <div class="orders-grid">
       ${orders.map((order) => `<article class="order-card ${order.status.toLowerCase()}">
         <div class="order-card-head"><div><span class="eyebrow">Order #${String(order.id).padStart(3, '0')}</span><h3>${escapeHtml(order.table)}</h3></div>${statusPill(order.status)}</div>
         ${orderItemsMarkup(order)}
+        ${order.cancelledItems?.length ? `<p class="floor-note">Cancelled: ${order.cancelledItems.map(i => `${i.quantity} × ${escapeHtml(i.name)}`).join(', ')}</p>` : ''}
+        ${order.discountAmount ? `<p class="floor-note">Discount applied: ${inr(order.discountAmount)}</p>` : ''}
         <div class="order-total"><span>Total</span><strong>${inr(order.total)}</strong></div>
         <div class="order-meta"><span>${relativeTime(order.createdAt)} ago</span>${order.paymentMethod ? `<span>${escapeHtml(order.paymentMethod)}</span>` : ''}</div>
         ${order.status === 'Draft' ? `<button class="btn btn-primary btn-block" data-action="send-order" data-id="${order.id}">${icon('send')} Send to kitchen</button>` : ''}
-        ${order.status === 'Ready' ? `<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
+        ${order.status === 'Ready' && !order.paidAt && order.paymentStatus !== 'Paid' && !order.correctionPending ? `<button class="btn btn-primary btn-block" data-action="take-payment" data-id="${order.id}">${icon('wallet')} Take payment</button>` : ''}
+        ${correctionButton(order)}
       </article>`).join('') || '<div class="empty-state"><div><h3>No orders yet</h3><p>Create the first table order to begin service.</p></div></div>'}
     </div>`;
 }
@@ -614,20 +627,20 @@ function renderKitchen() {
 
 function renderBilling() {
   const operations = calculateOperations();
-  const unpaid = operations.unpaidOrders.filter((order) => order.status !== 'Draft' && !order.paidAt && order.paymentStatus !== 'Paid');
+  const unpaid = operations.unpaidOrders.filter(order => !['Draft','Cancelled'].includes(order.status) && !order.paidAt && order.paymentStatus !== 'Paid');
   const total = Math.max(1, operations.todaySales);
   return `
     ${pageHeader('Cashier workspace', 'Billing & day closing', 'Settle table bills and reconcile cash, UPI, and card totals before closing.', `<button class="btn btn-primary" data-action="new-order">${icon('plus')} New order</button>`)}
     <section class="payment-summary">
-      <article><span>Today’s collection</span><strong>${inr(operations.todaySales)}</strong><small>${(data.payments || []).filter((item) => (item.createdAt || '').slice(0, 10) === localDateKey()).length} settled bills</small></article>
-      ${['Cash', 'UPI', 'Card'].map((method) => `<article><span>${method}</span><strong>${inr(operations.paymentTotals[method])}</strong><div class="payment-bar"><i style="width:${Math.min(100, operations.paymentTotals[method] / total * 100)}%"></i></div></article>`).join('')}
+      <article><span>Net collection today</span><strong>${inr(operations.todaySales)}</strong><small>${operations.todayPaymentCount} settled bills</small></article>
+      ${['Cash', 'UPI', 'Card'].map((method) => `<article><span>${method}</span><strong>${inr(operations.paymentTotals[method])}</strong><div class="payment-bar"><i style="width:${Math.max(0, Math.min(100, operations.paymentTotals[method] / total * 100))}%"></i></div></article>`).join('')}
     </section>
     <div class="ops-grid two">
       <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Open bills</h2><p>Ready and in-service tables</p></div><span class="status active">${unpaid.length} open</span></div><div class="panel-body bill-list">
-        ${unpaid.map((order) => `<div class="bill-row"><div><strong>${escapeHtml(order.table)} · #${String(order.id).padStart(3, '0')}</strong><span>${order.items.map((item) => `${item.quantity}× ${escapeHtml(item.name)}`).join(', ')}</span></div><div><strong>${inr(order.total)}</strong><button class="btn btn-small btn-primary" data-action="take-payment" data-id="${order.id}">Collect</button></div></div>`).join('') || '<div class="empty-state compact"><p>All current bills are settled.</p></div>'}
+        ${unpaid.map(order => `<div class="bill-row"><div><strong>${escapeHtml(order.table)} · #${String(order.id).padStart(3, '0')}</strong><span>${order.items.map(item => `${item.quantity}× ${escapeHtml(item.name)}`).join(', ')}</span></div><div><strong>${inr(order.total)}</strong>${order.correctionPending ? '<span>Awaiting correction approval</span>' : `<button class="btn btn-small btn-primary" data-action="take-payment" data-id="${order.id}">Collect</button>`}${correctionButton(order)}</div></div>`).join('') || '<div class="empty-state compact"><p>All current bills are settled.</p></div>'}
       </div></article>
       <article class="panel"><div class="panel-header"><div class="panel-title"><h2>Day closing</h2><p>${todayLabel()}</p></div>${statusPill('Live')}</div><div class="panel-body closing-list">
-        <div><span>Gross sales</span><strong>${inr(operations.todaySales)}</strong></div><div><span>Operating expenses</span><strong>− ${inr(operations.todayExpenseTotal)}</strong></div><div class="closing-total"><span>Net operating result</span><strong>${inr(operations.todayProfit)}</strong></div><p class="form-notice">Payment totals are calculated from settled bills in the local database. Verify the physical cash drawer before final close.</p>
+        <div><span>Gross sales</span><strong>${inr(operations.todayGross)}</strong></div><div><span>Refunds recorded</span><strong>− ${inr(operations.todayRefunded)}</strong></div><div><span>Operating expenses</span><strong>− ${inr(operations.todayExpenseTotal)}</strong></div><div class="closing-total"><span>Net operating result</span><strong>${inr(operations.todayProfit)}</strong></div>
       </div></article>
     </div>`;
 }
@@ -1066,7 +1079,9 @@ function openOrderForm() {
 function openPaymentForm(orderId) {
   const order = data.orders.find((item) => String(item.id) === String(orderId));
   if (!order) return;
+  if (order.correctionPending) { showToast('Resolve the pending correction first.', 'error'); return; }
   openModal(`Settle ${escapeHtml(order.table)}`, `Order #${String(order.id).padStart(3, '0')} · ${inr(order.total)}`, `<form id="payment-form"><input type="hidden" name="orderId" value="${order.id}" /><div class="payment-methods">${['Cash', 'UPI', 'Card'].map((method, index) => `<label><input type="radio" name="method" value="${method}" ${index === 0 ? 'checked' : ''} /><span>${icon(method === 'Cash' ? 'rupee' : method === 'UPI' ? 'phone' : 'wallet')}<strong>${method}</strong></span></label>`).join('')}</div><div class="order-total modal-total"><span>Amount to collect</span><strong>${inr(order.total)}</strong></div></form>`, `<button class="btn" data-action="close-modal">Cancel</button><button class="btn btn-primary" type="submit" form="payment-form">${icon('wallet')} Confirm payment</button>`);
+  document.getElementById('payment-form').dataset.expectedTotal = order.total;
 }
 
 function openInventoryAdjustment(id) {
@@ -1316,7 +1331,7 @@ document.getElementById('modal-root').addEventListener('click', async (event) =>
 document.getElementById('modal-root').addEventListener('submit', async (event) => {
   event.preventDefault();
   const form = event.target;
-  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat', 'service-settings-form'].includes(form.id)) return;
+  if (['booking-editor', 'table-editor', 'waiting-editor', 'waiting-seat', 'service-settings-form', 'correction-form', 'correction-review'].includes(form.id)) return;
   const values = Object.fromEntries(new FormData(form).entries());
   const submit = form.closest('.modal')?.querySelector('[type="submit"]');
   if (submit) { submit.disabled = true; submit.dataset.original = submit.innerHTML; submit.textContent = 'Saving…'; }
@@ -1329,7 +1344,7 @@ document.getElementById('modal-root').addEventListener('submit', async (event) =
       await syncAndRender();
       showToast('Draft order created. Review it, then send it to the kitchen.');
     } else if (form.id === 'payment-form') {
-      await api(`/api/orders/${values.orderId}/pay`, { method: 'POST', body: JSON.stringify({ method: values.method }) });
+      await api(`/api/orders/${values.orderId}/pay`, { method: 'POST', body: JSON.stringify({ method: values.method, expectedTotal: form.dataset.expectedTotal }) });
       closeModal();
       state.page = 'billing';
       await syncAndRender();

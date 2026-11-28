@@ -1,4 +1,5 @@
 import { ensureFloor, tableOrders, orderIsPaid } from './floor.mjs'
+import { kitchenCorrections } from './corrections.mjs'
 const fail = message => { throw Object.assign(new Error(message), { status: 409 }) }
 const stamp = () => new Date().toISOString()
 export function serviceSettings(state) {
@@ -19,9 +20,9 @@ export function servicePayload(state, user, clock = Date.now()) {
       readyAt:o.readyAt || null, ageMinutes, readyMinutes,
       delayed:o.status === 'Ready' ? readyMinutes >= limits.readyMinutes : ageMinutes >= limits.prepMinutes,
       assignedTo:staff?.name || '', acceptedAt:o.serviceAcceptedAt || null, acceptedBy:o.serviceAcceptedBy || null,
-      items:(o.items || []).map(i => ({ name:i.name, quantity:i.quantity })), notes:String(o.notes || ''), paid:orderIsPaid(o) }
+      items:(o.items || []).map(i => ({ name:i.name, quantity:i.quantity })), cancelledItems:o.cancelledItems || [], notes:String(o.notes || ''), paid:orderIsPaid(o) }
   }).sort((a,b) => Date.parse(a.sentAt) - Date.parse(b.sentAt))
-  return { serverTime:new Date(clock).toISOString(), limits, orders }
+  return { serverTime:new Date(clock).toISOString(), limits, orders, cancellations:kitchenCorrections(state,user.role,clock) }
 }
 export function serviceAction(state, id, action, user, body = {}) {
   const order = state.orders.find(o => o.id === id)

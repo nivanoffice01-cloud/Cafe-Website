@@ -1389,6 +1389,10 @@ svg {
 .floor-refresh-note { margin-left:auto; font-size:11px; color:var(--ink-3); }
 .floor-import-note { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center; margin-bottom:16px; padding:12px 16px; border:1px solid var(--line); border-radius:12px; font-size:12px; background:#faf5e9; }
 .floor-arrivals { display:grid; gap:10px; }
+#correction-form [hidden], #correction-review [hidden] { display:none !important; }
+.order-card [data-correction-action] { margin-top:10px; }
+.kitchen-cancellations { margin-bottom:18px; }
+.kitchen-cancellations p { margin:0 0 6px; }
 .service-live-strip { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; padding:14px 16px; margin-bottom:24px; border:1px solid #cbdcd0; border-radius:13px; background:#f1f7f2; }
 .service-live-strip strong,.service-live-strip span { display:block; }
 .service-live-strip strong { font-size:13px; }

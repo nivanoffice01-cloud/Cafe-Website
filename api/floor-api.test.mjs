@@ -71,6 +71,40 @@ test('hosted routes authenticate, persist visits and validate conflicts and stal
   const draft=await request('/orders',{table:'Table 4',items:[{menuItemId:1,quantity:1}]})
   const orderId=draft.payload.id
   assert.equal((await request(`/orders/${orderId}/status`,{status:'Ready'})).code,409)
+
+  const managerLogin = await request('/auth/login', { email:'manager@mangosteen.local', password:'Mangosteen@123' })
+  const managerCookie = managerLogin.cookie.split(';')[0]
+  const order = await request('/orders', { table:'Correction test', items:[{menuItemId:1,quantity:2}] })
+  await request(`/orders/${order.payload.id}/send`, {})
+  const sold = (await request('/bootstrap')).payload.orders.find(o => o.id === order.payload.id)
+  const cancellation = await request('/corrections', { orderId:sold.id, type:'cancel', itemId:sold.items[0].id, quantity:1, reason:'Guest changed order' })
+  assert.equal(cancellation.code, 201)
+  assert.equal((await request(`/corrections/${cancellation.payload.id}/approve`, {})).code, 409)
+  assert.equal((await request(`/orders/${sold.id}/pay`, {method:'UPI'})).code, 409)
+  cookie = managerCookie
+  assert.equal((await request(`/corrections/${cancellation.payload.id}/approve`, {})).code, 200)
+  assert((await request('/service/alerts')).payload.cancellations.some(c => c.orderId === sold.id))
+  assert.equal((await request(`/orders/${sold.id}/pay`, {method:'UPI',expectedTotal:360})).code, 409)
+  cookie = ownerCookie
+  const discount = await request('/corrections', {orderId:sold.id,type:'discount',amount:'10.50',reason:'Service recovery'})
+  cookie = managerCookie
+  assert.equal((await request(`/corrections/${discount.payload.id}/approve`, {})).code, 200)
+  assert.equal((await request(`/orders/${sold.id}/pay`, {method:'UPI',expectedTotal:169.50})).payload.amount,169.50)
+  cookie = ownerCookie
+  const refund = await request('/corrections', {orderId:sold.id,type:'refund',amount:'60.25',reason:'Refund agreed with guest'})
+  assert.equal((await request(`/corrections/${refund.payload.id}/record`, {confirmed:true,reference:'TEST-1'})).code,409)
+  cookie = managerCookie
+  assert.equal((await request(`/corrections/${refund.payload.id}/approve`, {})).code,200)
+  assert.equal((await request('/bootstrap')).payload.refunds.length,0)
+  assert.equal((await request(`/corrections/${refund.payload.id}/record`, {confirmed:true})).code,409)
+  const record = {confirmed:true,reference:'TEST-REF-001'}
+  assert.equal((await request(`/corrections/${refund.payload.id}/record`, record)).code,200)
+  assert.equal((await request(`/corrections/${refund.payload.id}/record`, record)).code,200)
+  const after = (await request('/bootstrap')).payload
+  assert.equal(after.refunds.length,1)
+  assert.equal(after.refunds[0].amount,60.25)
+  assert.equal(after.orders.find(o=>o.id===sold.id).total,169.50)
+  assert.equal((await request('/corrections', {orderId:sold.id,type:'refund',amount:'110',reason:'Exceeds recorded payment'})).code,409)
   assert.equal((await request(`/orders/${orderId}/send`,{})).code,200)
   const kitchenLogin=await request('/auth/login',{email:'kitchen@mangosteen.local',password:'Mangosteen@123'})
   cookie=kitchenLogin.cookie.split(';')[0]

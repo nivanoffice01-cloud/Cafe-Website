@@ -98,6 +98,37 @@ class CRMServerTests(unittest.TestCase):
         status, result, _ = self.request(f'/api/reservations/{id}/status', body={'status':'Confirmed'}, cookie=cookie, headers=headers)
         self.assertEqual(status, 400, result)
 
+    def test_correction_approval_billing_and_refund_history(self):
+        c,csrf=self.login('cashier@mangosteen.local')
+        m,mcsrf=self.login('manager@mangosteen.local')
+        def post(path, body, manager=False):
+            return self.request(path,body=body,cookie=m if manager else c,headers={'X-CSRF-Token':mcsrf if manager else csrf})[:2]
+        status,order=post('/api/orders',dict(table='Correction test',items=[dict(menuItemId=1,quantity=2)]))
+        self.assertEqual(status,201,order)
+        oid=order['id']
+        self.assertEqual(post(f'/api/orders/{oid}/send',{})[0],200)
+        _,snapshot,_=self.request('/api/bootstrap',cookie=c)
+        item=next(o for o in snapshot['orders'] if o['id']==oid)['items'][0]
+        status,req=post('/api/corrections',dict(orderId=oid,type='cancel',quantity=1,itemId=item['id'],reason='Guest changed order'))
+        self.assertEqual(status,201,req)
+        self.assertEqual(post(f"/api/corrections/{req['id']}/approve",{})[0],403)
+        self.assertEqual(post(f'/api/orders/{oid}/pay',dict(method='Cash'))[0],400)
+        self.assertEqual(post(f"/api/corrections/{req['id']}/approve",{},True)[0],200)
+        self.assertEqual(post(f'/api/orders/{oid}/pay',dict(method='Cash',expectedTotal=360))[0],400)
+        status,req=post('/api/corrections',dict(orderId=oid,type='discount',amount='10.50',reason='Service recovery'))
+        self.assertEqual(status,201,req)
+        self.assertEqual(post(f"/api/corrections/{req['id']}/approve",{},True)[0],200)
+        self.assertEqual(post(f'/api/orders/{oid}/pay',dict(method='Cash',expectedTotal=169.5))[1]['amount'],169.5)
+        status,req=post('/api/corrections',dict(orderId=oid,type='refund',amount='25.25',reason='Customer refund requested'))
+        self.assertEqual(status,201,req)
+        self.assertEqual(post(f"/api/corrections/{req['id']}/record",dict(confirmed=True))[0],400)
+        self.assertEqual(post(f"/api/corrections/{req['id']}/approve",{},True)[0],200)
+        self.assertEqual(post(f"/api/corrections/{req['id']}/record",dict(confirmed=True))[0],200)
+        self.assertEqual(post(f"/api/corrections/{req['id']}/record",dict(confirmed=True))[0],200)
+        _,snapshot,_=self.request('/api/bootstrap',cookie=c)
+        self.assertEqual([r['amount'] for r in snapshot['refunds']], [25.25])
+        self.assertEqual(next(o for o in snapshot['orders'] if o['id']==oid)['total'],169.5)
+
     def test_floor_walkin_cleaning_and_capacity(self):
         cookie, csrf = self.login()
         headers = {'X-CSRF-Token': csrf}

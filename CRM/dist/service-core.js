@@ -4,6 +4,13 @@ globalThis.ServiceAlertCore = {
     const kitchen = ['Owner','Manager','Kitchen'].includes(role);
     const floor = ['Owner','Manager','Cashier','Host','Floor Staff'].includes(role);
     const events = [];
+    if (kitchen) {
+      for (const change of snapshot.cancellations || []) {
+        const key = `cancel:${change.id}`;
+        if (initialized && !seen.has(key)) events.push({kind:'cancel',order:{ id:change.orderId, table:change.table }});
+        seen.add(key);
+      }
+    }
     for (const order of snapshot.orders || []) {
       const newKey = `new:${order.id}:${order.sentAt || order.createdAt}`;
       if (kitchen) {

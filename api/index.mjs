@@ -4,6 +4,7 @@ import { fullMenu } from './full-menu.mjs'
 import { ensureFloor, floorPayload, saveReservation, changeReservation, changeTable, keepPaidVisit, orderIsPaid } from './floor.mjs'
 import { waitlistPayload, updateWaitlist } from './waitlist.mjs'
 import { servicePayload, serviceAction, kitchenTransition, updateServiceSettings } from './service.mjs'
+import { correctionRoles, activeCorrection, requestCorrection, reviewCorrection } from './corrections.mjs'
 
 const STORE_KEY = 'production-state-v1.json'
 const STORE_PREFIX = 'mangosteen-crm'
@@ -260,6 +261,8 @@ function publicUser(user) {
 function bootstrap(state, user) {
   const role = user.role
   const base = {
+    corrections: correctionRoles.includes(role) ? (state.corrections || []).filter(r => role !== 'Cashier' || r.requestedBy.id === user.id || (r.type === 'refund' && r.status === 'Approved')) : [],
+    refunds: ['Kitchen','Floor Staff'].includes(role) ? [] : (state.corrections || []).filter(r => r.status === 'Refund recorded').map(r => ({ amount:r.amount, method:r.method, createdAt:r.recordedAt })),
     service: servicePayload(state, user),
     waitlist: role === 'Kitchen' ? [] : waitlistPayload(state),
     tables: role === 'Kitchen' ? [] : floorPayload(state),
@@ -278,7 +281,10 @@ function bootstrap(state, user) {
     backups: role === 'Owner' ? state.backups : [],
     integrations: ROLE_LEVEL[role] >= ROLE_LEVEL.Manager ? { email: { mode: 'Demo', provider: 'Vercel outbox' }, whatsapp: { mode: 'Demo', provider: 'Vercel outbox' }, pos: { mode: 'Ready', provider: 'CSV import' } } : {},
     menuItems: state.menuItems,
-    orders: state.orders.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 100),
+    orders: state.orders.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 100).map(order => {
+      const pending = activeCorrection(state, order.id)
+      return { ...order, correctionPending: pending?.status === 'Pending' && pending.type !== 'refund' }
+    }),
     inventory: ['Owner', 'Manager'].includes(role) ? state.inventory : [],
     expenses: ['Owner', 'Manager'].includes(role) ? state.expenses : [],
     vendors: ['Owner', 'Manager'].includes(role) ? state.vendors : [],
@@ -466,6 +472,15 @@ async function handleRequest(request) {
 
     if (request.method !== 'POST') return json({ error: 'API route not found' }, 404)
 
+    const correctionRoute = path.match(/^\/corrections(?:\/([a-f0-9-]+)\/(approve|reject|record))?$/)
+    if (correctionRoute) {
+      const [, id, action] = correctionRoute
+      const actor = requireRoles(request, state, !id || action === 'record' ? correctionRoles : ['Owner','Manager'])
+      const record = id ? reviewCorrection(state, id, action, body, actor) : requestCorrection(state, body, actor)
+      await saveState(state)
+      return json({ id:record.id, status:record.status }, id ? 200 : 201)
+    }
+
     const serviceRoute = path.match(/^\/service\/orders\/(\d+)\/(accept|served)$/)
     if (serviceRoute) {
       const actor = requireRoles(request, state, ['Owner','Manager','Cashier','Host','Floor Staff'])
@@ -540,6 +555,9 @@ async function handleRequest(request) {
       const order = state.orders.find((item) => item.id === Number(match[1]))
       const method = String(body.method || '').toUpperCase() === 'UPI' ? 'UPI' : String(body.method || '').replace(/^./, (value) => value.toUpperCase())
       if (!order || orderIsPaid(order) || !['Cash', 'UPI', 'Card'].includes(method)) throw new Error('Order is already paid or the payment method is invalid')
+      if (order.status === 'Cancelled' || order.status === 'Draft') throw new Error('This order cannot be paid.')
+      if (activeCorrection(state, order.id)) return json({ error:'Resolve the pending correction before collecting payment.' }, 409)
+      if (body.expectedTotal != null && Number(body.expectedTotal) !== order.total) return json({ error:'The bill changed. Reopen payment to see the latest total.' }, 409)
       keepPaidVisit(state, order)
       order.status = 'Paid'; order.paymentMethod = method; order.paidAt = now()
       state.payments.unshift({ id: nextId(state.payments), orderId: order.id, method, amount: order.total, createdAt: order.paidAt })
@@ -688,5 +706,15 @@ async function handleRequest(request) {
   }
 }
 
-export default { fetch: handleRequest }
+// Serialise writes within each warm function instance so two local requests
+// cannot both apply a correction against the same order snapshot.
+let writes = Promise.resolve()
+export default {
+  fetch(request) {
+    if (request.method !== 'POST') return handleRequest(request)
+    const result = writes.then(() => handleRequest(request))
+    writes = result.then(() => {}, () => {})
+    return result
+  },
+}
 

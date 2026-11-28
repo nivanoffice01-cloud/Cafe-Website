@@ -13,6 +13,7 @@ import csv
 import floor
 import waitlist
 import service
+import corrections
 from contextlib import closing, contextmanager
 import hashlib
 import hmac
@@ -291,6 +292,12 @@ CREATE TABLE IF NOT EXISTS order_items (
   unit_price REAL NOT NULL CHECK (unit_price >= 0),
   FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE,
   FOREIGN KEY(menu_item_id) REFERENCES menu_items(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS order_corrections (
+  id TEXT PRIMARY KEY,
+  created_at TEXT NOT NULL,
+  payload TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS payments (
@@ -1107,6 +1114,14 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
             "integrations": integration_status() if role_level >= ROLE_LEVEL["Manager"] else {},
             **operations,
             "user": current_user}
+    role = (current_user or {}).get('role')
+    entries = corrections.records(connection)
+    corrections.enrich(result['orders'], entries)
+    result['corrections'] = [r for r in entries if role in corrections.ROLES and
+                             (role != 'Cashier' or r['requestedBy']['id'] == current_user['id']
+                              or (r['type'] == 'refund' and r['status'] == 'Approved'))]
+    result['refunds'] = [dict(amount=r['amount'], method=r['method'], createdAt=r['recordedAt'])
+                         for r in entries if r['status']=='Refund recorded' and role not in ('Kitchen','Floor Staff')]
     if (current_user or {}).get("role") != "Kitchen":
         floor_state = floor.enrich(connection, result)
         result['waitlist'] = waitlist.payload(floor_state)
@@ -1119,6 +1134,7 @@ def bootstrap_payload(connection: sqlite3.Connection, current_user: dict | None 
     else:
         service_state=floor_state
     result['service']=service.payload(service_state,current_user or {'role':'Host'})
+    result['service']['cancellations'] = corrections.kitchen_changes(entries, role)
     result['settings'].pop('floor_state',None)
     result['settings'].pop('service_state',None)
     if (current_user or {}).get('role')=='Floor Staff':
@@ -1664,6 +1680,15 @@ class CRMHandler(SimpleHTTPRequestHandler):
                 return
 
             with connect() as connection:
+                correction_route = re.fullmatch(r'/api/corrections(?:/([a-f0-9-]+)/(approve|reject|record))?', path)
+                if correction_route:
+                    item_id, action = correction_route.groups()
+                    self.require_roles(*(corrections.ROLES if not item_id or action == 'record' else ('Owner','Manager')))
+                    connection.execute('BEGIN IMMEDIATE')
+                    record = corrections.mutate(connection, body, user, item_id, action)
+                    connection.commit()
+                    self.send_json(dict(id=record['id'], status=record['status']), HTTPStatus.OK if item_id else HTTPStatus.CREATED)
+                    return
                 service_route=re.fullmatch(r'/api/service/orders/(\d+)/(accept|served)',path)
                 if service_route:
                     self.require_roles('Owner','Manager','Cashier','Host','Floor Staff')
@@ -1806,6 +1831,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
 
                 if path.startswith("/api/orders/") and path.endswith("/pay"):
                     self.require_roles("Owner", "Manager", "Cashier")
+                    connection.execute('BEGIN IMMEDIATE')
                     order_id = int(path.split("/")[3])
                     method = str(body.get("method", "")).upper()
                     method = "UPI" if method == "UPI" else method.title()
@@ -1814,8 +1840,16 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     order = connection.execute("SELECT * FROM orders WHERE id=?", (order_id,)).fetchone()
                     if not order:
                         raise ValueError("Order not found")
-                    if order["status"] == "Paid":
+                    if order["status"] == "Paid" or order["paid_at"]:
                         raise ValueError("Order is already paid")
+                    if order["status"] in ("Cancelled","Draft"):
+                        raise ValueError("This order cannot be paid.")
+                    if corrections.active(corrections.records(connection), order_id):
+                        raise ValueError('Resolve the pending correction before collecting payment.')
+                    expected = body.get('expectedTotal')
+                    if expected is not None:
+                        if not re.fullmatch(r'[0-9]+(\.[0-9]{1,2})?', str(expected)) or corrections.paise(expected) != corrections.paise(order['total']):
+                            raise ValueError('The bill changed. Reopen payment to see the latest total.')
                     floor_state = floor.enrich(connection, bootstrap_payload(connection, user))
                     floor.keep_paid_visit(floor_state, order_id)
                     floor.persist(connection, floor_state)
@@ -2191,7 +2225,7 @@ class CRMHandler(SimpleHTTPRequestHandler):
                     return
                 if path == "/api/reset":
                     self.require_user("Owner")
-                    for table in ("public_order_submissions", "public_submissions", "communications", "point_ledger", "payments",
+                    for table in ("public_order_submissions", "public_submissions", "communications", "point_ledger", "payments", "order_corrections",
                                   "inventory_movements", "order_items", "attendance", "expenses",
                                   "recipes", "orders", "staff", "vendors", "inventory_items", "menu_items",
                                   "reservations", "feedback", "tasks", "campaigns", "rewards",

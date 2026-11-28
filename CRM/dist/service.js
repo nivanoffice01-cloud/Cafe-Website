@@ -10,7 +10,7 @@ try { serviceDesktop = localStorage.getItem('mangosteen-desktop-alerts') === 'on
 
 function playServiceChime(kind = 'ready') {
   if (!serviceSound || serviceAudio?.state !== 'running') return;
-  const notes = kind === 'new' ? [660,880] : kind === 'delay' ? [440,440] : [784,988,1175];
+  const notes = kind === 'new' ? [660,880] : ['delay','cancel'].includes(kind) ? [440,440] : [784,988,1175];
   notes.forEach((frequency,index) => {
     const oscillator = serviceAudio.createOscillator();
     const gain = serviceAudio.createGain();
@@ -41,15 +41,15 @@ function receiveServiceSnapshot(snapshot) {
   if (events.length) {
     const ready = events.find(e=>e.kind === 'ready');
     const fresh = events.find(e=>e.kind === 'new');
-    const selected = ready || fresh || events[0];
+    const selected = events.find(e=>e.kind === 'cancel') || ready || fresh || events[0];
     playServiceChime(selected.kind);
-    const title = selected.kind === 'ready' ? 'Food ready to serve' : selected.kind === 'new' ? 'New kitchen order' : 'Order needs attention';
+    const title = { ready:'Food ready to serve', new:'New kitchen order', cancel:'Item cancelled', delay:'Order needs attention' }[selected.kind];
     const message = `${title}: #${selected.order.id} · ${selected.order.table}${events.length > 1 ? ` (+${events.length-1} alerts)` : ''}`;
     showToast(message,selected.kind === 'delay' ? 'error' : 'success');
     if (serviceDesktop && 'Notification' in window && Notification.permission === 'granted') {
       try {
         const notification = new Notification(title,{body:`#${selected.order.id} · ${selected.order.table}`,tag:`mangosteen-${selected.kind}-${selected.order.id}`});
-        notification.onclick = () => { notification.close(); if (authState !== 'authenticated' || !data.user) return; window.focus(); state.page = data.user.role === 'Kitchen' ? 'kitchen' : 'service'; refreshPage(); };
+        notification.onclick = () => { notification.close(); if (authState !== 'authenticated' || !data.user) return; window.focus(); state.page = data.user.role === 'Kitchen' || selected.kind === 'cancel' ? 'kitchen' : 'service'; refreshPage(); };
       } catch {}
     }
   }
@@ -74,15 +74,17 @@ function serviceTicket(order, kitchen = false) {
   const mine = !claimed || claimed.id === data.user?.id || ['Owner','Manager'].includes(data.user?.role);
   return `<article class="kds-card service-ticket ${order.delayed ? 'ticket-delayed' : ''}" data-service-order="${order.id}"><div class="kds-ticket-head"><div><span>Order #${String(order.id).padStart(3,'0')}${order.paid ? ' · PREPAID' : ''}</span><strong>${escapeHtml(order.table)}</strong></div><div class="kds-timer">${age} min</div></div>
     ${order.delayed ? `<div class="service-delay-label">${order.status === 'Ready' ? 'Waiting at the pass' : 'Preparation delayed'} · ${age} min</div>` : ''}
-    <ul>${order.items.map(i=>`<li><strong>${i.quantity}×</strong> ${escapeHtml(i.name)}</li>`).join('')}</ul>${order.notes ? `<p class="service-kitchen-note">${escapeHtml(order.notes)}</p>` : ''}
+    <ul>${order.items.map(i=>`<li><strong>${i.quantity}×</strong> ${escapeHtml(i.name)}</li>`).join('')}</ul>${order.cancelledItems?.length ? `<p class="service-delay-label">Cancelled: ${order.cancelledItems.map(i=>`${i.quantity} × ${escapeHtml(i.name)}`).join(', ')}</p>` : ''}${order.notes ? `<p class="service-kitchen-note">${escapeHtml(order.notes)}</p>` : ''}
     ${order.assignedTo ? `<p class="floor-note">Table staff: ${escapeHtml(order.assignedTo)}</p>` : ''}
     ${kitchen ? order.status === 'Kitchen' ? `<button class="btn btn-primary btn-block" data-action="kitchen-start" data-id="${order.id}">Start preparing</button>` : order.status === 'Preparing' ? `<button class="btn btn-primary btn-block" data-action="kitchen-ready" data-id="${order.id}">Mark ready</button>` : `<div class="ready-callout">${claimed ? `Service claimed by ${escapeHtml(claimed.name)}` : 'Waiting for floor staff'}</div>` : `<p class="floor-note">${claimed ? `Being served by ${escapeHtml(claimed.name)}` : 'Ready for collection'}</p><div class="floor-actions">${!claimed ? `<button class="btn" data-service-action="accept" data-id="${order.id}">I’ll serve this</button>` : ''}<button class="btn btn-primary" data-service-action="served" data-id="${order.id}" ${mine ? '' : 'disabled'}>Mark served</button></div>`}
   </article>`;
 }
 function renderServiceKitchen() {
   const snapshot = data.service || {orders:[],limits:{prepMinutes:15,readyMinutes:5}};
+  const changes = snapshot.cancellations || [];
+  const notices = changes.length ? `<section class="service-delay-label kitchen-cancellations" aria-label="Recent cancellations"><strong>Recent cancellations</strong>${changes.map(c=>`<p>Order #${c.orderId} · ${escapeHtml(c.table)} · ${c.quantity} × ${escapeHtml(c.itemName)}</p>`).join('')}</section>` : '';
   const columns = [['Kitchen','New tickets','Waiting to begin'],['Preparing','In preparation','Being made now'],['Ready','Ready to serve','Collect at the pass']];
-  return `${pageHeader('Kitchen display', 'Live kitchen queue', `Preparation alert after ${snapshot.limits.prepMinutes} minutes. Live updates every 5 seconds.`, '<button class="btn" data-service-action="refresh">Refresh queue</button>')}<div class="kds-board">${columns.map(([status,title,subtitle])=>`<section class="kds-column ${status.toLowerCase()}"><div class="kds-column-head"><div><h2>${title}</h2><p>${subtitle}</p></div><span>${snapshot.orders.filter(o=>o.status===status).length}</span></div><div class="kds-stack">${snapshot.orders.filter(o=>o.status===status).map(o=>serviceTicket(o,true)).join('') || '<div class="kds-empty">No tickets</div>'}</div></section>`).join('')}</div>`;
+  return `${pageHeader('Kitchen display', 'Live kitchen queue', `Preparation alert after ${snapshot.limits.prepMinutes} minutes. Live updates every 5 seconds.`, '<button class="btn" data-service-action="refresh">Refresh queue</button>')}${notices}<div class="kds-board">${columns.map(([status,title,subtitle])=>`<section class="kds-column ${status.toLowerCase()}"><div class="kds-column-head"><div><h2>${title}</h2><p>${subtitle}</p></div><span>${snapshot.orders.filter(o=>o.status===status).length}</span></div><div class="kds-stack">${snapshot.orders.filter(o=>o.status===status).map(o=>serviceTicket(o,true)).join('') || '<div class="kds-empty">No tickets</div>'}</div></section>`).join('')}</div>`;
 }
 function renderFloorService() {
   const snapshot = data.service || {orders:[],limits:{readyMinutes:5}};
